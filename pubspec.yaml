@@ -1,0 +1,43 @@
+name: sarbaz
+description: A new Flutter project.
+
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # Internationalization support.
+  flutter_localizations:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  syncfusion_flutter_datagrid: ^19.2.44
+  floor:
+  path_provider:
+  path:
+  get:
+  get_it:
+  equatable:
+  injectable:
+  getwidget: ^2.0.3
+  get_storage: ^2.0.3
+  intl: ^0.17.0
+  logging: ^1.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  lint:
+  floor_generator:
+  build_runner:
+  injectable_generator:
+
+flutter:
+  generate: true
+  uses-material-design: true
+   

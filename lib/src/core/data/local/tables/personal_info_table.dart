@@ -1,9 +1,12 @@
 import 'package:floor/floor.dart';
+import 'package:sarbaz/src/core/config/constants/constants.dart';
 
-@Entity(tableName: "tbl_persons")
+@Entity(tableName: StringConstants.kTblPersonalInfo)
 class PersonalInfoTable {
   @primaryKey
   final int id;
+  @ColumnInfo(name: "nick_name")
+  final String nickName;
   @ColumnInfo(name: "first_name")
   final String firstName;
   @ColumnInfo(name: "last_name")
@@ -29,17 +32,5 @@ class PersonalInfoTable {
   @ColumnInfo(name: "distance")
   final int distance;
 
-  PersonalInfoTable(
-      this.id,
-      this.firstName,
-      this.lastName,
-      this.fatherName,
-      this.dateOfBirth,
-      this.maritalStatus,
-      this.levelOfEducation,
-      this.filedOfStudy,
-      this.mobileNumber,
-      this.telephoneNumber,
-      this.address,
-      this.distance);
+  PersonalInfoTable(this.id, this.nickName, this.firstName, this.lastName, this.fatherName, this.dateOfBirth, this.maritalStatus, this.levelOfEducation, this.filedOfStudy, this.mobileNumber, this.telephoneNumber, this.address, this.distance);
 }

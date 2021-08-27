@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'mdi.dart';
 
 class MdiController {
-  MdiController(this._onUpdate);
-
   List<MdiWindow> _windows = List.empty(growable: true);
 
   VoidCallback _onUpdate;
 
   List<MdiWindow> get windows => _windows;
+
+  MdiController(this._onUpdate);
 
   void addWindow({
     double? width,
@@ -27,21 +27,14 @@ class MdiController {
     );
 
     //Set initial position
-    // var rng = new Random();
     double xx = MediaQuery.of(context).size.width;
     double yy = MediaQuery.of(context).size.height;
 
-    debugPrint("width is : $xx");
-    debugPrint("height is : $yy");
-    window.x = xx / 2 - window.currentWidth / 2; // %50 of screen
-    // rng.nextDouble() * 500;
-    window.y = yy / 2 - window.currentHeight / 2;
-    // rng.nextDouble() * 500;
-    //Init onWindowDragged
+    window.x = (xx / 2) - (window.currentWidth / 2); // %50 of screen
+    window.y = (yy / 2) - (window.currentHeight / 2);
     window.onWindowDragged = (dx, dy) {
       window.x += dx;
       window.y += dy;
-      //Put on top of stack
       _windows.remove(window);
       _windows.add(window);
 

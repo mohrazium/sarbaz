@@ -1,7 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/getwidget.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
+import 'package:getwidget/getwidget.dart';
+import 'package:jalali_calendar/jalali_calendar.dart' as JalaliCalendar;
+import 'package:persian_tools/persian_tools.dart' as PersianTools;
+import 'package:sarbaz/src/app/controllers/controllers.dart';
+import 'package:sarbaz/src/app/screens/themes/themes.dart';
+import 'package:sarbaz/src/core/config/constants/constants.dart';
 import 'package:sarbaz/src/app/utility/utility.dart';
 
 class DashboardDesktopView extends StatefulWidget {
@@ -12,172 +19,562 @@ class DashboardDesktopView extends StatefulWidget {
 class _DashboardDesktopViewState extends State<DashboardDesktopView> {
   late MdiController mdiController;
 
+  final dashboardController = Get.put(DashboardController());
+
+  var items = [
+    'Working a lot harder',
+    'Being a lot smarter',
+    'Being a self-starter',
+    'Placed in charge of trading charter'
+  ];
+
   @override
   void initState() {
     super.initState();
 
-    mdiController = MdiController(() {
-      setState(() {});
-    });
+    mdiController = MdiController(
+      () {
+        setState(() {});
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final strings = AppLocalizations.of(context)!;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Container(
-          height: 100,
-          color: Colors.blueGrey,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(
-                    Icons.group,
-                    size: 60,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    width: 100,
-                    height: 80,
-                    child: Center(
-                      child: Text(strings.dashboard),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 100,
-                  ),
-                  MaterialButton(
-                    //TODO: make button like toggle buttons
-                    onPressed: () {},
-                    color: Colors.amber,
-                    child: Container(
-                        width: 100,
-                        height: 80,
-                        child: Center(child: Text(strings.new_soldier))),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  MaterialButton(
-                    //TODO: make button like toggle buttons
-                    onPressed: () {
-                      mdiController.addWindow(
-                          width: 100,
-                          height: 100,
-                          context: context,
-                          title: "new sarbaz",
-                          body: Container(
-                            width: 100,
-                            height: 100,
-                            color: Colors.red,
-                          ));
-                    },
-                    color: Colors.amber,
-                    child: Container(
-                        width: 100,
-                        height: 80,
-                        child: Center(child: Text("پست"))),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  MaterialButton(
-                    //TODO: make button like toggle buttons
-                    onPressed: () {
-                      mdiController.addWindow(
-                          width: 576,
-                          height: 720,
-                          context: context,
-                          title: "new sarbaz",
-                          body: Container(
-                           
-                            color: Theme.of(context).hoverColor,
-                          ));
-                    },
-                    color: Colors.amber,
-                    child: Container(
-                        width: 100,
-                        height: 80,
-                        child: Center(child: Text("مرخصی"))),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    color: Colors.blue,
-                    width: 100,
-                  ),
-                  MaterialButton(
-                    //TODO: make button like toggle buttons
-                    onPressed: () {
-                      _showBottomModal(context);
-                    },
-                    color: Colors.amber,
-                    child: Container(
-                        width: 100,
-                        height: 80,
-                        child: Center(child: Text("سرباز جدید"))),
-                  ),
-                  GFToggle(onChanged: (litener){}, value:true),
-                  GFToggle(onChanged: (litener){}, value:false),
-                  GFToggle(onChanged: (litener){}, value:false),
-                  GFToggle(onChanged: (litener){}, value:false),
-                  GFToggle(onChanged: (litener){}, value:false),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GFButton(
-                    shape: GFButtonShape.pills,
-                    onPressed: () {
-                      _showSimpleModalDialog(context);
-                    },
-                    text: strings.new_soldier,
-                    size: 60,
-                    icon: Icon(
-                      Icons.person_add_alt_1_rounded,
-                      size: 35,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-        Expanded(
-          child: Scaffold(
-            body: MdiManager(
-              mdiController: mdiController,
+    return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: WidgetConstants.kAppBarHeight,
+        leading: Icon(Icons.group_work),
+        title: Text(strings.title),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: GFButton(
+              textStyle: STheme.textStyle,
+              onPressed: () {},
+              text: "new ",
+              shape: GFButtonShape.pills,
+              icon: Icon(Icons.list),
             ),
           ),
-        ),
-      ],
+          SizedBox(
+            width: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: GFButton(
+              onPressed: () {},
+              text: "new ",
+              shape: GFButtonShape.pills,
+              icon: Icon(Icons.list),
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: GFButton(
+              textStyle: STheme.textStyle,
+              onPressed: () {},
+              text: "new ",
+              shape: GFButtonShape.pills,
+              icon: Icon(Icons.list),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: GFButton(
+              textStyle: STheme.textStyle,
+              shape: GFButtonShape.pills,
+              onPressed: () {
+                mdiController.addWindow(
+                    width: 700,
+                    height: 660,
+                    context: context,
+                    title: strings.new_soldier,
+                    body: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Card(
+                          elevation: 10,
+                          shadowColor: Colors.black26,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Text(
+                                      strings.personalInfo,
+                                      style:
+                                          Theme.of(context).textTheme.subtitle1,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Container(height: 2.0, color: Colors.black26),
+                                  SizedBox(
+                                    height: 5.0,
+                                  )
+                                ],
+                              ),
+                              GetBuilder<DashboardController>(
+                                init:
+                                    DashboardController(), // INIT IT ONLY THE FIRST TIME
+                                builder: (_) => Form(
+                                  // key: dashboardController.sodierEditorFormKey,
+                                  autovalidateMode: AutovalidateMode.always,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width: 220,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            TextFormField(
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              maxLength: 10,
+                                              controller: dashboardController
+                                                  .nationalIdentityController,
+                                              validator: (val) =>
+                                                  dashboardController
+                                                      .validateNationalIdentity(
+                                                          value: val,
+                                                          errorMessage: strings
+                                                              .wrongNationalIdentity),
+                                              decoration: InputDecoration(
+                                                  labelText:
+                                                      strings.nationalIdentity),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            TextFormField(
+                                              maxLength: 60,
+                                              controller: dashboardController
+                                                  .lastNameController,
+                                              decoration: InputDecoration(
+                                                  labelText: strings.lastName),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            TextFormField(
+                                               decoration: InputDecoration(
+                                                 labelText:
+                                                      strings.maritalStatus,
+                                                suffixIcon:
+                                                    PopupMenuButton<String>(
+                                                  icon: const Icon(
+                                                      Icons.arrow_drop_down),
+                                                  onSelected: (String value) {
+                                                    dashboardController.maritalStatusController.text = value;
+                                                  },
+                                                  itemBuilder:
+                                                      (BuildContext context) {
+                                                    return items.map<
+                                                            PopupMenuItem<
+                                                                String>>(
+                                                        (String value) {
+                                                      return new PopupMenuItem(
+                                                          child:
+                                                              new Text(value),
+                                                          value: value);
+                                                    }).toList();
+                                                  },
+                                                ),
+                                              ),
+                                              maxLength: 10,
+                                              controller: dashboardController
+                                                  .maritalStatusController,
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            TextFormField(
+                                              decoration: InputDecoration(
+                                                  labelText:
+                                                      strings.filedOfStudy),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 220,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            TextFormField(
+                                              decoration: InputDecoration(
+                                                  labelText: strings.nickName),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            TextFormField(
+                                              decoration: InputDecoration(
+                                                  labelText:
+                                                      strings.fatherName),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            TextFormField(
+                                              decoration: InputDecoration(
+                                                  labelText:
+                                                      strings.numberOfChildren),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            TextFormField(
+                                              decoration: InputDecoration(
+                                                  labelText:
+                                                      strings.mobileNumber),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 220,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            TextFormField(
+                                              decoration: InputDecoration(
+                                                  labelText: strings.firstName),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            TextFormField(
+                                              controller: dashboardController
+                                                  .dateOfBirthController,
+                                              onTap: () async {
+                                                dashboardController
+                                                        .dateOfBirthController
+                                                        .text =
+                                                    await _getDatePicker(
+                                                        context);
+                                                setState(() {});
+                                              },
+                                              decoration: InputDecoration(
+                                                  labelText:
+                                                      strings.dateOfBirth),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            TextFormField(
+                                              decoration: InputDecoration(
+                                                  labelText:
+                                                      strings.levelOfEducation),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            TextFormField(
+                                              decoration: InputDecoration(
+                                                  labelText:
+                                                      strings.telephoneNumber),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 220,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          TextFormField(
+                                            decoration: InputDecoration(
+                                                labelText: strings.distance),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                        width: 445,
+                                        child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              TextFormField(
+                                                decoration: InputDecoration(
+                                                    labelText: strings.address),
+                                              ),
+                                            ])),
+                                  ]),
+                              SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Card(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: GFButton(
+                                  textStyle: STheme.textStyle,
+                                  size: 45,
+                                  color: GFColors.SUCCESS,
+                                  text: strings.next,
+                                  onPressed: () {},
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: GFButton(
+                                  textStyle: STheme.textStyle,
+                                  size: 45,
+                                  color: GFColors.DANGER,
+                                  text: strings.cancel,
+                                  onPressed: () {},
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ));
+              },
+              text: strings.new_soldier,
+              size: 60,
+              icon: Icon(
+                Icons.person_add_alt_1_rounded,
+                size: 35,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+        ],
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Column(
+            children: [],
+          ),
+          Expanded(
+            child: Stack(children: [
+              GFCard(
+                content: Column(
+                  children: [
+                    Row(children: []),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        primary: Colors.black87,
+                        minimumSize: Size(88, 36),
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                        ),
+                      ).copyWith(
+                        side: MaterialStateProperty.resolveWith<BorderSide>(
+                          (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.pressed))
+                              return BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                                width: 1,
+                              );
+                            return BorderSide(); // Defer to the widget's default.
+                          },
+                        ),
+                      ),
+                      onPressed: () {},
+                      child: Text('Looks like an OutlineButton'),
+                    )
+                  ],
+                ),
+              ),
+              MdiManager(
+                mdiController: mdiController,
+              ),
+            ]),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class SoldiersView extends StatelessWidget {
+Future<String> _getDatePicker(BuildContext context) async {
+  String? s = "";
+
+  await JalaliCalendar.jalaliCalendarPicker(
+    context: context,
+    initialDatePickerMode: JalaliCalendar.DatePickerMode.year,
+    selectedFormat: "yyyy/mm/dd",
+  ).then((value) => s = value);
+  debugPrint(s);
+  var date = PersianTools.convertEnToFa(s!);
+  debugPrint(date);
+  return date;
+}
+
+class STextField extends StatelessWidget {
+  final String title;
+  final double? width;
+  final double? height;
+  final TextEditingController? controller;
+  final Function()? onTap;
+  final String? Function(String?)? validator;
+
+  const STextField({
+    Key? key,
+    required this.title,
+    this.width,
+    this.height,
+    this.controller,
+    this.onTap,
+    this.validator,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Padding(
+      padding: EdgeInsets.fromLTRB(2.5, 5.0, 2.5, 10.0),
+      child: Container(
+        width: width ?? 220,
+        child: TextFormField(
+          validator: validator ??
+              (value) {
+                if (value == null) {
+                  return "field is empty";
+                }
+              },
+          controller: controller,
+          onTap: onTap != null ? onTap!.call() : () {},
+          cursorColor: TextSelectionThemeData().cursorColor,
+          decoration: InputDecoration(
+            filled: true,
+            labelText: title,
+            labelStyle: TextStyle(
+              color: Theme.of(context).primaryColor,
+              fontSize: 14.0,
+            ),
+            focusColor: Theme.of(context).focusColor,
+            enabledBorder: UnderlineInputBorder(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(4),
+                  bottomRight: Radius.circular(4)),
+              borderSide:
+                  BorderSide(width: 4, color: Theme.of(context).primaryColor),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SDateTextField extends StatefulWidget {
+  final String title;
+  final TextEditingController controller;
+  const SDateTextField({
+    Key? key,
+    required this.title,
+    required this.controller,
+  }) : super(key: key);
+
+  @override
+  State<SDateTextField> createState() => _SDateTextFieldState();
+}
+
+class _SDateTextFieldState extends State<SDateTextField> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(2.5, 5.0, 2.5, 10.0),
+      child: Container(
+        width: 200,
+        child: TextFormField(
+          onTap: () async {
+            widget.controller.text = PersianTools.convertEnToFa(
+                await JalaliCalendar.jalaliCalendarPicker(
+              context: context,
+              initialDatePickerMode: JalaliCalendar.DatePickerMode.year,
+              selectedFormat: "yyyy/mm/dd",
+            ) as String);
+          },
+          controller: widget.controller,
+          cursorColor: TextSelectionThemeData().cursorColor,
+          decoration: InputDecoration(
+            filled: true,
+            labelText: widget.title,
+            labelStyle: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
+            focusColor: Theme.of(context).focusColor,
+            enabledBorder: UnderlineInputBorder(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(4),
+                  bottomRight: Radius.circular(4)),
+              borderSide:
+                  BorderSide(width: 4, color: Theme.of(context).primaryColor),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 

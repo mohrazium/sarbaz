@@ -12,7 +12,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   ThemeMode _themeMode = ThemeMode.system;
-  final controller = Get.find<SoldierController>();
+  final controller = Get.find<DashboardController>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +27,14 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               Center(
                 child: Text(
-                  'System getx: ${controller.count.value}',
+                  'System getx: ',
                   style: TextStyle(fontSize: 20),
                 ),
               ),
               MaterialButton(
                   child: Text("plus"),
                   onPressed: () {
-                    controller.count.value = controller.count.value * 2;
-                    controller.update();
+                   
                   }),
               Center(
                 child: Text(

@@ -28,6 +28,8 @@ dependencies:
   get_storage: ^2.0.3
   intl: ^0.17.0
   logging: ^1.0.1
+  jalali_calendar: ^1.0.4
+  persian_tools: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -40,4 +42,15 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
-   
+
+  assets:
+    - assets/images/
+
+  fonts:
+    - family: Sahel
+      fonts:
+        - asset: assets/fonts/sahel/sahel.ttf
+        - asset: assets/fonts/sahel/sahel_bold.ttf
+        - asset: assets/fonts/sahel/sahel_black.ttf
+        - asset: assets/fonts/sahel/sahel_light.ttf
+        - asset: assets/fonts/sahel/sahel_semi_bold.ttf

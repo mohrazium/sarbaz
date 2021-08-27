@@ -86,7 +86,7 @@ class _MdiWindowState extends State<MdiWindow> {
     return Container(
       width: widget.currentWidth,
       height: widget.currentHeight - _headerSize,
-      color: Colors.blueGrey,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: widget.body,
     );
   }
@@ -148,8 +148,8 @@ class _MdiWindowState extends State<MdiWindow> {
   _getControlButtons() {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
       _getCloseButton(),
-      _getMaximizeButton(),
-      _getMinimizeButton()
+      //_getMaximizeButton(),//TODO: fix this
+     // _getMinimizeButton()//TODO: fix this
     ]);
   }
 

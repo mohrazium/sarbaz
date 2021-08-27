@@ -4,6 +4,6 @@ import 'package:sarbaz/src/app/controllers/controllers.dart';
 class SoldierBinding implements Bindings {
   @override
   void dependencies() {
-    Get.put(SoldierController());
+    Get.put(DashboardController());
   }
 }

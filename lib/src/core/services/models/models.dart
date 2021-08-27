@@ -1,1 +1,1 @@
-export 'personal_info.dart';
+export 'personal_info_model.dart';

@@ -81,7 +81,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `tbl_persons` (`id` INTEGER NOT NULL, `first_name` TEXT NOT NULL, `last_name` TEXT NOT NULL, `father_name` TEXT NOT NULL, `date_of_birth` TEXT NOT NULL, `marital_status` INTEGER NOT NULL, `number_of_children` INTEGER NOT NULL, `level_of_education` TEXT NOT NULL, `filed_of_study` TEXT NOT NULL, `mobile_number` TEXT NOT NULL, `telephone_number` TEXT NOT NULL, `address` TEXT NOT NULL, `distance` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `tbl_personal_info` (`id` INTEGER NOT NULL, `nick_name` TEXT NOT NULL, `first_name` TEXT NOT NULL, `last_name` TEXT NOT NULL, `father_name` TEXT NOT NULL, `date_of_birth` TEXT NOT NULL, `marital_status` INTEGER NOT NULL, `number_of_children` INTEGER NOT NULL, `level_of_education` TEXT NOT NULL, `filed_of_study` TEXT NOT NULL, `mobile_number` TEXT NOT NULL, `telephone_number` TEXT NOT NULL, `address` TEXT NOT NULL, `distance` INTEGER NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -101,9 +101,10 @@ class _$PersonalInfoDAO extends PersonalInfoDAO {
       : _queryAdapter = QueryAdapter(database),
         _personalInfoTableInsertionAdapter = InsertionAdapter(
             database,
-            'tbl_persons',
+            'tbl_personal_info',
             (PersonalInfoTable item) => <String, Object?>{
                   'id': item.id,
+                  'nick_name': item.nickName,
                   'first_name': item.firstName,
                   'last_name': item.lastName,
                   'father_name': item.fatherName,
@@ -119,10 +120,11 @@ class _$PersonalInfoDAO extends PersonalInfoDAO {
                 }),
         _personalInfoTableUpdateAdapter = UpdateAdapter(
             database,
-            'tbl_persons',
+            'tbl_personal_info',
             ['id'],
             (PersonalInfoTable item) => <String, Object?>{
                   'id': item.id,
+                  'nick_name': item.nickName,
                   'first_name': item.firstName,
                   'last_name': item.lastName,
                   'father_name': item.fatherName,
@@ -138,10 +140,11 @@ class _$PersonalInfoDAO extends PersonalInfoDAO {
                 }),
         _personalInfoTableDeletionAdapter = DeletionAdapter(
             database,
-            'tbl_persons',
+            'tbl_personal_info',
             ['id'],
             (PersonalInfoTable item) => <String, Object?>{
                   'id': item.id,
+                  'nick_name': item.nickName,
                   'first_name': item.firstName,
                   'last_name': item.lastName,
                   'father_name': item.fatherName,
@@ -173,6 +176,7 @@ class _$PersonalInfoDAO extends PersonalInfoDAO {
     return _queryAdapter.queryList('SELECT * FROM tbl_personal_info;',
         mapper: (Map<String, Object?> row) => PersonalInfoTable(
             row['id'] as int,
+            row['nick_name'] as String,
             row['first_name'] as String,
             row['last_name'] as String,
             row['father_name'] as String,
@@ -191,6 +195,7 @@ class _$PersonalInfoDAO extends PersonalInfoDAO {
     return _queryAdapter.query('SELECT * FROM tbl_personal_info WHERE id=?1',
         mapper: (Map<String, Object?> row) => PersonalInfoTable(
             row['id'] as int,
+            row['nick_name'] as String,
             row['first_name'] as String,
             row['last_name'] as String,
             row['father_name'] as String,

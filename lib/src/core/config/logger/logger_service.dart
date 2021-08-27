@@ -4,7 +4,7 @@ import 'package:logging/logging.dart';
 @injectable
 class LoggerService {
   Logger log(Level? logLevel, {required message}) {
-    final Logger logger = Logger('RothisClientLog');
+    final Logger logger = Logger('SarbazLog');
     logLevel == null
         ? logger.log(Level.ALL, message)
         : logger.log(logLevel, message);

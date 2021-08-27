@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
-import 'package:sarbaz/src/core/data/local/db/database.dart';
-import 'package:sarbaz/src/core/services/models/personal_info.dart';
+import 'package:sarbaz/src/core/data/data.dart';
+import 'package:sarbaz/src/core/services/models/personal_info_model.dart';
 import 'generic_service.dart';
 
 abstract class PersonsService extends Service<int, PersonalInfoModel> {
@@ -14,7 +14,7 @@ class PersonsServiceImpl implements PersonsService {
     final db = await DbHelper.get();
     final personDao = db.personalInfDAO;
     try {
-      await personDao.deletePersonalInfo(e.toTableModel());
+      await personDao.deletePersonalInfo(e.toTable());
       return true;
     } catch (e) {
       return false;
@@ -29,7 +29,7 @@ class PersonsServiceImpl implements PersonsService {
     final persons = await personDao.findAllPersons();
     List<PersonalInfoModel> models = new List.empty(growable: true);
     persons.forEach((person) {
-      models.add(PersonalInfoModel.fromTableModel(person));
+      models.add(PersonalInfoModel.fromTable(person));
     });
     return models;
   }
@@ -39,7 +39,7 @@ class PersonsServiceImpl implements PersonsService {
     final db = await DbHelper.get();
     final personDao = db.personalInfDAO;
     final table = await personDao.findPersonalInfoById(id);
-    return PersonalInfoModel.fromTableModel(table!);
+    return PersonalInfoModel.fromTable(table!);
   }
 
   @override
@@ -52,13 +52,13 @@ class PersonsServiceImpl implements PersonsService {
   Future<void> save(PersonalInfoModel e) async {
     final db = await DbHelper.get();
     final personDao = db.personalInfDAO;
-    await personDao.insertPersonalInfo(e.toTableModel());
+    await personDao.insertPersonalInfo(e.toTable());
   }
 
   @override
   Future<void> update(PersonalInfoModel e) async {
     final db = await DbHelper.get();
     final personDao = db.personalInfDAO;
-    await personDao.updatePersonalInfo(e.toTableModel());
+    await personDao.updatePersonalInfo(e.toTable());
   }
 }

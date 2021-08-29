@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class MdiWindow extends StatefulWidget {
   // x,y properties
+  final String windowIdentifier;
   late double currentHeight, defaultHeight = 576.0;
   late double currentWidth, defaultWidth = 720.0;
   final double? width;
@@ -20,6 +21,7 @@ class MdiWindow extends StatefulWidget {
   final BuildContext context;
 
   MdiWindow({
+    required this.windowIdentifier,
     required this.title,
     required this.body,
     required this.context,
@@ -54,8 +56,11 @@ class _MdiWindowState extends State<MdiWindow> {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
-        child: Column(
-          children: [_getHeader(), _getBody()],
+        child: Container(
+          color: Theme.of(context).primaryColor,
+          child: Column(
+            children: [_getHeader(), _getBody()],
+          ),
         ),
       ),
     );
@@ -83,11 +88,15 @@ class _MdiWindowState extends State<MdiWindow> {
   }
 
   _getBody() {
-    return Container(
-      width: widget.currentWidth,
-      height: widget.currentHeight - _headerSize,
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: widget.body,
+    return Padding(
+      padding: const EdgeInsets.all(3.0),
+      child: Container(
+        width: widget.currentWidth,
+        height: widget.currentHeight - _headerSize,
+        color: Theme.of(context).scaffoldBackgroundColor,
+        
+        child: widget.body,
+      ),
     );
   }
 
@@ -149,7 +158,7 @@ class _MdiWindowState extends State<MdiWindow> {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
       _getCloseButton(),
       //_getMaximizeButton(),//TODO: fix this
-     // _getMinimizeButton()//TODO: fix this
+      // _getMinimizeButton()//TODO: fix this
     ]);
   }
 

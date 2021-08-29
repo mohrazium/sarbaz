@@ -14,14 +14,18 @@ class MdiManager extends StatefulWidget {
 class _MdiManagerState extends State<MdiManager> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-        children: widget.mdiController.windows.map((e) {
-      return Positioned(
-        left: e.x,
-        top: e.y,
-        child: e,
-        key: e.key,
-      );
-    }).toList());
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: Stack(
+          children: widget.mdiController.windows.map((e) {
+        return Positioned(
+          left: e.x,
+          top: e.y,
+          child: e,
+          key: e.key,
+        );
+      }).toList()),
+    );
   }
 }

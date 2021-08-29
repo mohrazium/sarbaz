@@ -47,7 +47,9 @@
   "contactInfo":"اطلاعات تماس",
   "nickName":"نام مستعار",
   "nationalIdentity":"شناسه ملی",
-  "wrongNationalIdentity":"شناسه ملی اشتباه است.",
-    "requiredField":"*این فیلدنمی تواند خالی باشد."
+  "wrongNationalIdentity":"شناسه ملی نامعتبر است.",
+  "requiredField":"این فیلد الزامی است.*",
+  "wrongMobileNumber":"شماره موبایل نامعتبر است."
+
 
 }

@@ -5,5 +5,6 @@ class SoldierBinding implements Bindings {
   @override
   void dependencies() {
     Get.put(DashboardController());
+    Get.put(SoldierController());
   }
 }

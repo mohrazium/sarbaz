@@ -50,7 +50,6 @@ class _STheme {
       caption: SFontStyles().caption());
 
   InputDecorationTheme get inputDecorationTheme => InputDecorationTheme(
-
       filled: true,
       labelStyle: TextStyle(
         color: SColors.kPrimaryColor,

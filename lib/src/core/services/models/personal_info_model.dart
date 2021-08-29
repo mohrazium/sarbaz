@@ -1,10 +1,9 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
-
 import 'package:sarbaz/src/core/data/local/tables/personal_info_table.dart';
 
-class PersonalInfoModel implements Equatable  {
+class PersonalInfoModel implements Equatable {
   final int id;
   final String nickName;
   final String firstName;
@@ -19,6 +18,34 @@ class PersonalInfoModel implements Equatable  {
   final String telephoneNumber;
   final String address;
   final int distance;
+
+  int get getId => this.id;
+
+  String get getNickName => this.nickName;
+
+  String get getFirstName => this.firstName;
+
+  String get getLastName => this.lastName;
+
+  String get getFatherName => this.fatherName;
+
+  String get getDateOfBirth => this.dateOfBirth;
+
+  bool get getMaritalStatus => this.maritalStatus;
+
+  int get getNumberOfChildren => this.numberOfChildren;
+
+  String get getLevelOfEducation => this.levelOfEducation;
+
+  String get getFiledOfStudy => this.filedOfStudy;
+
+  String get getMobileNumber => this.mobileNumber;
+
+  String get getTelephoneNumber => this.telephoneNumber;
+
+  String get getAddress => this.address;
+
+  int get getDistance => this.distance;
 
   PersonalInfoModel(
     this.id,
@@ -36,49 +63,46 @@ class PersonalInfoModel implements Equatable  {
     this.distance,
   );
 
-  PersonalInfoTable toTable() {
-    return PersonalInfoTable(
-        id,
-        nickName,
-        firstName,
-        lastName,
-        fatherName,
-        dateOfBirth,
-        maritalStatus,
-        levelOfEducation,
-        filedOfStudy,
-        mobileNumber,
-        telephoneNumber,
-        address,
-        distance);
-  }
+  factory PersonalInfoModel.fromJson(String source) =>
+      PersonalInfoModel.fromMap(json.decode(source));
 
-  static PersonalInfoModel fromTable(PersonalInfoTable table) {
+  factory PersonalInfoModel.fromMap(Map<String, dynamic> map) {
     return PersonalInfoModel(
-        table.id,
-        table.nickName,
-        table.firstName,
-        table.lastName,
-        table.fatherName,
-        table.dateOfBirth,
-        table.maritalStatus,
-        table.levelOfEducation,
-        table.filedOfStudy,
-        table.mobileNumber,
-        table.telephoneNumber,
-        table.address,
-        table.distance);
-  }
-
-
-  @override
-  String toString() {
-    return 'PersonalInfoModel(id: $id, nickName: $nickName, firstName: $firstName, lastName: $lastName, fatherName: $fatherName, dateOfBirth: $dateOfBirth, maritalStatus: $maritalStatus, levelOfEducation: $levelOfEducation, filedOfStudy: $filedOfStudy, mobileNumber: $mobileNumber, telephoneNumber: $telephoneNumber, address: $address, distance: $distance)';
+      map['id'],
+      map['nickName'],
+      map['firstName'],
+      map['lastName'],
+      map['fatherName'],
+      map['dateOfBirth'],
+      map['maritalStatus'],
+      map['levelOfEducation'],
+      map['filedOfStudy'],
+      map['mobileNumber'],
+      map['telephoneNumber'],
+      map['address'],
+      map['distance'],
+    );
   }
 
   @override
-  List<Object?> get props =>
-      [
+  int get hashCode {
+    return id.hashCode ^
+        nickName.hashCode ^
+        firstName.hashCode ^
+        lastName.hashCode ^
+        fatherName.hashCode ^
+        dateOfBirth.hashCode ^
+        maritalStatus.hashCode ^
+        levelOfEducation.hashCode ^
+        filedOfStudy.hashCode ^
+        mobileNumber.hashCode ^
+        telephoneNumber.hashCode ^
+        address.hashCode ^
+        distance.hashCode;
+  }
+
+  @override
+  List<Object?> get props => [
         id,
         firstName,
         lastName,
@@ -96,6 +120,25 @@ class PersonalInfoModel implements Equatable  {
   @override
   bool? get stringify => true;
 
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is PersonalInfoModel &&
+        other.id == id &&
+        other.nickName == nickName &&
+        other.firstName == firstName &&
+        other.lastName == lastName &&
+        other.fatherName == fatherName &&
+        other.dateOfBirth == dateOfBirth &&
+        other.maritalStatus == maritalStatus &&
+        other.levelOfEducation == levelOfEducation &&
+        other.filedOfStudy == filedOfStudy &&
+        other.mobileNumber == mobileNumber &&
+        other.telephoneNumber == telephoneNumber &&
+        other.address == address &&
+        other.distance == distance;
+  }
 
   PersonalInfoModel copyWith({
     int? id,
@@ -129,6 +172,8 @@ class PersonalInfoModel implements Equatable  {
     );
   }
 
+  String toJson() => json.encode(toMap());
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -147,62 +192,42 @@ class PersonalInfoModel implements Equatable  {
     };
   }
 
-  factory PersonalInfoModel.fromMap(Map<String, dynamic> map) {
+  @override
+  String toString() {
+    return 'PersonalInfoModel(id: $id, nickName: $nickName, firstName: $firstName, lastName: $lastName, fatherName: $fatherName, dateOfBirth: $dateOfBirth, maritalStatus: $maritalStatus, levelOfEducation: $levelOfEducation, filedOfStudy: $filedOfStudy, mobileNumber: $mobileNumber, telephoneNumber: $telephoneNumber, address: $address, distance: $distance)';
+  }
+
+  PersonalInfoTable toTable() {
+    return PersonalInfoTable(
+        id,
+        nickName,
+        firstName,
+        lastName,
+        fatherName,
+        dateOfBirth,
+        maritalStatus,
+        levelOfEducation,
+        filedOfStudy,
+        mobileNumber,
+        telephoneNumber,
+        address,
+        distance);
+  }
+
+  static PersonalInfoModel fromTable(PersonalInfoTable table) {
     return PersonalInfoModel(
-      map['id'],
-      map['nickName'],
-      map['firstName'],
-      map['lastName'],
-      map['fatherName'],
-      map['dateOfBirth'],
-      map['maritalStatus'],
-      map['levelOfEducation'],
-      map['filedOfStudy'],
-      map['mobileNumber'],
-      map['telephoneNumber'],
-      map['address'],
-      map['distance'],
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory PersonalInfoModel.fromJson(String source) => PersonalInfoModel.fromMap(json.decode(source));
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-  
-    return other is PersonalInfoModel &&
-      other.id == id &&
-      other.nickName == nickName &&
-      other.firstName == firstName &&
-      other.lastName == lastName &&
-      other.fatherName == fatherName &&
-      other.dateOfBirth == dateOfBirth &&
-      other.maritalStatus == maritalStatus &&
-      other.levelOfEducation == levelOfEducation &&
-      other.filedOfStudy == filedOfStudy &&
-      other.mobileNumber == mobileNumber &&
-      other.telephoneNumber == telephoneNumber &&
-      other.address == address &&
-      other.distance == distance;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-      nickName.hashCode ^
-      firstName.hashCode ^
-      lastName.hashCode ^
-      fatherName.hashCode ^
-      dateOfBirth.hashCode ^
-      maritalStatus.hashCode ^
-      levelOfEducation.hashCode ^
-      filedOfStudy.hashCode ^
-      mobileNumber.hashCode ^
-      telephoneNumber.hashCode ^
-      address.hashCode ^
-      distance.hashCode;
+        table.id,
+        table.nickName,
+        table.firstName,
+        table.lastName,
+        table.fatherName,
+        table.dateOfBirth,
+        table.maritalStatus,
+        table.levelOfEducation,
+        table.filedOfStudy,
+        table.mobileNumber,
+        table.telephoneNumber,
+        table.address,
+        table.distance);
   }
 }

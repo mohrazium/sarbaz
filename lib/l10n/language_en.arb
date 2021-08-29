@@ -46,6 +46,8 @@
   "contactInfo":"Contact information",
   "nickName":"Nick name",
   "nationalIdentity":"National identity",
-  "wrongNationalIdentity":"ٌWrong national identity, Please input correct id.",
-  "requiredField":"*This field can't be empty."
+  "wrongNationalIdentity":"ٌInvalid national identity.",
+  "requiredField":"*This field can't be empty.",
+  "wrongMobileNumber":"Invalid Mobile Number."
+
 }

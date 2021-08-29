@@ -3,22 +3,23 @@ import 'package:sarbaz/src/core/data/data.dart';
 import 'package:sarbaz/src/core/services/models/personal_info_model.dart';
 import 'generic_service.dart';
 
-abstract class PersonsService extends Service<int, PersonalInfoModel> {
+abstract class PersonalInfoService extends Service<int, PersonalInfoModel> {
   Future<List<PersonalInfoModel>> findByKeyword(dynamic keyword);
 }
 
-@Injectable(as: PersonsService)
-class PersonsServiceImpl implements PersonsService {
+@Injectable(as: PersonalInfoService)
+class PersonalInfoServiceImpl implements PersonalInfoService {
   @override
-  Future<bool> delete(PersonalInfoModel e) async {
+  Future<List<PersonalInfoModel>> findByKeyword(keyword) {
+    // TODO: implement findByKeyword
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> save(PersonalInfoModel e) async {
     final db = await DbHelper.get();
     final personDao = db.personalInfDAO;
-    try {
-      await personDao.deletePersonalInfo(e.toTable());
-      return true;
-    } catch (e) {
-      return false;
-    }
+    await personDao.insertPersonalInfo(e.toTable());
   }
 
   @override
@@ -43,22 +44,21 @@ class PersonsServiceImpl implements PersonsService {
   }
 
   @override
-  Future<List<PersonalInfoModel>> findByKeyword(keyword) {
-    // TODO: implement findByKeyword
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> save(PersonalInfoModel e) async {
-    final db = await DbHelper.get();
-    final personDao = db.personalInfDAO;
-    await personDao.insertPersonalInfo(e.toTable());
-  }
-
-  @override
   Future<void> update(PersonalInfoModel e) async {
     final db = await DbHelper.get();
     final personDao = db.personalInfDAO;
     await personDao.updatePersonalInfo(e.toTable());
+  }
+
+  @override
+  Future<bool> delete(PersonalInfoModel e) async {
+    final db = await DbHelper.get();
+    final personDao = db.personalInfDAO;
+    try {
+      await personDao.deletePersonalInfo(e.toTable());
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

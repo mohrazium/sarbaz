@@ -1,2 +1,1 @@
-export 'generic_service.dart';
-export 'persons_service.dart';
+export 'personal_info_service.dart';

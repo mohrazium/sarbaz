@@ -1,8 +1,10 @@
 class StringConstants {
-  static const String kDataBaseName = "sarbaz_database.db";
-  static const String kTblPersonalInfo = "tbl_personal_info";
-
-  static const List<String> maritalStatusList = ["مجرد", "متاهل"];
+  static const maritalStatusMarried = 'متاهل';
+  static const maritalStatusSingle = 'مجرد';
+  static const List<String> maritalStatusList = [
+    maritalStatusSingle,
+    maritalStatusMarried
+  ];
   static const List<String> levelOfEducationList = [
     "زیردیپلم",
     "دیپلم",

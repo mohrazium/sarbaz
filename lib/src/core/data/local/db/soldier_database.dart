@@ -9,12 +9,12 @@ part 'soldier_database.g.dart'; // the generated code will be there
 
 @Database(version: 1, entities: [PersonalInfoTable])
 abstract class SoldierDatabase extends FloorDatabase {
-  PersonalInfoDAO get personalInfDAO;
+  PersonalInfoDAO get personalInfoDAO;
 }
 
 class DbHelper {
-  static Future<SoldierDatabase> get() async {
+  static Future<SoldierDatabase> instance() async {
     return await $FloorSoldierDatabase
-        .databaseBuilder(StringConstants.kDataBaseName).build();
+        .databaseBuilder(DbConstants.dataBaseName).build();
   }
 }

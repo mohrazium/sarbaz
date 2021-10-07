@@ -1,3 +1,4 @@
+export 'dialogs/dialogs.dart';
 export 'layouts/layouts.dart';
 export 'pages/pages.dart';
 export 'themes/themes.dart';

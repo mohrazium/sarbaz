@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 import 'font_styles.dart';
 
-class STheme {
-  STheme._();
+class Themizer {
+  Themizer._();
 
-  static ThemeData get getSTheme => new ThemeData(
+  static ThemeData get getTheme => new ThemeData(
         brightness: Brightness.light,
         // primarySwatch: ,
-        primaryColor: SColors.kPrimaryColor,
+        primaryColor: Colorize.kPrimaryColor,
         primaryColorBrightness: Brightness.light,
-        secondaryHeaderColor: SColors.kAccentColor,
-        scaffoldBackgroundColor: SColors.kBackgroundColor,
-        backgroundColor: SColors.kBackgroundColor[300],
+        secondaryHeaderColor: Colorize.kAccentColor,
+        scaffoldBackgroundColor: Colorize.kBackgroundColor,
+        backgroundColor: Colorize.kBackgroundColor[300],
         iconTheme: _STheme._().iconTheme,
         appBarTheme: _STheme._().appBarTheme,
         textTheme: _STheme._().textTheme,
@@ -27,14 +27,14 @@ class STheme {
 class _STheme {
   _STheme._();
   final appBarTheme = AppBarTheme(
-    color: SColors.kBackgroundColor[300],
+    color: Colorize.kBackgroundColor[300],
     brightness: Brightness.light,
     elevation: 5.0,
-    shadowColor: SColors.kForegroundColor[300],
+    shadowColor: Colorize.kForegroundColor[300],
     centerTitle: true,
   );
 
-  final iconTheme = IconThemeData(color: SColors.kForegroundColor[400]);
+  final iconTheme = IconThemeData(color: Colorize.kForegroundColor[400]);
 
   TextTheme get textTheme => TextTheme(
       headline1: SFontStyles().headline1(),
@@ -52,17 +52,17 @@ class _STheme {
   InputDecorationTheme get inputDecorationTheme => InputDecorationTheme(
       filled: true,
       labelStyle: TextStyle(
-        color: SColors.kPrimaryColor,
+        color: Colorize.kPrimaryColor,
         fontSize: 14.0,
       ),
       counterStyle: TextStyle(
         color:Colors.transparent,
         fontSize: 5.0,
       ),
-      focusColor: SColors.kAccentColor,
+      focusColor: Colorize.kAccentColor,
       enabledBorder: UnderlineInputBorder(
         borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(4), bottomRight: Radius.circular(4)),
-        borderSide: BorderSide(width: 4, color: SColors.kPrimaryColor),
+        borderSide: BorderSide(width: 4, color: Colorize.kPrimaryColor),
       ));
 }

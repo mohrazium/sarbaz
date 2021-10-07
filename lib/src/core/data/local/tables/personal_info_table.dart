@@ -1,36 +1,55 @@
 import 'package:floor/floor.dart';
 import 'package:sarbaz/src/core/config/constants/constants.dart';
 
-@Entity(tableName: StringConstants.kTblPersonalInfo)
-class PersonalInfoTable {
-  @primaryKey
-  final int id;
-  @ColumnInfo(name: "nick_name")
-  final String nickName;
-  @ColumnInfo(name: "first_name")
+import 'audit.dart';
+
+@Entity(tableName: DbConstants.tblPersonalInfo)
+class PersonalInfoTable extends Audit {
+  @ColumnInfo(name: DbConstants.nationalIdentity)
+  final String nationalIdentity;
+  @ColumnInfo(name: DbConstants.nickName)
+  final String? nickName;
+  @ColumnInfo(name: DbConstants.firstName)
   final String firstName;
-  @ColumnInfo(name: "last_name")
+  @ColumnInfo(name: DbConstants.lastName)
   final String lastName;
-  @ColumnInfo(name: "father_name")
+  @ColumnInfo(name: DbConstants.fatherName)
   final String fatherName;
-  @ColumnInfo(name: "date_of_birth")
+  @ColumnInfo(name: DbConstants.dateOfBirth)
   final String dateOfBirth;
-  @ColumnInfo(name: "marital_status")
-  final bool maritalStatus;
-  @ColumnInfo(name: "number_of_children")
+  @ColumnInfo(name: DbConstants.maritalStatus)
+  final String maritalStatus;
+  @ColumnInfo(name: DbConstants.numberOfChildren)
   final int numberOfChildren = 0;
-  @ColumnInfo(name: "level_of_education")
+  @ColumnInfo(name: DbConstants.levelOfEducation)
   final String levelOfEducation;
-  @ColumnInfo(name: "filed_of_study")
-  final String filedOfStudy;
-  @ColumnInfo(name: "mobile_number")
+  @ColumnInfo(name: DbConstants.filedOfStudy)
+  final String? filedOfStudy;
+  @ColumnInfo(name: DbConstants.mobileNumber)
   final String mobileNumber;
-  @ColumnInfo(name: "telephone_number")
-  final String telephoneNumber;
-  @ColumnInfo(name: "address")
+  @ColumnInfo(name: DbConstants.telephoneNumber)
+  final String? telephoneNumber;
+  @ColumnInfo(name: DbConstants.address)
   final String address;
-  @ColumnInfo(name: "distance")
+  @ColumnInfo(name: DbConstants.distance)
   final int distance;
 
-  PersonalInfoTable(this.id, this.nickName, this.firstName, this.lastName, this.fatherName, this.dateOfBirth, this.maritalStatus, this.levelOfEducation, this.filedOfStudy, this.mobileNumber, this.telephoneNumber, this.address, this.distance);
+  PersonalInfoTable(
+      {int? id,
+      String? createTime,
+      String? updateTime,
+      required this.nationalIdentity,
+      this.nickName,
+      required this.firstName,
+      required this.lastName,
+      required this.fatherName,
+      required this.dateOfBirth,
+      required this.maritalStatus,
+      required this.levelOfEducation,
+       this.filedOfStudy,
+      required this.mobileNumber,
+      this.telephoneNumber,
+      required this.address,
+      required this.distance})
+      : super(id: id, updateTime: updateTime, createTime: createTime);
 }

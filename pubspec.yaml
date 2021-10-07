@@ -30,6 +30,7 @@ dependencies:
   logging: ^1.0.1
   jalali_calendar: ^1.0.4
   persian_tools: ^1.0.1
+  asset_cache: ^1.0.0+1
 
 dev_dependencies:
   flutter_test:
@@ -45,6 +46,7 @@ flutter:
 
   assets:
     - assets/images/
+   
 
   fonts:
     - family: Sahel

@@ -60,7 +60,7 @@ class _$SoldierDatabase extends SoldierDatabase {
     changeListener = listener ?? StreamController<String>.broadcast();
   }
 
-  PersonalInfoDAO? _personalInfDAOInstance;
+  PersonalInfoDAO? _personalInfoDAOInstance;
 
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
@@ -81,7 +81,7 @@ class _$SoldierDatabase extends SoldierDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `tbl_personal_info` (`id` INTEGER NOT NULL, `nick_name` TEXT NOT NULL, `first_name` TEXT NOT NULL, `last_name` TEXT NOT NULL, `father_name` TEXT NOT NULL, `date_of_birth` TEXT NOT NULL, `marital_status` INTEGER NOT NULL, `number_of_children` INTEGER NOT NULL, `level_of_education` TEXT NOT NULL, `filed_of_study` TEXT NOT NULL, `mobile_number` TEXT NOT NULL, `telephone_number` TEXT NOT NULL, `address` TEXT NOT NULL, `distance` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `tbl_personal_info` (`national_identity` TEXT NOT NULL, `nick_name` TEXT, `first_name` TEXT NOT NULL, `last_name` TEXT NOT NULL, `father_name` TEXT NOT NULL, `date_of_birth` TEXT NOT NULL, `marital_status` TEXT NOT NULL, `number_of_children` INTEGER NOT NULL, `level_of_education` TEXT NOT NULL, `filed_of_study` TEXT, `mobile_number` TEXT NOT NULL, `telephone_number` TEXT, `address` TEXT NOT NULL, `distance` INTEGER NOT NULL, `id` INTEGER, `create_time` TEXT, `update_time` TEXT, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -90,8 +90,8 @@ class _$SoldierDatabase extends SoldierDatabase {
   }
 
   @override
-  PersonalInfoDAO get personalInfDAO {
-    return _personalInfDAOInstance ??=
+  PersonalInfoDAO get personalInfoDAO {
+    return _personalInfoDAOInstance ??=
         _$PersonalInfoDAO(database, changeListener);
   }
 }
@@ -103,60 +103,69 @@ class _$PersonalInfoDAO extends PersonalInfoDAO {
             database,
             'tbl_personal_info',
             (PersonalInfoTable item) => <String, Object?>{
-                  'id': item.id,
+                  'national_identity': item.nationalIdentity,
                   'nick_name': item.nickName,
                   'first_name': item.firstName,
                   'last_name': item.lastName,
                   'father_name': item.fatherName,
                   'date_of_birth': item.dateOfBirth,
-                  'marital_status': item.maritalStatus ? 1 : 0,
+                  'marital_status': item.maritalStatus,
                   'number_of_children': item.numberOfChildren,
                   'level_of_education': item.levelOfEducation,
                   'filed_of_study': item.filedOfStudy,
                   'mobile_number': item.mobileNumber,
                   'telephone_number': item.telephoneNumber,
                   'address': item.address,
-                  'distance': item.distance
+                  'distance': item.distance,
+                  'id': item.id,
+                  'create_time': item.createTime,
+                  'update_time': item.updateTime
                 }),
         _personalInfoTableUpdateAdapter = UpdateAdapter(
             database,
             'tbl_personal_info',
             ['id'],
             (PersonalInfoTable item) => <String, Object?>{
-                  'id': item.id,
+                  'national_identity': item.nationalIdentity,
                   'nick_name': item.nickName,
                   'first_name': item.firstName,
                   'last_name': item.lastName,
                   'father_name': item.fatherName,
                   'date_of_birth': item.dateOfBirth,
-                  'marital_status': item.maritalStatus ? 1 : 0,
+                  'marital_status': item.maritalStatus,
                   'number_of_children': item.numberOfChildren,
                   'level_of_education': item.levelOfEducation,
                   'filed_of_study': item.filedOfStudy,
                   'mobile_number': item.mobileNumber,
                   'telephone_number': item.telephoneNumber,
                   'address': item.address,
-                  'distance': item.distance
+                  'distance': item.distance,
+                  'id': item.id,
+                  'create_time': item.createTime,
+                  'update_time': item.updateTime
                 }),
         _personalInfoTableDeletionAdapter = DeletionAdapter(
             database,
             'tbl_personal_info',
             ['id'],
             (PersonalInfoTable item) => <String, Object?>{
-                  'id': item.id,
+                  'national_identity': item.nationalIdentity,
                   'nick_name': item.nickName,
                   'first_name': item.firstName,
                   'last_name': item.lastName,
                   'father_name': item.fatherName,
                   'date_of_birth': item.dateOfBirth,
-                  'marital_status': item.maritalStatus ? 1 : 0,
+                  'marital_status': item.maritalStatus,
                   'number_of_children': item.numberOfChildren,
                   'level_of_education': item.levelOfEducation,
                   'filed_of_study': item.filedOfStudy,
                   'mobile_number': item.mobileNumber,
                   'telephone_number': item.telephoneNumber,
                   'address': item.address,
-                  'distance': item.distance
+                  'distance': item.distance,
+                  'id': item.id,
+                  'create_time': item.createTime,
+                  'update_time': item.updateTime
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -175,39 +184,77 @@ class _$PersonalInfoDAO extends PersonalInfoDAO {
   Future<List<PersonalInfoTable>> findAllPersons() async {
     return _queryAdapter.queryList('SELECT * FROM tbl_personal_info;',
         mapper: (Map<String, Object?> row) => PersonalInfoTable(
-            row['id'] as int,
-            row['nick_name'] as String,
-            row['first_name'] as String,
-            row['last_name'] as String,
-            row['father_name'] as String,
-            row['date_of_birth'] as String,
-            (row['marital_status'] as int) != 0,
-            row['level_of_education'] as String,
-            row['filed_of_study'] as String,
-            row['mobile_number'] as String,
-            row['telephone_number'] as String,
-            row['address'] as String,
-            row['distance'] as int));
+            id: row['id'] as int?,
+            createTime: row['create_time'] as String?,
+            updateTime: row['update_time'] as String?,
+            nationalIdentity: row['national_identity'] as String,
+            nickName: row['nick_name'] as String?,
+            firstName: row['first_name'] as String,
+            lastName: row['last_name'] as String,
+            fatherName: row['father_name'] as String,
+            dateOfBirth: row['date_of_birth'] as String,
+            maritalStatus: row['marital_status'] as String,
+            levelOfEducation: row['level_of_education'] as String,
+            filedOfStudy: row['filed_of_study'] as String?,
+            mobileNumber: row['mobile_number'] as String,
+            telephoneNumber: row['telephone_number'] as String?,
+            address: row['address'] as String,
+            distance: row['distance'] as int));
   }
 
   @override
   Future<PersonalInfoTable?> findPersonalInfoById(int id) async {
     return _queryAdapter.query('SELECT * FROM tbl_personal_info WHERE id=?1',
         mapper: (Map<String, Object?> row) => PersonalInfoTable(
-            row['id'] as int,
-            row['nick_name'] as String,
-            row['first_name'] as String,
-            row['last_name'] as String,
-            row['father_name'] as String,
-            row['date_of_birth'] as String,
-            (row['marital_status'] as int) != 0,
-            row['level_of_education'] as String,
-            row['filed_of_study'] as String,
-            row['mobile_number'] as String,
-            row['telephone_number'] as String,
-            row['address'] as String,
-            row['distance'] as int),
+            id: row['id'] as int?,
+            createTime: row['create_time'] as String?,
+            updateTime: row['update_time'] as String?,
+            nationalIdentity: row['national_identity'] as String,
+            nickName: row['nick_name'] as String?,
+            firstName: row['first_name'] as String,
+            lastName: row['last_name'] as String,
+            fatherName: row['father_name'] as String,
+            dateOfBirth: row['date_of_birth'] as String,
+            maritalStatus: row['marital_status'] as String,
+            levelOfEducation: row['level_of_education'] as String,
+            filedOfStudy: row['filed_of_study'] as String?,
+            mobileNumber: row['mobile_number'] as String,
+            telephoneNumber: row['telephone_number'] as String?,
+            address: row['address'] as String,
+            distance: row['distance'] as int),
         arguments: [id]);
+  }
+
+  @override
+  Future<bool?> existsByNationalIdentity(String nationalIdentity) async {
+    await _queryAdapter.queryNoReturn(
+        'SELECT EXISTS(SELECT id FROM tbl_personal_info WHERE national_identity like?1)',
+        arguments: [nationalIdentity]);
+  }
+
+  @override
+  Future<PersonalInfoTable?> findByNationalIdentity(
+      String nationalIdentity) async {
+    return _queryAdapter.query(
+        'SELECT * FROM tbl_personal_info tpi WHERE tpi.national_identity = ?1;',
+        mapper: (Map<String, Object?> row) => PersonalInfoTable(
+            id: row['id'] as int?,
+            createTime: row['create_time'] as String?,
+            updateTime: row['update_time'] as String?,
+            nationalIdentity: row['national_identity'] as String,
+            nickName: row['nick_name'] as String?,
+            firstName: row['first_name'] as String,
+            lastName: row['last_name'] as String,
+            fatherName: row['father_name'] as String,
+            dateOfBirth: row['date_of_birth'] as String,
+            maritalStatus: row['marital_status'] as String,
+            levelOfEducation: row['level_of_education'] as String,
+            filedOfStudy: row['filed_of_study'] as String?,
+            mobileNumber: row['mobile_number'] as String,
+            telephoneNumber: row['telephone_number'] as String?,
+            address: row['address'] as String,
+            distance: row['distance'] as int),
+        arguments: [nationalIdentity]);
   }
 
   @override

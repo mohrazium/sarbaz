@@ -12,10 +12,12 @@ class ApplicationEntryPoint extends StatelessWidget {
     Get.config(
         enableLog: true,
         defaultPopGesture: true,
-        defaultTransition: Transition.cupertino);
+        defaultTransition: Transition.native);
+
+
     return GetMaterialApp(
       title: 'Flutter Demo',
-      theme:STheme.getSTheme,
+      theme: Themizer.getTheme,
       darkTheme: ThemeData.dark().copyWith(primaryColor: Colors.purple),
       // NOTE: Optional - use themeMode to specify the startup theme
       themeMode: ThemeMode.light,

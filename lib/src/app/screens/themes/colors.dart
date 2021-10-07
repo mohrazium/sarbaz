@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SColors {
-  SColors._();
+class Colorize {
+  Colorize._();
 
   static const int _middleBackgroundColor = 0xFFF1F3F4;
   static const int _middleForegroundColor = 0xFF36403F;

@@ -17,7 +17,7 @@ const _kFontBold = FontWeight.w900;
 class SFontStyles {
   static const TextStyle _SFontStyle = TextStyle(
       inherit: false,
-      color: SColors.kForegroundColor,
+      color: Colorize.kForegroundColor,
       fontFamily: 'Sahel',
       fontFamilyFallback: ['Vazir'],
       fontWeight: FontWeight.normal,

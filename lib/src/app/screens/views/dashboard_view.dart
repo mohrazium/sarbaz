@@ -46,7 +46,7 @@ class _DashboardDesktopViewState extends State<DashboardDesktopView> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: GFButton(
-              textStyle: STheme.textStyle,
+              textStyle: Themizer.textStyle,
               onPressed: () {},
               text: "new ",
               shape: GFButtonShape.pills,
@@ -71,7 +71,7 @@ class _DashboardDesktopViewState extends State<DashboardDesktopView> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: GFButton(
-              textStyle: STheme.textStyle,
+              textStyle: Themizer.textStyle,
               onPressed: () {},
               text: "new ",
               shape: GFButtonShape.pills,
@@ -81,13 +81,13 @@ class _DashboardDesktopViewState extends State<DashboardDesktopView> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: GFButton(
-              textStyle: STheme.textStyle,
+              textStyle: Themizer.textStyle,
               shape: GFButtonShape.pills,
               onPressed: () {
                 mdiController.addWindow(
                     windowIdentifier: "addNewSoldier",
                     width: 700,
-                    height: 520,
+                    height: 640,
                     context: context,
                     title: strings.new_soldier,
                     body: SoldierEditorView());
@@ -109,7 +109,6 @@ class _DashboardDesktopViewState extends State<DashboardDesktopView> {
     );
   }
 }
-
 
 class DashboardBodyWidget extends StatelessWidget {
   const DashboardBodyWidget({
@@ -145,5 +144,3 @@ class DashboardBodyWidget extends StatelessWidget {
     );
   }
 }
-
-

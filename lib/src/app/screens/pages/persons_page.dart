@@ -1,16 +1,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sarbaz/src/app/controllers/controllers.dart';
+import 'package:sarbaz/src/app/screens/controllers/controllers.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+class PersonsPage extends StatefulWidget {
+  PersonsPage({Key? key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _PersonsPageState createState() => _PersonsPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _PersonsPageState extends State<PersonsPage> {
   ThemeMode _themeMode = ThemeMode.system;
   final controller = Get.find<DashboardController>();
 

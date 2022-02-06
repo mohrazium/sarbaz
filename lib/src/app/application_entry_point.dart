@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
-import 'package:sarbaz/src/app/app.dart';
-
+import 'config/themes/themes.dart';
 import 'screens/screens.dart';
 
 class ApplicationEntryPoint extends StatelessWidget {
+  const ApplicationEntryPoint({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Get.config(
@@ -14,18 +14,17 @@ class ApplicationEntryPoint extends StatelessWidget {
         defaultPopGesture: true,
         defaultTransition: Transition.native);
 
-
     return GetMaterialApp(
-      title: 'Flutter Demo',
-      theme: Themizer.getTheme,
+      title: 'سرباز',
+      theme: Themizer.basic,
       darkTheme: ThemeData.dark().copyWith(primaryColor: Colors.purple),
       // NOTE: Optional - use themeMode to specify the startup theme
       themeMode: ThemeMode.light,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
+      // localizationsDelegates: AppLocalizations.localizationsDelegates,
+      // supportedLocales: AppLocalizations.supportedLocales,
       locale: const Locale("fa"),
-      home: DashboardPage(),
-      initialBinding: SoldierBinding(),
+      home:  const DashboardPage(),
+      initialBinding: ApplicationControllerBinding(),
     );
   }
 }

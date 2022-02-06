@@ -1,8 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sarbaz/src/core/data/data.dart';
-import 'package:sarbaz/src/core/services/models/personal_info_model.dart';
-import 'package:sarbaz/src/core/utility/exceptions/exceptions.dart';
+import 'package:sarbaz/src/core/core.dart';
 import 'generic_service.dart';
 
 abstract class PersonalInfoService extends Service<int, PersonalInfoModel> {
@@ -13,6 +10,13 @@ abstract class PersonalInfoService extends Service<int, PersonalInfoModel> {
 
 @Injectable(as: PersonalInfoService)
 class PersonalInfoServiceImpl implements PersonalInfoService {
+  late final PersonalInfoDAO personalInfoDAO;
+
+  PersonalInfoServiceImpl() {
+    personalInfoDAO =
+        Injector.resolve<SoldierDatabaseHelper>().instance.personalInfoDAO;
+  }
+
   @override
   Future<List<PersonalInfoModel>?> findByKeyword(keyword) {
     // TODO: implement findByKeyword
@@ -21,73 +25,74 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
 
   @override
   Future<void> save(PersonalInfoModel e) async {
-    final db = await DbHelper.instance();
-    final personDao = db.personalInfoDAO;
-    await personDao.insertPersonalInfo(e.toTable());
+    await personalInfoDAO.doInsert(e.toJson());
+    ;
   }
 
   @override
   Future<List<PersonalInfoModel>> findAll() async {
-    final db = await DbHelper.instance();
-    final personDao = db.personalInfoDAO;
-
-    final persons = await personDao.findAllPersons();
-    List<PersonalInfoModel> models = new List.empty(growable: true);
-    persons.forEach((person) {
-      models.add(PersonalInfoModel.fromTable(person));
-    });
+    List<PersonalInfoModel> models = List.empty(growable: true);
+    final personanlInfos = await personalInfoDAO.findAll();
+    for (var personanlInfo in personanlInfos) {
+      models.add(PersonalInfoModel.fromJson(personanlInfo.toJson()));
+    }
     return models;
   }
 
   @override
   Future<PersonalInfoModel> findById(int id) async {
-    final db = await DbHelper.instance();
-    final personDao = db.personalInfoDAO;
-    final table = await personDao.findPersonalInfoById(id);
-    return PersonalInfoModel.fromTable(table!);
+    // late PersonalInfoModel model;
+    // await database.instance().then((db) async {
+    //   await db.personalInfoDAO
+    //       .findById(id)
+    //       .then((value) => model = PersonalInfoModel.fromTable(value!));
+    // });
+    return Future.value(null);
   }
 
   @override
   Future<void> update(PersonalInfoModel e) async {
-    final db = await DbHelper.instance();
-    final personDao = db.personalInfoDAO;
-    await personDao.updatePersonalInfo(e.toTable());
+    await personalInfoDAO.doUpdate(e.toJson());
   }
 
   @override
   Future<bool> delete(PersonalInfoModel e) async {
-    final db = await DbHelper.instance();
-    final personDao = db.personalInfoDAO;
+    late bool result = false;
     try {
-      await personDao.deletePersonalInfo(e.toTable());
-      return true;
+      personalInfoDAO.doDelete(e.toJson()).then((value) => result);
+      return Future.value(result);
     } catch (e) {
-      return false;
+      return Future.value(result);
     }
   }
 
   @override
   Future<bool> existsByNationalIdentity(String nationalIdentity) async {
-    bool result = false;
-    await DbHelper.instance().then((db) {
-      db.personalInfoDAO
-          .existsByNationalIdentity(nationalIdentity)
-          .then((value) => result = value ?? false);
-      debugPrint("result is :=====>${result}");
-    });
-    return result;
+    // bool result = false;
+    // try {
+    //  personalInfoDAO
+    //       .existsByNationalIdentity(nationalIdentity)
+    //       .then((value) => result = value!));
+    //   ;
+    //   return Future.value(result);
+    // } catch (e) {
+    //   return Future.value(result);
+    // }
+    return Future.value(null);
   }
 
   @override
   Future<PersonalInfoModel?> findByNationalIdentity(
       String nationalIdentity) async {
-    try {
-      final db = await DbHelper.instance();
-      final table =
-          await db.personalInfoDAO.findByNationalIdentity(nationalIdentity);
-      return PersonalInfoModel.fromTable(table!);
-    } catch (e) {
-      throw FailureException(e,"شخص مورد نظر یافت نشد");
-    }
+    // late PersonalInfoModel model;
+    // try {
+    //   await database.instance().then((db) async => db.personalInfoDAO
+    //       .findByNationalIdentity(nationalIdentity)
+    //       .then((value) => model = PersonalInfoModel.fromTable(value!)));
+    //   return Future.value(model);
+    // } catch (e) {
+    //   throw FailureException(exception: e, message: "شخص مورد نظر یافت نشد!");
+    // }
+    return Future.value(null);
   }
 }

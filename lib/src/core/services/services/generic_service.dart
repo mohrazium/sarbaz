@@ -1,4 +1,4 @@
-abstract class Service<T,M>{
+abstract class Service<T,M> {
   Future<void> save(M model);
   Future<M?> findById(T id);
   Future<List<M>?> findAll();

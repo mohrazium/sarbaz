@@ -16,22 +16,25 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  syncfusion_flutter_datagrid: ^19.2.44
-  floor:
-  path_provider:
-  path:
   get:
-  get_it:
-  equatable:
-  injectable:
-  getwidget: ^2.0.3
-  get_storage: ^2.0.3
+  injectable: ^1.5.3
   intl: ^0.17.0
   logging: ^1.0.1
-  jalali_calendar: ^1.0.4
+  drift: ^1.2.0
+  sqlite3_flutter_libs: ^0.5.0
+  path_provider: ^2.0.0
+  path: ^1.8.0
+  # add get_it  
+  get_it: ^7.2.0
+  json_serializable: ^6.1.4
   persian_tools: ^1.0.1
-  asset_cache: ^1.0.0+1
-
+  iconsax: ^0.0.8
+  percent_indicator: ^3.4.0
+  dotted_border: ^2.0.0+1
+  timeago: ^3.1.0
+  eva_icons_flutter: ^3.0.2
+  shamsi_date: ^1.0.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -39,6 +42,9 @@ dev_dependencies:
   floor_generator:
   build_runner:
   injectable_generator:
+  drift_dev: ^1.2.0
+ 
+  flutter_lints: ^1.0.0
 
 flutter:
   generate: true

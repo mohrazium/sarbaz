@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:logging/logging.dart';
 import 'package:sarbaz/src/core/config/injection/injector.dart';
 import 'package:sarbaz/src/core/config/logger/logger_service.dart';
@@ -8,9 +7,9 @@ import 'mdi.dart';
 
 class MdiController {
   var logger = Injector.resolve<LoggerService>();
-  List<MdiWindow> _windows = List.empty(growable: true);
+  final List<MdiWindow> _windows = List.empty(growable: true);
 
-  VoidCallback _onUpdate;
+  final VoidCallback _onUpdate;
 
   List<MdiWindow> get windows => _windows;
 
@@ -30,10 +29,10 @@ class MdiController {
       width: width,
       height: height,
       title: title,
-      body: body,
+      body: Container(color: Theme.of(context).backgroundColor, child: body),
     );
     if (_windows.isNotEmpty) {
-      var targetWindow;
+      MdiWindow targetWindow;
       targetWindow = _windows.firstWhere(
           (element) => element.windowIdentifier == windowIdentifier);
       if (targetWindow == null) {

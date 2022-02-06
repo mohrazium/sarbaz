@@ -1,1 +1,1 @@
-export 'message_dialogs.dart';
+export 'message_dialog.dart';

@@ -28,8 +28,8 @@ class MdiWindow extends StatefulWidget {
     this.width,
     this.height,
   }) : super(key: UniqueKey()) {
-    this.currentHeight = (height == null ? defaultHeight : height)!;
-    this.currentWidth = (width == null ? defaultWidth : width)!;
+    currentHeight = (height ?? defaultHeight);
+    currentWidth = (width ?? defaultWidth);
   }
 
   @override
@@ -37,8 +37,8 @@ class MdiWindow extends StatefulWidget {
 }
 
 class _MdiWindowState extends State<MdiWindow> {
-  var _headerSize = 35.0;
-  var _borderRadius = 5.0;
+  final double _headerSize = 35.0;
+  final double _borderRadius = 5.0;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class _MdiWindowState extends State<MdiWindow> {
       decoration: BoxDecoration(
         //Here goes the same radius, u can put into a var or function
         borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Color(0x54000000),
             spreadRadius: 4,
@@ -94,7 +94,6 @@ class _MdiWindowState extends State<MdiWindow> {
         width: widget.currentWidth,
         height: widget.currentHeight - _headerSize,
         color: Theme.of(context).scaffoldBackgroundColor,
-        
         child: widget.body,
       ),
     );
@@ -102,7 +101,7 @@ class _MdiWindowState extends State<MdiWindow> {
 
   _getCloseButton() {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-      SizedBox(
+      const SizedBox(
         width: 1.5,
       ),
       MaterialButton(
@@ -113,14 +112,14 @@ class _MdiWindowState extends State<MdiWindow> {
         child: Container(
             width: _headerSize - 5,
             height: _headerSize - 5,
-            child: Icon(Icons.close)),
+            child: const Icon(Icons.close)),
       ),
     ]);
   }
 
   _getMaximizeButton() {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-      SizedBox(
+      const SizedBox(
         width: 1.5,
       ),
       MaterialButton(
@@ -131,14 +130,14 @@ class _MdiWindowState extends State<MdiWindow> {
         child: Container(
             width: _headerSize - 5,
             height: _headerSize - 5,
-            child: Icon(Icons.fullscreen)),
+            child: const Icon(Icons.fullscreen)),
       ),
     ]);
   }
 
   _getMinimizeButton() {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-      SizedBox(
+      const SizedBox(
         width: 1.5,
       ),
       MaterialButton(
@@ -149,7 +148,7 @@ class _MdiWindowState extends State<MdiWindow> {
         child: Container(
             width: _headerSize - 5,
             height: _headerSize - 5,
-            child: Icon(Icons.minimize)),
+            child: const Icon(Icons.minimize)),
       ),
     ]);
   }

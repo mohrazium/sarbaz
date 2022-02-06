@@ -13,6 +13,6 @@ class Application {
     // Setting hive data base as locale storage.
    // HiveDB.setup();
     // Using phoenix to restart application from inside when is running.
-    runApp(ApplicationEntryPoint());
+    runApp(const ApplicationEntryPoint());
   }
 }

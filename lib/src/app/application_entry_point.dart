@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-import 'config/themes/themes.dart';
-import 'screens/screens.dart';
+part of sarbaz_application;
 
 class ApplicationEntryPoint extends StatelessWidget {
   const ApplicationEntryPoint({Key? key}) : super(key: key);
@@ -15,7 +11,8 @@ class ApplicationEntryPoint extends StatelessWidget {
         defaultTransition: Transition.native);
 
     return GetMaterialApp(
-      title: 'سرباز',
+       smartManagement: SmartManagement.full,
+      title: Strings.title,
       theme: Themizer.basic,
       darkTheme: ThemeData.dark().copyWith(primaryColor: Colors.purple),
       // NOTE: Optional - use themeMode to specify the startup theme
@@ -23,7 +20,7 @@ class ApplicationEntryPoint extends StatelessWidget {
       // localizationsDelegates: AppLocalizations.localizationsDelegates,
       // supportedLocales: AppLocalizations.supportedLocales,
       locale: const Locale("fa"),
-      home:  const DashboardPage(),
+      home: const DashboardPage(),
       initialBinding: ApplicationControllerBinding(),
     );
   }

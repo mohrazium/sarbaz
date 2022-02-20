@@ -1,0 +1,46 @@
+part of models;
+
+@JsonSerializable()
+class EducationalInfoModel {
+  final int? id;
+  final String levelOfEducation;
+  final String? fieldOfStudy;
+  final String? educationPlace;
+  final double? grade;
+  final String? skills;
+  final bool? permissionToStudy;
+
+  EducationalInfoModel({
+    this.id,
+    required this.levelOfEducation,
+    this.fieldOfStudy,
+    this.educationPlace,
+    this.grade,
+    this.skills,
+    this.permissionToStudy,
+  });
+
+  factory EducationalInfoModel.fromJson(Map<String, dynamic> json) =>
+      _$EducationalInfoModelFromJson(json);
+  Map<String, dynamic> toJson() => _$EducationalInfoModelToJson(this);
+
+  EducationalInfoModel copyWith({
+    int? id,
+    String? levelOfEducation,
+    String? fieldOfStudy,
+    String? educationPlace,
+    double? grade,
+    String? skills,
+    bool? permissionToStudy,
+  }) {
+    return EducationalInfoModel(
+      id: id ?? this.id,
+      levelOfEducation: levelOfEducation ?? this.levelOfEducation,
+      fieldOfStudy: fieldOfStudy ?? this.fieldOfStudy,
+      educationPlace: educationPlace ?? this.educationPlace,
+      grade: grade ?? this.grade,
+      skills: skills ?? this.skills,
+      permissionToStudy: permissionToStudy ?? this.permissionToStudy,
+    );
+  }
+}

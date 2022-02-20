@@ -1,9 +1,5 @@
-import 'dart:io';
+part of config;
 
-import 'package:injectable/injectable.dart';
-import 'package:logging/logging.dart';
-
-@injectable
 class LoggerService {
   Logger log(Level? logLevel, {required message}) {
     final Logger logger = Logger('SarbazLog');
@@ -17,7 +13,7 @@ class LoggerService {
     Logger.root.level = Level.ALL;
     Logger.root.onRecord.listen((rec) => print(
         '${_getPlatformNameAndVersion()}: ${rec.level.name}: ${rec.time.year}-${rec.time.month}-${rec.time.day} ${rec.time.hour}:${rec.time.minute}:${rec.time.second} : ${rec.loggerName} => ${rec.message}'));
-    LoggerService lg = new LoggerService();
+    LoggerService lg = LoggerService();
     lg.log(Level.INFO, message: "Logger service is started...");
   }
 

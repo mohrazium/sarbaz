@@ -23,4 +23,5 @@ part 'annual_overtime_model.dart';
 part 'violations_overtime_model.dart';
 part 'daily_absence_overtime_model.dart';
 part 'service_deficit_record_model.dart';
+part 'operational_service_deficit_model.dart';
 part 'models.g.dart';

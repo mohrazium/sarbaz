@@ -3,6 +3,7 @@ part of data;
 @DriftAccessor(tables: [
   ServiceDeficitTable,
   ServiceDeficitRecordTable,
+  OperationalServiceDeficitRecordTable,
 ])
 class ServiceDeficitDAO extends DatabaseAccessor<SoldierDatabase>
     with _$ServiceDeficitDAOMixin {

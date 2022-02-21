@@ -32,6 +32,8 @@ part 'tables/training_status_table.dart';
 part 'tables/unit_properties_table.dart';
 part 'tables/vaccations_table.dart';
 part 'tables/violations_overtime_table.dart';
+part 'tables/operational_service_deficit_table.dart';
+
 /// DAOs
 part 'daos/annual_overtime_dao.dart';
 part 'daos/contact_info_dao.dart';
@@ -54,3 +56,5 @@ part 'daos/training_status_dao.dart';
 part 'daos/unit_properties_dao.dart';
 part 'daos/vaccations_dao.dart';
 part 'daos/violations_overtime_dao.dart';
+part 'daos/operational_service_deficit_dao.dart';
+

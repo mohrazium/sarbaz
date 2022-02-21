@@ -239,9 +239,13 @@ ServiceDeficitModel _$ServiceDeficitModelFromJson(Map<String, dynamic> json) =>
     ServiceDeficitModel(
       id: json['id'] as int?,
       claculatedDeficitAmount: json['claculatedDeficitAmount'] as int?,
-      records: (json['records'] as List<dynamic>)
-          .map((e) =>
+      records: (json['records'] as List<dynamic>?)
+          ?.map((e) =>
               ServiceDeficitRecordModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      operationalRecords: (json['operationalRecords'] as List<dynamic>?)
+          ?.map((e) => OperationalServiceDeficitRecordModel.fromJson(
+              e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -251,6 +255,7 @@ Map<String, dynamic> _$ServiceDeficitModelToJson(
       'id': instance.id,
       'claculatedDeficitAmount': instance.claculatedDeficitAmount,
       'records': instance.records,
+      'operationalRecords': instance.operationalRecords,
     };
 
 SoldierCaseModel _$SoldierCaseModelFromJson(Map<String, dynamic> json) =>
@@ -543,4 +548,24 @@ Map<String, dynamic> _$ServiceDeficitRecordModelToJson(
       'id': instance.id,
       'type': instance.type,
       'amount': instance.amount,
+    };
+
+OperationalServiceDeficitRecordModel
+    _$OperationalServiceDeficitRecordModelFromJson(Map<String, dynamic> json) =>
+        OperationalServiceDeficitRecordModel(
+          id: json['id'] as int?,
+          startDate: DateTime.parse(json['startDate'] as String),
+          endDate: DateTime.parse(json['endDate'] as String),
+          durationOfPresence: json['durationOfPresence'] as int,
+          deficitAmount: json['deficitAmount'] as int?,
+        );
+
+Map<String, dynamic> _$OperationalServiceDeficitRecordModelToJson(
+        OperationalServiceDeficitRecordModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'startDate': instance.startDate.toIso8601String(),
+      'endDate': instance.endDate.toIso8601String(),
+      'durationOfPresence': instance.durationOfPresence,
+      'deficitAmount': instance.deficitAmount,
     };

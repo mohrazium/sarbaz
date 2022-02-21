@@ -5,6 +5,8 @@ class ServiceDeficitTable extends Table {
   IntColumn get claculatedDeficitAmount => integer().nullable()();
   IntColumn get records =>
       integer().references(ServiceDeficitRecordTable, #id).nullable()();
+       IntColumn get operationalRecords =>
+      integer().references(OperationalServiceDeficitRecordTable, #id).nullable()();
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
 }

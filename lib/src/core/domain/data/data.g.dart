@@ -4024,6 +4024,314 @@ class $HourlyVaccationTableTable extends HourlyVaccationTable
   }
 }
 
+class OperationalServiceDeficitRecordTableData extends DataClass
+    implements Insertable<OperationalServiceDeficitRecordTableData> {
+  final int? id;
+  final DateTime startDate;
+  final DateTime endDate;
+  final int durationOfPresence;
+  final int? deficitAmount;
+  OperationalServiceDeficitRecordTableData(
+      {this.id,
+      required this.startDate,
+      required this.endDate,
+      required this.durationOfPresence,
+      this.deficitAmount});
+  factory OperationalServiceDeficitRecordTableData.fromData(
+      Map<String, dynamic> data,
+      {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return OperationalServiceDeficitRecordTableData(
+      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      startDate: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}start_date'])!,
+      endDate: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}end_date'])!,
+      durationOfPresence: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}duration_of_presence'])!,
+      deficitAmount: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}deficit_amount']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int?>(id);
+    }
+    map['start_date'] = Variable<DateTime>(startDate);
+    map['end_date'] = Variable<DateTime>(endDate);
+    map['duration_of_presence'] = Variable<int>(durationOfPresence);
+    if (!nullToAbsent || deficitAmount != null) {
+      map['deficit_amount'] = Variable<int?>(deficitAmount);
+    }
+    return map;
+  }
+
+  OperationalServiceDeficitRecordTableCompanion toCompanion(bool nullToAbsent) {
+    return OperationalServiceDeficitRecordTableCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      startDate: Value(startDate),
+      endDate: Value(endDate),
+      durationOfPresence: Value(durationOfPresence),
+      deficitAmount: deficitAmount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deficitAmount),
+    );
+  }
+
+  factory OperationalServiceDeficitRecordTableData.fromJson(
+      Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return OperationalServiceDeficitRecordTableData(
+      id: serializer.fromJson<int?>(json['id']),
+      startDate: serializer.fromJson<DateTime>(json['startDate']),
+      endDate: serializer.fromJson<DateTime>(json['endDate']),
+      durationOfPresence: serializer.fromJson<int>(json['durationOfPresence']),
+      deficitAmount: serializer.fromJson<int?>(json['deficitAmount']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int?>(id),
+      'startDate': serializer.toJson<DateTime>(startDate),
+      'endDate': serializer.toJson<DateTime>(endDate),
+      'durationOfPresence': serializer.toJson<int>(durationOfPresence),
+      'deficitAmount': serializer.toJson<int?>(deficitAmount),
+    };
+  }
+
+  OperationalServiceDeficitRecordTableData copyWith(
+          {int? id,
+          DateTime? startDate,
+          DateTime? endDate,
+          int? durationOfPresence,
+          int? deficitAmount}) =>
+      OperationalServiceDeficitRecordTableData(
+        id: id ?? this.id,
+        startDate: startDate ?? this.startDate,
+        endDate: endDate ?? this.endDate,
+        durationOfPresence: durationOfPresence ?? this.durationOfPresence,
+        deficitAmount: deficitAmount ?? this.deficitAmount,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('OperationalServiceDeficitRecordTableData(')
+          ..write('id: $id, ')
+          ..write('startDate: $startDate, ')
+          ..write('endDate: $endDate, ')
+          ..write('durationOfPresence: $durationOfPresence, ')
+          ..write('deficitAmount: $deficitAmount')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, startDate, endDate, durationOfPresence, deficitAmount);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is OperationalServiceDeficitRecordTableData &&
+          other.id == this.id &&
+          other.startDate == this.startDate &&
+          other.endDate == this.endDate &&
+          other.durationOfPresence == this.durationOfPresence &&
+          other.deficitAmount == this.deficitAmount);
+}
+
+class OperationalServiceDeficitRecordTableCompanion
+    extends UpdateCompanion<OperationalServiceDeficitRecordTableData> {
+  final Value<int?> id;
+  final Value<DateTime> startDate;
+  final Value<DateTime> endDate;
+  final Value<int> durationOfPresence;
+  final Value<int?> deficitAmount;
+  const OperationalServiceDeficitRecordTableCompanion({
+    this.id = const Value.absent(),
+    this.startDate = const Value.absent(),
+    this.endDate = const Value.absent(),
+    this.durationOfPresence = const Value.absent(),
+    this.deficitAmount = const Value.absent(),
+  });
+  OperationalServiceDeficitRecordTableCompanion.insert({
+    this.id = const Value.absent(),
+    required DateTime startDate,
+    required DateTime endDate,
+    required int durationOfPresence,
+    this.deficitAmount = const Value.absent(),
+  })  : startDate = Value(startDate),
+        endDate = Value(endDate),
+        durationOfPresence = Value(durationOfPresence);
+  static Insertable<OperationalServiceDeficitRecordTableData> custom({
+    Expression<int?>? id,
+    Expression<DateTime>? startDate,
+    Expression<DateTime>? endDate,
+    Expression<int>? durationOfPresence,
+    Expression<int?>? deficitAmount,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (startDate != null) 'start_date': startDate,
+      if (endDate != null) 'end_date': endDate,
+      if (durationOfPresence != null)
+        'duration_of_presence': durationOfPresence,
+      if (deficitAmount != null) 'deficit_amount': deficitAmount,
+    });
+  }
+
+  OperationalServiceDeficitRecordTableCompanion copyWith(
+      {Value<int?>? id,
+      Value<DateTime>? startDate,
+      Value<DateTime>? endDate,
+      Value<int>? durationOfPresence,
+      Value<int?>? deficitAmount}) {
+    return OperationalServiceDeficitRecordTableCompanion(
+      id: id ?? this.id,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      durationOfPresence: durationOfPresence ?? this.durationOfPresence,
+      deficitAmount: deficitAmount ?? this.deficitAmount,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int?>(id.value);
+    }
+    if (startDate.present) {
+      map['start_date'] = Variable<DateTime>(startDate.value);
+    }
+    if (endDate.present) {
+      map['end_date'] = Variable<DateTime>(endDate.value);
+    }
+    if (durationOfPresence.present) {
+      map['duration_of_presence'] = Variable<int>(durationOfPresence.value);
+    }
+    if (deficitAmount.present) {
+      map['deficit_amount'] = Variable<int?>(deficitAmount.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('OperationalServiceDeficitRecordTableCompanion(')
+          ..write('id: $id, ')
+          ..write('startDate: $startDate, ')
+          ..write('endDate: $endDate, ')
+          ..write('durationOfPresence: $durationOfPresence, ')
+          ..write('deficitAmount: $deficitAmount')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $OperationalServiceDeficitRecordTableTable
+    extends OperationalServiceDeficitRecordTable
+    with
+        TableInfo<$OperationalServiceDeficitRecordTableTable,
+            OperationalServiceDeficitRecordTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $OperationalServiceDeficitRecordTableTable(this.attachedDatabase,
+      [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, true,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _startDateMeta = const VerificationMeta('startDate');
+  @override
+  late final GeneratedColumn<DateTime?> startDate = GeneratedColumn<DateTime?>(
+      'start_date', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: true);
+  final VerificationMeta _endDateMeta = const VerificationMeta('endDate');
+  @override
+  late final GeneratedColumn<DateTime?> endDate = GeneratedColumn<DateTime?>(
+      'end_date', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: true);
+  final VerificationMeta _durationOfPresenceMeta =
+      const VerificationMeta('durationOfPresence');
+  @override
+  late final GeneratedColumn<int?> durationOfPresence = GeneratedColumn<int?>(
+      'duration_of_presence', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: true);
+  final VerificationMeta _deficitAmountMeta =
+      const VerificationMeta('deficitAmount');
+  @override
+  late final GeneratedColumn<int?> deficitAmount = GeneratedColumn<int?>(
+      'deficit_amount', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, startDate, endDate, durationOfPresence, deficitAmount];
+  @override
+  String get aliasedName =>
+      _alias ?? 'operational_service_deficit_record_table';
+  @override
+  String get actualTableName => 'operational_service_deficit_record_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<OperationalServiceDeficitRecordTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('start_date')) {
+      context.handle(_startDateMeta,
+          startDate.isAcceptableOrUnknown(data['start_date']!, _startDateMeta));
+    } else if (isInserting) {
+      context.missing(_startDateMeta);
+    }
+    if (data.containsKey('end_date')) {
+      context.handle(_endDateMeta,
+          endDate.isAcceptableOrUnknown(data['end_date']!, _endDateMeta));
+    } else if (isInserting) {
+      context.missing(_endDateMeta);
+    }
+    if (data.containsKey('duration_of_presence')) {
+      context.handle(
+          _durationOfPresenceMeta,
+          durationOfPresence.isAcceptableOrUnknown(
+              data['duration_of_presence']!, _durationOfPresenceMeta));
+    } else if (isInserting) {
+      context.missing(_durationOfPresenceMeta);
+    }
+    if (data.containsKey('deficit_amount')) {
+      context.handle(
+          _deficitAmountMeta,
+          deficitAmount.isAcceptableOrUnknown(
+              data['deficit_amount']!, _deficitAmountMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  OperationalServiceDeficitRecordTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    return OperationalServiceDeficitRecordTableData.fromData(data,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $OperationalServiceDeficitRecordTableTable createAlias(String alias) {
+    return $OperationalServiceDeficitRecordTableTable(attachedDatabase, alias);
+  }
+}
+
 class OvertimeTableData extends DataClass
     implements Insertable<OvertimeTableData> {
   final int? id;
@@ -6058,12 +6366,14 @@ class ServiceDeficitTableData extends DataClass
   final int? id;
   final int? claculatedDeficitAmount;
   final int? records;
+  final int? operationalRecords;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   ServiceDeficitTableData(
       {this.id,
       this.claculatedDeficitAmount,
       this.records,
+      this.operationalRecords,
       this.createdAt,
       this.updatedAt});
   factory ServiceDeficitTableData.fromData(Map<String, dynamic> data,
@@ -6075,6 +6385,8 @@ class ServiceDeficitTableData extends DataClass
           data['${effectivePrefix}claculated_deficit_amount']),
       records: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}records']),
+      operationalRecords: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}operational_records']),
       createdAt: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
       updatedAt: const DateTimeType()
@@ -6094,6 +6406,9 @@ class ServiceDeficitTableData extends DataClass
     if (!nullToAbsent || records != null) {
       map['records'] = Variable<int?>(records);
     }
+    if (!nullToAbsent || operationalRecords != null) {
+      map['operational_records'] = Variable<int?>(operationalRecords);
+    }
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime?>(createdAt);
     }
@@ -6112,6 +6427,9 @@ class ServiceDeficitTableData extends DataClass
       records: records == null && nullToAbsent
           ? const Value.absent()
           : Value(records),
+      operationalRecords: operationalRecords == null && nullToAbsent
+          ? const Value.absent()
+          : Value(operationalRecords),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -6129,6 +6447,7 @@ class ServiceDeficitTableData extends DataClass
       claculatedDeficitAmount:
           serializer.fromJson<int?>(json['claculatedDeficitAmount']),
       records: serializer.fromJson<int?>(json['records']),
+      operationalRecords: serializer.fromJson<int?>(json['operationalRecords']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -6141,6 +6460,7 @@ class ServiceDeficitTableData extends DataClass
       'claculatedDeficitAmount':
           serializer.toJson<int?>(claculatedDeficitAmount),
       'records': serializer.toJson<int?>(records),
+      'operationalRecords': serializer.toJson<int?>(operationalRecords),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
@@ -6150,6 +6470,7 @@ class ServiceDeficitTableData extends DataClass
           {int? id,
           int? claculatedDeficitAmount,
           int? records,
+          int? operationalRecords,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       ServiceDeficitTableData(
@@ -6157,6 +6478,7 @@ class ServiceDeficitTableData extends DataClass
         claculatedDeficitAmount:
             claculatedDeficitAmount ?? this.claculatedDeficitAmount,
         records: records ?? this.records,
+        operationalRecords: operationalRecords ?? this.operationalRecords,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -6166,6 +6488,7 @@ class ServiceDeficitTableData extends DataClass
           ..write('id: $id, ')
           ..write('claculatedDeficitAmount: $claculatedDeficitAmount, ')
           ..write('records: $records, ')
+          ..write('operationalRecords: $operationalRecords, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -6173,8 +6496,8 @@ class ServiceDeficitTableData extends DataClass
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, claculatedDeficitAmount, records, createdAt, updatedAt);
+  int get hashCode => Object.hash(id, claculatedDeficitAmount, records,
+      operationalRecords, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -6182,6 +6505,7 @@ class ServiceDeficitTableData extends DataClass
           other.id == this.id &&
           other.claculatedDeficitAmount == this.claculatedDeficitAmount &&
           other.records == this.records &&
+          other.operationalRecords == this.operationalRecords &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -6191,12 +6515,14 @@ class ServiceDeficitTableCompanion
   final Value<int?> id;
   final Value<int?> claculatedDeficitAmount;
   final Value<int?> records;
+  final Value<int?> operationalRecords;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   const ServiceDeficitTableCompanion({
     this.id = const Value.absent(),
     this.claculatedDeficitAmount = const Value.absent(),
     this.records = const Value.absent(),
+    this.operationalRecords = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -6204,6 +6530,7 @@ class ServiceDeficitTableCompanion
     this.id = const Value.absent(),
     this.claculatedDeficitAmount = const Value.absent(),
     this.records = const Value.absent(),
+    this.operationalRecords = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -6211,6 +6538,7 @@ class ServiceDeficitTableCompanion
     Expression<int?>? id,
     Expression<int?>? claculatedDeficitAmount,
     Expression<int?>? records,
+    Expression<int?>? operationalRecords,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
   }) {
@@ -6219,6 +6547,7 @@ class ServiceDeficitTableCompanion
       if (claculatedDeficitAmount != null)
         'claculated_deficit_amount': claculatedDeficitAmount,
       if (records != null) 'records': records,
+      if (operationalRecords != null) 'operational_records': operationalRecords,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -6228,6 +6557,7 @@ class ServiceDeficitTableCompanion
       {Value<int?>? id,
       Value<int?>? claculatedDeficitAmount,
       Value<int?>? records,
+      Value<int?>? operationalRecords,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
     return ServiceDeficitTableCompanion(
@@ -6235,6 +6565,7 @@ class ServiceDeficitTableCompanion
       claculatedDeficitAmount:
           claculatedDeficitAmount ?? this.claculatedDeficitAmount,
       records: records ?? this.records,
+      operationalRecords: operationalRecords ?? this.operationalRecords,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -6253,6 +6584,9 @@ class ServiceDeficitTableCompanion
     if (records.present) {
       map['records'] = Variable<int?>(records.value);
     }
+    if (operationalRecords.present) {
+      map['operational_records'] = Variable<int?>(operationalRecords.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime?>(createdAt.value);
     }
@@ -6268,6 +6602,7 @@ class ServiceDeficitTableCompanion
           ..write('id: $id, ')
           ..write('claculatedDeficitAmount: $claculatedDeficitAmount, ')
           ..write('records: $records, ')
+          ..write('operationalRecords: $operationalRecords, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -6301,6 +6636,15 @@ class $ServiceDeficitTableTable extends ServiceDeficitTable
       type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'REFERENCES service_deficit_record_table (id)');
+  final VerificationMeta _operationalRecordsMeta =
+      const VerificationMeta('operationalRecords');
+  @override
+  late final GeneratedColumn<int?> operationalRecords = GeneratedColumn<int?>(
+      'operational_records', aliasedName, true,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultConstraints:
+          'REFERENCES operational_service_deficit_record_table (id)');
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
@@ -6312,8 +6656,14 @@ class $ServiceDeficitTableTable extends ServiceDeficitTable
       'updated_at', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, claculatedDeficitAmount, records, createdAt, updatedAt];
+  List<GeneratedColumn> get $columns => [
+        id,
+        claculatedDeficitAmount,
+        records,
+        operationalRecords,
+        createdAt,
+        updatedAt
+      ];
   @override
   String get aliasedName => _alias ?? 'service_deficit_table';
   @override
@@ -6337,6 +6687,12 @@ class $ServiceDeficitTableTable extends ServiceDeficitTable
     if (data.containsKey('records')) {
       context.handle(_recordsMeta,
           records.isAcceptableOrUnknown(data['records']!, _recordsMeta));
+    }
+    if (data.containsKey('operational_records')) {
+      context.handle(
+          _operationalRecordsMeta,
+          operationalRecords.isAcceptableOrUnknown(
+              data['operational_records']!, _operationalRecordsMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -9162,6 +9518,9 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
       $HealthStatusTableTable(this);
   late final $HourlyVaccationTableTable hourlyVaccationTable =
       $HourlyVaccationTableTable(this);
+  late final $OperationalServiceDeficitRecordTableTable
+      operationalServiceDeficitRecordTable =
+      $OperationalServiceDeficitRecordTableTable(this);
   late final $OvertimeTableTable overtimeTable = $OvertimeTableTable(this);
   late final $SectionTableTable sectionTable = $SectionTableTable(this);
   late final $TrainigStatusTableTable trainigStatusTable =
@@ -9198,6 +9557,9 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
       HealthStatusDAO(this as SoldierDatabase);
   late final HourlyVaccationDAO hourlyVaccationDAO =
       HourlyVaccationDAO(this as SoldierDatabase);
+  late final OperationalServiceDeficitRecordDAO
+      operationalServiceDeficitRecordDAO =
+      OperationalServiceDeficitRecordDAO(this as SoldierDatabase);
   late final OvertimeDAO overtimeDAO = OvertimeDAO(this as SoldierDatabase);
   late final PersonalInfoDAO personalInfoDAO =
       PersonalInfoDAO(this as SoldierDatabase);
@@ -9232,6 +9594,7 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
         furtherInfoTable,
         healthStatusTable,
         hourlyVaccationTable,
+        operationalServiceDeficitRecordTable,
         overtimeTable,
         sectionTable,
         trainigStatusTable,
@@ -9327,6 +9690,9 @@ mixin _$PersonalInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $VaccationsTableTable get vaccationsTable => attachedDatabase.vaccationsTable;
   $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
       attachedDatabase.serviceDeficitRecordTable;
+  $OperationalServiceDeficitRecordTableTable
+      get operationalServiceDeficitRecordTable =>
+          attachedDatabase.operationalServiceDeficitRecordTable;
   $ServiceDeficitTableTable get serviceDeficitTable =>
       attachedDatabase.serviceDeficitTable;
   $RankTableTable get rankTable => attachedDatabase.rankTable;
@@ -9349,6 +9715,9 @@ mixin _$ServiceDeficitRecordDAOMixin on DatabaseAccessor<SoldierDatabase> {
 mixin _$ServiceDeficitDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
       attachedDatabase.serviceDeficitRecordTable;
+  $OperationalServiceDeficitRecordTableTable
+      get operationalServiceDeficitRecordTable =>
+          attachedDatabase.operationalServiceDeficitRecordTable;
   $ServiceDeficitTableTable get serviceDeficitTable =>
       attachedDatabase.serviceDeficitTable;
 }
@@ -9367,6 +9736,9 @@ mixin _$SoldierCaseDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $VaccationsTableTable get vaccationsTable => attachedDatabase.vaccationsTable;
   $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
       attachedDatabase.serviceDeficitRecordTable;
+  $OperationalServiceDeficitRecordTableTable
+      get operationalServiceDeficitRecordTable =>
+          attachedDatabase.operationalServiceDeficitRecordTable;
   $ServiceDeficitTableTable get serviceDeficitTable =>
       attachedDatabase.serviceDeficitTable;
   $RankTableTable get rankTable => attachedDatabase.rankTable;
@@ -9393,6 +9765,9 @@ mixin _$SoldierDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $VaccationsTableTable get vaccationsTable => attachedDatabase.vaccationsTable;
   $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
       attachedDatabase.serviceDeficitRecordTable;
+  $OperationalServiceDeficitRecordTableTable
+      get operationalServiceDeficitRecordTable =>
+          attachedDatabase.operationalServiceDeficitRecordTable;
   $ServiceDeficitTableTable get serviceDeficitTable =>
       attachedDatabase.serviceDeficitTable;
   $RankTableTable get rankTable => attachedDatabase.rankTable;
@@ -9419,4 +9794,10 @@ mixin _$VaccationsDAOMixin on DatabaseAccessor<SoldierDatabase> {
 mixin _$ViolationsOvertimeDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $ViolationsOvertimeTableTable get violationsOvertimeTable =>
       attachedDatabase.violationsOvertimeTable;
+}
+mixin _$OperationalServiceDeficitRecordDAOMixin
+    on DatabaseAccessor<SoldierDatabase> {
+  $OperationalServiceDeficitRecordTableTable
+      get operationalServiceDeficitRecordTable =>
+          attachedDatabase.operationalServiceDeficitRecordTable;
 }

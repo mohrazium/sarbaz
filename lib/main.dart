@@ -1,6 +1,4 @@
-
-
-import 'package:sarbaz/src/app/application.dart';
+import 'package:sarbaz/app/app.dart';
 
 void main() {
   SarbazApplication().run();

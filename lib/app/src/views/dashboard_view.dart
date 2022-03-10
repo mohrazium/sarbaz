@@ -5,92 +5,47 @@ class DashboardDesktopView extends GetView<DashboardController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: controller.scafoldKey,
-      drawer: ResponsiveBuilder.isDesktop(context)
-          ? null
-          : Drawer(
-              child: SafeArea(
-                child: SingleChildScrollView(child: _buildSidebar(context)),
+    return SafeArea(
+      child: ResponsiveBuilder(
+        mobileBuilder: (context, constraints) {
+          return const NotFoundPage();
+        },
+        tabletBuilder: (context, constraints) {
+          return const NotFoundPage();
+        },
+        desktopBuilder: (context, constraints) {
+          return Flex(
+            direction: Axis.horizontal,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Flexible(
+                flex: 2,
+                child: SingleChildScrollView(
+                  controller: ScrollController(),
+                  child: _buildSidebar(context),
+                ),
               ),
-            ),
-      bottomNavigationBar: (ResponsiveBuilder.isDesktop(context) || kIsWeb)
-          ? null
-          : const BottomNavbar(),
-      body: SafeArea(
-        child: ResponsiveBuilder(
-          mobileBuilder: (context, constraints) {
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildBodyContent(
-                    onPressedMenu: () => controller.openDrawer(),
-                  ),
-                  _buildLeftPanelContent(),
-                ],
+              Flexible(
+                flex: 10,
+                child: SizedBox(
+                    height: constraints.maxHeight, child: _buildBodyContent()),
               ),
-            );
-          },
-          tabletBuilder: (context, constraints) {
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  flex: constraints.maxWidth > 800 ? 8 : 7,
-                  child: SingleChildScrollView(
-                    controller: ScrollController(),
-                    child: _buildBodyContent(
-                      onPressedMenu: () => controller.openDrawer(),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: const VerticalDivider(),
-                ),
-                // Flexible(
-                //   flex: 4,
-                //   child: SingleChildScrollView(
-                //     controller: ScrollController(),
-                //     child: _buildLeftPanelContent(),
-                //   ),
-                // ),
-              ],
-            );
-          },
-          desktopBuilder: (context, constraints) {
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  flex: constraints.maxWidth > 1350 ? 2 : 3,
-                  child: SingleChildScrollView(
-                    controller: ScrollController(),
-                    child: _buildSidebar(context),
-                  ),
-                ),
-                Flexible(
-                  flex: constraints.maxWidth > 1350 ? 10 : 9,
-                  child: _buildBodyContent(),
-                ),
 
-                //! letf sidebar
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.height,
-                //   child: const VerticalDivider(),
-                // ),
-                // Flexible(
-                //   flex: 4,
-                //   child: SingleChildScrollView(
-                //     controller: ScrollController(),
-                //     child: _buildLeftPanelContent(),
-                //   ),
-                // ),
-              ],
-            );
-          },
-        ),
+              //! letf sidebar
+              // SizedBox(
+              //   height: MediaQuery.of(context).size.height,
+              //   child: const VerticalDivider(),
+              // ),
+              // Flexible(
+              //   flex: 4,
+              //   child: SingleChildScrollView(
+              //     controller: ScrollController(),
+              //     child: _buildLeftPanelContent(),
+              //   ),
+              // ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -98,17 +53,18 @@ class DashboardDesktopView extends GetView<DashboardController> {
   Widget _buildSidebar(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: kPadding),
           child: UserProfile(
-            data: controller.dataProfil,
-            onPressed: controller.onPressedProfil,
+            data: controller.dataProfile,
+            onPressed: controller.onPressedProfile,
           ),
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: kSpacing,width: kSpacing*10,),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: kPadding),
           child: MainMenu(onSelected: controller.onSelectedMainMenu),
         ),
         const Divider(
@@ -139,18 +95,16 @@ class DashboardDesktopView extends GetView<DashboardController> {
         init: controller,
         builder: (_) {
           return TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
               controller: controller.tabController.value,
               children: [
-                _buildMainSection(onPressedMenu),
+                const SoldierCaseEditorView(),
                 const SoldiersView(),
-                Container(
-                  color: Colors.blue,
-                  child: Text("page 3 "),
-                ),
                 Container(
                   color: Colors.red,
                   child: Text("page 4 "),
                 ),
+                _buildMainSection(onPressedMenu),
               ]);
         });
   }
@@ -177,7 +131,7 @@ class DashboardDesktopView extends GetView<DashboardController> {
                   ),
                 Expanded(
                   child: SearchField(
-                    onSearch: controller.searchTask,
+                    onSearch: controller.search,
                     hintText: Strings.searchBar +
                         controller.dashboardShownContentIndex.value.toString(),
                   ),
@@ -199,13 +153,13 @@ class DashboardDesktopView extends GetView<DashboardController> {
               ],
             ),
             const SizedBox(height: kSpacing),
-            StatusCardsOverview(data: controller.taskInProgress),
+            StatusCardsOverview(data: controller.statusCards),
             const SizedBox(height: kSpacing * 2),
-            const HeaderWeeklyTask(),
+            const RecentActivitesHeader(),
             const SizedBox(height: kSpacing),
-            WeeklyTask(
+            RecentActivities(
               data: controller.weeklyTask,
-              onPressed: controller.onPressedTask,
+              onPressed: controller.onPressedActivity,
               onPressedAssign: controller.onPressedAssignTask,
               onPressedMember: controller.onPressedMemberTask,
             )

@@ -7,4 +7,4 @@ export 'src/pages/pages.dart';
 export 'src/router/router.dart';
 export 'src/themes/themes.dart';
 export 'src/views/views.dart';
-export 'src/widgets/widgets.dart';
+export 'src/components/components.dart';

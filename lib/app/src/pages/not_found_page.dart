@@ -7,14 +7,33 @@ class NotFoundPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Container(
-      width: 150,
-      height: 200,
-      color: const Color(0xFF01C3FF),
-      child: const Center(
-        child: FlutterLogo(),
+    return Expanded(
+      child: Container(
+        color: Colors.blue,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: const <Widget>[
+              Icon(
+                Icons.error_outline,
+                size: 100,
+                color: Colors.amber,
+              ),
+              SizedBox(height: 50,),
+              Text(
+                "اندازه صفحه نمایش پشتیبانی نمی شود.",
+                style: TextStyle(color: Colors.amber),
+              ),
+              Text(
+                "حداقل اندازه صفحه نمایش قابل پشتیبانی ۱۲۸۰x۷۲۰ است.",
+                style: TextStyle(color: Colors.amber),
+              )
+            ],
+          ),
+        ),
       ),
-    ));
+    );
   }
 }

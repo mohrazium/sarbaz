@@ -1,6 +1,6 @@
 part of data;
 
-class TrainigStatusTable extends Table {
+class TrainingStatusTable extends Table {
   IntColumn get id => integer().autoIncrement().nullable()();
   DateTimeColumn get startDate => dateTime().nullable()();
   TextColumn get placeName => text()();

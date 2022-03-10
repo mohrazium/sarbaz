@@ -7,8 +7,8 @@ class SoldierTable extends Table {
   TextColumn get latestStatus => text().nullable()();
   BoolColumn get divisionStatus => boolean().nullable()();
   IntColumn get section => integer().references(SectionTable, #id).nullable()();
-  IntColumn get trainigStatus =>
-      integer().references(TrainigStatusTable, #id).nullable()();
+  IntColumn get trainingStatus =>
+      integer().references(TrainingStatusTable, #id).nullable()();
   IntColumn get healthStatus =>
       integer().references(HealthStatusTable, #id).nullable()();
   IntColumn get soldierCase =>

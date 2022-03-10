@@ -3,14 +3,15 @@ part of data;
 @DriftDatabase(
   tables: [
     AnnualOvertimeTable,
+    AuditTable,
     ContactInfoTable,
     DailyAbsenceOvertimeTable,
-    DailyVaccationTable,
-    DisciplinalOvertimeTable,
+    DailyVacationTable,
+    DisciplinaryOvertimeTable,
     EducationalInfoTable,
     FurtherInfoTable,
     HealthStatusTable,
-    HourlyVaccationTable,
+    HourlyVacationTable,
     OperationalServiceDeficitRecordTable,
     OvertimeTable,
     PersonalInfoTable,
@@ -20,21 +21,23 @@ part of data;
     ServiceDeficitTable,
     SoldierCaseTable,
     SoldierTable,
-    TrainigStatusTable,
+    TrainingStatusTable,
     UnitPropertiesTable,
-    VaccationsTable,
+    VacationsTable,
     ViolationsOvertimeTable,
+    CaseTable,
   ],
   daos: [
-   AnnualOvertimeDAO,
+    AnnualOvertimeDAO,
+    AuditDAO,
     ContactInfoDAO,
     DailyAbsenceOvertimeDAO,
-    DailyVaccationDAO,
-    DisciplinalOvertimeDAO,
+    DailyVacationDAO,
+    DisciplinaryOvertimeDAO,
     EducationalInfoDAO,
     FurtherInfoDAO,
     HealthStatusDAO,
-    HourlyVaccationDAO,
+    HourlyVacationDAO,
     OperationalServiceDeficitRecordDAO,
     OvertimeDAO,
     PersonalInfoDAO,
@@ -44,10 +47,11 @@ part of data;
     ServiceDeficitDAO,
     SoldierCaseDAO,
     SoldierDAO,
-    TrainigStatusDAO,
+    TrainingStatusDAO,
     UnitPropertiesDAO,
-    VaccationsDAO,
+    VacationsDAO,
     ViolationsOvertimeDAO,
+    CaseDAO,
   ],
 )
 class SoldierDatabase extends _$SoldierDatabase {
@@ -57,6 +61,41 @@ class SoldierDatabase extends _$SoldierDatabase {
   // are covered later in this readme.
   @override
   int get schemaVersion => 1;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        onCreate: (Migrator m) async {
+          await m.createAll();
+          for (int i = 0; i < Strings.gForcesOfRGuards.length; i++) {
+            await into(rankTable).insertOnConflictUpdate(RankTableCompanion.insert(
+                id: Value(i+1),
+                gradeCode: Value(i+1),
+                name: Value(Strings.gForcesOfRGuards[i]),
+                createdAt: Value(DateTime.now())));
+          }
+        },
+        onUpgrade: (Migrator m, int from, int to) async {
+          await customStatement(
+              'PRAGMA foreign_keys = OFF'); // disable foreign_keys before migrations
+
+          await transaction(() async {
+            // put your migration logic here
+          });
+
+          // Assert that the schema is valid after migrations
+          if (true) {
+            final wrongForeignKeys =
+                await customSelect('PRAGMA foreign_key_check').get();
+            assert(wrongForeignKeys.isEmpty,
+                "${wrongForeignKeys.map((e) => e.data)}");
+          }
+        },
+        beforeOpen: (details) async {
+          await customStatement('PRAGMA foreign_keys = ON');
+          // ...
+        },
+        
+      );
 }
 
 class SoldierDatabaseHelper {

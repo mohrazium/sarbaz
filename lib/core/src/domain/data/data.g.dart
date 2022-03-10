@@ -352,6 +352,459 @@ class $AnnualOvertimeTableTable extends AnnualOvertimeTable
   }
 }
 
+class AuditTableData extends DataClass implements Insertable<AuditTableData> {
+  final int? id;
+  final DateTime? time;
+  final String? targetTable;
+  final int? targetId;
+  final String? auditBy;
+  final String? operation;
+  final String? systemMessage;
+  final String? descriptions;
+  final DateTime? createdAt;
+  AuditTableData(
+      {this.id,
+      this.time,
+      this.targetTable,
+      this.targetId,
+      this.auditBy,
+      this.operation,
+      this.systemMessage,
+      this.descriptions,
+      this.createdAt});
+  factory AuditTableData.fromData(Map<String, dynamic> data, {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return AuditTableData(
+      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      time: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}time']),
+      targetTable: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}target_table']),
+      targetId: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}target_id']),
+      auditBy: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}audit_by']),
+      operation: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}operation']),
+      systemMessage: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}system_message']),
+      descriptions: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}descriptions']),
+      createdAt: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int?>(id);
+    }
+    if (!nullToAbsent || time != null) {
+      map['time'] = Variable<DateTime?>(time);
+    }
+    if (!nullToAbsent || targetTable != null) {
+      map['target_table'] = Variable<String?>(targetTable);
+    }
+    if (!nullToAbsent || targetId != null) {
+      map['target_id'] = Variable<int?>(targetId);
+    }
+    if (!nullToAbsent || auditBy != null) {
+      map['audit_by'] = Variable<String?>(auditBy);
+    }
+    if (!nullToAbsent || operation != null) {
+      map['operation'] = Variable<String?>(operation);
+    }
+    if (!nullToAbsent || systemMessage != null) {
+      map['system_message'] = Variable<String?>(systemMessage);
+    }
+    if (!nullToAbsent || descriptions != null) {
+      map['descriptions'] = Variable<String?>(descriptions);
+    }
+    if (!nullToAbsent || createdAt != null) {
+      map['created_at'] = Variable<DateTime?>(createdAt);
+    }
+    return map;
+  }
+
+  AuditTableCompanion toCompanion(bool nullToAbsent) {
+    return AuditTableCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      time: time == null && nullToAbsent ? const Value.absent() : Value(time),
+      targetTable: targetTable == null && nullToAbsent
+          ? const Value.absent()
+          : Value(targetTable),
+      targetId: targetId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(targetId),
+      auditBy: auditBy == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditBy),
+      operation: operation == null && nullToAbsent
+          ? const Value.absent()
+          : Value(operation),
+      systemMessage: systemMessage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(systemMessage),
+      descriptions: descriptions == null && nullToAbsent
+          ? const Value.absent()
+          : Value(descriptions),
+      createdAt: createdAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createdAt),
+    );
+  }
+
+  factory AuditTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AuditTableData(
+      id: serializer.fromJson<int?>(json['id']),
+      time: serializer.fromJson<DateTime?>(json['time']),
+      targetTable: serializer.fromJson<String?>(json['targetTable']),
+      targetId: serializer.fromJson<int?>(json['targetId']),
+      auditBy: serializer.fromJson<String?>(json['auditBy']),
+      operation: serializer.fromJson<String?>(json['operation']),
+      systemMessage: serializer.fromJson<String?>(json['systemMessage']),
+      descriptions: serializer.fromJson<String?>(json['descriptions']),
+      createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int?>(id),
+      'time': serializer.toJson<DateTime?>(time),
+      'targetTable': serializer.toJson<String?>(targetTable),
+      'targetId': serializer.toJson<int?>(targetId),
+      'auditBy': serializer.toJson<String?>(auditBy),
+      'operation': serializer.toJson<String?>(operation),
+      'systemMessage': serializer.toJson<String?>(systemMessage),
+      'descriptions': serializer.toJson<String?>(descriptions),
+      'createdAt': serializer.toJson<DateTime?>(createdAt),
+    };
+  }
+
+  AuditTableData copyWith(
+          {int? id,
+          DateTime? time,
+          String? targetTable,
+          int? targetId,
+          String? auditBy,
+          String? operation,
+          String? systemMessage,
+          String? descriptions,
+          DateTime? createdAt}) =>
+      AuditTableData(
+        id: id ?? this.id,
+        time: time ?? this.time,
+        targetTable: targetTable ?? this.targetTable,
+        targetId: targetId ?? this.targetId,
+        auditBy: auditBy ?? this.auditBy,
+        operation: operation ?? this.operation,
+        systemMessage: systemMessage ?? this.systemMessage,
+        descriptions: descriptions ?? this.descriptions,
+        createdAt: createdAt ?? this.createdAt,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('AuditTableData(')
+          ..write('id: $id, ')
+          ..write('time: $time, ')
+          ..write('targetTable: $targetTable, ')
+          ..write('targetId: $targetId, ')
+          ..write('auditBy: $auditBy, ')
+          ..write('operation: $operation, ')
+          ..write('systemMessage: $systemMessage, ')
+          ..write('descriptions: $descriptions, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, time, targetTable, targetId, auditBy,
+      operation, systemMessage, descriptions, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AuditTableData &&
+          other.id == this.id &&
+          other.time == this.time &&
+          other.targetTable == this.targetTable &&
+          other.targetId == this.targetId &&
+          other.auditBy == this.auditBy &&
+          other.operation == this.operation &&
+          other.systemMessage == this.systemMessage &&
+          other.descriptions == this.descriptions &&
+          other.createdAt == this.createdAt);
+}
+
+class AuditTableCompanion extends UpdateCompanion<AuditTableData> {
+  final Value<int?> id;
+  final Value<DateTime?> time;
+  final Value<String?> targetTable;
+  final Value<int?> targetId;
+  final Value<String?> auditBy;
+  final Value<String?> operation;
+  final Value<String?> systemMessage;
+  final Value<String?> descriptions;
+  final Value<DateTime?> createdAt;
+  const AuditTableCompanion({
+    this.id = const Value.absent(),
+    this.time = const Value.absent(),
+    this.targetTable = const Value.absent(),
+    this.targetId = const Value.absent(),
+    this.auditBy = const Value.absent(),
+    this.operation = const Value.absent(),
+    this.systemMessage = const Value.absent(),
+    this.descriptions = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  AuditTableCompanion.insert({
+    this.id = const Value.absent(),
+    this.time = const Value.absent(),
+    this.targetTable = const Value.absent(),
+    this.targetId = const Value.absent(),
+    this.auditBy = const Value.absent(),
+    this.operation = const Value.absent(),
+    this.systemMessage = const Value.absent(),
+    this.descriptions = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  static Insertable<AuditTableData> custom({
+    Expression<int?>? id,
+    Expression<DateTime?>? time,
+    Expression<String?>? targetTable,
+    Expression<int?>? targetId,
+    Expression<String?>? auditBy,
+    Expression<String?>? operation,
+    Expression<String?>? systemMessage,
+    Expression<String?>? descriptions,
+    Expression<DateTime?>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (time != null) 'time': time,
+      if (targetTable != null) 'target_table': targetTable,
+      if (targetId != null) 'target_id': targetId,
+      if (auditBy != null) 'audit_by': auditBy,
+      if (operation != null) 'operation': operation,
+      if (systemMessage != null) 'system_message': systemMessage,
+      if (descriptions != null) 'descriptions': descriptions,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  AuditTableCompanion copyWith(
+      {Value<int?>? id,
+      Value<DateTime?>? time,
+      Value<String?>? targetTable,
+      Value<int?>? targetId,
+      Value<String?>? auditBy,
+      Value<String?>? operation,
+      Value<String?>? systemMessage,
+      Value<String?>? descriptions,
+      Value<DateTime?>? createdAt}) {
+    return AuditTableCompanion(
+      id: id ?? this.id,
+      time: time ?? this.time,
+      targetTable: targetTable ?? this.targetTable,
+      targetId: targetId ?? this.targetId,
+      auditBy: auditBy ?? this.auditBy,
+      operation: operation ?? this.operation,
+      systemMessage: systemMessage ?? this.systemMessage,
+      descriptions: descriptions ?? this.descriptions,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int?>(id.value);
+    }
+    if (time.present) {
+      map['time'] = Variable<DateTime?>(time.value);
+    }
+    if (targetTable.present) {
+      map['target_table'] = Variable<String?>(targetTable.value);
+    }
+    if (targetId.present) {
+      map['target_id'] = Variable<int?>(targetId.value);
+    }
+    if (auditBy.present) {
+      map['audit_by'] = Variable<String?>(auditBy.value);
+    }
+    if (operation.present) {
+      map['operation'] = Variable<String?>(operation.value);
+    }
+    if (systemMessage.present) {
+      map['system_message'] = Variable<String?>(systemMessage.value);
+    }
+    if (descriptions.present) {
+      map['descriptions'] = Variable<String?>(descriptions.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime?>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AuditTableCompanion(')
+          ..write('id: $id, ')
+          ..write('time: $time, ')
+          ..write('targetTable: $targetTable, ')
+          ..write('targetId: $targetId, ')
+          ..write('auditBy: $auditBy, ')
+          ..write('operation: $operation, ')
+          ..write('systemMessage: $systemMessage, ')
+          ..write('descriptions: $descriptions, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $AuditTableTable extends AuditTable
+    with TableInfo<$AuditTableTable, AuditTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AuditTableTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, true,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _timeMeta = const VerificationMeta('time');
+  @override
+  late final GeneratedColumn<DateTime?> time = GeneratedColumn<DateTime?>(
+      'time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _targetTableMeta =
+      const VerificationMeta('targetTable');
+  @override
+  late final GeneratedColumn<String?> targetTable = GeneratedColumn<String?>(
+      'target_table', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _targetIdMeta = const VerificationMeta('targetId');
+  @override
+  late final GeneratedColumn<int?> targetId = GeneratedColumn<int?>(
+      'target_id', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditByMeta = const VerificationMeta('auditBy');
+  @override
+  late final GeneratedColumn<String?> auditBy = GeneratedColumn<String?>(
+      'audit_by', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _operationMeta = const VerificationMeta('operation');
+  @override
+  late final GeneratedColumn<String?> operation = GeneratedColumn<String?>(
+      'operation', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _systemMessageMeta =
+      const VerificationMeta('systemMessage');
+  @override
+  late final GeneratedColumn<String?> systemMessage = GeneratedColumn<String?>(
+      'system_message', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _descriptionsMeta =
+      const VerificationMeta('descriptions');
+  @override
+  late final GeneratedColumn<String?> descriptions = GeneratedColumn<String?>(
+      'descriptions', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
+      'created_at', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        time,
+        targetTable,
+        targetId,
+        auditBy,
+        operation,
+        systemMessage,
+        descriptions,
+        createdAt
+      ];
+  @override
+  String get aliasedName => _alias ?? 'audit_table';
+  @override
+  String get actualTableName => 'audit_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<AuditTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('time')) {
+      context.handle(
+          _timeMeta, time.isAcceptableOrUnknown(data['time']!, _timeMeta));
+    }
+    if (data.containsKey('target_table')) {
+      context.handle(
+          _targetTableMeta,
+          targetTable.isAcceptableOrUnknown(
+              data['target_table']!, _targetTableMeta));
+    }
+    if (data.containsKey('target_id')) {
+      context.handle(_targetIdMeta,
+          targetId.isAcceptableOrUnknown(data['target_id']!, _targetIdMeta));
+    }
+    if (data.containsKey('audit_by')) {
+      context.handle(_auditByMeta,
+          auditBy.isAcceptableOrUnknown(data['audit_by']!, _auditByMeta));
+    }
+    if (data.containsKey('operation')) {
+      context.handle(_operationMeta,
+          operation.isAcceptableOrUnknown(data['operation']!, _operationMeta));
+    }
+    if (data.containsKey('system_message')) {
+      context.handle(
+          _systemMessageMeta,
+          systemMessage.isAcceptableOrUnknown(
+              data['system_message']!, _systemMessageMeta));
+    }
+    if (data.containsKey('descriptions')) {
+      context.handle(
+          _descriptionsMeta,
+          descriptions.isAcceptableOrUnknown(
+              data['descriptions']!, _descriptionsMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AuditTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return AuditTableData.fromData(data,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $AuditTableTable createAlias(String alias) {
+    return $AuditTableTable(attachedDatabase, alias);
+  }
+}
+
 class ContactInfoTableData extends DataClass
     implements Insertable<ContactInfoTableData> {
   final int? id;
@@ -360,6 +813,7 @@ class ContactInfoTableData extends DataClass
   final String? province;
   final String? city;
   final String address;
+  final String? postalCode;
   final int distance;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -370,6 +824,7 @@ class ContactInfoTableData extends DataClass
       this.province,
       this.city,
       required this.address,
+      this.postalCode,
       required this.distance,
       this.createdAt,
       this.updatedAt});
@@ -388,6 +843,8 @@ class ContactInfoTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}city']),
       address: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}address'])!,
+      postalCode: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}postal_code']),
       distance: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}distance'])!,
       createdAt: const DateTimeType()
@@ -413,6 +870,9 @@ class ContactInfoTableData extends DataClass
       map['city'] = Variable<String?>(city);
     }
     map['address'] = Variable<String>(address);
+    if (!nullToAbsent || postalCode != null) {
+      map['postal_code'] = Variable<String?>(postalCode);
+    }
     map['distance'] = Variable<int>(distance);
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime?>(createdAt);
@@ -435,6 +895,9 @@ class ContactInfoTableData extends DataClass
           : Value(province),
       city: city == null && nullToAbsent ? const Value.absent() : Value(city),
       address: Value(address),
+      postalCode: postalCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(postalCode),
       distance: Value(distance),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
@@ -455,6 +918,7 @@ class ContactInfoTableData extends DataClass
       province: serializer.fromJson<String?>(json['province']),
       city: serializer.fromJson<String?>(json['city']),
       address: serializer.fromJson<String>(json['address']),
+      postalCode: serializer.fromJson<String?>(json['postalCode']),
       distance: serializer.fromJson<int>(json['distance']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
@@ -470,6 +934,7 @@ class ContactInfoTableData extends DataClass
       'province': serializer.toJson<String?>(province),
       'city': serializer.toJson<String?>(city),
       'address': serializer.toJson<String>(address),
+      'postalCode': serializer.toJson<String?>(postalCode),
       'distance': serializer.toJson<int>(distance),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
@@ -483,6 +948,7 @@ class ContactInfoTableData extends DataClass
           String? province,
           String? city,
           String? address,
+          String? postalCode,
           int? distance,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
@@ -493,6 +959,7 @@ class ContactInfoTableData extends DataClass
         province: province ?? this.province,
         city: city ?? this.city,
         address: address ?? this.address,
+        postalCode: postalCode ?? this.postalCode,
         distance: distance ?? this.distance,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
@@ -506,6 +973,7 @@ class ContactInfoTableData extends DataClass
           ..write('province: $province, ')
           ..write('city: $city, ')
           ..write('address: $address, ')
+          ..write('postalCode: $postalCode, ')
           ..write('distance: $distance, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
@@ -515,7 +983,7 @@ class ContactInfoTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(id, phoneNumber, mobileNumber, province, city,
-      address, distance, createdAt, updatedAt);
+      address, postalCode, distance, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -526,6 +994,7 @@ class ContactInfoTableData extends DataClass
           other.province == this.province &&
           other.city == this.city &&
           other.address == this.address &&
+          other.postalCode == this.postalCode &&
           other.distance == this.distance &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
@@ -538,6 +1007,7 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
   final Value<String?> province;
   final Value<String?> city;
   final Value<String> address;
+  final Value<String?> postalCode;
   final Value<int> distance;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
@@ -548,6 +1018,7 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
     this.province = const Value.absent(),
     this.city = const Value.absent(),
     this.address = const Value.absent(),
+    this.postalCode = const Value.absent(),
     this.distance = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
@@ -559,6 +1030,7 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
     this.province = const Value.absent(),
     this.city = const Value.absent(),
     required String address,
+    this.postalCode = const Value.absent(),
     required int distance,
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
@@ -572,6 +1044,7 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
     Expression<String?>? province,
     Expression<String?>? city,
     Expression<String>? address,
+    Expression<String?>? postalCode,
     Expression<int>? distance,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
@@ -583,6 +1056,7 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
       if (province != null) 'province': province,
       if (city != null) 'city': city,
       if (address != null) 'address': address,
+      if (postalCode != null) 'postal_code': postalCode,
       if (distance != null) 'distance': distance,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
@@ -596,6 +1070,7 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
       Value<String?>? province,
       Value<String?>? city,
       Value<String>? address,
+      Value<String?>? postalCode,
       Value<int>? distance,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
@@ -606,6 +1081,7 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
       province: province ?? this.province,
       city: city ?? this.city,
       address: address ?? this.address,
+      postalCode: postalCode ?? this.postalCode,
       distance: distance ?? this.distance,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -633,6 +1109,9 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
     if (address.present) {
       map['address'] = Variable<String>(address.value);
     }
+    if (postalCode.present) {
+      map['postal_code'] = Variable<String?>(postalCode.value);
+    }
     if (distance.present) {
       map['distance'] = Variable<int>(distance.value);
     }
@@ -654,6 +1133,7 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
           ..write('province: $province, ')
           ..write('city: $city, ')
           ..write('address: $address, ')
+          ..write('postalCode: $postalCode, ')
           ..write('distance: $distance, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
@@ -702,6 +1182,11 @@ class $ContactInfoTableTable extends ContactInfoTable
   late final GeneratedColumn<String?> address = GeneratedColumn<String?>(
       'address', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _postalCodeMeta = const VerificationMeta('postalCode');
+  @override
+  late final GeneratedColumn<String?> postalCode = GeneratedColumn<String?>(
+      'postal_code', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _distanceMeta = const VerificationMeta('distance');
   @override
   late final GeneratedColumn<int?> distance = GeneratedColumn<int?>(
@@ -725,6 +1210,7 @@ class $ContactInfoTableTable extends ContactInfoTable
         province,
         city,
         address,
+        postalCode,
         distance,
         createdAt,
         updatedAt
@@ -770,6 +1256,12 @@ class $ContactInfoTableTable extends ContactInfoTable
     } else if (isInserting) {
       context.missing(_addressMeta);
     }
+    if (data.containsKey('postal_code')) {
+      context.handle(
+          _postalCodeMeta,
+          postalCode.isAcceptableOrUnknown(
+              data['postal_code']!, _postalCodeMeta));
+    }
     if (data.containsKey('distance')) {
       context.handle(_distanceMeta,
           distance.isAcceptableOrUnknown(data['distance']!, _distanceMeta));
@@ -806,7 +1298,7 @@ class DailyAbsenceOvertimeTableData extends DataClass
   final int? id;
   final DateTime startDate;
   final DateTime endDate;
-  final bool isVaccum;
+  final bool isVacuum;
   final int absenceDays;
   final int? overtime;
   final DateTime? createdAt;
@@ -815,7 +1307,7 @@ class DailyAbsenceOvertimeTableData extends DataClass
       {this.id,
       required this.startDate,
       required this.endDate,
-      required this.isVaccum,
+      required this.isVacuum,
       required this.absenceDays,
       this.overtime,
       this.createdAt,
@@ -829,8 +1321,8 @@ class DailyAbsenceOvertimeTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}start_date'])!,
       endDate: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}end_date'])!,
-      isVaccum: const BoolType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_vaccum'])!,
+      isVacuum: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_vacuum'])!,
       absenceDays: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}absence_days'])!,
       overtime: const IntType()
@@ -849,7 +1341,7 @@ class DailyAbsenceOvertimeTableData extends DataClass
     }
     map['start_date'] = Variable<DateTime>(startDate);
     map['end_date'] = Variable<DateTime>(endDate);
-    map['is_vaccum'] = Variable<bool>(isVaccum);
+    map['is_vacuum'] = Variable<bool>(isVacuum);
     map['absence_days'] = Variable<int>(absenceDays);
     if (!nullToAbsent || overtime != null) {
       map['overtime'] = Variable<int?>(overtime);
@@ -868,7 +1360,7 @@ class DailyAbsenceOvertimeTableData extends DataClass
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       startDate: Value(startDate),
       endDate: Value(endDate),
-      isVaccum: Value(isVaccum),
+      isVacuum: Value(isVacuum),
       absenceDays: Value(absenceDays),
       overtime: overtime == null && nullToAbsent
           ? const Value.absent()
@@ -889,7 +1381,7 @@ class DailyAbsenceOvertimeTableData extends DataClass
       id: serializer.fromJson<int?>(json['id']),
       startDate: serializer.fromJson<DateTime>(json['startDate']),
       endDate: serializer.fromJson<DateTime>(json['endDate']),
-      isVaccum: serializer.fromJson<bool>(json['isVaccum']),
+      isVacuum: serializer.fromJson<bool>(json['isVacuum']),
       absenceDays: serializer.fromJson<int>(json['absenceDays']),
       overtime: serializer.fromJson<int?>(json['overtime']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
@@ -903,7 +1395,7 @@ class DailyAbsenceOvertimeTableData extends DataClass
       'id': serializer.toJson<int?>(id),
       'startDate': serializer.toJson<DateTime>(startDate),
       'endDate': serializer.toJson<DateTime>(endDate),
-      'isVaccum': serializer.toJson<bool>(isVaccum),
+      'isVacuum': serializer.toJson<bool>(isVacuum),
       'absenceDays': serializer.toJson<int>(absenceDays),
       'overtime': serializer.toJson<int?>(overtime),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
@@ -915,7 +1407,7 @@ class DailyAbsenceOvertimeTableData extends DataClass
           {int? id,
           DateTime? startDate,
           DateTime? endDate,
-          bool? isVaccum,
+          bool? isVacuum,
           int? absenceDays,
           int? overtime,
           DateTime? createdAt,
@@ -924,7 +1416,7 @@ class DailyAbsenceOvertimeTableData extends DataClass
         id: id ?? this.id,
         startDate: startDate ?? this.startDate,
         endDate: endDate ?? this.endDate,
-        isVaccum: isVaccum ?? this.isVaccum,
+        isVacuum: isVacuum ?? this.isVacuum,
         absenceDays: absenceDays ?? this.absenceDays,
         overtime: overtime ?? this.overtime,
         createdAt: createdAt ?? this.createdAt,
@@ -936,7 +1428,7 @@ class DailyAbsenceOvertimeTableData extends DataClass
           ..write('id: $id, ')
           ..write('startDate: $startDate, ')
           ..write('endDate: $endDate, ')
-          ..write('isVaccum: $isVaccum, ')
+          ..write('isVacuum: $isVacuum, ')
           ..write('absenceDays: $absenceDays, ')
           ..write('overtime: $overtime, ')
           ..write('createdAt: $createdAt, ')
@@ -946,7 +1438,7 @@ class DailyAbsenceOvertimeTableData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, startDate, endDate, isVaccum, absenceDays,
+  int get hashCode => Object.hash(id, startDate, endDate, isVacuum, absenceDays,
       overtime, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
@@ -955,7 +1447,7 @@ class DailyAbsenceOvertimeTableData extends DataClass
           other.id == this.id &&
           other.startDate == this.startDate &&
           other.endDate == this.endDate &&
-          other.isVaccum == this.isVaccum &&
+          other.isVacuum == this.isVacuum &&
           other.absenceDays == this.absenceDays &&
           other.overtime == this.overtime &&
           other.createdAt == this.createdAt &&
@@ -967,7 +1459,7 @@ class DailyAbsenceOvertimeTableCompanion
   final Value<int?> id;
   final Value<DateTime> startDate;
   final Value<DateTime> endDate;
-  final Value<bool> isVaccum;
+  final Value<bool> isVacuum;
   final Value<int> absenceDays;
   final Value<int?> overtime;
   final Value<DateTime?> createdAt;
@@ -976,7 +1468,7 @@ class DailyAbsenceOvertimeTableCompanion
     this.id = const Value.absent(),
     this.startDate = const Value.absent(),
     this.endDate = const Value.absent(),
-    this.isVaccum = const Value.absent(),
+    this.isVacuum = const Value.absent(),
     this.absenceDays = const Value.absent(),
     this.overtime = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -986,20 +1478,20 @@ class DailyAbsenceOvertimeTableCompanion
     this.id = const Value.absent(),
     required DateTime startDate,
     required DateTime endDate,
-    required bool isVaccum,
+    required bool isVacuum,
     required int absenceDays,
     this.overtime = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   })  : startDate = Value(startDate),
         endDate = Value(endDate),
-        isVaccum = Value(isVaccum),
+        isVacuum = Value(isVacuum),
         absenceDays = Value(absenceDays);
   static Insertable<DailyAbsenceOvertimeTableData> custom({
     Expression<int?>? id,
     Expression<DateTime>? startDate,
     Expression<DateTime>? endDate,
-    Expression<bool>? isVaccum,
+    Expression<bool>? isVacuum,
     Expression<int>? absenceDays,
     Expression<int?>? overtime,
     Expression<DateTime?>? createdAt,
@@ -1009,7 +1501,7 @@ class DailyAbsenceOvertimeTableCompanion
       if (id != null) 'id': id,
       if (startDate != null) 'start_date': startDate,
       if (endDate != null) 'end_date': endDate,
-      if (isVaccum != null) 'is_vaccum': isVaccum,
+      if (isVacuum != null) 'is_vacuum': isVacuum,
       if (absenceDays != null) 'absence_days': absenceDays,
       if (overtime != null) 'overtime': overtime,
       if (createdAt != null) 'created_at': createdAt,
@@ -1021,7 +1513,7 @@ class DailyAbsenceOvertimeTableCompanion
       {Value<int?>? id,
       Value<DateTime>? startDate,
       Value<DateTime>? endDate,
-      Value<bool>? isVaccum,
+      Value<bool>? isVacuum,
       Value<int>? absenceDays,
       Value<int?>? overtime,
       Value<DateTime?>? createdAt,
@@ -1030,7 +1522,7 @@ class DailyAbsenceOvertimeTableCompanion
       id: id ?? this.id,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
-      isVaccum: isVaccum ?? this.isVaccum,
+      isVacuum: isVacuum ?? this.isVacuum,
       absenceDays: absenceDays ?? this.absenceDays,
       overtime: overtime ?? this.overtime,
       createdAt: createdAt ?? this.createdAt,
@@ -1050,8 +1542,8 @@ class DailyAbsenceOvertimeTableCompanion
     if (endDate.present) {
       map['end_date'] = Variable<DateTime>(endDate.value);
     }
-    if (isVaccum.present) {
-      map['is_vaccum'] = Variable<bool>(isVaccum.value);
+    if (isVacuum.present) {
+      map['is_vacuum'] = Variable<bool>(isVacuum.value);
     }
     if (absenceDays.present) {
       map['absence_days'] = Variable<int>(absenceDays.value);
@@ -1074,7 +1566,7 @@ class DailyAbsenceOvertimeTableCompanion
           ..write('id: $id, ')
           ..write('startDate: $startDate, ')
           ..write('endDate: $endDate, ')
-          ..write('isVaccum: $isVaccum, ')
+          ..write('isVacuum: $isVacuum, ')
           ..write('absenceDays: $absenceDays, ')
           ..write('overtime: $overtime, ')
           ..write('createdAt: $createdAt, ')
@@ -1109,13 +1601,13 @@ class $DailyAbsenceOvertimeTableTable extends DailyAbsenceOvertimeTable
   late final GeneratedColumn<DateTime?> endDate = GeneratedColumn<DateTime?>(
       'end_date', aliasedName, false,
       type: const IntType(), requiredDuringInsert: true);
-  final VerificationMeta _isVaccumMeta = const VerificationMeta('isVaccum');
+  final VerificationMeta _isVacuumMeta = const VerificationMeta('isVacuum');
   @override
-  late final GeneratedColumn<bool?> isVaccum = GeneratedColumn<bool?>(
-      'is_vaccum', aliasedName, false,
+  late final GeneratedColumn<bool?> isVacuum = GeneratedColumn<bool?>(
+      'is_vacuum', aliasedName, false,
       type: const BoolType(),
       requiredDuringInsert: true,
-      defaultConstraints: 'CHECK (is_vaccum IN (0, 1))');
+      defaultConstraints: 'CHECK (is_vacuum IN (0, 1))');
   final VerificationMeta _absenceDaysMeta =
       const VerificationMeta('absenceDays');
   @override
@@ -1142,7 +1634,7 @@ class $DailyAbsenceOvertimeTableTable extends DailyAbsenceOvertimeTable
         id,
         startDate,
         endDate,
-        isVaccum,
+        isVacuum,
         absenceDays,
         overtime,
         createdAt,
@@ -1173,11 +1665,11 @@ class $DailyAbsenceOvertimeTableTable extends DailyAbsenceOvertimeTable
     } else if (isInserting) {
       context.missing(_endDateMeta);
     }
-    if (data.containsKey('is_vaccum')) {
-      context.handle(_isVaccumMeta,
-          isVaccum.isAcceptableOrUnknown(data['is_vaccum']!, _isVaccumMeta));
+    if (data.containsKey('is_vacuum')) {
+      context.handle(_isVacuumMeta,
+          isVacuum.isAcceptableOrUnknown(data['is_vacuum']!, _isVacuumMeta));
     } else if (isInserting) {
-      context.missing(_isVaccumMeta);
+      context.missing(_isVacuumMeta);
     }
     if (data.containsKey('absence_days')) {
       context.handle(
@@ -1217,27 +1709,27 @@ class $DailyAbsenceOvertimeTableTable extends DailyAbsenceOvertimeTable
   }
 }
 
-class DailyVaccationTableData extends DataClass
-    implements Insertable<DailyVaccationTableData> {
+class DailyVacationTableData extends DataClass
+    implements Insertable<DailyVacationTableData> {
   final int? id;
   final DateTime startDate;
   final DateTime endDate;
   final int amount;
-  final String vacctionType;
+  final String vacationType;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  DailyVaccationTableData(
+  DailyVacationTableData(
       {this.id,
       required this.startDate,
       required this.endDate,
       required this.amount,
-      required this.vacctionType,
+      required this.vacationType,
       this.createdAt,
       this.updatedAt});
-  factory DailyVaccationTableData.fromData(Map<String, dynamic> data,
+  factory DailyVacationTableData.fromData(Map<String, dynamic> data,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return DailyVaccationTableData(
+    return DailyVacationTableData(
       id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
       startDate: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}start_date'])!,
@@ -1245,8 +1737,8 @@ class DailyVaccationTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}end_date'])!,
       amount: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}amount'])!,
-      vacctionType: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}vacction_type'])!,
+      vacationType: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}vacation_type'])!,
       createdAt: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
       updatedAt: const DateTimeType()
@@ -1262,7 +1754,7 @@ class DailyVaccationTableData extends DataClass
     map['start_date'] = Variable<DateTime>(startDate);
     map['end_date'] = Variable<DateTime>(endDate);
     map['amount'] = Variable<int>(amount);
-    map['vacction_type'] = Variable<String>(vacctionType);
+    map['vacation_type'] = Variable<String>(vacationType);
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime?>(createdAt);
     }
@@ -1272,13 +1764,13 @@ class DailyVaccationTableData extends DataClass
     return map;
   }
 
-  DailyVaccationTableCompanion toCompanion(bool nullToAbsent) {
-    return DailyVaccationTableCompanion(
+  DailyVacationTableCompanion toCompanion(bool nullToAbsent) {
+    return DailyVacationTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       startDate: Value(startDate),
       endDate: Value(endDate),
       amount: Value(amount),
-      vacctionType: Value(vacctionType),
+      vacationType: Value(vacationType),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -1288,15 +1780,15 @@ class DailyVaccationTableData extends DataClass
     );
   }
 
-  factory DailyVaccationTableData.fromJson(Map<String, dynamic> json,
+  factory DailyVacationTableData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return DailyVaccationTableData(
+    return DailyVacationTableData(
       id: serializer.fromJson<int?>(json['id']),
       startDate: serializer.fromJson<DateTime>(json['startDate']),
       endDate: serializer.fromJson<DateTime>(json['endDate']),
       amount: serializer.fromJson<int>(json['amount']),
-      vacctionType: serializer.fromJson<String>(json['vacctionType']),
+      vacationType: serializer.fromJson<String>(json['vacationType']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -1309,37 +1801,37 @@ class DailyVaccationTableData extends DataClass
       'startDate': serializer.toJson<DateTime>(startDate),
       'endDate': serializer.toJson<DateTime>(endDate),
       'amount': serializer.toJson<int>(amount),
-      'vacctionType': serializer.toJson<String>(vacctionType),
+      'vacationType': serializer.toJson<String>(vacationType),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
   }
 
-  DailyVaccationTableData copyWith(
+  DailyVacationTableData copyWith(
           {int? id,
           DateTime? startDate,
           DateTime? endDate,
           int? amount,
-          String? vacctionType,
+          String? vacationType,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
-      DailyVaccationTableData(
+      DailyVacationTableData(
         id: id ?? this.id,
         startDate: startDate ?? this.startDate,
         endDate: endDate ?? this.endDate,
         amount: amount ?? this.amount,
-        vacctionType: vacctionType ?? this.vacctionType,
+        vacationType: vacationType ?? this.vacationType,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
   @override
   String toString() {
-    return (StringBuffer('DailyVaccationTableData(')
+    return (StringBuffer('DailyVacationTableData(')
           ..write('id: $id, ')
           ..write('startDate: $startDate, ')
           ..write('endDate: $endDate, ')
           ..write('amount: $amount, ')
-          ..write('vacctionType: $vacctionType, ')
+          ..write('vacationType: $vacationType, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -1348,56 +1840,56 @@ class DailyVaccationTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(
-      id, startDate, endDate, amount, vacctionType, createdAt, updatedAt);
+      id, startDate, endDate, amount, vacationType, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is DailyVaccationTableData &&
+      (other is DailyVacationTableData &&
           other.id == this.id &&
           other.startDate == this.startDate &&
           other.endDate == this.endDate &&
           other.amount == this.amount &&
-          other.vacctionType == this.vacctionType &&
+          other.vacationType == this.vacationType &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
 
-class DailyVaccationTableCompanion
-    extends UpdateCompanion<DailyVaccationTableData> {
+class DailyVacationTableCompanion
+    extends UpdateCompanion<DailyVacationTableData> {
   final Value<int?> id;
   final Value<DateTime> startDate;
   final Value<DateTime> endDate;
   final Value<int> amount;
-  final Value<String> vacctionType;
+  final Value<String> vacationType;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
-  const DailyVaccationTableCompanion({
+  const DailyVacationTableCompanion({
     this.id = const Value.absent(),
     this.startDate = const Value.absent(),
     this.endDate = const Value.absent(),
     this.amount = const Value.absent(),
-    this.vacctionType = const Value.absent(),
+    this.vacationType = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
-  DailyVaccationTableCompanion.insert({
+  DailyVacationTableCompanion.insert({
     this.id = const Value.absent(),
     required DateTime startDate,
     required DateTime endDate,
     required int amount,
-    required String vacctionType,
+    required String vacationType,
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   })  : startDate = Value(startDate),
         endDate = Value(endDate),
         amount = Value(amount),
-        vacctionType = Value(vacctionType);
-  static Insertable<DailyVaccationTableData> custom({
+        vacationType = Value(vacationType);
+  static Insertable<DailyVacationTableData> custom({
     Expression<int?>? id,
     Expression<DateTime>? startDate,
     Expression<DateTime>? endDate,
     Expression<int>? amount,
-    Expression<String>? vacctionType,
+    Expression<String>? vacationType,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
   }) {
@@ -1406,26 +1898,26 @@ class DailyVaccationTableCompanion
       if (startDate != null) 'start_date': startDate,
       if (endDate != null) 'end_date': endDate,
       if (amount != null) 'amount': amount,
-      if (vacctionType != null) 'vacction_type': vacctionType,
+      if (vacationType != null) 'vacation_type': vacationType,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
   }
 
-  DailyVaccationTableCompanion copyWith(
+  DailyVacationTableCompanion copyWith(
       {Value<int?>? id,
       Value<DateTime>? startDate,
       Value<DateTime>? endDate,
       Value<int>? amount,
-      Value<String>? vacctionType,
+      Value<String>? vacationType,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
-    return DailyVaccationTableCompanion(
+    return DailyVacationTableCompanion(
       id: id ?? this.id,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       amount: amount ?? this.amount,
-      vacctionType: vacctionType ?? this.vacctionType,
+      vacationType: vacationType ?? this.vacationType,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -1446,8 +1938,8 @@ class DailyVaccationTableCompanion
     if (amount.present) {
       map['amount'] = Variable<int>(amount.value);
     }
-    if (vacctionType.present) {
-      map['vacction_type'] = Variable<String>(vacctionType.value);
+    if (vacationType.present) {
+      map['vacation_type'] = Variable<String>(vacationType.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime?>(createdAt.value);
@@ -1460,12 +1952,12 @@ class DailyVaccationTableCompanion
 
   @override
   String toString() {
-    return (StringBuffer('DailyVaccationTableCompanion(')
+    return (StringBuffer('DailyVacationTableCompanion(')
           ..write('id: $id, ')
           ..write('startDate: $startDate, ')
           ..write('endDate: $endDate, ')
           ..write('amount: $amount, ')
-          ..write('vacctionType: $vacctionType, ')
+          ..write('vacationType: $vacationType, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -1473,12 +1965,12 @@ class DailyVaccationTableCompanion
   }
 }
 
-class $DailyVaccationTableTable extends DailyVaccationTable
-    with TableInfo<$DailyVaccationTableTable, DailyVaccationTableData> {
+class $DailyVacationTableTable extends DailyVacationTable
+    with TableInfo<$DailyVacationTableTable, DailyVacationTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DailyVaccationTableTable(this.attachedDatabase, [this._alias]);
+  $DailyVacationTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -1501,11 +1993,11 @@ class $DailyVaccationTableTable extends DailyVaccationTable
   late final GeneratedColumn<int?> amount = GeneratedColumn<int?>(
       'amount', aliasedName, false,
       type: const IntType(), requiredDuringInsert: true);
-  final VerificationMeta _vacctionTypeMeta =
-      const VerificationMeta('vacctionType');
+  final VerificationMeta _vacationTypeMeta =
+      const VerificationMeta('vacationType');
   @override
-  late final GeneratedColumn<String?> vacctionType = GeneratedColumn<String?>(
-      'vacction_type', aliasedName, false,
+  late final GeneratedColumn<String?> vacationType = GeneratedColumn<String?>(
+      'vacation_type', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
@@ -1519,14 +2011,14 @@ class $DailyVaccationTableTable extends DailyVaccationTable
       type: const IntType(), requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, startDate, endDate, amount, vacctionType, createdAt, updatedAt];
+      [id, startDate, endDate, amount, vacationType, createdAt, updatedAt];
   @override
-  String get aliasedName => _alias ?? 'daily_vaccation_table';
+  String get aliasedName => _alias ?? 'daily_vacation_table';
   @override
-  String get actualTableName => 'daily_vaccation_table';
+  String get actualTableName => 'daily_vacation_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<DailyVaccationTableData> instance,
+      Insertable<DailyVacationTableData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -1551,13 +2043,13 @@ class $DailyVaccationTableTable extends DailyVaccationTable
     } else if (isInserting) {
       context.missing(_amountMeta);
     }
-    if (data.containsKey('vacction_type')) {
+    if (data.containsKey('vacation_type')) {
       context.handle(
-          _vacctionTypeMeta,
-          vacctionType.isAcceptableOrUnknown(
-              data['vacction_type']!, _vacctionTypeMeta));
+          _vacationTypeMeta,
+          vacationType.isAcceptableOrUnknown(
+              data['vacation_type']!, _vacationTypeMeta));
     } else if (isInserting) {
-      context.missing(_vacctionTypeMeta);
+      context.missing(_vacationTypeMeta);
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -1573,15 +2065,14 @@ class $DailyVaccationTableTable extends DailyVaccationTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  DailyVaccationTableData map(Map<String, dynamic> data,
-      {String? tablePrefix}) {
-    return DailyVaccationTableData.fromData(data,
+  DailyVacationTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return DailyVacationTableData.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $DailyVaccationTableTable createAlias(String alias) {
-    return $DailyVaccationTableTable(attachedDatabase, alias);
+  $DailyVacationTableTable createAlias(String alias) {
+    return $DailyVacationTableTable(attachedDatabase, alias);
   }
 }
 
@@ -1923,25 +2414,25 @@ class $ViolationsOvertimeTableTable extends ViolationsOvertimeTable
   }
 }
 
-class DisciplinalOvertimeTableData extends DataClass
-    implements Insertable<DisciplinalOvertimeTableData> {
+class DisciplinaryOvertimeTableData extends DataClass
+    implements Insertable<DisciplinaryOvertimeTableData> {
   final int? id;
   final int calculatedOvertime;
   final int? violationsOvertimes;
   final int? dailyAbsenceOvertimes;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  DisciplinalOvertimeTableData(
+  DisciplinaryOvertimeTableData(
       {this.id,
       required this.calculatedOvertime,
       this.violationsOvertimes,
       this.dailyAbsenceOvertimes,
       this.createdAt,
       this.updatedAt});
-  factory DisciplinalOvertimeTableData.fromData(Map<String, dynamic> data,
+  factory DisciplinaryOvertimeTableData.fromData(Map<String, dynamic> data,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return DisciplinalOvertimeTableData(
+    return DisciplinaryOvertimeTableData(
       id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
       calculatedOvertime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}calculated_overtime'])!,
@@ -1977,8 +2468,8 @@ class DisciplinalOvertimeTableData extends DataClass
     return map;
   }
 
-  DisciplinalOvertimeTableCompanion toCompanion(bool nullToAbsent) {
-    return DisciplinalOvertimeTableCompanion(
+  DisciplinaryOvertimeTableCompanion toCompanion(bool nullToAbsent) {
+    return DisciplinaryOvertimeTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       calculatedOvertime: Value(calculatedOvertime),
       violationsOvertimes: violationsOvertimes == null && nullToAbsent
@@ -1996,10 +2487,10 @@ class DisciplinalOvertimeTableData extends DataClass
     );
   }
 
-  factory DisciplinalOvertimeTableData.fromJson(Map<String, dynamic> json,
+  factory DisciplinaryOvertimeTableData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return DisciplinalOvertimeTableData(
+    return DisciplinaryOvertimeTableData(
       id: serializer.fromJson<int?>(json['id']),
       calculatedOvertime: serializer.fromJson<int>(json['calculatedOvertime']),
       violationsOvertimes:
@@ -2023,14 +2514,14 @@ class DisciplinalOvertimeTableData extends DataClass
     };
   }
 
-  DisciplinalOvertimeTableData copyWith(
+  DisciplinaryOvertimeTableData copyWith(
           {int? id,
           int? calculatedOvertime,
           int? violationsOvertimes,
           int? dailyAbsenceOvertimes,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
-      DisciplinalOvertimeTableData(
+      DisciplinaryOvertimeTableData(
         id: id ?? this.id,
         calculatedOvertime: calculatedOvertime ?? this.calculatedOvertime,
         violationsOvertimes: violationsOvertimes ?? this.violationsOvertimes,
@@ -2041,7 +2532,7 @@ class DisciplinalOvertimeTableData extends DataClass
       );
   @override
   String toString() {
-    return (StringBuffer('DisciplinalOvertimeTableData(')
+    return (StringBuffer('DisciplinaryOvertimeTableData(')
           ..write('id: $id, ')
           ..write('calculatedOvertime: $calculatedOvertime, ')
           ..write('violationsOvertimes: $violationsOvertimes, ')
@@ -2058,7 +2549,7 @@ class DisciplinalOvertimeTableData extends DataClass
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is DisciplinalOvertimeTableData &&
+      (other is DisciplinaryOvertimeTableData &&
           other.id == this.id &&
           other.calculatedOvertime == this.calculatedOvertime &&
           other.violationsOvertimes == this.violationsOvertimes &&
@@ -2067,15 +2558,15 @@ class DisciplinalOvertimeTableData extends DataClass
           other.updatedAt == this.updatedAt);
 }
 
-class DisciplinalOvertimeTableCompanion
-    extends UpdateCompanion<DisciplinalOvertimeTableData> {
+class DisciplinaryOvertimeTableCompanion
+    extends UpdateCompanion<DisciplinaryOvertimeTableData> {
   final Value<int?> id;
   final Value<int> calculatedOvertime;
   final Value<int?> violationsOvertimes;
   final Value<int?> dailyAbsenceOvertimes;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
-  const DisciplinalOvertimeTableCompanion({
+  const DisciplinaryOvertimeTableCompanion({
     this.id = const Value.absent(),
     this.calculatedOvertime = const Value.absent(),
     this.violationsOvertimes = const Value.absent(),
@@ -2083,7 +2574,7 @@ class DisciplinalOvertimeTableCompanion
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
-  DisciplinalOvertimeTableCompanion.insert({
+  DisciplinaryOvertimeTableCompanion.insert({
     this.id = const Value.absent(),
     required int calculatedOvertime,
     this.violationsOvertimes = const Value.absent(),
@@ -2091,7 +2582,7 @@ class DisciplinalOvertimeTableCompanion
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   }) : calculatedOvertime = Value(calculatedOvertime);
-  static Insertable<DisciplinalOvertimeTableData> custom({
+  static Insertable<DisciplinaryOvertimeTableData> custom({
     Expression<int?>? id,
     Expression<int>? calculatedOvertime,
     Expression<int?>? violationsOvertimes,
@@ -2111,14 +2602,14 @@ class DisciplinalOvertimeTableCompanion
     });
   }
 
-  DisciplinalOvertimeTableCompanion copyWith(
+  DisciplinaryOvertimeTableCompanion copyWith(
       {Value<int?>? id,
       Value<int>? calculatedOvertime,
       Value<int?>? violationsOvertimes,
       Value<int?>? dailyAbsenceOvertimes,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
-    return DisciplinalOvertimeTableCompanion(
+    return DisciplinaryOvertimeTableCompanion(
       id: id ?? this.id,
       calculatedOvertime: calculatedOvertime ?? this.calculatedOvertime,
       violationsOvertimes: violationsOvertimes ?? this.violationsOvertimes,
@@ -2156,7 +2647,7 @@ class DisciplinalOvertimeTableCompanion
 
   @override
   String toString() {
-    return (StringBuffer('DisciplinalOvertimeTableCompanion(')
+    return (StringBuffer('DisciplinaryOvertimeTableCompanion(')
           ..write('id: $id, ')
           ..write('calculatedOvertime: $calculatedOvertime, ')
           ..write('violationsOvertimes: $violationsOvertimes, ')
@@ -2168,14 +2659,14 @@ class DisciplinalOvertimeTableCompanion
   }
 }
 
-class $DisciplinalOvertimeTableTable extends DisciplinalOvertimeTable
+class $DisciplinaryOvertimeTableTable extends DisciplinaryOvertimeTable
     with
-        TableInfo<$DisciplinalOvertimeTableTable,
-            DisciplinalOvertimeTableData> {
+        TableInfo<$DisciplinaryOvertimeTableTable,
+            DisciplinaryOvertimeTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DisciplinalOvertimeTableTable(this.attachedDatabase, [this._alias]);
+  $DisciplinaryOvertimeTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -2204,7 +2695,7 @@ class $DisciplinalOvertimeTableTable extends DisciplinalOvertimeTable
       GeneratedColumn<int?>('daily_absence_overtimes', aliasedName, true,
           type: const IntType(),
           requiredDuringInsert: false,
-          defaultConstraints: 'REFERENCES daily_vaccation_table (id)');
+          defaultConstraints: 'REFERENCES daily_absence_overtime_table (id)');
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
@@ -2225,12 +2716,12 @@ class $DisciplinalOvertimeTableTable extends DisciplinalOvertimeTable
         updatedAt
       ];
   @override
-  String get aliasedName => _alias ?? 'disciplinal_overtime_table';
+  String get aliasedName => _alias ?? 'disciplinary_overtime_table';
   @override
-  String get actualTableName => 'disciplinal_overtime_table';
+  String get actualTableName => 'disciplinary_overtime_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<DisciplinalOvertimeTableData> instance,
+      Insertable<DisciplinaryOvertimeTableData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -2271,15 +2762,15 @@ class $DisciplinalOvertimeTableTable extends DisciplinalOvertimeTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  DisciplinalOvertimeTableData map(Map<String, dynamic> data,
+  DisciplinaryOvertimeTableData map(Map<String, dynamic> data,
       {String? tablePrefix}) {
-    return DisciplinalOvertimeTableData.fromData(data,
+    return DisciplinaryOvertimeTableData.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $DisciplinalOvertimeTableTable createAlias(String alias) {
-    return $DisciplinalOvertimeTableTable(attachedDatabase, alias);
+  $DisciplinaryOvertimeTableTable createAlias(String alias) {
+    return $DisciplinaryOvertimeTableTable(attachedDatabase, alias);
   }
 }
 
@@ -2749,7 +3240,7 @@ class FurtherInfoTableData extends DataClass
   final int? id;
   final String maritalState;
   final DateTime? dateOfMarriage;
-  final int? numberOfChilds;
+  final int? numberOfChildren;
   final int? height;
   final double? weight;
   final String? religion;
@@ -2763,7 +3254,7 @@ class FurtherInfoTableData extends DataClass
       {this.id,
       required this.maritalState,
       this.dateOfMarriage,
-      this.numberOfChilds,
+      this.numberOfChildren,
       this.height,
       this.weight,
       this.religion,
@@ -2782,8 +3273,8 @@ class FurtherInfoTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}marital_state'])!,
       dateOfMarriage: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}date_of_marriage']),
-      numberOfChilds: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}number_of_childs']),
+      numberOfChildren: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}number_of_children']),
       height: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}height']),
       weight: const RealType()
@@ -2814,8 +3305,8 @@ class FurtherInfoTableData extends DataClass
     if (!nullToAbsent || dateOfMarriage != null) {
       map['date_of_marriage'] = Variable<DateTime?>(dateOfMarriage);
     }
-    if (!nullToAbsent || numberOfChilds != null) {
-      map['number_of_childs'] = Variable<int?>(numberOfChilds);
+    if (!nullToAbsent || numberOfChildren != null) {
+      map['number_of_children'] = Variable<int?>(numberOfChildren);
     }
     if (!nullToAbsent || height != null) {
       map['height'] = Variable<int?>(height);
@@ -2854,9 +3345,9 @@ class FurtherInfoTableData extends DataClass
       dateOfMarriage: dateOfMarriage == null && nullToAbsent
           ? const Value.absent()
           : Value(dateOfMarriage),
-      numberOfChilds: numberOfChilds == null && nullToAbsent
+      numberOfChildren: numberOfChildren == null && nullToAbsent
           ? const Value.absent()
-          : Value(numberOfChilds),
+          : Value(numberOfChildren),
       height:
           height == null && nullToAbsent ? const Value.absent() : Value(height),
       weight:
@@ -2890,7 +3381,7 @@ class FurtherInfoTableData extends DataClass
       id: serializer.fromJson<int?>(json['id']),
       maritalState: serializer.fromJson<String>(json['maritalState']),
       dateOfMarriage: serializer.fromJson<DateTime?>(json['dateOfMarriage']),
-      numberOfChilds: serializer.fromJson<int?>(json['numberOfChilds']),
+      numberOfChildren: serializer.fromJson<int?>(json['numberOfChildren']),
       height: serializer.fromJson<int?>(json['height']),
       weight: serializer.fromJson<double?>(json['weight']),
       religion: serializer.fromJson<String?>(json['religion']),
@@ -2909,7 +3400,7 @@ class FurtherInfoTableData extends DataClass
       'id': serializer.toJson<int?>(id),
       'maritalState': serializer.toJson<String>(maritalState),
       'dateOfMarriage': serializer.toJson<DateTime?>(dateOfMarriage),
-      'numberOfChilds': serializer.toJson<int?>(numberOfChilds),
+      'numberOfChildren': serializer.toJson<int?>(numberOfChildren),
       'height': serializer.toJson<int?>(height),
       'weight': serializer.toJson<double?>(weight),
       'religion': serializer.toJson<String?>(religion),
@@ -2926,7 +3417,7 @@ class FurtherInfoTableData extends DataClass
           {int? id,
           String? maritalState,
           DateTime? dateOfMarriage,
-          int? numberOfChilds,
+          int? numberOfChildren,
           int? height,
           double? weight,
           String? religion,
@@ -2940,7 +3431,7 @@ class FurtherInfoTableData extends DataClass
         id: id ?? this.id,
         maritalState: maritalState ?? this.maritalState,
         dateOfMarriage: dateOfMarriage ?? this.dateOfMarriage,
-        numberOfChilds: numberOfChilds ?? this.numberOfChilds,
+        numberOfChildren: numberOfChildren ?? this.numberOfChildren,
         height: height ?? this.height,
         weight: weight ?? this.weight,
         religion: religion ?? this.religion,
@@ -2957,7 +3448,7 @@ class FurtherInfoTableData extends DataClass
           ..write('id: $id, ')
           ..write('maritalState: $maritalState, ')
           ..write('dateOfMarriage: $dateOfMarriage, ')
-          ..write('numberOfChilds: $numberOfChilds, ')
+          ..write('numberOfChildren: $numberOfChildren, ')
           ..write('height: $height, ')
           ..write('weight: $weight, ')
           ..write('religion: $religion, ')
@@ -2976,7 +3467,7 @@ class FurtherInfoTableData extends DataClass
       id,
       maritalState,
       dateOfMarriage,
-      numberOfChilds,
+      numberOfChildren,
       height,
       weight,
       religion,
@@ -2993,7 +3484,7 @@ class FurtherInfoTableData extends DataClass
           other.id == this.id &&
           other.maritalState == this.maritalState &&
           other.dateOfMarriage == this.dateOfMarriage &&
-          other.numberOfChilds == this.numberOfChilds &&
+          other.numberOfChildren == this.numberOfChildren &&
           other.height == this.height &&
           other.weight == this.weight &&
           other.religion == this.religion &&
@@ -3009,7 +3500,7 @@ class FurtherInfoTableCompanion extends UpdateCompanion<FurtherInfoTableData> {
   final Value<int?> id;
   final Value<String> maritalState;
   final Value<DateTime?> dateOfMarriage;
-  final Value<int?> numberOfChilds;
+  final Value<int?> numberOfChildren;
   final Value<int?> height;
   final Value<double?> weight;
   final Value<String?> religion;
@@ -3023,7 +3514,7 @@ class FurtherInfoTableCompanion extends UpdateCompanion<FurtherInfoTableData> {
     this.id = const Value.absent(),
     this.maritalState = const Value.absent(),
     this.dateOfMarriage = const Value.absent(),
-    this.numberOfChilds = const Value.absent(),
+    this.numberOfChildren = const Value.absent(),
     this.height = const Value.absent(),
     this.weight = const Value.absent(),
     this.religion = const Value.absent(),
@@ -3038,7 +3529,7 @@ class FurtherInfoTableCompanion extends UpdateCompanion<FurtherInfoTableData> {
     this.id = const Value.absent(),
     required String maritalState,
     this.dateOfMarriage = const Value.absent(),
-    this.numberOfChilds = const Value.absent(),
+    this.numberOfChildren = const Value.absent(),
     this.height = const Value.absent(),
     this.weight = const Value.absent(),
     this.religion = const Value.absent(),
@@ -3053,7 +3544,7 @@ class FurtherInfoTableCompanion extends UpdateCompanion<FurtherInfoTableData> {
     Expression<int?>? id,
     Expression<String>? maritalState,
     Expression<DateTime?>? dateOfMarriage,
-    Expression<int?>? numberOfChilds,
+    Expression<int?>? numberOfChildren,
     Expression<int?>? height,
     Expression<double?>? weight,
     Expression<String?>? religion,
@@ -3068,7 +3559,7 @@ class FurtherInfoTableCompanion extends UpdateCompanion<FurtherInfoTableData> {
       if (id != null) 'id': id,
       if (maritalState != null) 'marital_state': maritalState,
       if (dateOfMarriage != null) 'date_of_marriage': dateOfMarriage,
-      if (numberOfChilds != null) 'number_of_childs': numberOfChilds,
+      if (numberOfChildren != null) 'number_of_children': numberOfChildren,
       if (height != null) 'height': height,
       if (weight != null) 'weight': weight,
       if (religion != null) 'religion': religion,
@@ -3085,7 +3576,7 @@ class FurtherInfoTableCompanion extends UpdateCompanion<FurtherInfoTableData> {
       {Value<int?>? id,
       Value<String>? maritalState,
       Value<DateTime?>? dateOfMarriage,
-      Value<int?>? numberOfChilds,
+      Value<int?>? numberOfChildren,
       Value<int?>? height,
       Value<double?>? weight,
       Value<String?>? religion,
@@ -3099,7 +3590,7 @@ class FurtherInfoTableCompanion extends UpdateCompanion<FurtherInfoTableData> {
       id: id ?? this.id,
       maritalState: maritalState ?? this.maritalState,
       dateOfMarriage: dateOfMarriage ?? this.dateOfMarriage,
-      numberOfChilds: numberOfChilds ?? this.numberOfChilds,
+      numberOfChildren: numberOfChildren ?? this.numberOfChildren,
       height: height ?? this.height,
       weight: weight ?? this.weight,
       religion: religion ?? this.religion,
@@ -3124,8 +3615,8 @@ class FurtherInfoTableCompanion extends UpdateCompanion<FurtherInfoTableData> {
     if (dateOfMarriage.present) {
       map['date_of_marriage'] = Variable<DateTime?>(dateOfMarriage.value);
     }
-    if (numberOfChilds.present) {
-      map['number_of_childs'] = Variable<int?>(numberOfChilds.value);
+    if (numberOfChildren.present) {
+      map['number_of_children'] = Variable<int?>(numberOfChildren.value);
     }
     if (height.present) {
       map['height'] = Variable<int?>(height.value);
@@ -3163,7 +3654,7 @@ class FurtherInfoTableCompanion extends UpdateCompanion<FurtherInfoTableData> {
           ..write('id: $id, ')
           ..write('maritalState: $maritalState, ')
           ..write('dateOfMarriage: $dateOfMarriage, ')
-          ..write('numberOfChilds: $numberOfChilds, ')
+          ..write('numberOfChildren: $numberOfChildren, ')
           ..write('height: $height, ')
           ..write('weight: $weight, ')
           ..write('religion: $religion, ')
@@ -3203,11 +3694,11 @@ class $FurtherInfoTableTable extends FurtherInfoTable
   late final GeneratedColumn<DateTime?> dateOfMarriage =
       GeneratedColumn<DateTime?>('date_of_marriage', aliasedName, true,
           type: const IntType(), requiredDuringInsert: false);
-  final VerificationMeta _numberOfChildsMeta =
-      const VerificationMeta('numberOfChilds');
+  final VerificationMeta _numberOfChildrenMeta =
+      const VerificationMeta('numberOfChildren');
   @override
-  late final GeneratedColumn<int?> numberOfChilds = GeneratedColumn<int?>(
-      'number_of_childs', aliasedName, true,
+  late final GeneratedColumn<int?> numberOfChildren = GeneratedColumn<int?>(
+      'number_of_children', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _heightMeta = const VerificationMeta('height');
   @override
@@ -3259,7 +3750,7 @@ class $FurtherInfoTableTable extends FurtherInfoTable
         id,
         maritalState,
         dateOfMarriage,
-        numberOfChilds,
+        numberOfChildren,
         height,
         weight,
         religion,
@@ -3297,11 +3788,11 @@ class $FurtherInfoTableTable extends FurtherInfoTable
           dateOfMarriage.isAcceptableOrUnknown(
               data['date_of_marriage']!, _dateOfMarriageMeta));
     }
-    if (data.containsKey('number_of_childs')) {
+    if (data.containsKey('number_of_children')) {
       context.handle(
-          _numberOfChildsMeta,
-          numberOfChilds.isAcceptableOrUnknown(
-              data['number_of_childs']!, _numberOfChildsMeta));
+          _numberOfChildrenMeta,
+          numberOfChildren.isAcceptableOrUnknown(
+              data['number_of_children']!, _numberOfChildrenMeta));
     }
     if (data.containsKey('height')) {
       context.handle(_heightMeta,
@@ -3692,8 +4183,8 @@ class $HealthStatusTableTable extends HealthStatusTable
   }
 }
 
-class HourlyVaccationTableData extends DataClass
-    implements Insertable<HourlyVaccationTableData> {
+class HourlyVacationTableData extends DataClass
+    implements Insertable<HourlyVacationTableData> {
   final int? id;
   final DateTime startTime;
   final DateTime endTime;
@@ -3701,7 +4192,7 @@ class HourlyVaccationTableData extends DataClass
   final int? overtimePerMonth;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  HourlyVaccationTableData(
+  HourlyVacationTableData(
       {this.id,
       required this.startTime,
       required this.endTime,
@@ -3709,10 +4200,10 @@ class HourlyVaccationTableData extends DataClass
       this.overtimePerMonth,
       this.createdAt,
       this.updatedAt});
-  factory HourlyVaccationTableData.fromData(Map<String, dynamic> data,
+  factory HourlyVacationTableData.fromData(Map<String, dynamic> data,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return HourlyVaccationTableData(
+    return HourlyVacationTableData(
       id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
       startTime: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}start_time'])!,
@@ -3751,8 +4242,8 @@ class HourlyVaccationTableData extends DataClass
     return map;
   }
 
-  HourlyVaccationTableCompanion toCompanion(bool nullToAbsent) {
-    return HourlyVaccationTableCompanion(
+  HourlyVacationTableCompanion toCompanion(bool nullToAbsent) {
+    return HourlyVacationTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       startTime: Value(startTime),
       endTime: Value(endTime),
@@ -3771,10 +4262,10 @@ class HourlyVaccationTableData extends DataClass
     );
   }
 
-  factory HourlyVaccationTableData.fromJson(Map<String, dynamic> json,
+  factory HourlyVacationTableData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return HourlyVaccationTableData(
+    return HourlyVacationTableData(
       id: serializer.fromJson<int?>(json['id']),
       startTime: serializer.fromJson<DateTime>(json['startTime']),
       endTime: serializer.fromJson<DateTime>(json['endTime']),
@@ -3798,7 +4289,7 @@ class HourlyVaccationTableData extends DataClass
     };
   }
 
-  HourlyVaccationTableData copyWith(
+  HourlyVacationTableData copyWith(
           {int? id,
           DateTime? startTime,
           DateTime? endTime,
@@ -3806,7 +4297,7 @@ class HourlyVaccationTableData extends DataClass
           int? overtimePerMonth,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
-      HourlyVaccationTableData(
+      HourlyVacationTableData(
         id: id ?? this.id,
         startTime: startTime ?? this.startTime,
         endTime: endTime ?? this.endTime,
@@ -3817,7 +4308,7 @@ class HourlyVaccationTableData extends DataClass
       );
   @override
   String toString() {
-    return (StringBuffer('HourlyVaccationTableData(')
+    return (StringBuffer('HourlyVacationTableData(')
           ..write('id: $id, ')
           ..write('startTime: $startTime, ')
           ..write('endTime: $endTime, ')
@@ -3835,7 +4326,7 @@ class HourlyVaccationTableData extends DataClass
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is HourlyVaccationTableData &&
+      (other is HourlyVacationTableData &&
           other.id == this.id &&
           other.startTime == this.startTime &&
           other.endTime == this.endTime &&
@@ -3845,8 +4336,8 @@ class HourlyVaccationTableData extends DataClass
           other.updatedAt == this.updatedAt);
 }
 
-class HourlyVaccationTableCompanion
-    extends UpdateCompanion<HourlyVaccationTableData> {
+class HourlyVacationTableCompanion
+    extends UpdateCompanion<HourlyVacationTableData> {
   final Value<int?> id;
   final Value<DateTime> startTime;
   final Value<DateTime> endTime;
@@ -3854,7 +4345,7 @@ class HourlyVaccationTableCompanion
   final Value<int?> overtimePerMonth;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
-  const HourlyVaccationTableCompanion({
+  const HourlyVacationTableCompanion({
     this.id = const Value.absent(),
     this.startTime = const Value.absent(),
     this.endTime = const Value.absent(),
@@ -3863,7 +4354,7 @@ class HourlyVaccationTableCompanion
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
-  HourlyVaccationTableCompanion.insert({
+  HourlyVacationTableCompanion.insert({
     this.id = const Value.absent(),
     required DateTime startTime,
     required DateTime endTime,
@@ -3873,7 +4364,7 @@ class HourlyVaccationTableCompanion
     this.updatedAt = const Value.absent(),
   })  : startTime = Value(startTime),
         endTime = Value(endTime);
-  static Insertable<HourlyVaccationTableData> custom({
+  static Insertable<HourlyVacationTableData> custom({
     Expression<int?>? id,
     Expression<DateTime>? startTime,
     Expression<DateTime>? endTime,
@@ -3893,7 +4384,7 @@ class HourlyVaccationTableCompanion
     });
   }
 
-  HourlyVaccationTableCompanion copyWith(
+  HourlyVacationTableCompanion copyWith(
       {Value<int?>? id,
       Value<DateTime>? startTime,
       Value<DateTime>? endTime,
@@ -3901,7 +4392,7 @@ class HourlyVaccationTableCompanion
       Value<int?>? overtimePerMonth,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
-    return HourlyVaccationTableCompanion(
+    return HourlyVacationTableCompanion(
       id: id ?? this.id,
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
@@ -3941,7 +4432,7 @@ class HourlyVaccationTableCompanion
 
   @override
   String toString() {
-    return (StringBuffer('HourlyVaccationTableCompanion(')
+    return (StringBuffer('HourlyVacationTableCompanion(')
           ..write('id: $id, ')
           ..write('startTime: $startTime, ')
           ..write('endTime: $endTime, ')
@@ -3954,12 +4445,12 @@ class HourlyVaccationTableCompanion
   }
 }
 
-class $HourlyVaccationTableTable extends HourlyVaccationTable
-    with TableInfo<$HourlyVaccationTableTable, HourlyVaccationTableData> {
+class $HourlyVacationTableTable extends HourlyVacationTable
+    with TableInfo<$HourlyVacationTableTable, HourlyVacationTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $HourlyVaccationTableTable(this.attachedDatabase, [this._alias]);
+  $HourlyVacationTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -4009,12 +4500,12 @@ class $HourlyVaccationTableTable extends HourlyVaccationTable
         updatedAt
       ];
   @override
-  String get aliasedName => _alias ?? 'hourly_vaccation_table';
+  String get aliasedName => _alias ?? 'hourly_vacation_table';
   @override
-  String get actualTableName => 'hourly_vaccation_table';
+  String get actualTableName => 'hourly_vacation_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<HourlyVaccationTableData> instance,
+      Insertable<HourlyVacationTableData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -4057,15 +4548,15 @@ class $HourlyVaccationTableTable extends HourlyVaccationTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  HourlyVaccationTableData map(Map<String, dynamic> data,
+  HourlyVacationTableData map(Map<String, dynamic> data,
       {String? tablePrefix}) {
-    return HourlyVaccationTableData.fromData(data,
+    return HourlyVacationTableData.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $HourlyVaccationTableTable createAlias(String alias) {
-    return $HourlyVaccationTableTable(attachedDatabase, alias);
+  $HourlyVacationTableTable createAlias(String alias) {
+    return $HourlyVacationTableTable(attachedDatabase, alias);
   }
 }
 
@@ -4380,13 +4871,13 @@ class $OperationalServiceDeficitRecordTableTable
 class OvertimeTableData extends DataClass
     implements Insertable<OvertimeTableData> {
   final int? id;
-  final int? disciplinalOvertime;
+  final int? disciplinaryOvertime;
   final int? annualOvertime;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   OvertimeTableData(
       {this.id,
-      this.disciplinalOvertime,
+      this.disciplinaryOvertime,
       this.annualOvertime,
       this.createdAt,
       this.updatedAt});
@@ -4395,8 +4886,8 @@ class OvertimeTableData extends DataClass
     final effectivePrefix = prefix ?? '';
     return OvertimeTableData(
       id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      disciplinalOvertime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}disciplinal_overtime']),
+      disciplinaryOvertime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}disciplinary_overtime']),
       annualOvertime: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}annual_overtime']),
       createdAt: const DateTimeType()
@@ -4411,8 +4902,8 @@ class OvertimeTableData extends DataClass
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int?>(id);
     }
-    if (!nullToAbsent || disciplinalOvertime != null) {
-      map['disciplinal_overtime'] = Variable<int?>(disciplinalOvertime);
+    if (!nullToAbsent || disciplinaryOvertime != null) {
+      map['disciplinary_overtime'] = Variable<int?>(disciplinaryOvertime);
     }
     if (!nullToAbsent || annualOvertime != null) {
       map['annual_overtime'] = Variable<int?>(annualOvertime);
@@ -4429,9 +4920,9 @@ class OvertimeTableData extends DataClass
   OvertimeTableCompanion toCompanion(bool nullToAbsent) {
     return OvertimeTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      disciplinalOvertime: disciplinalOvertime == null && nullToAbsent
+      disciplinaryOvertime: disciplinaryOvertime == null && nullToAbsent
           ? const Value.absent()
-          : Value(disciplinalOvertime),
+          : Value(disciplinaryOvertime),
       annualOvertime: annualOvertime == null && nullToAbsent
           ? const Value.absent()
           : Value(annualOvertime),
@@ -4449,8 +4940,8 @@ class OvertimeTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return OvertimeTableData(
       id: serializer.fromJson<int?>(json['id']),
-      disciplinalOvertime:
-          serializer.fromJson<int?>(json['disciplinalOvertime']),
+      disciplinaryOvertime:
+          serializer.fromJson<int?>(json['disciplinaryOvertime']),
       annualOvertime: serializer.fromJson<int?>(json['annualOvertime']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
@@ -4461,7 +4952,7 @@ class OvertimeTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int?>(id),
-      'disciplinalOvertime': serializer.toJson<int?>(disciplinalOvertime),
+      'disciplinaryOvertime': serializer.toJson<int?>(disciplinaryOvertime),
       'annualOvertime': serializer.toJson<int?>(annualOvertime),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
@@ -4470,13 +4961,13 @@ class OvertimeTableData extends DataClass
 
   OvertimeTableData copyWith(
           {int? id,
-          int? disciplinalOvertime,
+          int? disciplinaryOvertime,
           int? annualOvertime,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       OvertimeTableData(
         id: id ?? this.id,
-        disciplinalOvertime: disciplinalOvertime ?? this.disciplinalOvertime,
+        disciplinaryOvertime: disciplinaryOvertime ?? this.disciplinaryOvertime,
         annualOvertime: annualOvertime ?? this.annualOvertime,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
@@ -4485,7 +4976,7 @@ class OvertimeTableData extends DataClass
   String toString() {
     return (StringBuffer('OvertimeTableData(')
           ..write('id: $id, ')
-          ..write('disciplinalOvertime: $disciplinalOvertime, ')
+          ..write('disciplinaryOvertime: $disciplinaryOvertime, ')
           ..write('annualOvertime: $annualOvertime, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
@@ -4495,13 +4986,13 @@ class OvertimeTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(
-      id, disciplinalOvertime, annualOvertime, createdAt, updatedAt);
+      id, disciplinaryOvertime, annualOvertime, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is OvertimeTableData &&
           other.id == this.id &&
-          other.disciplinalOvertime == this.disciplinalOvertime &&
+          other.disciplinaryOvertime == this.disciplinaryOvertime &&
           other.annualOvertime == this.annualOvertime &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
@@ -4509,35 +5000,35 @@ class OvertimeTableData extends DataClass
 
 class OvertimeTableCompanion extends UpdateCompanion<OvertimeTableData> {
   final Value<int?> id;
-  final Value<int?> disciplinalOvertime;
+  final Value<int?> disciplinaryOvertime;
   final Value<int?> annualOvertime;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   const OvertimeTableCompanion({
     this.id = const Value.absent(),
-    this.disciplinalOvertime = const Value.absent(),
+    this.disciplinaryOvertime = const Value.absent(),
     this.annualOvertime = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
   OvertimeTableCompanion.insert({
     this.id = const Value.absent(),
-    this.disciplinalOvertime = const Value.absent(),
+    this.disciplinaryOvertime = const Value.absent(),
     this.annualOvertime = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
   static Insertable<OvertimeTableData> custom({
     Expression<int?>? id,
-    Expression<int?>? disciplinalOvertime,
+    Expression<int?>? disciplinaryOvertime,
     Expression<int?>? annualOvertime,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (disciplinalOvertime != null)
-        'disciplinal_overtime': disciplinalOvertime,
+      if (disciplinaryOvertime != null)
+        'disciplinary_overtime': disciplinaryOvertime,
       if (annualOvertime != null) 'annual_overtime': annualOvertime,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
@@ -4546,13 +5037,13 @@ class OvertimeTableCompanion extends UpdateCompanion<OvertimeTableData> {
 
   OvertimeTableCompanion copyWith(
       {Value<int?>? id,
-      Value<int?>? disciplinalOvertime,
+      Value<int?>? disciplinaryOvertime,
       Value<int?>? annualOvertime,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
     return OvertimeTableCompanion(
       id: id ?? this.id,
-      disciplinalOvertime: disciplinalOvertime ?? this.disciplinalOvertime,
+      disciplinaryOvertime: disciplinaryOvertime ?? this.disciplinaryOvertime,
       annualOvertime: annualOvertime ?? this.annualOvertime,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -4565,8 +5056,8 @@ class OvertimeTableCompanion extends UpdateCompanion<OvertimeTableData> {
     if (id.present) {
       map['id'] = Variable<int?>(id.value);
     }
-    if (disciplinalOvertime.present) {
-      map['disciplinal_overtime'] = Variable<int?>(disciplinalOvertime.value);
+    if (disciplinaryOvertime.present) {
+      map['disciplinary_overtime'] = Variable<int?>(disciplinaryOvertime.value);
     }
     if (annualOvertime.present) {
       map['annual_overtime'] = Variable<int?>(annualOvertime.value);
@@ -4584,7 +5075,7 @@ class OvertimeTableCompanion extends UpdateCompanion<OvertimeTableData> {
   String toString() {
     return (StringBuffer('OvertimeTableCompanion(')
           ..write('id: $id, ')
-          ..write('disciplinalOvertime: $disciplinalOvertime, ')
+          ..write('disciplinaryOvertime: $disciplinaryOvertime, ')
           ..write('annualOvertime: $annualOvertime, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
@@ -4606,14 +5097,14 @@ class $OvertimeTableTable extends OvertimeTable
       type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _disciplinalOvertimeMeta =
-      const VerificationMeta('disciplinalOvertime');
+  final VerificationMeta _disciplinaryOvertimeMeta =
+      const VerificationMeta('disciplinaryOvertime');
   @override
-  late final GeneratedColumn<int?> disciplinalOvertime = GeneratedColumn<int?>(
-      'disciplinal_overtime', aliasedName, true,
+  late final GeneratedColumn<int?> disciplinaryOvertime = GeneratedColumn<int?>(
+      'disciplinary_overtime', aliasedName, true,
       type: const IntType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'REFERENCES disciplinal_overtime_table (id)');
+      defaultConstraints: 'REFERENCES disciplinary_overtime_table (id)');
   final VerificationMeta _annualOvertimeMeta =
       const VerificationMeta('annualOvertime');
   @override
@@ -4634,7 +5125,7 @@ class $OvertimeTableTable extends OvertimeTable
       type: const IntType(), requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, disciplinalOvertime, annualOvertime, createdAt, updatedAt];
+      [id, disciplinaryOvertime, annualOvertime, createdAt, updatedAt];
   @override
   String get aliasedName => _alias ?? 'overtime_table';
   @override
@@ -4647,11 +5138,11 @@ class $OvertimeTableTable extends OvertimeTable
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('disciplinal_overtime')) {
+    if (data.containsKey('disciplinary_overtime')) {
       context.handle(
-          _disciplinalOvertimeMeta,
-          disciplinalOvertime.isAcceptableOrUnknown(
-              data['disciplinal_overtime']!, _disciplinalOvertimeMeta));
+          _disciplinaryOvertimeMeta,
+          disciplinaryOvertime.isAcceptableOrUnknown(
+              data['disciplinary_overtime']!, _disciplinaryOvertimeMeta));
     }
     if (data.containsKey('annual_overtime')) {
       context.handle(
@@ -5068,8 +5559,8 @@ class $SectionTableTable extends SectionTable
   }
 }
 
-class TrainigStatusTableData extends DataClass
-    implements Insertable<TrainigStatusTableData> {
+class TrainingStatusTableData extends DataClass
+    implements Insertable<TrainingStatusTableData> {
   final int? id;
   final DateTime? startDate;
   final String placeName;
@@ -5079,7 +5570,7 @@ class TrainigStatusTableData extends DataClass
   final DateTime? endDate;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  TrainigStatusTableData(
+  TrainingStatusTableData(
       {this.id,
       this.startDate,
       required this.placeName,
@@ -5089,10 +5580,10 @@ class TrainigStatusTableData extends DataClass
       this.endDate,
       this.createdAt,
       this.updatedAt});
-  factory TrainigStatusTableData.fromData(Map<String, dynamic> data,
+  factory TrainingStatusTableData.fromData(Map<String, dynamic> data,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return TrainigStatusTableData(
+    return TrainingStatusTableData(
       id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
       startDate: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}start_date']),
@@ -5143,8 +5634,8 @@ class TrainigStatusTableData extends DataClass
     return map;
   }
 
-  TrainigStatusTableCompanion toCompanion(bool nullToAbsent) {
-    return TrainigStatusTableCompanion(
+  TrainingStatusTableCompanion toCompanion(bool nullToAbsent) {
+    return TrainingStatusTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       startDate: startDate == null && nullToAbsent
           ? const Value.absent()
@@ -5167,10 +5658,10 @@ class TrainigStatusTableData extends DataClass
     );
   }
 
-  factory TrainigStatusTableData.fromJson(Map<String, dynamic> json,
+  factory TrainingStatusTableData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return TrainigStatusTableData(
+    return TrainingStatusTableData(
       id: serializer.fromJson<int?>(json['id']),
       startDate: serializer.fromJson<DateTime?>(json['startDate']),
       placeName: serializer.fromJson<String>(json['placeName']),
@@ -5198,7 +5689,7 @@ class TrainigStatusTableData extends DataClass
     };
   }
 
-  TrainigStatusTableData copyWith(
+  TrainingStatusTableData copyWith(
           {int? id,
           DateTime? startDate,
           String? placeName,
@@ -5208,7 +5699,7 @@ class TrainigStatusTableData extends DataClass
           DateTime? endDate,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
-      TrainigStatusTableData(
+      TrainingStatusTableData(
         id: id ?? this.id,
         startDate: startDate ?? this.startDate,
         placeName: placeName ?? this.placeName,
@@ -5221,7 +5712,7 @@ class TrainigStatusTableData extends DataClass
       );
   @override
   String toString() {
-    return (StringBuffer('TrainigStatusTableData(')
+    return (StringBuffer('TrainingStatusTableData(')
           ..write('id: $id, ')
           ..write('startDate: $startDate, ')
           ..write('placeName: $placeName, ')
@@ -5241,7 +5732,7 @@ class TrainigStatusTableData extends DataClass
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is TrainigStatusTableData &&
+      (other is TrainingStatusTableData &&
           other.id == this.id &&
           other.startDate == this.startDate &&
           other.placeName == this.placeName &&
@@ -5253,8 +5744,8 @@ class TrainigStatusTableData extends DataClass
           other.updatedAt == this.updatedAt);
 }
 
-class TrainigStatusTableCompanion
-    extends UpdateCompanion<TrainigStatusTableData> {
+class TrainingStatusTableCompanion
+    extends UpdateCompanion<TrainingStatusTableData> {
   final Value<int?> id;
   final Value<DateTime?> startDate;
   final Value<String> placeName;
@@ -5264,7 +5755,7 @@ class TrainigStatusTableCompanion
   final Value<DateTime?> endDate;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
-  const TrainigStatusTableCompanion({
+  const TrainingStatusTableCompanion({
     this.id = const Value.absent(),
     this.startDate = const Value.absent(),
     this.placeName = const Value.absent(),
@@ -5275,7 +5766,7 @@ class TrainigStatusTableCompanion
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
-  TrainigStatusTableCompanion.insert({
+  TrainingStatusTableCompanion.insert({
     this.id = const Value.absent(),
     this.startDate = const Value.absent(),
     required String placeName,
@@ -5286,7 +5777,7 @@ class TrainigStatusTableCompanion
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   }) : placeName = Value(placeName);
-  static Insertable<TrainigStatusTableData> custom({
+  static Insertable<TrainingStatusTableData> custom({
     Expression<int?>? id,
     Expression<DateTime?>? startDate,
     Expression<String>? placeName,
@@ -5310,7 +5801,7 @@ class TrainigStatusTableCompanion
     });
   }
 
-  TrainigStatusTableCompanion copyWith(
+  TrainingStatusTableCompanion copyWith(
       {Value<int?>? id,
       Value<DateTime?>? startDate,
       Value<String>? placeName,
@@ -5320,7 +5811,7 @@ class TrainigStatusTableCompanion
       Value<DateTime?>? endDate,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
-    return TrainigStatusTableCompanion(
+    return TrainingStatusTableCompanion(
       id: id ?? this.id,
       startDate: startDate ?? this.startDate,
       placeName: placeName ?? this.placeName,
@@ -5368,7 +5859,7 @@ class TrainigStatusTableCompanion
 
   @override
   String toString() {
-    return (StringBuffer('TrainigStatusTableCompanion(')
+    return (StringBuffer('TrainingStatusTableCompanion(')
           ..write('id: $id, ')
           ..write('startDate: $startDate, ')
           ..write('placeName: $placeName, ')
@@ -5383,12 +5874,12 @@ class TrainigStatusTableCompanion
   }
 }
 
-class $TrainigStatusTableTable extends TrainigStatusTable
-    with TableInfo<$TrainigStatusTableTable, TrainigStatusTableData> {
+class $TrainingStatusTableTable extends TrainingStatusTable
+    with TableInfo<$TrainingStatusTableTable, TrainingStatusTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $TrainigStatusTableTable(this.attachedDatabase, [this._alias]);
+  $TrainingStatusTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -5449,12 +5940,12 @@ class $TrainigStatusTableTable extends TrainigStatusTable
         updatedAt
       ];
   @override
-  String get aliasedName => _alias ?? 'trainig_status_table';
+  String get aliasedName => _alias ?? 'training_status_table';
   @override
-  String get actualTableName => 'trainig_status_table';
+  String get actualTableName => 'training_status_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<TrainigStatusTableData> instance,
+      Insertable<TrainingStatusTableData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -5501,63 +5992,64 @@ class $TrainigStatusTableTable extends TrainigStatusTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  TrainigStatusTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return TrainigStatusTableData.fromData(data,
+  TrainingStatusTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    return TrainingStatusTableData.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $TrainigStatusTableTable createAlias(String alias) {
-    return $TrainigStatusTableTable(attachedDatabase, alias);
+  $TrainingStatusTableTable createAlias(String alias) {
+    return $TrainingStatusTableTable(attachedDatabase, alias);
   }
 }
 
-class VaccationsTableData extends DataClass
-    implements Insertable<VaccationsTableData> {
+class VacationsTableData extends DataClass
+    implements Insertable<VacationsTableData> {
   final int? id;
-  final int? amountOfEligibleVaccations;
-  final int? amountOfSickVaccations;
-  final int? amountOfIncentiveVaccations;
-  final int? eligibleVaccationsUsed;
-  final int? sickVaccationsUsed;
-  final int? incentiveVaccationsUsed;
-  final int? dailyVaccations;
-  final int? hourlyVaccations;
+  final int? amountOfEligible;
+  final int? amountOfSick;
+  final int? amountOfIncentive;
+  final int? eligibleUsed;
+  final int? sickUsed;
+  final int? incentiveUsed;
+  final int? daily;
+  final int? hourly;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  VaccationsTableData(
+  VacationsTableData(
       {this.id,
-      this.amountOfEligibleVaccations,
-      this.amountOfSickVaccations,
-      this.amountOfIncentiveVaccations,
-      this.eligibleVaccationsUsed,
-      this.sickVaccationsUsed,
-      this.incentiveVaccationsUsed,
-      this.dailyVaccations,
-      this.hourlyVaccations,
+      this.amountOfEligible,
+      this.amountOfSick,
+      this.amountOfIncentive,
+      this.eligibleUsed,
+      this.sickUsed,
+      this.incentiveUsed,
+      this.daily,
+      this.hourly,
       this.createdAt,
       this.updatedAt});
-  factory VaccationsTableData.fromData(Map<String, dynamic> data,
+  factory VacationsTableData.fromData(Map<String, dynamic> data,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return VaccationsTableData(
+    return VacationsTableData(
       id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      amountOfEligibleVaccations: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}amount_of_eligible_vaccations']),
-      amountOfSickVaccations: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}amount_of_sick_vaccations']),
-      amountOfIncentiveVaccations: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}amount_of_incentive_vaccations']),
-      eligibleVaccationsUsed: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}eligible_vaccations_used']),
-      sickVaccationsUsed: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}sick_vaccations_used']),
-      incentiveVaccationsUsed: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}incentive_vaccations_used']),
-      dailyVaccations: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}daily_vaccations']),
-      hourlyVaccations: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}hourly_vaccations']),
+      amountOfEligible: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}amount_of_eligible']),
+      amountOfSick: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}amount_of_sick']),
+      amountOfIncentive: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}amount_of_incentive']),
+      eligibleUsed: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}eligible_used']),
+      sickUsed: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}sick_used']),
+      incentiveUsed: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}incentive_used']),
+      daily: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}daily']),
+      hourly: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}hourly']),
       createdAt: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
       updatedAt: const DateTimeType()
@@ -5570,32 +6062,29 @@ class VaccationsTableData extends DataClass
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int?>(id);
     }
-    if (!nullToAbsent || amountOfEligibleVaccations != null) {
-      map['amount_of_eligible_vaccations'] =
-          Variable<int?>(amountOfEligibleVaccations);
+    if (!nullToAbsent || amountOfEligible != null) {
+      map['amount_of_eligible'] = Variable<int?>(amountOfEligible);
     }
-    if (!nullToAbsent || amountOfSickVaccations != null) {
-      map['amount_of_sick_vaccations'] = Variable<int?>(amountOfSickVaccations);
+    if (!nullToAbsent || amountOfSick != null) {
+      map['amount_of_sick'] = Variable<int?>(amountOfSick);
     }
-    if (!nullToAbsent || amountOfIncentiveVaccations != null) {
-      map['amount_of_incentive_vaccations'] =
-          Variable<int?>(amountOfIncentiveVaccations);
+    if (!nullToAbsent || amountOfIncentive != null) {
+      map['amount_of_incentive'] = Variable<int?>(amountOfIncentive);
     }
-    if (!nullToAbsent || eligibleVaccationsUsed != null) {
-      map['eligible_vaccations_used'] = Variable<int?>(eligibleVaccationsUsed);
+    if (!nullToAbsent || eligibleUsed != null) {
+      map['eligible_used'] = Variable<int?>(eligibleUsed);
     }
-    if (!nullToAbsent || sickVaccationsUsed != null) {
-      map['sick_vaccations_used'] = Variable<int?>(sickVaccationsUsed);
+    if (!nullToAbsent || sickUsed != null) {
+      map['sick_used'] = Variable<int?>(sickUsed);
     }
-    if (!nullToAbsent || incentiveVaccationsUsed != null) {
-      map['incentive_vaccations_used'] =
-          Variable<int?>(incentiveVaccationsUsed);
+    if (!nullToAbsent || incentiveUsed != null) {
+      map['incentive_used'] = Variable<int?>(incentiveUsed);
     }
-    if (!nullToAbsent || dailyVaccations != null) {
-      map['daily_vaccations'] = Variable<int?>(dailyVaccations);
+    if (!nullToAbsent || daily != null) {
+      map['daily'] = Variable<int?>(daily);
     }
-    if (!nullToAbsent || hourlyVaccations != null) {
-      map['hourly_vaccations'] = Variable<int?>(hourlyVaccations);
+    if (!nullToAbsent || hourly != null) {
+      map['hourly'] = Variable<int?>(hourly);
     }
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime?>(createdAt);
@@ -5606,35 +6095,31 @@ class VaccationsTableData extends DataClass
     return map;
   }
 
-  VaccationsTableCompanion toCompanion(bool nullToAbsent) {
-    return VaccationsTableCompanion(
+  VacationsTableCompanion toCompanion(bool nullToAbsent) {
+    return VacationsTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      amountOfEligibleVaccations:
-          amountOfEligibleVaccations == null && nullToAbsent
-              ? const Value.absent()
-              : Value(amountOfEligibleVaccations),
-      amountOfSickVaccations: amountOfSickVaccations == null && nullToAbsent
+      amountOfEligible: amountOfEligible == null && nullToAbsent
           ? const Value.absent()
-          : Value(amountOfSickVaccations),
-      amountOfIncentiveVaccations:
-          amountOfIncentiveVaccations == null && nullToAbsent
-              ? const Value.absent()
-              : Value(amountOfIncentiveVaccations),
-      eligibleVaccationsUsed: eligibleVaccationsUsed == null && nullToAbsent
+          : Value(amountOfEligible),
+      amountOfSick: amountOfSick == null && nullToAbsent
           ? const Value.absent()
-          : Value(eligibleVaccationsUsed),
-      sickVaccationsUsed: sickVaccationsUsed == null && nullToAbsent
+          : Value(amountOfSick),
+      amountOfIncentive: amountOfIncentive == null && nullToAbsent
           ? const Value.absent()
-          : Value(sickVaccationsUsed),
-      incentiveVaccationsUsed: incentiveVaccationsUsed == null && nullToAbsent
+          : Value(amountOfIncentive),
+      eligibleUsed: eligibleUsed == null && nullToAbsent
           ? const Value.absent()
-          : Value(incentiveVaccationsUsed),
-      dailyVaccations: dailyVaccations == null && nullToAbsent
+          : Value(eligibleUsed),
+      sickUsed: sickUsed == null && nullToAbsent
           ? const Value.absent()
-          : Value(dailyVaccations),
-      hourlyVaccations: hourlyVaccations == null && nullToAbsent
+          : Value(sickUsed),
+      incentiveUsed: incentiveUsed == null && nullToAbsent
           ? const Value.absent()
-          : Value(hourlyVaccations),
+          : Value(incentiveUsed),
+      daily:
+          daily == null && nullToAbsent ? const Value.absent() : Value(daily),
+      hourly:
+          hourly == null && nullToAbsent ? const Value.absent() : Value(hourly),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -5644,24 +6129,19 @@ class VaccationsTableData extends DataClass
     );
   }
 
-  factory VaccationsTableData.fromJson(Map<String, dynamic> json,
+  factory VacationsTableData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return VaccationsTableData(
+    return VacationsTableData(
       id: serializer.fromJson<int?>(json['id']),
-      amountOfEligibleVaccations:
-          serializer.fromJson<int?>(json['amountOfEligibleVaccations']),
-      amountOfSickVaccations:
-          serializer.fromJson<int?>(json['amountOfSickVaccations']),
-      amountOfIncentiveVaccations:
-          serializer.fromJson<int?>(json['amountOfIncentiveVaccations']),
-      eligibleVaccationsUsed:
-          serializer.fromJson<int?>(json['eligibleVaccationsUsed']),
-      sickVaccationsUsed: serializer.fromJson<int?>(json['sickVaccationsUsed']),
-      incentiveVaccationsUsed:
-          serializer.fromJson<int?>(json['incentiveVaccationsUsed']),
-      dailyVaccations: serializer.fromJson<int?>(json['dailyVaccations']),
-      hourlyVaccations: serializer.fromJson<int?>(json['hourlyVaccations']),
+      amountOfEligible: serializer.fromJson<int?>(json['amountOfEligible']),
+      amountOfSick: serializer.fromJson<int?>(json['amountOfSick']),
+      amountOfIncentive: serializer.fromJson<int?>(json['amountOfIncentive']),
+      eligibleUsed: serializer.fromJson<int?>(json['eligibleUsed']),
+      sickUsed: serializer.fromJson<int?>(json['sickUsed']),
+      incentiveUsed: serializer.fromJson<int?>(json['incentiveUsed']),
+      daily: serializer.fromJson<int?>(json['daily']),
+      hourly: serializer.fromJson<int?>(json['hourly']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -5671,64 +6151,56 @@ class VaccationsTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int?>(id),
-      'amountOfEligibleVaccations':
-          serializer.toJson<int?>(amountOfEligibleVaccations),
-      'amountOfSickVaccations': serializer.toJson<int?>(amountOfSickVaccations),
-      'amountOfIncentiveVaccations':
-          serializer.toJson<int?>(amountOfIncentiveVaccations),
-      'eligibleVaccationsUsed': serializer.toJson<int?>(eligibleVaccationsUsed),
-      'sickVaccationsUsed': serializer.toJson<int?>(sickVaccationsUsed),
-      'incentiveVaccationsUsed':
-          serializer.toJson<int?>(incentiveVaccationsUsed),
-      'dailyVaccations': serializer.toJson<int?>(dailyVaccations),
-      'hourlyVaccations': serializer.toJson<int?>(hourlyVaccations),
+      'amountOfEligible': serializer.toJson<int?>(amountOfEligible),
+      'amountOfSick': serializer.toJson<int?>(amountOfSick),
+      'amountOfIncentive': serializer.toJson<int?>(amountOfIncentive),
+      'eligibleUsed': serializer.toJson<int?>(eligibleUsed),
+      'sickUsed': serializer.toJson<int?>(sickUsed),
+      'incentiveUsed': serializer.toJson<int?>(incentiveUsed),
+      'daily': serializer.toJson<int?>(daily),
+      'hourly': serializer.toJson<int?>(hourly),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
   }
 
-  VaccationsTableData copyWith(
+  VacationsTableData copyWith(
           {int? id,
-          int? amountOfEligibleVaccations,
-          int? amountOfSickVaccations,
-          int? amountOfIncentiveVaccations,
-          int? eligibleVaccationsUsed,
-          int? sickVaccationsUsed,
-          int? incentiveVaccationsUsed,
-          int? dailyVaccations,
-          int? hourlyVaccations,
+          int? amountOfEligible,
+          int? amountOfSick,
+          int? amountOfIncentive,
+          int? eligibleUsed,
+          int? sickUsed,
+          int? incentiveUsed,
+          int? daily,
+          int? hourly,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
-      VaccationsTableData(
+      VacationsTableData(
         id: id ?? this.id,
-        amountOfEligibleVaccations:
-            amountOfEligibleVaccations ?? this.amountOfEligibleVaccations,
-        amountOfSickVaccations:
-            amountOfSickVaccations ?? this.amountOfSickVaccations,
-        amountOfIncentiveVaccations:
-            amountOfIncentiveVaccations ?? this.amountOfIncentiveVaccations,
-        eligibleVaccationsUsed:
-            eligibleVaccationsUsed ?? this.eligibleVaccationsUsed,
-        sickVaccationsUsed: sickVaccationsUsed ?? this.sickVaccationsUsed,
-        incentiveVaccationsUsed:
-            incentiveVaccationsUsed ?? this.incentiveVaccationsUsed,
-        dailyVaccations: dailyVaccations ?? this.dailyVaccations,
-        hourlyVaccations: hourlyVaccations ?? this.hourlyVaccations,
+        amountOfEligible: amountOfEligible ?? this.amountOfEligible,
+        amountOfSick: amountOfSick ?? this.amountOfSick,
+        amountOfIncentive: amountOfIncentive ?? this.amountOfIncentive,
+        eligibleUsed: eligibleUsed ?? this.eligibleUsed,
+        sickUsed: sickUsed ?? this.sickUsed,
+        incentiveUsed: incentiveUsed ?? this.incentiveUsed,
+        daily: daily ?? this.daily,
+        hourly: hourly ?? this.hourly,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
   @override
   String toString() {
-    return (StringBuffer('VaccationsTableData(')
+    return (StringBuffer('VacationsTableData(')
           ..write('id: $id, ')
-          ..write('amountOfEligibleVaccations: $amountOfEligibleVaccations, ')
-          ..write('amountOfSickVaccations: $amountOfSickVaccations, ')
-          ..write('amountOfIncentiveVaccations: $amountOfIncentiveVaccations, ')
-          ..write('eligibleVaccationsUsed: $eligibleVaccationsUsed, ')
-          ..write('sickVaccationsUsed: $sickVaccationsUsed, ')
-          ..write('incentiveVaccationsUsed: $incentiveVaccationsUsed, ')
-          ..write('dailyVaccations: $dailyVaccations, ')
-          ..write('hourlyVaccations: $hourlyVaccations, ')
+          ..write('amountOfEligible: $amountOfEligible, ')
+          ..write('amountOfSick: $amountOfSick, ')
+          ..write('amountOfIncentive: $amountOfIncentive, ')
+          ..write('eligibleUsed: $eligibleUsed, ')
+          ..write('sickUsed: $sickUsed, ')
+          ..write('incentiveUsed: $incentiveUsed, ')
+          ..write('daily: $daily, ')
+          ..write('hourly: $hourly, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -5738,133 +6210,121 @@ class VaccationsTableData extends DataClass
   @override
   int get hashCode => Object.hash(
       id,
-      amountOfEligibleVaccations,
-      amountOfSickVaccations,
-      amountOfIncentiveVaccations,
-      eligibleVaccationsUsed,
-      sickVaccationsUsed,
-      incentiveVaccationsUsed,
-      dailyVaccations,
-      hourlyVaccations,
+      amountOfEligible,
+      amountOfSick,
+      amountOfIncentive,
+      eligibleUsed,
+      sickUsed,
+      incentiveUsed,
+      daily,
+      hourly,
       createdAt,
       updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is VaccationsTableData &&
+      (other is VacationsTableData &&
           other.id == this.id &&
-          other.amountOfEligibleVaccations == this.amountOfEligibleVaccations &&
-          other.amountOfSickVaccations == this.amountOfSickVaccations &&
-          other.amountOfIncentiveVaccations ==
-              this.amountOfIncentiveVaccations &&
-          other.eligibleVaccationsUsed == this.eligibleVaccationsUsed &&
-          other.sickVaccationsUsed == this.sickVaccationsUsed &&
-          other.incentiveVaccationsUsed == this.incentiveVaccationsUsed &&
-          other.dailyVaccations == this.dailyVaccations &&
-          other.hourlyVaccations == this.hourlyVaccations &&
+          other.amountOfEligible == this.amountOfEligible &&
+          other.amountOfSick == this.amountOfSick &&
+          other.amountOfIncentive == this.amountOfIncentive &&
+          other.eligibleUsed == this.eligibleUsed &&
+          other.sickUsed == this.sickUsed &&
+          other.incentiveUsed == this.incentiveUsed &&
+          other.daily == this.daily &&
+          other.hourly == this.hourly &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
 
-class VaccationsTableCompanion extends UpdateCompanion<VaccationsTableData> {
+class VacationsTableCompanion extends UpdateCompanion<VacationsTableData> {
   final Value<int?> id;
-  final Value<int?> amountOfEligibleVaccations;
-  final Value<int?> amountOfSickVaccations;
-  final Value<int?> amountOfIncentiveVaccations;
-  final Value<int?> eligibleVaccationsUsed;
-  final Value<int?> sickVaccationsUsed;
-  final Value<int?> incentiveVaccationsUsed;
-  final Value<int?> dailyVaccations;
-  final Value<int?> hourlyVaccations;
+  final Value<int?> amountOfEligible;
+  final Value<int?> amountOfSick;
+  final Value<int?> amountOfIncentive;
+  final Value<int?> eligibleUsed;
+  final Value<int?> sickUsed;
+  final Value<int?> incentiveUsed;
+  final Value<int?> daily;
+  final Value<int?> hourly;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
-  const VaccationsTableCompanion({
+  const VacationsTableCompanion({
     this.id = const Value.absent(),
-    this.amountOfEligibleVaccations = const Value.absent(),
-    this.amountOfSickVaccations = const Value.absent(),
-    this.amountOfIncentiveVaccations = const Value.absent(),
-    this.eligibleVaccationsUsed = const Value.absent(),
-    this.sickVaccationsUsed = const Value.absent(),
-    this.incentiveVaccationsUsed = const Value.absent(),
-    this.dailyVaccations = const Value.absent(),
-    this.hourlyVaccations = const Value.absent(),
+    this.amountOfEligible = const Value.absent(),
+    this.amountOfSick = const Value.absent(),
+    this.amountOfIncentive = const Value.absent(),
+    this.eligibleUsed = const Value.absent(),
+    this.sickUsed = const Value.absent(),
+    this.incentiveUsed = const Value.absent(),
+    this.daily = const Value.absent(),
+    this.hourly = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
-  VaccationsTableCompanion.insert({
+  VacationsTableCompanion.insert({
     this.id = const Value.absent(),
-    this.amountOfEligibleVaccations = const Value.absent(),
-    this.amountOfSickVaccations = const Value.absent(),
-    this.amountOfIncentiveVaccations = const Value.absent(),
-    this.eligibleVaccationsUsed = const Value.absent(),
-    this.sickVaccationsUsed = const Value.absent(),
-    this.incentiveVaccationsUsed = const Value.absent(),
-    this.dailyVaccations = const Value.absent(),
-    this.hourlyVaccations = const Value.absent(),
+    this.amountOfEligible = const Value.absent(),
+    this.amountOfSick = const Value.absent(),
+    this.amountOfIncentive = const Value.absent(),
+    this.eligibleUsed = const Value.absent(),
+    this.sickUsed = const Value.absent(),
+    this.incentiveUsed = const Value.absent(),
+    this.daily = const Value.absent(),
+    this.hourly = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
-  static Insertable<VaccationsTableData> custom({
+  static Insertable<VacationsTableData> custom({
     Expression<int?>? id,
-    Expression<int?>? amountOfEligibleVaccations,
-    Expression<int?>? amountOfSickVaccations,
-    Expression<int?>? amountOfIncentiveVaccations,
-    Expression<int?>? eligibleVaccationsUsed,
-    Expression<int?>? sickVaccationsUsed,
-    Expression<int?>? incentiveVaccationsUsed,
-    Expression<int?>? dailyVaccations,
-    Expression<int?>? hourlyVaccations,
+    Expression<int?>? amountOfEligible,
+    Expression<int?>? amountOfSick,
+    Expression<int?>? amountOfIncentive,
+    Expression<int?>? eligibleUsed,
+    Expression<int?>? sickUsed,
+    Expression<int?>? incentiveUsed,
+    Expression<int?>? daily,
+    Expression<int?>? hourly,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (amountOfEligibleVaccations != null)
-        'amount_of_eligible_vaccations': amountOfEligibleVaccations,
-      if (amountOfSickVaccations != null)
-        'amount_of_sick_vaccations': amountOfSickVaccations,
-      if (amountOfIncentiveVaccations != null)
-        'amount_of_incentive_vaccations': amountOfIncentiveVaccations,
-      if (eligibleVaccationsUsed != null)
-        'eligible_vaccations_used': eligibleVaccationsUsed,
-      if (sickVaccationsUsed != null)
-        'sick_vaccations_used': sickVaccationsUsed,
-      if (incentiveVaccationsUsed != null)
-        'incentive_vaccations_used': incentiveVaccationsUsed,
-      if (dailyVaccations != null) 'daily_vaccations': dailyVaccations,
-      if (hourlyVaccations != null) 'hourly_vaccations': hourlyVaccations,
+      if (amountOfEligible != null) 'amount_of_eligible': amountOfEligible,
+      if (amountOfSick != null) 'amount_of_sick': amountOfSick,
+      if (amountOfIncentive != null) 'amount_of_incentive': amountOfIncentive,
+      if (eligibleUsed != null) 'eligible_used': eligibleUsed,
+      if (sickUsed != null) 'sick_used': sickUsed,
+      if (incentiveUsed != null) 'incentive_used': incentiveUsed,
+      if (daily != null) 'daily': daily,
+      if (hourly != null) 'hourly': hourly,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
   }
 
-  VaccationsTableCompanion copyWith(
+  VacationsTableCompanion copyWith(
       {Value<int?>? id,
-      Value<int?>? amountOfEligibleVaccations,
-      Value<int?>? amountOfSickVaccations,
-      Value<int?>? amountOfIncentiveVaccations,
-      Value<int?>? eligibleVaccationsUsed,
-      Value<int?>? sickVaccationsUsed,
-      Value<int?>? incentiveVaccationsUsed,
-      Value<int?>? dailyVaccations,
-      Value<int?>? hourlyVaccations,
+      Value<int?>? amountOfEligible,
+      Value<int?>? amountOfSick,
+      Value<int?>? amountOfIncentive,
+      Value<int?>? eligibleUsed,
+      Value<int?>? sickUsed,
+      Value<int?>? incentiveUsed,
+      Value<int?>? daily,
+      Value<int?>? hourly,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
-    return VaccationsTableCompanion(
+    return VacationsTableCompanion(
       id: id ?? this.id,
-      amountOfEligibleVaccations:
-          amountOfEligibleVaccations ?? this.amountOfEligibleVaccations,
-      amountOfSickVaccations:
-          amountOfSickVaccations ?? this.amountOfSickVaccations,
-      amountOfIncentiveVaccations:
-          amountOfIncentiveVaccations ?? this.amountOfIncentiveVaccations,
-      eligibleVaccationsUsed:
-          eligibleVaccationsUsed ?? this.eligibleVaccationsUsed,
-      sickVaccationsUsed: sickVaccationsUsed ?? this.sickVaccationsUsed,
-      incentiveVaccationsUsed:
-          incentiveVaccationsUsed ?? this.incentiveVaccationsUsed,
-      dailyVaccations: dailyVaccations ?? this.dailyVaccations,
-      hourlyVaccations: hourlyVaccations ?? this.hourlyVaccations,
+      amountOfEligible: amountOfEligible ?? this.amountOfEligible,
+      amountOfSick: amountOfSick ?? this.amountOfSick,
+      amountOfIncentive: amountOfIncentive ?? this.amountOfIncentive,
+      eligibleUsed: eligibleUsed ?? this.eligibleUsed,
+      sickUsed: sickUsed ?? this.sickUsed,
+      incentiveUsed: incentiveUsed ?? this.incentiveUsed,
+      daily: daily ?? this.daily,
+      hourly: hourly ?? this.hourly,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -5876,34 +6336,29 @@ class VaccationsTableCompanion extends UpdateCompanion<VaccationsTableData> {
     if (id.present) {
       map['id'] = Variable<int?>(id.value);
     }
-    if (amountOfEligibleVaccations.present) {
-      map['amount_of_eligible_vaccations'] =
-          Variable<int?>(amountOfEligibleVaccations.value);
+    if (amountOfEligible.present) {
+      map['amount_of_eligible'] = Variable<int?>(amountOfEligible.value);
     }
-    if (amountOfSickVaccations.present) {
-      map['amount_of_sick_vaccations'] =
-          Variable<int?>(amountOfSickVaccations.value);
+    if (amountOfSick.present) {
+      map['amount_of_sick'] = Variable<int?>(amountOfSick.value);
     }
-    if (amountOfIncentiveVaccations.present) {
-      map['amount_of_incentive_vaccations'] =
-          Variable<int?>(amountOfIncentiveVaccations.value);
+    if (amountOfIncentive.present) {
+      map['amount_of_incentive'] = Variable<int?>(amountOfIncentive.value);
     }
-    if (eligibleVaccationsUsed.present) {
-      map['eligible_vaccations_used'] =
-          Variable<int?>(eligibleVaccationsUsed.value);
+    if (eligibleUsed.present) {
+      map['eligible_used'] = Variable<int?>(eligibleUsed.value);
     }
-    if (sickVaccationsUsed.present) {
-      map['sick_vaccations_used'] = Variable<int?>(sickVaccationsUsed.value);
+    if (sickUsed.present) {
+      map['sick_used'] = Variable<int?>(sickUsed.value);
     }
-    if (incentiveVaccationsUsed.present) {
-      map['incentive_vaccations_used'] =
-          Variable<int?>(incentiveVaccationsUsed.value);
+    if (incentiveUsed.present) {
+      map['incentive_used'] = Variable<int?>(incentiveUsed.value);
     }
-    if (dailyVaccations.present) {
-      map['daily_vaccations'] = Variable<int?>(dailyVaccations.value);
+    if (daily.present) {
+      map['daily'] = Variable<int?>(daily.value);
     }
-    if (hourlyVaccations.present) {
-      map['hourly_vaccations'] = Variable<int?>(hourlyVaccations.value);
+    if (hourly.present) {
+      map['hourly'] = Variable<int?>(hourly.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime?>(createdAt.value);
@@ -5916,16 +6371,16 @@ class VaccationsTableCompanion extends UpdateCompanion<VaccationsTableData> {
 
   @override
   String toString() {
-    return (StringBuffer('VaccationsTableCompanion(')
+    return (StringBuffer('VacationsTableCompanion(')
           ..write('id: $id, ')
-          ..write('amountOfEligibleVaccations: $amountOfEligibleVaccations, ')
-          ..write('amountOfSickVaccations: $amountOfSickVaccations, ')
-          ..write('amountOfIncentiveVaccations: $amountOfIncentiveVaccations, ')
-          ..write('eligibleVaccationsUsed: $eligibleVaccationsUsed, ')
-          ..write('sickVaccationsUsed: $sickVaccationsUsed, ')
-          ..write('incentiveVaccationsUsed: $incentiveVaccationsUsed, ')
-          ..write('dailyVaccations: $dailyVaccations, ')
-          ..write('hourlyVaccations: $hourlyVaccations, ')
+          ..write('amountOfEligible: $amountOfEligible, ')
+          ..write('amountOfSick: $amountOfSick, ')
+          ..write('amountOfIncentive: $amountOfIncentive, ')
+          ..write('eligibleUsed: $eligibleUsed, ')
+          ..write('sickUsed: $sickUsed, ')
+          ..write('incentiveUsed: $incentiveUsed, ')
+          ..write('daily: $daily, ')
+          ..write('hourly: $hourly, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -5933,12 +6388,12 @@ class VaccationsTableCompanion extends UpdateCompanion<VaccationsTableData> {
   }
 }
 
-class $VaccationsTableTable extends VaccationsTable
-    with TableInfo<$VaccationsTableTable, VaccationsTableData> {
+class $VacationsTableTable extends VacationsTable
+    with TableInfo<$VacationsTableTable, VacationsTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $VaccationsTableTable(this.attachedDatabase, [this._alias]);
+  $VacationsTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -5946,58 +6401,55 @@ class $VaccationsTableTable extends VaccationsTable
       type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _amountOfEligibleVaccationsMeta =
-      const VerificationMeta('amountOfEligibleVaccations');
+  final VerificationMeta _amountOfEligibleMeta =
+      const VerificationMeta('amountOfEligible');
   @override
-  late final GeneratedColumn<int?> amountOfEligibleVaccations =
-      GeneratedColumn<int?>('amount_of_eligible_vaccations', aliasedName, true,
-          type: const IntType(), requiredDuringInsert: false);
-  final VerificationMeta _amountOfSickVaccationsMeta =
-      const VerificationMeta('amountOfSickVaccations');
-  @override
-  late final GeneratedColumn<int?> amountOfSickVaccations =
-      GeneratedColumn<int?>('amount_of_sick_vaccations', aliasedName, true,
-          type: const IntType(), requiredDuringInsert: false);
-  final VerificationMeta _amountOfIncentiveVaccationsMeta =
-      const VerificationMeta('amountOfIncentiveVaccations');
-  @override
-  late final GeneratedColumn<int?> amountOfIncentiveVaccations =
-      GeneratedColumn<int?>('amount_of_incentive_vaccations', aliasedName, true,
-          type: const IntType(), requiredDuringInsert: false);
-  final VerificationMeta _eligibleVaccationsUsedMeta =
-      const VerificationMeta('eligibleVaccationsUsed');
-  @override
-  late final GeneratedColumn<int?> eligibleVaccationsUsed =
-      GeneratedColumn<int?>('eligible_vaccations_used', aliasedName, true,
-          type: const IntType(), requiredDuringInsert: false);
-  final VerificationMeta _sickVaccationsUsedMeta =
-      const VerificationMeta('sickVaccationsUsed');
-  @override
-  late final GeneratedColumn<int?> sickVaccationsUsed = GeneratedColumn<int?>(
-      'sick_vaccations_used', aliasedName, true,
+  late final GeneratedColumn<int?> amountOfEligible = GeneratedColumn<int?>(
+      'amount_of_eligible', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
-  final VerificationMeta _incentiveVaccationsUsedMeta =
-      const VerificationMeta('incentiveVaccationsUsed');
+  final VerificationMeta _amountOfSickMeta =
+      const VerificationMeta('amountOfSick');
   @override
-  late final GeneratedColumn<int?> incentiveVaccationsUsed =
-      GeneratedColumn<int?>('incentive_vaccations_used', aliasedName, true,
-          type: const IntType(), requiredDuringInsert: false);
-  final VerificationMeta _dailyVaccationsMeta =
-      const VerificationMeta('dailyVaccations');
+  late final GeneratedColumn<int?> amountOfSick = GeneratedColumn<int?>(
+      'amount_of_sick', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _amountOfIncentiveMeta =
+      const VerificationMeta('amountOfIncentive');
   @override
-  late final GeneratedColumn<int?> dailyVaccations = GeneratedColumn<int?>(
-      'daily_vaccations', aliasedName, true,
+  late final GeneratedColumn<int?> amountOfIncentive = GeneratedColumn<int?>(
+      'amount_of_incentive', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _eligibleUsedMeta =
+      const VerificationMeta('eligibleUsed');
+  @override
+  late final GeneratedColumn<int?> eligibleUsed = GeneratedColumn<int?>(
+      'eligible_used', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _sickUsedMeta = const VerificationMeta('sickUsed');
+  @override
+  late final GeneratedColumn<int?> sickUsed = GeneratedColumn<int?>(
+      'sick_used', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _incentiveUsedMeta =
+      const VerificationMeta('incentiveUsed');
+  @override
+  late final GeneratedColumn<int?> incentiveUsed = GeneratedColumn<int?>(
+      'incentive_used', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _dailyMeta = const VerificationMeta('daily');
+  @override
+  late final GeneratedColumn<int?> daily = GeneratedColumn<int?>(
+      'daily', aliasedName, true,
       type: const IntType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'REFERENCES daily_vaccation_table (id)');
-  final VerificationMeta _hourlyVaccationsMeta =
-      const VerificationMeta('hourlyVaccations');
+      defaultConstraints: 'REFERENCES daily_vacation_table (id)');
+  final VerificationMeta _hourlyMeta = const VerificationMeta('hourly');
   @override
-  late final GeneratedColumn<int?> hourlyVaccations = GeneratedColumn<int?>(
-      'hourly_vaccations', aliasedName, true,
+  late final GeneratedColumn<int?> hourly = GeneratedColumn<int?>(
+      'hourly', aliasedName, true,
       type: const IntType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'REFERENCES hourly_vaccation_table (id)');
+      defaultConstraints: 'REFERENCES hourly_vacation_table (id)');
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
@@ -6011,80 +6463,70 @@ class $VaccationsTableTable extends VaccationsTable
   @override
   List<GeneratedColumn> get $columns => [
         id,
-        amountOfEligibleVaccations,
-        amountOfSickVaccations,
-        amountOfIncentiveVaccations,
-        eligibleVaccationsUsed,
-        sickVaccationsUsed,
-        incentiveVaccationsUsed,
-        dailyVaccations,
-        hourlyVaccations,
+        amountOfEligible,
+        amountOfSick,
+        amountOfIncentive,
+        eligibleUsed,
+        sickUsed,
+        incentiveUsed,
+        daily,
+        hourly,
         createdAt,
         updatedAt
       ];
   @override
-  String get aliasedName => _alias ?? 'vaccations_table';
+  String get aliasedName => _alias ?? 'vacations_table';
   @override
-  String get actualTableName => 'vaccations_table';
+  String get actualTableName => 'vacations_table';
   @override
-  VerificationContext validateIntegrity(
-      Insertable<VaccationsTableData> instance,
+  VerificationContext validateIntegrity(Insertable<VacationsTableData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('amount_of_eligible_vaccations')) {
+    if (data.containsKey('amount_of_eligible')) {
       context.handle(
-          _amountOfEligibleVaccationsMeta,
-          amountOfEligibleVaccations.isAcceptableOrUnknown(
-              data['amount_of_eligible_vaccations']!,
-              _amountOfEligibleVaccationsMeta));
+          _amountOfEligibleMeta,
+          amountOfEligible.isAcceptableOrUnknown(
+              data['amount_of_eligible']!, _amountOfEligibleMeta));
     }
-    if (data.containsKey('amount_of_sick_vaccations')) {
+    if (data.containsKey('amount_of_sick')) {
       context.handle(
-          _amountOfSickVaccationsMeta,
-          amountOfSickVaccations.isAcceptableOrUnknown(
-              data['amount_of_sick_vaccations']!, _amountOfSickVaccationsMeta));
+          _amountOfSickMeta,
+          amountOfSick.isAcceptableOrUnknown(
+              data['amount_of_sick']!, _amountOfSickMeta));
     }
-    if (data.containsKey('amount_of_incentive_vaccations')) {
+    if (data.containsKey('amount_of_incentive')) {
       context.handle(
-          _amountOfIncentiveVaccationsMeta,
-          amountOfIncentiveVaccations.isAcceptableOrUnknown(
-              data['amount_of_incentive_vaccations']!,
-              _amountOfIncentiveVaccationsMeta));
+          _amountOfIncentiveMeta,
+          amountOfIncentive.isAcceptableOrUnknown(
+              data['amount_of_incentive']!, _amountOfIncentiveMeta));
     }
-    if (data.containsKey('eligible_vaccations_used')) {
+    if (data.containsKey('eligible_used')) {
       context.handle(
-          _eligibleVaccationsUsedMeta,
-          eligibleVaccationsUsed.isAcceptableOrUnknown(
-              data['eligible_vaccations_used']!, _eligibleVaccationsUsedMeta));
+          _eligibleUsedMeta,
+          eligibleUsed.isAcceptableOrUnknown(
+              data['eligible_used']!, _eligibleUsedMeta));
     }
-    if (data.containsKey('sick_vaccations_used')) {
-      context.handle(
-          _sickVaccationsUsedMeta,
-          sickVaccationsUsed.isAcceptableOrUnknown(
-              data['sick_vaccations_used']!, _sickVaccationsUsedMeta));
+    if (data.containsKey('sick_used')) {
+      context.handle(_sickUsedMeta,
+          sickUsed.isAcceptableOrUnknown(data['sick_used']!, _sickUsedMeta));
     }
-    if (data.containsKey('incentive_vaccations_used')) {
+    if (data.containsKey('incentive_used')) {
       context.handle(
-          _incentiveVaccationsUsedMeta,
-          incentiveVaccationsUsed.isAcceptableOrUnknown(
-              data['incentive_vaccations_used']!,
-              _incentiveVaccationsUsedMeta));
+          _incentiveUsedMeta,
+          incentiveUsed.isAcceptableOrUnknown(
+              data['incentive_used']!, _incentiveUsedMeta));
     }
-    if (data.containsKey('daily_vaccations')) {
+    if (data.containsKey('daily')) {
       context.handle(
-          _dailyVaccationsMeta,
-          dailyVaccations.isAcceptableOrUnknown(
-              data['daily_vaccations']!, _dailyVaccationsMeta));
+          _dailyMeta, daily.isAcceptableOrUnknown(data['daily']!, _dailyMeta));
     }
-    if (data.containsKey('hourly_vaccations')) {
-      context.handle(
-          _hourlyVaccationsMeta,
-          hourlyVaccations.isAcceptableOrUnknown(
-              data['hourly_vaccations']!, _hourlyVaccationsMeta));
+    if (data.containsKey('hourly')) {
+      context.handle(_hourlyMeta,
+          hourly.isAcceptableOrUnknown(data['hourly']!, _hourlyMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -6100,14 +6542,14 @@ class $VaccationsTableTable extends VaccationsTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  VaccationsTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return VaccationsTableData.fromData(data,
+  VacationsTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return VacationsTableData.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $VaccationsTableTable createAlias(String alias) {
-    return $VaccationsTableTable(attachedDatabase, alias);
+  $VacationsTableTable createAlias(String alias) {
+    return $VacationsTableTable(attachedDatabase, alias);
   }
 }
 
@@ -6409,14 +6851,14 @@ class $ServiceDeficitRecordTableTable extends ServiceDeficitRecordTable
 class ServiceDeficitTableData extends DataClass
     implements Insertable<ServiceDeficitTableData> {
   final int? id;
-  final int? claculatedDeficitAmount;
+  final int? calculatedDeficitAmount;
   final int? records;
   final int? operationalRecords;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   ServiceDeficitTableData(
       {this.id,
-      this.claculatedDeficitAmount,
+      this.calculatedDeficitAmount,
       this.records,
       this.operationalRecords,
       this.createdAt,
@@ -6426,8 +6868,8 @@ class ServiceDeficitTableData extends DataClass
     final effectivePrefix = prefix ?? '';
     return ServiceDeficitTableData(
       id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      claculatedDeficitAmount: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}claculated_deficit_amount']),
+      calculatedDeficitAmount: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}calculated_deficit_amount']),
       records: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}records']),
       operationalRecords: const IntType().mapFromDatabaseResponse(
@@ -6444,9 +6886,9 @@ class ServiceDeficitTableData extends DataClass
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int?>(id);
     }
-    if (!nullToAbsent || claculatedDeficitAmount != null) {
-      map['claculated_deficit_amount'] =
-          Variable<int?>(claculatedDeficitAmount);
+    if (!nullToAbsent || calculatedDeficitAmount != null) {
+      map['calculated_deficit_amount'] =
+          Variable<int?>(calculatedDeficitAmount);
     }
     if (!nullToAbsent || records != null) {
       map['records'] = Variable<int?>(records);
@@ -6466,9 +6908,9 @@ class ServiceDeficitTableData extends DataClass
   ServiceDeficitTableCompanion toCompanion(bool nullToAbsent) {
     return ServiceDeficitTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      claculatedDeficitAmount: claculatedDeficitAmount == null && nullToAbsent
+      calculatedDeficitAmount: calculatedDeficitAmount == null && nullToAbsent
           ? const Value.absent()
-          : Value(claculatedDeficitAmount),
+          : Value(calculatedDeficitAmount),
       records: records == null && nullToAbsent
           ? const Value.absent()
           : Value(records),
@@ -6489,8 +6931,8 @@ class ServiceDeficitTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ServiceDeficitTableData(
       id: serializer.fromJson<int?>(json['id']),
-      claculatedDeficitAmount:
-          serializer.fromJson<int?>(json['claculatedDeficitAmount']),
+      calculatedDeficitAmount:
+          serializer.fromJson<int?>(json['calculatedDeficitAmount']),
       records: serializer.fromJson<int?>(json['records']),
       operationalRecords: serializer.fromJson<int?>(json['operationalRecords']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
@@ -6502,8 +6944,8 @@ class ServiceDeficitTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int?>(id),
-      'claculatedDeficitAmount':
-          serializer.toJson<int?>(claculatedDeficitAmount),
+      'calculatedDeficitAmount':
+          serializer.toJson<int?>(calculatedDeficitAmount),
       'records': serializer.toJson<int?>(records),
       'operationalRecords': serializer.toJson<int?>(operationalRecords),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
@@ -6513,15 +6955,15 @@ class ServiceDeficitTableData extends DataClass
 
   ServiceDeficitTableData copyWith(
           {int? id,
-          int? claculatedDeficitAmount,
+          int? calculatedDeficitAmount,
           int? records,
           int? operationalRecords,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       ServiceDeficitTableData(
         id: id ?? this.id,
-        claculatedDeficitAmount:
-            claculatedDeficitAmount ?? this.claculatedDeficitAmount,
+        calculatedDeficitAmount:
+            calculatedDeficitAmount ?? this.calculatedDeficitAmount,
         records: records ?? this.records,
         operationalRecords: operationalRecords ?? this.operationalRecords,
         createdAt: createdAt ?? this.createdAt,
@@ -6531,7 +6973,7 @@ class ServiceDeficitTableData extends DataClass
   String toString() {
     return (StringBuffer('ServiceDeficitTableData(')
           ..write('id: $id, ')
-          ..write('claculatedDeficitAmount: $claculatedDeficitAmount, ')
+          ..write('calculatedDeficitAmount: $calculatedDeficitAmount, ')
           ..write('records: $records, ')
           ..write('operationalRecords: $operationalRecords, ')
           ..write('createdAt: $createdAt, ')
@@ -6541,14 +6983,14 @@ class ServiceDeficitTableData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, claculatedDeficitAmount, records,
+  int get hashCode => Object.hash(id, calculatedDeficitAmount, records,
       operationalRecords, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is ServiceDeficitTableData &&
           other.id == this.id &&
-          other.claculatedDeficitAmount == this.claculatedDeficitAmount &&
+          other.calculatedDeficitAmount == this.calculatedDeficitAmount &&
           other.records == this.records &&
           other.operationalRecords == this.operationalRecords &&
           other.createdAt == this.createdAt &&
@@ -6558,14 +7000,14 @@ class ServiceDeficitTableData extends DataClass
 class ServiceDeficitTableCompanion
     extends UpdateCompanion<ServiceDeficitTableData> {
   final Value<int?> id;
-  final Value<int?> claculatedDeficitAmount;
+  final Value<int?> calculatedDeficitAmount;
   final Value<int?> records;
   final Value<int?> operationalRecords;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   const ServiceDeficitTableCompanion({
     this.id = const Value.absent(),
-    this.claculatedDeficitAmount = const Value.absent(),
+    this.calculatedDeficitAmount = const Value.absent(),
     this.records = const Value.absent(),
     this.operationalRecords = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -6573,7 +7015,7 @@ class ServiceDeficitTableCompanion
   });
   ServiceDeficitTableCompanion.insert({
     this.id = const Value.absent(),
-    this.claculatedDeficitAmount = const Value.absent(),
+    this.calculatedDeficitAmount = const Value.absent(),
     this.records = const Value.absent(),
     this.operationalRecords = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -6581,7 +7023,7 @@ class ServiceDeficitTableCompanion
   });
   static Insertable<ServiceDeficitTableData> custom({
     Expression<int?>? id,
-    Expression<int?>? claculatedDeficitAmount,
+    Expression<int?>? calculatedDeficitAmount,
     Expression<int?>? records,
     Expression<int?>? operationalRecords,
     Expression<DateTime?>? createdAt,
@@ -6589,8 +7031,8 @@ class ServiceDeficitTableCompanion
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (claculatedDeficitAmount != null)
-        'claculated_deficit_amount': claculatedDeficitAmount,
+      if (calculatedDeficitAmount != null)
+        'calculated_deficit_amount': calculatedDeficitAmount,
       if (records != null) 'records': records,
       if (operationalRecords != null) 'operational_records': operationalRecords,
       if (createdAt != null) 'created_at': createdAt,
@@ -6600,15 +7042,15 @@ class ServiceDeficitTableCompanion
 
   ServiceDeficitTableCompanion copyWith(
       {Value<int?>? id,
-      Value<int?>? claculatedDeficitAmount,
+      Value<int?>? calculatedDeficitAmount,
       Value<int?>? records,
       Value<int?>? operationalRecords,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
     return ServiceDeficitTableCompanion(
       id: id ?? this.id,
-      claculatedDeficitAmount:
-          claculatedDeficitAmount ?? this.claculatedDeficitAmount,
+      calculatedDeficitAmount:
+          calculatedDeficitAmount ?? this.calculatedDeficitAmount,
       records: records ?? this.records,
       operationalRecords: operationalRecords ?? this.operationalRecords,
       createdAt: createdAt ?? this.createdAt,
@@ -6622,9 +7064,9 @@ class ServiceDeficitTableCompanion
     if (id.present) {
       map['id'] = Variable<int?>(id.value);
     }
-    if (claculatedDeficitAmount.present) {
-      map['claculated_deficit_amount'] =
-          Variable<int?>(claculatedDeficitAmount.value);
+    if (calculatedDeficitAmount.present) {
+      map['calculated_deficit_amount'] =
+          Variable<int?>(calculatedDeficitAmount.value);
     }
     if (records.present) {
       map['records'] = Variable<int?>(records.value);
@@ -6645,7 +7087,7 @@ class ServiceDeficitTableCompanion
   String toString() {
     return (StringBuffer('ServiceDeficitTableCompanion(')
           ..write('id: $id, ')
-          ..write('claculatedDeficitAmount: $claculatedDeficitAmount, ')
+          ..write('calculatedDeficitAmount: $calculatedDeficitAmount, ')
           ..write('records: $records, ')
           ..write('operationalRecords: $operationalRecords, ')
           ..write('createdAt: $createdAt, ')
@@ -6668,11 +7110,11 @@ class $ServiceDeficitTableTable extends ServiceDeficitTable
       type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _claculatedDeficitAmountMeta =
-      const VerificationMeta('claculatedDeficitAmount');
+  final VerificationMeta _calculatedDeficitAmountMeta =
+      const VerificationMeta('calculatedDeficitAmount');
   @override
-  late final GeneratedColumn<int?> claculatedDeficitAmount =
-      GeneratedColumn<int?>('claculated_deficit_amount', aliasedName, true,
+  late final GeneratedColumn<int?> calculatedDeficitAmount =
+      GeneratedColumn<int?>('calculated_deficit_amount', aliasedName, true,
           type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _recordsMeta = const VerificationMeta('records');
   @override
@@ -6703,7 +7145,7 @@ class $ServiceDeficitTableTable extends ServiceDeficitTable
   @override
   List<GeneratedColumn> get $columns => [
         id,
-        claculatedDeficitAmount,
+        calculatedDeficitAmount,
         records,
         operationalRecords,
         createdAt,
@@ -6722,12 +7164,12 @@ class $ServiceDeficitTableTable extends ServiceDeficitTable
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('claculated_deficit_amount')) {
+    if (data.containsKey('calculated_deficit_amount')) {
       context.handle(
-          _claculatedDeficitAmountMeta,
-          claculatedDeficitAmount.isAcceptableOrUnknown(
-              data['claculated_deficit_amount']!,
-              _claculatedDeficitAmountMeta));
+          _calculatedDeficitAmountMeta,
+          calculatedDeficitAmount.isAcceptableOrUnknown(
+              data['calculated_deficit_amount']!,
+              _calculatedDeficitAmountMeta));
     }
     if (data.containsKey('records')) {
       context.handle(_recordsMeta,
@@ -7065,7 +7507,7 @@ class SoldierCaseTableData extends DataClass
   final int? lastPeriodOfService;
   final int? amountOfService;
   final int? overtime;
-  final int? vaccations;
+  final int? vacations;
   final int? serviceDeficit;
   final int? rank;
   final DateTime? createdAt;
@@ -7083,7 +7525,7 @@ class SoldierCaseTableData extends DataClass
       this.lastPeriodOfService,
       this.amountOfService,
       this.overtime,
-      this.vaccations,
+      this.vacations,
       this.serviceDeficit,
       this.rank,
       this.createdAt,
@@ -7115,8 +7557,8 @@ class SoldierCaseTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}amount_of_service']),
       overtime: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}overtime']),
-      vaccations: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}vaccations']),
+      vacations: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}vacations']),
       serviceDeficit: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}service_deficit']),
       rank: const IntType()
@@ -7158,8 +7600,8 @@ class SoldierCaseTableData extends DataClass
     if (!nullToAbsent || overtime != null) {
       map['overtime'] = Variable<int?>(overtime);
     }
-    if (!nullToAbsent || vaccations != null) {
-      map['vaccations'] = Variable<int?>(vaccations);
+    if (!nullToAbsent || vacations != null) {
+      map['vacations'] = Variable<int?>(vacations);
     }
     if (!nullToAbsent || serviceDeficit != null) {
       map['service_deficit'] = Variable<int?>(serviceDeficit);
@@ -7202,9 +7644,9 @@ class SoldierCaseTableData extends DataClass
       overtime: overtime == null && nullToAbsent
           ? const Value.absent()
           : Value(overtime),
-      vaccations: vaccations == null && nullToAbsent
+      vacations: vacations == null && nullToAbsent
           ? const Value.absent()
-          : Value(vaccations),
+          : Value(vacations),
       serviceDeficit: serviceDeficit == null && nullToAbsent
           ? const Value.absent()
           : Value(serviceDeficit),
@@ -7237,7 +7679,7 @@ class SoldierCaseTableData extends DataClass
           serializer.fromJson<int?>(json['lastPeriodOfService']),
       amountOfService: serializer.fromJson<int?>(json['amountOfService']),
       overtime: serializer.fromJson<int?>(json['overtime']),
-      vaccations: serializer.fromJson<int?>(json['vaccations']),
+      vacations: serializer.fromJson<int?>(json['vacations']),
       serviceDeficit: serializer.fromJson<int?>(json['serviceDeficit']),
       rank: serializer.fromJson<int?>(json['rank']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
@@ -7260,7 +7702,7 @@ class SoldierCaseTableData extends DataClass
       'lastPeriodOfService': serializer.toJson<int?>(lastPeriodOfService),
       'amountOfService': serializer.toJson<int?>(amountOfService),
       'overtime': serializer.toJson<int?>(overtime),
-      'vaccations': serializer.toJson<int?>(vaccations),
+      'vacations': serializer.toJson<int?>(vacations),
       'serviceDeficit': serializer.toJson<int?>(serviceDeficit),
       'rank': serializer.toJson<int?>(rank),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
@@ -7281,7 +7723,7 @@ class SoldierCaseTableData extends DataClass
           int? lastPeriodOfService,
           int? amountOfService,
           int? overtime,
-          int? vaccations,
+          int? vacations,
           int? serviceDeficit,
           int? rank,
           DateTime? createdAt,
@@ -7299,7 +7741,7 @@ class SoldierCaseTableData extends DataClass
         lastPeriodOfService: lastPeriodOfService ?? this.lastPeriodOfService,
         amountOfService: amountOfService ?? this.amountOfService,
         overtime: overtime ?? this.overtime,
-        vaccations: vaccations ?? this.vaccations,
+        vacations: vacations ?? this.vacations,
         serviceDeficit: serviceDeficit ?? this.serviceDeficit,
         rank: rank ?? this.rank,
         createdAt: createdAt ?? this.createdAt,
@@ -7320,7 +7762,7 @@ class SoldierCaseTableData extends DataClass
           ..write('lastPeriodOfService: $lastPeriodOfService, ')
           ..write('amountOfService: $amountOfService, ')
           ..write('overtime: $overtime, ')
-          ..write('vaccations: $vaccations, ')
+          ..write('vacations: $vacations, ')
           ..write('serviceDeficit: $serviceDeficit, ')
           ..write('rank: $rank, ')
           ..write('createdAt: $createdAt, ')
@@ -7343,7 +7785,7 @@ class SoldierCaseTableData extends DataClass
       lastPeriodOfService,
       amountOfService,
       overtime,
-      vaccations,
+      vacations,
       serviceDeficit,
       rank,
       createdAt,
@@ -7364,7 +7806,7 @@ class SoldierCaseTableData extends DataClass
           other.lastPeriodOfService == this.lastPeriodOfService &&
           other.amountOfService == this.amountOfService &&
           other.overtime == this.overtime &&
-          other.vaccations == this.vaccations &&
+          other.vacations == this.vacations &&
           other.serviceDeficit == this.serviceDeficit &&
           other.rank == this.rank &&
           other.createdAt == this.createdAt &&
@@ -7384,7 +7826,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
   final Value<int?> lastPeriodOfService;
   final Value<int?> amountOfService;
   final Value<int?> overtime;
-  final Value<int?> vaccations;
+  final Value<int?> vacations;
   final Value<int?> serviceDeficit;
   final Value<int?> rank;
   final Value<DateTime?> createdAt;
@@ -7402,7 +7844,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     this.lastPeriodOfService = const Value.absent(),
     this.amountOfService = const Value.absent(),
     this.overtime = const Value.absent(),
-    this.vaccations = const Value.absent(),
+    this.vacations = const Value.absent(),
     this.serviceDeficit = const Value.absent(),
     this.rank = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -7421,7 +7863,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     this.lastPeriodOfService = const Value.absent(),
     this.amountOfService = const Value.absent(),
     this.overtime = const Value.absent(),
-    this.vaccations = const Value.absent(),
+    this.vacations = const Value.absent(),
     this.serviceDeficit = const Value.absent(),
     this.rank = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -7443,7 +7885,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     Expression<int?>? lastPeriodOfService,
     Expression<int?>? amountOfService,
     Expression<int?>? overtime,
-    Expression<int?>? vaccations,
+    Expression<int?>? vacations,
     Expression<int?>? serviceDeficit,
     Expression<int?>? rank,
     Expression<DateTime?>? createdAt,
@@ -7465,7 +7907,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
         'last_period_of_service': lastPeriodOfService,
       if (amountOfService != null) 'amount_of_service': amountOfService,
       if (overtime != null) 'overtime': overtime,
-      if (vaccations != null) 'vaccations': vaccations,
+      if (vacations != null) 'vacations': vacations,
       if (serviceDeficit != null) 'service_deficit': serviceDeficit,
       if (rank != null) 'rank': rank,
       if (createdAt != null) 'created_at': createdAt,
@@ -7486,7 +7928,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
       Value<int?>? lastPeriodOfService,
       Value<int?>? amountOfService,
       Value<int?>? overtime,
-      Value<int?>? vaccations,
+      Value<int?>? vacations,
       Value<int?>? serviceDeficit,
       Value<int?>? rank,
       Value<DateTime?>? createdAt,
@@ -7504,7 +7946,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
       lastPeriodOfService: lastPeriodOfService ?? this.lastPeriodOfService,
       amountOfService: amountOfService ?? this.amountOfService,
       overtime: overtime ?? this.overtime,
-      vaccations: vaccations ?? this.vaccations,
+      vacations: vacations ?? this.vacations,
       serviceDeficit: serviceDeficit ?? this.serviceDeficit,
       rank: rank ?? this.rank,
       createdAt: createdAt ?? this.createdAt,
@@ -7553,8 +7995,8 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     if (overtime.present) {
       map['overtime'] = Variable<int?>(overtime.value);
     }
-    if (vaccations.present) {
-      map['vaccations'] = Variable<int?>(vaccations.value);
+    if (vacations.present) {
+      map['vacations'] = Variable<int?>(vacations.value);
     }
     if (serviceDeficit.present) {
       map['service_deficit'] = Variable<int?>(serviceDeficit.value);
@@ -7586,7 +8028,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
           ..write('lastPeriodOfService: $lastPeriodOfService, ')
           ..write('amountOfService: $amountOfService, ')
           ..write('overtime: $overtime, ')
-          ..write('vaccations: $vaccations, ')
+          ..write('vacations: $vacations, ')
           ..write('serviceDeficit: $serviceDeficit, ')
           ..write('rank: $rank, ')
           ..write('createdAt: $createdAt, ')
@@ -7674,13 +8116,13 @@ class $SoldierCaseTableTable extends SoldierCaseTable
       type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'REFERENCES overtime_table (id)');
-  final VerificationMeta _vaccationsMeta = const VerificationMeta('vaccations');
+  final VerificationMeta _vacationsMeta = const VerificationMeta('vacations');
   @override
-  late final GeneratedColumn<int?> vaccations = GeneratedColumn<int?>(
-      'vaccations', aliasedName, true,
+  late final GeneratedColumn<int?> vacations = GeneratedColumn<int?>(
+      'vacations', aliasedName, true,
       type: const IntType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'REFERENCES vaccations_table (id)');
+      defaultConstraints: 'REFERENCES vacations_table (id)');
   final VerificationMeta _serviceDeficitMeta =
       const VerificationMeta('serviceDeficit');
   @override
@@ -7720,7 +8162,7 @@ class $SoldierCaseTableTable extends SoldierCaseTable
         lastPeriodOfService,
         amountOfService,
         overtime,
-        vaccations,
+        vacations,
         serviceDeficit,
         rank,
         createdAt,
@@ -7807,11 +8249,9 @@ class $SoldierCaseTableTable extends SoldierCaseTable
       context.handle(_overtimeMeta,
           overtime.isAcceptableOrUnknown(data['overtime']!, _overtimeMeta));
     }
-    if (data.containsKey('vaccations')) {
-      context.handle(
-          _vaccationsMeta,
-          vaccations.isAcceptableOrUnknown(
-              data['vaccations']!, _vaccationsMeta));
+    if (data.containsKey('vacations')) {
+      context.handle(_vacationsMeta,
+          vacations.isAcceptableOrUnknown(data['vacations']!, _vacationsMeta));
     }
     if (data.containsKey('service_deficit')) {
       context.handle(
@@ -7856,7 +8296,7 @@ class SoldierTableData extends DataClass
   final String? latestStatus;
   final bool? divisionStatus;
   final int? section;
-  final int? trainigStatus;
+  final int? trainingStatus;
   final int? healthStatus;
   final int? soldierCase;
   final DateTime? createdAt;
@@ -7868,7 +8308,7 @@ class SoldierTableData extends DataClass
       this.latestStatus,
       this.divisionStatus,
       this.section,
-      this.trainigStatus,
+      this.trainingStatus,
       this.healthStatus,
       this.soldierCase,
       this.createdAt,
@@ -7888,8 +8328,8 @@ class SoldierTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}division_status']),
       section: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}section']),
-      trainigStatus: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}trainig_status']),
+      trainingStatus: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}training_status']),
       healthStatus: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}health_status']),
       soldierCase: const IntType()
@@ -7921,8 +8361,8 @@ class SoldierTableData extends DataClass
     if (!nullToAbsent || section != null) {
       map['section'] = Variable<int?>(section);
     }
-    if (!nullToAbsent || trainigStatus != null) {
-      map['trainig_status'] = Variable<int?>(trainigStatus);
+    if (!nullToAbsent || trainingStatus != null) {
+      map['training_status'] = Variable<int?>(trainingStatus);
     }
     if (!nullToAbsent || healthStatus != null) {
       map['health_status'] = Variable<int?>(healthStatus);
@@ -7957,9 +8397,9 @@ class SoldierTableData extends DataClass
       section: section == null && nullToAbsent
           ? const Value.absent()
           : Value(section),
-      trainigStatus: trainigStatus == null && nullToAbsent
+      trainingStatus: trainingStatus == null && nullToAbsent
           ? const Value.absent()
-          : Value(trainigStatus),
+          : Value(trainingStatus),
       healthStatus: healthStatus == null && nullToAbsent
           ? const Value.absent()
           : Value(healthStatus),
@@ -7985,7 +8425,7 @@ class SoldierTableData extends DataClass
       latestStatus: serializer.fromJson<String?>(json['latestStatus']),
       divisionStatus: serializer.fromJson<bool?>(json['divisionStatus']),
       section: serializer.fromJson<int?>(json['section']),
-      trainigStatus: serializer.fromJson<int?>(json['trainigStatus']),
+      trainingStatus: serializer.fromJson<int?>(json['trainingStatus']),
       healthStatus: serializer.fromJson<int?>(json['healthStatus']),
       soldierCase: serializer.fromJson<int?>(json['soldierCase']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
@@ -8002,7 +8442,7 @@ class SoldierTableData extends DataClass
       'latestStatus': serializer.toJson<String?>(latestStatus),
       'divisionStatus': serializer.toJson<bool?>(divisionStatus),
       'section': serializer.toJson<int?>(section),
-      'trainigStatus': serializer.toJson<int?>(trainigStatus),
+      'trainingStatus': serializer.toJson<int?>(trainingStatus),
       'healthStatus': serializer.toJson<int?>(healthStatus),
       'soldierCase': serializer.toJson<int?>(soldierCase),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
@@ -8017,7 +8457,7 @@ class SoldierTableData extends DataClass
           String? latestStatus,
           bool? divisionStatus,
           int? section,
-          int? trainigStatus,
+          int? trainingStatus,
           int? healthStatus,
           int? soldierCase,
           DateTime? createdAt,
@@ -8029,7 +8469,7 @@ class SoldierTableData extends DataClass
         latestStatus: latestStatus ?? this.latestStatus,
         divisionStatus: divisionStatus ?? this.divisionStatus,
         section: section ?? this.section,
-        trainigStatus: trainigStatus ?? this.trainigStatus,
+        trainingStatus: trainingStatus ?? this.trainingStatus,
         healthStatus: healthStatus ?? this.healthStatus,
         soldierCase: soldierCase ?? this.soldierCase,
         createdAt: createdAt ?? this.createdAt,
@@ -8044,7 +8484,7 @@ class SoldierTableData extends DataClass
           ..write('latestStatus: $latestStatus, ')
           ..write('divisionStatus: $divisionStatus, ')
           ..write('section: $section, ')
-          ..write('trainigStatus: $trainigStatus, ')
+          ..write('trainingStatus: $trainingStatus, ')
           ..write('healthStatus: $healthStatus, ')
           ..write('soldierCase: $soldierCase, ')
           ..write('createdAt: $createdAt, ')
@@ -8061,7 +8501,7 @@ class SoldierTableData extends DataClass
       latestStatus,
       divisionStatus,
       section,
-      trainigStatus,
+      trainingStatus,
       healthStatus,
       soldierCase,
       createdAt,
@@ -8076,7 +8516,7 @@ class SoldierTableData extends DataClass
           other.latestStatus == this.latestStatus &&
           other.divisionStatus == this.divisionStatus &&
           other.section == this.section &&
-          other.trainigStatus == this.trainigStatus &&
+          other.trainingStatus == this.trainingStatus &&
           other.healthStatus == this.healthStatus &&
           other.soldierCase == this.soldierCase &&
           other.createdAt == this.createdAt &&
@@ -8090,7 +8530,7 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
   final Value<String?> latestStatus;
   final Value<bool?> divisionStatus;
   final Value<int?> section;
-  final Value<int?> trainigStatus;
+  final Value<int?> trainingStatus;
   final Value<int?> healthStatus;
   final Value<int?> soldierCase;
   final Value<DateTime?> createdAt;
@@ -8102,7 +8542,7 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
     this.latestStatus = const Value.absent(),
     this.divisionStatus = const Value.absent(),
     this.section = const Value.absent(),
-    this.trainigStatus = const Value.absent(),
+    this.trainingStatus = const Value.absent(),
     this.healthStatus = const Value.absent(),
     this.soldierCase = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -8115,7 +8555,7 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
     this.latestStatus = const Value.absent(),
     this.divisionStatus = const Value.absent(),
     this.section = const Value.absent(),
-    this.trainigStatus = const Value.absent(),
+    this.trainingStatus = const Value.absent(),
     this.healthStatus = const Value.absent(),
     this.soldierCase = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -8128,7 +8568,7 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
     Expression<String?>? latestStatus,
     Expression<bool?>? divisionStatus,
     Expression<int?>? section,
-    Expression<int?>? trainigStatus,
+    Expression<int?>? trainingStatus,
     Expression<int?>? healthStatus,
     Expression<int?>? soldierCase,
     Expression<DateTime?>? createdAt,
@@ -8141,7 +8581,7 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
       if (latestStatus != null) 'latest_status': latestStatus,
       if (divisionStatus != null) 'division_status': divisionStatus,
       if (section != null) 'section': section,
-      if (trainigStatus != null) 'trainig_status': trainigStatus,
+      if (trainingStatus != null) 'training_status': trainingStatus,
       if (healthStatus != null) 'health_status': healthStatus,
       if (soldierCase != null) 'soldier_case': soldierCase,
       if (createdAt != null) 'created_at': createdAt,
@@ -8156,7 +8596,7 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
       Value<String?>? latestStatus,
       Value<bool?>? divisionStatus,
       Value<int?>? section,
-      Value<int?>? trainigStatus,
+      Value<int?>? trainingStatus,
       Value<int?>? healthStatus,
       Value<int?>? soldierCase,
       Value<DateTime?>? createdAt,
@@ -8168,7 +8608,7 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
       latestStatus: latestStatus ?? this.latestStatus,
       divisionStatus: divisionStatus ?? this.divisionStatus,
       section: section ?? this.section,
-      trainigStatus: trainigStatus ?? this.trainigStatus,
+      trainingStatus: trainingStatus ?? this.trainingStatus,
       healthStatus: healthStatus ?? this.healthStatus,
       soldierCase: soldierCase ?? this.soldierCase,
       createdAt: createdAt ?? this.createdAt,
@@ -8197,8 +8637,8 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
     if (section.present) {
       map['section'] = Variable<int?>(section.value);
     }
-    if (trainigStatus.present) {
-      map['trainig_status'] = Variable<int?>(trainigStatus.value);
+    if (trainingStatus.present) {
+      map['training_status'] = Variable<int?>(trainingStatus.value);
     }
     if (healthStatus.present) {
       map['health_status'] = Variable<int?>(healthStatus.value);
@@ -8224,7 +8664,7 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
           ..write('latestStatus: $latestStatus, ')
           ..write('divisionStatus: $divisionStatus, ')
           ..write('section: $section, ')
-          ..write('trainigStatus: $trainigStatus, ')
+          ..write('trainingStatus: $trainingStatus, ')
           ..write('healthStatus: $healthStatus, ')
           ..write('soldierCase: $soldierCase, ')
           ..write('createdAt: $createdAt, ')
@@ -8279,14 +8719,14 @@ class $SoldierTableTable extends SoldierTable
       type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'REFERENCES section_table (id)');
-  final VerificationMeta _trainigStatusMeta =
-      const VerificationMeta('trainigStatus');
+  final VerificationMeta _trainingStatusMeta =
+      const VerificationMeta('trainingStatus');
   @override
-  late final GeneratedColumn<int?> trainigStatus = GeneratedColumn<int?>(
-      'trainig_status', aliasedName, true,
+  late final GeneratedColumn<int?> trainingStatus = GeneratedColumn<int?>(
+      'training_status', aliasedName, true,
       type: const IntType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'REFERENCES trainig_status_table (id)');
+      defaultConstraints: 'REFERENCES training_status_table (id)');
   final VerificationMeta _healthStatusMeta =
       const VerificationMeta('healthStatus');
   @override
@@ -8321,7 +8761,7 @@ class $SoldierTableTable extends SoldierTable
         latestStatus,
         divisionStatus,
         section,
-        trainigStatus,
+        trainingStatus,
         healthStatus,
         soldierCase,
         createdAt,
@@ -8365,11 +8805,11 @@ class $SoldierTableTable extends SoldierTable
       context.handle(_sectionMeta,
           section.isAcceptableOrUnknown(data['section']!, _sectionMeta));
     }
-    if (data.containsKey('trainig_status')) {
+    if (data.containsKey('training_status')) {
       context.handle(
-          _trainigStatusMeta,
-          trainigStatus.isAcceptableOrUnknown(
-              data['trainig_status']!, _trainigStatusMeta));
+          _trainingStatusMeta,
+          trainingStatus.isAcceptableOrUnknown(
+              data['training_status']!, _trainingStatusMeta));
     }
     if (data.containsKey('health_status')) {
       context.handle(
@@ -9541,37 +9981,327 @@ class $UnitPropertiesTableTable extends UnitPropertiesTable
   }
 }
 
+class CaseTableData extends DataClass implements Insertable<CaseTableData> {
+  final int? id;
+  final String caseName;
+  final int? caseCode;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  CaseTableData(
+      {this.id,
+      required this.caseName,
+      this.caseCode,
+      this.createdAt,
+      this.updatedAt});
+  factory CaseTableData.fromData(Map<String, dynamic> data, {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return CaseTableData(
+      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      caseName: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}case_name'])!,
+      caseCode: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}case_code']),
+      createdAt: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
+      updatedAt: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}updated_at']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int?>(id);
+    }
+    map['case_name'] = Variable<String>(caseName);
+    if (!nullToAbsent || caseCode != null) {
+      map['case_code'] = Variable<int?>(caseCode);
+    }
+    if (!nullToAbsent || createdAt != null) {
+      map['created_at'] = Variable<DateTime?>(createdAt);
+    }
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime?>(updatedAt);
+    }
+    return map;
+  }
+
+  CaseTableCompanion toCompanion(bool nullToAbsent) {
+    return CaseTableCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      caseName: Value(caseName),
+      caseCode: caseCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(caseCode),
+      createdAt: createdAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+    );
+  }
+
+  factory CaseTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CaseTableData(
+      id: serializer.fromJson<int?>(json['id']),
+      caseName: serializer.fromJson<String>(json['caseName']),
+      caseCode: serializer.fromJson<int?>(json['caseCode']),
+      createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int?>(id),
+      'caseName': serializer.toJson<String>(caseName),
+      'caseCode': serializer.toJson<int?>(caseCode),
+      'createdAt': serializer.toJson<DateTime?>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+    };
+  }
+
+  CaseTableData copyWith(
+          {int? id,
+          String? caseName,
+          int? caseCode,
+          DateTime? createdAt,
+          DateTime? updatedAt}) =>
+      CaseTableData(
+        id: id ?? this.id,
+        caseName: caseName ?? this.caseName,
+        caseCode: caseCode ?? this.caseCode,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('CaseTableData(')
+          ..write('id: $id, ')
+          ..write('caseName: $caseName, ')
+          ..write('caseCode: $caseCode, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, caseName, caseCode, createdAt, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CaseTableData &&
+          other.id == this.id &&
+          other.caseName == this.caseName &&
+          other.caseCode == this.caseCode &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class CaseTableCompanion extends UpdateCompanion<CaseTableData> {
+  final Value<int?> id;
+  final Value<String> caseName;
+  final Value<int?> caseCode;
+  final Value<DateTime?> createdAt;
+  final Value<DateTime?> updatedAt;
+  const CaseTableCompanion({
+    this.id = const Value.absent(),
+    this.caseName = const Value.absent(),
+    this.caseCode = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  CaseTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String caseName,
+    this.caseCode = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  }) : caseName = Value(caseName);
+  static Insertable<CaseTableData> custom({
+    Expression<int?>? id,
+    Expression<String>? caseName,
+    Expression<int?>? caseCode,
+    Expression<DateTime?>? createdAt,
+    Expression<DateTime?>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (caseName != null) 'case_name': caseName,
+      if (caseCode != null) 'case_code': caseCode,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  CaseTableCompanion copyWith(
+      {Value<int?>? id,
+      Value<String>? caseName,
+      Value<int?>? caseCode,
+      Value<DateTime?>? createdAt,
+      Value<DateTime?>? updatedAt}) {
+    return CaseTableCompanion(
+      id: id ?? this.id,
+      caseName: caseName ?? this.caseName,
+      caseCode: caseCode ?? this.caseCode,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int?>(id.value);
+    }
+    if (caseName.present) {
+      map['case_name'] = Variable<String>(caseName.value);
+    }
+    if (caseCode.present) {
+      map['case_code'] = Variable<int?>(caseCode.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime?>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime?>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CaseTableCompanion(')
+          ..write('id: $id, ')
+          ..write('caseName: $caseName, ')
+          ..write('caseCode: $caseCode, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $CaseTableTable extends CaseTable
+    with TableInfo<$CaseTableTable, CaseTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CaseTableTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, true,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _caseNameMeta = const VerificationMeta('caseName');
+  @override
+  late final GeneratedColumn<String?> caseName = GeneratedColumn<String?>(
+      'case_name', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _caseCodeMeta = const VerificationMeta('caseCode');
+  @override
+  late final GeneratedColumn<int?> caseCode = GeneratedColumn<int?>(
+      'case_code', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
+      'created_at', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime?> updatedAt = GeneratedColumn<DateTime?>(
+      'updated_at', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, caseName, caseCode, createdAt, updatedAt];
+  @override
+  String get aliasedName => _alias ?? 'case_table';
+  @override
+  String get actualTableName => 'case_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<CaseTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('case_name')) {
+      context.handle(_caseNameMeta,
+          caseName.isAcceptableOrUnknown(data['case_name']!, _caseNameMeta));
+    } else if (isInserting) {
+      context.missing(_caseNameMeta);
+    }
+    if (data.containsKey('case_code')) {
+      context.handle(_caseCodeMeta,
+          caseCode.isAcceptableOrUnknown(data['case_code']!, _caseCodeMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CaseTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return CaseTableData.fromData(data,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $CaseTableTable createAlias(String alias) {
+    return $CaseTableTable(attachedDatabase, alias);
+  }
+}
+
 abstract class _$SoldierDatabase extends GeneratedDatabase {
   _$SoldierDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   late final $AnnualOvertimeTableTable annualOvertimeTable =
       $AnnualOvertimeTableTable(this);
+  late final $AuditTableTable auditTable = $AuditTableTable(this);
   late final $ContactInfoTableTable contactInfoTable =
       $ContactInfoTableTable(this);
   late final $DailyAbsenceOvertimeTableTable dailyAbsenceOvertimeTable =
       $DailyAbsenceOvertimeTableTable(this);
-  late final $DailyVaccationTableTable dailyVaccationTable =
-      $DailyVaccationTableTable(this);
+  late final $DailyVacationTableTable dailyVacationTable =
+      $DailyVacationTableTable(this);
   late final $ViolationsOvertimeTableTable violationsOvertimeTable =
       $ViolationsOvertimeTableTable(this);
-  late final $DisciplinalOvertimeTableTable disciplinalOvertimeTable =
-      $DisciplinalOvertimeTableTable(this);
+  late final $DisciplinaryOvertimeTableTable disciplinaryOvertimeTable =
+      $DisciplinaryOvertimeTableTable(this);
   late final $EducationalInfoTableTable educationalInfoTable =
       $EducationalInfoTableTable(this);
   late final $FurtherInfoTableTable furtherInfoTable =
       $FurtherInfoTableTable(this);
   late final $HealthStatusTableTable healthStatusTable =
       $HealthStatusTableTable(this);
-  late final $HourlyVaccationTableTable hourlyVaccationTable =
-      $HourlyVaccationTableTable(this);
+  late final $HourlyVacationTableTable hourlyVacationTable =
+      $HourlyVacationTableTable(this);
   late final $OperationalServiceDeficitRecordTableTable
       operationalServiceDeficitRecordTable =
       $OperationalServiceDeficitRecordTableTable(this);
   late final $OvertimeTableTable overtimeTable = $OvertimeTableTable(this);
   late final $SectionTableTable sectionTable = $SectionTableTable(this);
-  late final $TrainigStatusTableTable trainigStatusTable =
-      $TrainigStatusTableTable(this);
-  late final $VaccationsTableTable vaccationsTable =
-      $VaccationsTableTable(this);
+  late final $TrainingStatusTableTable trainingStatusTable =
+      $TrainingStatusTableTable(this);
+  late final $VacationsTableTable vacationsTable = $VacationsTableTable(this);
   late final $ServiceDeficitRecordTableTable serviceDeficitRecordTable =
       $ServiceDeficitRecordTableTable(this);
   late final $ServiceDeficitTableTable serviceDeficitTable =
@@ -9584,24 +10314,26 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
       $PersonalInfoTableTable(this);
   late final $UnitPropertiesTableTable unitPropertiesTable =
       $UnitPropertiesTableTable(this);
+  late final $CaseTableTable caseTable = $CaseTableTable(this);
   late final AnnualOvertimeDAO annualOvertimeDAO =
       AnnualOvertimeDAO(this as SoldierDatabase);
+  late final AuditDAO auditDAO = AuditDAO(this as SoldierDatabase);
   late final ContactInfoDAO contactInfoDAO =
       ContactInfoDAO(this as SoldierDatabase);
   late final DailyAbsenceOvertimeDAO dailyAbsenceOvertimeDAO =
       DailyAbsenceOvertimeDAO(this as SoldierDatabase);
-  late final DailyVaccationDAO dailyVaccationDAO =
-      DailyVaccationDAO(this as SoldierDatabase);
-  late final DisciplinalOvertimeDAO disciplinalOvertimeDAO =
-      DisciplinalOvertimeDAO(this as SoldierDatabase);
+  late final DailyVacationDAO dailyVacationDAO =
+      DailyVacationDAO(this as SoldierDatabase);
+  late final DisciplinaryOvertimeDAO disciplinaryOvertimeDAO =
+      DisciplinaryOvertimeDAO(this as SoldierDatabase);
   late final EducationalInfoDAO educationalInfoDAO =
       EducationalInfoDAO(this as SoldierDatabase);
   late final FurtherInfoDAO furtherInfoDAO =
       FurtherInfoDAO(this as SoldierDatabase);
   late final HealthStatusDAO healthStatusDAO =
       HealthStatusDAO(this as SoldierDatabase);
-  late final HourlyVaccationDAO hourlyVaccationDAO =
-      HourlyVaccationDAO(this as SoldierDatabase);
+  late final HourlyVacationDAO hourlyVacationDAO =
+      HourlyVacationDAO(this as SoldierDatabase);
   late final OperationalServiceDeficitRecordDAO
       operationalServiceDeficitRecordDAO =
       OperationalServiceDeficitRecordDAO(this as SoldierDatabase);
@@ -9617,40 +10349,42 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
   late final SoldierCaseDAO soldierCaseDAO =
       SoldierCaseDAO(this as SoldierDatabase);
   late final SoldierDAO soldierDAO = SoldierDAO(this as SoldierDatabase);
-  late final TrainigStatusDAO trainigStatusDAO =
-      TrainigStatusDAO(this as SoldierDatabase);
+  late final TrainingStatusDAO trainingStatusDAO =
+      TrainingStatusDAO(this as SoldierDatabase);
   late final UnitPropertiesDAO unitPropertiesDAO =
       UnitPropertiesDAO(this as SoldierDatabase);
-  late final VaccationsDAO vaccationsDAO =
-      VaccationsDAO(this as SoldierDatabase);
+  late final VacationsDAO vacationsDAO = VacationsDAO(this as SoldierDatabase);
   late final ViolationsOvertimeDAO violationsOvertimeDAO =
       ViolationsOvertimeDAO(this as SoldierDatabase);
+  late final CaseDAO caseDAO = CaseDAO(this as SoldierDatabase);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
         annualOvertimeTable,
+        auditTable,
         contactInfoTable,
         dailyAbsenceOvertimeTable,
-        dailyVaccationTable,
+        dailyVacationTable,
         violationsOvertimeTable,
-        disciplinalOvertimeTable,
+        disciplinaryOvertimeTable,
         educationalInfoTable,
         furtherInfoTable,
         healthStatusTable,
-        hourlyVaccationTable,
+        hourlyVacationTable,
         operationalServiceDeficitRecordTable,
         overtimeTable,
         sectionTable,
-        trainigStatusTable,
-        vaccationsTable,
+        trainingStatusTable,
+        vacationsTable,
         serviceDeficitRecordTable,
         serviceDeficitTable,
         rankTable,
         soldierCaseTable,
         soldierTable,
         personalInfoTable,
-        unitPropertiesTable
+        unitPropertiesTable,
+        caseTable
       ];
 }
 
@@ -9662,6 +10396,12 @@ mixin _$AnnualOvertimeDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $AnnualOvertimeTableTable get annualOvertimeTable =>
       attachedDatabase.annualOvertimeTable;
 }
+mixin _$AuditDAOMixin on DatabaseAccessor<SoldierDatabase> {
+  $AuditTableTable get auditTable => attachedDatabase.auditTable;
+}
+mixin _$CaseDAOMixin on DatabaseAccessor<SoldierDatabase> {
+  $AuditTableTable get auditTable => attachedDatabase.auditTable;
+}
 mixin _$ContactInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $ContactInfoTableTable get contactInfoTable =>
       attachedDatabase.contactInfoTable;
@@ -9670,17 +10410,17 @@ mixin _$DailyAbsenceOvertimeDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
       attachedDatabase.dailyAbsenceOvertimeTable;
 }
-mixin _$DailyVaccationDAOMixin on DatabaseAccessor<SoldierDatabase> {
-  $DailyVaccationTableTable get dailyVaccationTable =>
-      attachedDatabase.dailyVaccationTable;
+mixin _$DailyVacationDAOMixin on DatabaseAccessor<SoldierDatabase> {
+  $DailyVacationTableTable get dailyVacationTable =>
+      attachedDatabase.dailyVacationTable;
 }
-mixin _$DisciplinalOvertimeDAOMixin on DatabaseAccessor<SoldierDatabase> {
+mixin _$DisciplinaryOvertimeDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $ViolationsOvertimeTableTable get violationsOvertimeTable =>
       attachedDatabase.violationsOvertimeTable;
-  $DailyVaccationTableTable get dailyVaccationTable =>
-      attachedDatabase.dailyVaccationTable;
-  $DisciplinalOvertimeTableTable get disciplinalOvertimeTable =>
-      attachedDatabase.disciplinalOvertimeTable;
+  $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
+      attachedDatabase.dailyAbsenceOvertimeTable;
+  $DisciplinaryOvertimeTableTable get disciplinaryOvertimeTable =>
+      attachedDatabase.disciplinaryOvertimeTable;
 }
 mixin _$EducationalInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $EducationalInfoTableTable get educationalInfoTable =>
@@ -9694,17 +10434,17 @@ mixin _$HealthStatusDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $HealthStatusTableTable get healthStatusTable =>
       attachedDatabase.healthStatusTable;
 }
-mixin _$HourlyVaccationDAOMixin on DatabaseAccessor<SoldierDatabase> {
-  $HourlyVaccationTableTable get hourlyVaccationTable =>
-      attachedDatabase.hourlyVaccationTable;
+mixin _$HourlyVacationDAOMixin on DatabaseAccessor<SoldierDatabase> {
+  $HourlyVacationTableTable get hourlyVacationTable =>
+      attachedDatabase.hourlyVacationTable;
 }
 mixin _$OvertimeDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $ViolationsOvertimeTableTable get violationsOvertimeTable =>
       attachedDatabase.violationsOvertimeTable;
-  $DailyVaccationTableTable get dailyVaccationTable =>
-      attachedDatabase.dailyVaccationTable;
-  $DisciplinalOvertimeTableTable get disciplinalOvertimeTable =>
-      attachedDatabase.disciplinalOvertimeTable;
+  $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
+      attachedDatabase.dailyAbsenceOvertimeTable;
+  $DisciplinaryOvertimeTableTable get disciplinaryOvertimeTable =>
+      attachedDatabase.disciplinaryOvertimeTable;
   $AnnualOvertimeTableTable get annualOvertimeTable =>
       attachedDatabase.annualOvertimeTable;
   $OvertimeTableTable get overtimeTable => attachedDatabase.overtimeTable;
@@ -9717,22 +10457,24 @@ mixin _$PersonalInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $EducationalInfoTableTable get educationalInfoTable =>
       attachedDatabase.educationalInfoTable;
   $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
-  $TrainigStatusTableTable get trainigStatusTable =>
-      attachedDatabase.trainigStatusTable;
+  $TrainingStatusTableTable get trainingStatusTable =>
+      attachedDatabase.trainingStatusTable;
   $HealthStatusTableTable get healthStatusTable =>
       attachedDatabase.healthStatusTable;
   $ViolationsOvertimeTableTable get violationsOvertimeTable =>
       attachedDatabase.violationsOvertimeTable;
-  $DailyVaccationTableTable get dailyVaccationTable =>
-      attachedDatabase.dailyVaccationTable;
-  $DisciplinalOvertimeTableTable get disciplinalOvertimeTable =>
-      attachedDatabase.disciplinalOvertimeTable;
+  $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
+      attachedDatabase.dailyAbsenceOvertimeTable;
+  $DisciplinaryOvertimeTableTable get disciplinaryOvertimeTable =>
+      attachedDatabase.disciplinaryOvertimeTable;
   $AnnualOvertimeTableTable get annualOvertimeTable =>
       attachedDatabase.annualOvertimeTable;
   $OvertimeTableTable get overtimeTable => attachedDatabase.overtimeTable;
-  $HourlyVaccationTableTable get hourlyVaccationTable =>
-      attachedDatabase.hourlyVaccationTable;
-  $VaccationsTableTable get vaccationsTable => attachedDatabase.vaccationsTable;
+  $DailyVacationTableTable get dailyVacationTable =>
+      attachedDatabase.dailyVacationTable;
+  $HourlyVacationTableTable get hourlyVacationTable =>
+      attachedDatabase.hourlyVacationTable;
+  $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
   $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
       attachedDatabase.serviceDeficitRecordTable;
   $OperationalServiceDeficitRecordTableTable
@@ -9769,16 +10511,18 @@ mixin _$ServiceDeficitDAOMixin on DatabaseAccessor<SoldierDatabase> {
 mixin _$SoldierCaseDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $ViolationsOvertimeTableTable get violationsOvertimeTable =>
       attachedDatabase.violationsOvertimeTable;
-  $DailyVaccationTableTable get dailyVaccationTable =>
-      attachedDatabase.dailyVaccationTable;
-  $DisciplinalOvertimeTableTable get disciplinalOvertimeTable =>
-      attachedDatabase.disciplinalOvertimeTable;
+  $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
+      attachedDatabase.dailyAbsenceOvertimeTable;
+  $DisciplinaryOvertimeTableTable get disciplinaryOvertimeTable =>
+      attachedDatabase.disciplinaryOvertimeTable;
   $AnnualOvertimeTableTable get annualOvertimeTable =>
       attachedDatabase.annualOvertimeTable;
   $OvertimeTableTable get overtimeTable => attachedDatabase.overtimeTable;
-  $HourlyVaccationTableTable get hourlyVaccationTable =>
-      attachedDatabase.hourlyVaccationTable;
-  $VaccationsTableTable get vaccationsTable => attachedDatabase.vaccationsTable;
+  $DailyVacationTableTable get dailyVacationTable =>
+      attachedDatabase.dailyVacationTable;
+  $HourlyVacationTableTable get hourlyVacationTable =>
+      attachedDatabase.hourlyVacationTable;
+  $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
   $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
       attachedDatabase.serviceDeficitRecordTable;
   $OperationalServiceDeficitRecordTableTable
@@ -9792,22 +10536,24 @@ mixin _$SoldierCaseDAOMixin on DatabaseAccessor<SoldierDatabase> {
 }
 mixin _$SoldierDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
-  $TrainigStatusTableTable get trainigStatusTable =>
-      attachedDatabase.trainigStatusTable;
+  $TrainingStatusTableTable get trainingStatusTable =>
+      attachedDatabase.trainingStatusTable;
   $HealthStatusTableTable get healthStatusTable =>
       attachedDatabase.healthStatusTable;
   $ViolationsOvertimeTableTable get violationsOvertimeTable =>
       attachedDatabase.violationsOvertimeTable;
-  $DailyVaccationTableTable get dailyVaccationTable =>
-      attachedDatabase.dailyVaccationTable;
-  $DisciplinalOvertimeTableTable get disciplinalOvertimeTable =>
-      attachedDatabase.disciplinalOvertimeTable;
+  $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
+      attachedDatabase.dailyAbsenceOvertimeTable;
+  $DisciplinaryOvertimeTableTable get disciplinaryOvertimeTable =>
+      attachedDatabase.disciplinaryOvertimeTable;
   $AnnualOvertimeTableTable get annualOvertimeTable =>
       attachedDatabase.annualOvertimeTable;
   $OvertimeTableTable get overtimeTable => attachedDatabase.overtimeTable;
-  $HourlyVaccationTableTable get hourlyVaccationTable =>
-      attachedDatabase.hourlyVaccationTable;
-  $VaccationsTableTable get vaccationsTable => attachedDatabase.vaccationsTable;
+  $DailyVacationTableTable get dailyVacationTable =>
+      attachedDatabase.dailyVacationTable;
+  $HourlyVacationTableTable get hourlyVacationTable =>
+      attachedDatabase.hourlyVacationTable;
+  $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
   $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
       attachedDatabase.serviceDeficitRecordTable;
   $OperationalServiceDeficitRecordTableTable
@@ -9820,21 +10566,21 @@ mixin _$SoldierDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.soldierCaseTable;
   $SoldierTableTable get soldierTable => attachedDatabase.soldierTable;
 }
-mixin _$TrainigStatusDAOMixin on DatabaseAccessor<SoldierDatabase> {
-  $TrainigStatusTableTable get trainigStatusTable =>
-      attachedDatabase.trainigStatusTable;
+mixin _$TrainingStatusDAOMixin on DatabaseAccessor<SoldierDatabase> {
+  $TrainingStatusTableTable get trainingStatusTable =>
+      attachedDatabase.trainingStatusTable;
 }
 mixin _$UnitPropertiesDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
   $UnitPropertiesTableTable get unitPropertiesTable =>
       attachedDatabase.unitPropertiesTable;
 }
-mixin _$VaccationsDAOMixin on DatabaseAccessor<SoldierDatabase> {
-  $DailyVaccationTableTable get dailyVaccationTable =>
-      attachedDatabase.dailyVaccationTable;
-  $HourlyVaccationTableTable get hourlyVaccationTable =>
-      attachedDatabase.hourlyVaccationTable;
-  $VaccationsTableTable get vaccationsTable => attachedDatabase.vaccationsTable;
+mixin _$VacationsDAOMixin on DatabaseAccessor<SoldierDatabase> {
+  $DailyVacationTableTable get dailyVacationTable =>
+      attachedDatabase.dailyVacationTable;
+  $HourlyVacationTableTable get hourlyVacationTable =>
+      attachedDatabase.hourlyVacationTable;
+  $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
 }
 mixin _$ViolationsOvertimeDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $ViolationsOvertimeTableTable get violationsOvertimeTable =>

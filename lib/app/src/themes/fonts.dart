@@ -8,7 +8,7 @@ class Fonts {
   static const kFontLight = FontWeight.w300;
   static const kFontRegular = FontWeight.w400;
   static const kFontMedium = FontWeight.w500;
-  static const kFontSemibold = FontWeight.w600;
+  static const kFontSemiBold = FontWeight.w600;
   static const kFontBold = FontWeight.w900;
 
   static const TextStyle _fontStyle = TextStyle(

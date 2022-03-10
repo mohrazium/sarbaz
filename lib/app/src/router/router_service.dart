@@ -11,5 +11,15 @@ class AppPages {
       page: () => const DashboardPage(),
       binding: ApplicationControllerBinding(),
     ),
+    GetPage(
+      name: Routes.soldiers,
+      page: () => const SoldierCaseEditorView(),
+     // binding: ApplicationControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.dashboard,
+      page: () => const DashboardPage(),
+     // binding: ApplicationControllerBinding(),
+    ),
   ];
 }

@@ -4,7 +4,7 @@ class FurtherInfoTable extends Table {
   IntColumn get id => integer().autoIncrement().nullable()();
   TextColumn get maritalState => text()();
   DateTimeColumn get dateOfMarriage => dateTime().nullable()();
-  IntColumn get numberOfChilds => integer().nullable()();
+  IntColumn get numberOfChildren => integer().nullable()();
   IntColumn get height => integer().nullable()();
   RealColumn get weight => real().nullable()();
   TextColumn get religion => text().nullable()();

@@ -3,6 +3,10 @@ part of themes;
 class Colorize {
   Colorize._();
 
+  static const Color errorColor = Color.fromARGB(255, 255, 0, 0);
+
+
+
   ///* Background color
   static const int _middleBackgroundColor = 0xFFFAFAFA;
 
@@ -84,16 +88,16 @@ class Colorize {
   });
 
   ///* Accent Color
-  static const int _middleAccentColor = 0xFFAACC00;
-  static const Color accentColorShade100 = Color(0xFFF1F11D);
-  static const Color accentColorShade200 = Color(0xFFDDE000);
-  static const Color accentColorShade300 = Color(0xFFD3D600);
-  static const Color accentColorShade400 = Color(0xFFC0D100);
+  static const int _middleAccentColor = 0xFF29EB00;
+  static const Color accentColorShade100 = Color(0xFFD8FF62);
+  static const Color accentColorShade200 = Color(0xFFB7FF43);
+  static const Color accentColorShade300 = Color(0xFF91FF23);
+  static const Color accentColorShade400 = Color(0xFF51FF00);
   static const Color accentColorShade500 = Color(_middleAccentColor);
-  static const Color accentColorShade600 = Color(0xFF81BC15);
-  static const Color accentColorShade700 = Color(0xFF54AB2B);
-  static const Color accentColorShade800 = Color(0xFF269746);
-  static const Color accentColorShade900 = Color(0xFF008060);
+  static const Color accentColorShade600 = Color(0xFF00D700);
+  static const Color accentColorShade700 = Color(0xFF00CC00);
+  static const Color accentColorShade800 = Color(0xFF00C400);
+  static const Color accentColorShade900 = Color(0xFF00B052);
 
   static const MaterialColor accentColor =
       MaterialColor(_middleAccentColor, <int, Color>{

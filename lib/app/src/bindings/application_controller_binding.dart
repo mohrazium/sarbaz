@@ -4,7 +4,8 @@ class ApplicationControllerBinding implements Bindings {
   @override
   Future<void> dependencies() async {
     Get.put(DashboardController());
-    Get.put(SoldierEditorController());
+    Get.put(SoldierCaseEditorController());
     Get.put(SoldiersController());
+    Get.put(PersonalInfoController());
   }
 }

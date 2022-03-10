@@ -1,11 +1,11 @@
 part of data;
 
 @DriftAccessor(tables: [
-  VaccationsTable,
-  DailyVaccationTable,
-  HourlyVaccationTable,
+  VacationsTable,
+  DailyVacationTable,
+  HourlyVacationTable,
 ])
-class VaccationsDAO extends DatabaseAccessor<SoldierDatabase>
-    with _$VaccationsDAOMixin {
-  VaccationsDAO(SoldierDatabase db) : super(db);
+class VacationsDAO extends DatabaseAccessor<SoldierDatabase>
+    with _$VacationsDAOMixin {
+  VacationsDAO(SoldierDatabase db) : super(db);
 }

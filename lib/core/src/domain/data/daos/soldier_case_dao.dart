@@ -3,7 +3,7 @@ part of data;
 @DriftAccessor(tables: [
   SoldierCaseTable,
   OvertimeTable,
-  VaccationsTable,
+  VacationsTable,
   ServiceDeficitTable,
   RankTable,
 ])

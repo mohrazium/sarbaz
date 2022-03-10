@@ -6,20 +6,24 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
+import 'package:sarbaz/utility/utility.dart';
 
 part 'data.g.dart';
 part 'db/database_connection.dart';
 part 'db/soldier_database.dart';
+
 /// TABLES
 part 'tables/annual_overtime_table.dart';
+part 'tables/audit_table.dart';
+part 'tables/case_table.dart';
 part 'tables/contact_info_table.dart';
 part 'tables/daily_absence_overtime_table.dart';
-part 'tables/daily_vaccation_table.dart';
-part 'tables/disciplinal_overtime_table.dart';
+part 'tables/daily_vacation_table.dart';
+part 'tables/disciplinary_overtime_table.dart';
 part 'tables/educational_info_table.dart';
 part 'tables/further_info_table.dart';
 part 'tables/health_status_table.dart';
-part 'tables/hourly_vaccations_table.dart';
+part 'tables/hourly_vacations_table.dart';
 part 'tables/overtime_table.dart';
 part 'tables/personal_info_table.dart';
 part 'tables/rank_table.dart';
@@ -30,20 +34,22 @@ part 'tables/soldier_case_table.dart';
 part 'tables/soldier_table.dart';
 part 'tables/training_status_table.dart';
 part 'tables/unit_properties_table.dart';
-part 'tables/vaccations_table.dart';
+part 'tables/vacations_table.dart';
 part 'tables/violations_overtime_table.dart';
 part 'tables/operational_service_deficit_table.dart';
 
 /// DAOs
 part 'daos/annual_overtime_dao.dart';
+part 'daos/audit_dao.dart';
+part 'daos/case_dao.dart';
 part 'daos/contact_info_dao.dart';
 part 'daos/daily_absence_overtime_dao.dart';
 part 'daos/daily_vaccation_dao.dart';
-part 'daos/disciplinal_overtime_dao.dart';
+part 'daos/disciplinary_overtime_dao.dart';
 part 'daos/educational_info_dao.dart';
 part 'daos/further_info_dao.dart';
 part 'daos/health_status_dao.dart';
-part 'daos/hourly_vaccations_dao.dart';
+part 'daos/hourly_vacations_dao.dart';
 part 'daos/overtime_dao.dart';
 part 'daos/personal_info_dao.dart';
 part 'daos/rank_dao.dart';

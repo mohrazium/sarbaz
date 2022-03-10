@@ -14,7 +14,14 @@ ContactInfoModel _$ContactInfoModelFromJson(Map<String, dynamic> json) =>
       province: json['province'] as String?,
       city: json['city'] as String?,
       address: json['address'] as String,
+      postalCode: json['postalCode'] as String?,
       distance: json['distance'] as int,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$ContactInfoModelToJson(ContactInfoModel instance) =>
@@ -25,26 +32,36 @@ Map<String, dynamic> _$ContactInfoModelToJson(ContactInfoModel instance) =>
       'province': instance.province,
       'city': instance.city,
       'address': instance.address,
+      'postalCode': instance.postalCode,
       'distance': instance.distance,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
-DailyVaccationModel _$DailyVaccationModelFromJson(Map<String, dynamic> json) =>
-    DailyVaccationModel(
+DailyVacationModel _$DailyVacationModelFromJson(Map<String, dynamic> json) =>
+    DailyVacationModel(
       id: json['id'] as int?,
       startDate: DateTime.parse(json['startDate'] as String),
       endDate: DateTime.parse(json['endDate'] as String),
       amount: json['amount'] as int,
-      vacctionType: json['vacctionType'] as String,
+      vacationType: json['vacationType'] as String,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
-Map<String, dynamic> _$DailyVaccationModelToJson(
-        DailyVaccationModel instance) =>
+Map<String, dynamic> _$DailyVacationModelToJson(DailyVacationModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'startDate': instance.startDate.toIso8601String(),
       'endDate': instance.endDate.toIso8601String(),
       'amount': instance.amount,
-      'vacctionType': instance.vacctionType,
+      'vacationType': instance.vacationType,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 EducationalInfoModel _$EducationalInfoModelFromJson(
@@ -57,6 +74,12 @@ EducationalInfoModel _$EducationalInfoModelFromJson(
       grade: (json['grade'] as num?)?.toDouble(),
       skills: json['skills'] as String?,
       permissionToStudy: json['permissionToStudy'] as bool?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$EducationalInfoModelToJson(
@@ -69,6 +92,8 @@ Map<String, dynamic> _$EducationalInfoModelToJson(
       'grade': instance.grade,
       'skills': instance.skills,
       'permissionToStudy': instance.permissionToStudy,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 FurtherInfoModel _$FurtherInfoModelFromJson(Map<String, dynamic> json) =>
@@ -78,7 +103,7 @@ FurtherInfoModel _$FurtherInfoModelFromJson(Map<String, dynamic> json) =>
       json['dateOfMarriage'] == null
           ? null
           : DateTime.parse(json['dateOfMarriage'] as String),
-      json['numberOfChilds'] as int?,
+      json['numberOfChildren'] as int?,
       json['religion'] as String?,
       json['sect'] as String?,
       json['height'] as int?,
@@ -86,6 +111,12 @@ FurtherInfoModel _$FurtherInfoModelFromJson(Map<String, dynamic> json) =>
       json['hairColor'] as String?,
       json['eyesColor'] as String?,
       json['bloodType'] as String?,
+      json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$FurtherInfoModelToJson(FurtherInfoModel instance) =>
@@ -93,7 +124,7 @@ Map<String, dynamic> _$FurtherInfoModelToJson(FurtherInfoModel instance) =>
       'id': instance.id,
       'maritalState': instance.maritalState,
       'dateOfMarriage': instance.dateOfMarriage?.toIso8601String(),
-      'numberOfChilds': instance.numberOfChilds,
+      'numberOfChildren': instance.numberOfChildren,
       'religion': instance.religion,
       'sect': instance.sect,
       'height': instance.height,
@@ -101,6 +132,8 @@ Map<String, dynamic> _$FurtherInfoModelToJson(FurtherInfoModel instance) =>
       'hairColor': instance.hairColor,
       'eyesColor': instance.eyesColor,
       'bloodType': instance.bloodType,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 HealthStatusModel _$HealthStatusModelFromJson(Map<String, dynamic> json) =>
@@ -109,6 +142,12 @@ HealthStatusModel _$HealthStatusModelFromJson(Map<String, dynamic> json) =>
       isHealthy: json['isHealthy'] as bool,
       accordingTo: json['accordingTo'] as String,
       isBGroup: json['isBGroup'] as bool,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$HealthStatusModelToJson(HealthStatusModel instance) =>
@@ -117,26 +156,35 @@ Map<String, dynamic> _$HealthStatusModelToJson(HealthStatusModel instance) =>
       'isHealthy': instance.isHealthy,
       'accordingTo': instance.accordingTo,
       'isBGroup': instance.isBGroup,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
-HourlyVaccationModel _$HourlyVaccationModelFromJson(
-        Map<String, dynamic> json) =>
-    HourlyVaccationModel(
+HourlyVacationModel _$HourlyVacationModelFromJson(Map<String, dynamic> json) =>
+    HourlyVacationModel(
       id: json['id'] as int?,
       startTime: DateTime.parse(json['startTime'] as String),
       endTime: DateTime.parse(json['endTime'] as String),
       totalTime: json['totalTime'] as int?,
       overtimePerMonth: json['overtimePerMonth'] as int?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
-Map<String, dynamic> _$HourlyVaccationModelToJson(
-        HourlyVaccationModel instance) =>
+Map<String, dynamic> _$HourlyVacationModelToJson(
+        HourlyVacationModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'startTime': instance.startTime.toIso8601String(),
       'endTime': instance.endTime.toIso8601String(),
       'totalTime': instance.totalTime,
       'overtimePerMonth': instance.overtimePerMonth,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 PersonalInfoModel _$PersonalInfoModelFromJson(Map<String, dynamic> json) =>
@@ -198,12 +246,20 @@ RankModel _$RankModelFromJson(Map<String, dynamic> json) => RankModel(
       id: json['id'] as int?,
       gradeCode: json['gradeCode'] as int,
       name: json['name'] as String,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$RankModelToJson(RankModel instance) => <String, dynamic>{
       'id': instance.id,
       'gradeCode': instance.gradeCode,
       'name': instance.name,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 SectionModel _$SectionModelFromJson(Map<String, dynamic> json) => SectionModel(
@@ -238,7 +294,7 @@ Map<String, dynamic> _$SectionModelToJson(SectionModel instance) =>
 ServiceDeficitModel _$ServiceDeficitModelFromJson(Map<String, dynamic> json) =>
     ServiceDeficitModel(
       id: json['id'] as int?,
-      claculatedDeficitAmount: json['claculatedDeficitAmount'] as int?,
+      calculatedDeficitAmount: json['calculatedDeficitAmount'] as int?,
       records: (json['records'] as List<dynamic>?)
           ?.map((e) =>
               ServiceDeficitRecordModel.fromJson(e as Map<String, dynamic>))
@@ -247,15 +303,23 @@ ServiceDeficitModel _$ServiceDeficitModelFromJson(Map<String, dynamic> json) =>
           ?.map((e) => OperationalServiceDeficitRecordModel.fromJson(
               e as Map<String, dynamic>))
           .toList(),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$ServiceDeficitModelToJson(
         ServiceDeficitModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'claculatedDeficitAmount': instance.claculatedDeficitAmount,
+      'calculatedDeficitAmount': instance.calculatedDeficitAmount,
       'records': instance.records,
       'operationalRecords': instance.operationalRecords,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 SoldierCaseModel _$SoldierCaseModelFromJson(Map<String, dynamic> json) =>
@@ -273,10 +337,9 @@ SoldierCaseModel _$SoldierCaseModelFromJson(Map<String, dynamic> json) =>
       overtime: json['overtime'] == null
           ? null
           : OvertimeModel.fromJson(json['overtime'] as Map<String, dynamic>),
-      vaccations: json['vaccations'] == null
+      vacations: json['vacations'] == null
           ? null
-          : VaccationsModel.fromJson(
-              json['vaccations'] as Map<String, dynamic>),
+          : VacationsModel.fromJson(json['vacations'] as Map<String, dynamic>),
       serviceDeficit: json['serviceDeficit'] == null
           ? null
           : ServiceDeficitModel.fromJson(
@@ -284,6 +347,12 @@ SoldierCaseModel _$SoldierCaseModelFromJson(Map<String, dynamic> json) =>
       rank: json['rank'] == null
           ? null
           : RankModel.fromJson(json['rank'] as Map<String, dynamic>),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$SoldierCaseModelToJson(SoldierCaseModel instance) =>
@@ -299,9 +368,11 @@ Map<String, dynamic> _$SoldierCaseModelToJson(SoldierCaseModel instance) =>
       'lastPeriodOfService': instance.lastPeriodOfService,
       'amountOfService': instance.amountOfService,
       'overtime': instance.overtime,
-      'vaccations': instance.vaccations,
+      'vacations': instance.vacations,
       'serviceDeficit': instance.serviceDeficit,
       'rank': instance.rank,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 SoldierModel _$SoldierModelFromJson(Map<String, dynamic> json) => SoldierModel(
@@ -313,10 +384,10 @@ SoldierModel _$SoldierModelFromJson(Map<String, dynamic> json) => SoldierModel(
       section: json['section'] == null
           ? null
           : SectionModel.fromJson(json['section'] as Map<String, dynamic>),
-      trainigStatus: json['trainigStatus'] == null
+      trainingStatus: json['trainingStatus'] == null
           ? null
-          : TrainigStatusModel.fromJson(
-              json['trainigStatus'] as Map<String, dynamic>),
+          : TrainingStatusModel.fromJson(
+              json['trainingStatus'] as Map<String, dynamic>),
       healthStatus: json['healthStatus'] == null
           ? null
           : HealthStatusModel.fromJson(
@@ -341,15 +412,15 @@ Map<String, dynamic> _$SoldierModelToJson(SoldierModel instance) =>
       'latestStatus': instance.latestStatus,
       'divisionStatus': instance.divisionStatus,
       'section': instance.section,
-      'trainigStatus': instance.trainigStatus,
+      'trainingStatus': instance.trainingStatus,
       'healthStatus': instance.healthStatus,
       'soldierCase': instance.soldierCase,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
-TrainigStatusModel _$TrainigStatusModelFromJson(Map<String, dynamic> json) =>
-    TrainigStatusModel(
+TrainingStatusModel _$TrainingStatusModelFromJson(Map<String, dynamic> json) =>
+    TrainingStatusModel(
       id: json['id'] as int?,
       startDate: json['startDate'] == null
           ? null
@@ -361,9 +432,16 @@ TrainigStatusModel _$TrainigStatusModelFromJson(Map<String, dynamic> json) =>
       endDate: json['endDate'] == null
           ? null
           : DateTime.parse(json['endDate'] as String),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
-Map<String, dynamic> _$TrainigStatusModelToJson(TrainigStatusModel instance) =>
+Map<String, dynamic> _$TrainingStatusModelToJson(
+        TrainingStatusModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'startDate': instance.startDate?.toIso8601String(),
@@ -372,6 +450,8 @@ Map<String, dynamic> _$TrainigStatusModelToJson(TrainigStatusModel instance) =>
       'status': instance.status,
       'type': instance.type,
       'endDate': instance.endDate?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 UnitPropertiesModel _$UnitPropertiesModelFromJson(Map<String, dynamic> json) =>
@@ -405,59 +485,75 @@ Map<String, dynamic> _$UnitPropertiesModelToJson(
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
-VaccationsModel _$VaccationsModelFromJson(Map<String, dynamic> json) =>
-    VaccationsModel(
+VacationsModel _$VacationsModelFromJson(Map<String, dynamic> json) =>
+    VacationsModel(
       id: json['id'] as int?,
-      amountOfEligibleVaccations: json['amountOfEligibleVaccations'] as int?,
-      amountOfSickVaccations: json['amountOfSickVaccations'] as int?,
-      amountOfIncentiveVaccations: json['amountOfIncentiveVaccations'] as int?,
-      eligibleVaccationsUsed: json['eligibleVaccationsUsed'] as int?,
-      sickVaccationsUsed: json['sickVaccationsUsed'] as int?,
-      incentiveVaccationsUsed: json['incentiveVaccationsUsed'] as int?,
-      dailyVaccations: (json['dailyVaccations'] as List<dynamic>?)
-          ?.map((e) => DailyVaccationModel.fromJson(e as Map<String, dynamic>))
+      amountOfEligible: json['amountOfEligible'] as int?,
+      amountOfSick: json['amountOfSick'] as int?,
+      amountOfIncentive: json['amountOfIncentive'] as int?,
+      eligibleUsed: json['eligibleUsed'] as int?,
+      sickUsed: json['sickUsed'] as int?,
+      incentiveUsed: json['incentiveUsed'] as int?,
+      daily: (json['daily'] as List<dynamic>?)
+          ?.map((e) => DailyVacationModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      hourlyVaccations: (json['hourlyVaccations'] as List<dynamic>?)
-          ?.map((e) => HourlyVaccationModel.fromJson(e as Map<String, dynamic>))
+      hourly: (json['hourly'] as List<dynamic>?)
+          ?.map((e) => HourlyVacationModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
-Map<String, dynamic> _$VaccationsModelToJson(VaccationsModel instance) =>
+Map<String, dynamic> _$VacationsModelToJson(VacationsModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'amountOfEligibleVaccations': instance.amountOfEligibleVaccations,
-      'amountOfSickVaccations': instance.amountOfSickVaccations,
-      'amountOfIncentiveVaccations': instance.amountOfIncentiveVaccations,
-      'eligibleVaccationsUsed': instance.eligibleVaccationsUsed,
-      'sickVaccationsUsed': instance.sickVaccationsUsed,
-      'incentiveVaccationsUsed': instance.incentiveVaccationsUsed,
-      'dailyVaccations': instance.dailyVaccations,
-      'hourlyVaccations': instance.hourlyVaccations,
+      'amountOfEligible': instance.amountOfEligible,
+      'amountOfSick': instance.amountOfSick,
+      'amountOfIncentive': instance.amountOfIncentive,
+      'eligibleUsed': instance.eligibleUsed,
+      'sickUsed': instance.sickUsed,
+      'incentiveUsed': instance.incentiveUsed,
+      'daily': instance.daily,
+      'hourly': instance.hourly,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 OvertimeModel _$OvertimeModelFromJson(Map<String, dynamic> json) =>
     OvertimeModel(
       id: json['id'] as int?,
-      disciplinalOvertime: json['disciplinalOvertime'] == null
+      disciplinaryOvertime: json['disciplinaryOvertime'] == null
           ? null
-          : DisciplinalOvertimeModel.fromJson(
-              json['disciplinalOvertime'] as Map<String, dynamic>),
+          : DisciplinaryOvertimeModel.fromJson(
+              json['disciplinaryOvertime'] as Map<String, dynamic>),
       annualOvertime: json['annualOvertime'] == null
           ? null
           : AnnualOvertimeModel.fromJson(
               json['annualOvertime'] as Map<String, dynamic>),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$OvertimeModelToJson(OvertimeModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'disciplinalOvertime': instance.disciplinalOvertime,
+      'disciplinaryOvertime': instance.disciplinaryOvertime,
       'annualOvertime': instance.annualOvertime,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
-DisciplinalOvertimeModel _$DisciplinalOvertimeModelFromJson(
+DisciplinaryOvertimeModel _$DisciplinaryOvertimeModelFromJson(
         Map<String, dynamic> json) =>
-    DisciplinalOvertimeModel(
+    DisciplinaryOvertimeModel(
       id: json['id'] as int?,
       calculatedOvertime: json['calculatedOvertime'] as int,
       violationsOvertimes: (json['violationsOvertimes'] as List<dynamic>?)
@@ -468,15 +564,23 @@ DisciplinalOvertimeModel _$DisciplinalOvertimeModelFromJson(
           ?.map((e) =>
               DailyAbsenceOvertimeModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
-Map<String, dynamic> _$DisciplinalOvertimeModelToJson(
-        DisciplinalOvertimeModel instance) =>
+Map<String, dynamic> _$DisciplinaryOvertimeModelToJson(
+        DisciplinaryOvertimeModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'calculatedOvertime': instance.calculatedOvertime,
       'violationsOvertimes': instance.violationsOvertimes,
       'dailyAbsenceOvertimes': instance.dailyAbsenceOvertimes,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 AnnualOvertimeModel _$AnnualOvertimeModelFromJson(Map<String, dynamic> json) =>
@@ -485,6 +589,12 @@ AnnualOvertimeModel _$AnnualOvertimeModelFromJson(Map<String, dynamic> json) =>
       overtime: json['overtime'] as int,
       forgivenessOvertime: json['forgivenessOvertime'] as int?,
       overtimeBalance: json['overtimeBalance'] as int,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$AnnualOvertimeModelToJson(
@@ -494,6 +604,8 @@ Map<String, dynamic> _$AnnualOvertimeModelToJson(
       'overtime': instance.overtime,
       'forgivenessOvertime': instance.forgivenessOvertime,
       'overtimeBalance': instance.overtimeBalance,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 ViolationsOvertimeModel _$ViolationsOvertimeModelFromJson(
@@ -503,6 +615,12 @@ ViolationsOvertimeModel _$ViolationsOvertimeModelFromJson(
       violationType: json['violationType'] as String,
       overtime: json['overtime'] as int,
       forgivenessOvertime: json['forgivenessOvertime'] as int,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$ViolationsOvertimeModelToJson(
@@ -512,6 +630,8 @@ Map<String, dynamic> _$ViolationsOvertimeModelToJson(
       'violationType': instance.violationType,
       'overtime': instance.overtime,
       'forgivenessOvertime': instance.forgivenessOvertime,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 DailyAbsenceOvertimeModel _$DailyAbsenceOvertimeModelFromJson(
@@ -521,8 +641,14 @@ DailyAbsenceOvertimeModel _$DailyAbsenceOvertimeModelFromJson(
       startDate: DateTime.parse(json['startDate'] as String),
       endDate: DateTime.parse(json['endDate'] as String),
       absenceDays: json['absenceDays'] as int,
-      isVaccum: json['isVaccum'] as bool,
+      isVacuum: json['isVacuum'] as bool,
       overtime: json['overtime'] as int?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$DailyAbsenceOvertimeModelToJson(
@@ -532,8 +658,10 @@ Map<String, dynamic> _$DailyAbsenceOvertimeModelToJson(
       'startDate': instance.startDate.toIso8601String(),
       'endDate': instance.endDate.toIso8601String(),
       'absenceDays': instance.absenceDays,
-      'isVaccum': instance.isVaccum,
+      'isVacuum': instance.isVacuum,
       'overtime': instance.overtime,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 ServiceDeficitRecordModel _$ServiceDeficitRecordModelFromJson(
@@ -542,6 +670,12 @@ ServiceDeficitRecordModel _$ServiceDeficitRecordModelFromJson(
       id: json['id'] as int?,
       type: json['type'] as String?,
       amount: json['amount'] as int,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$ServiceDeficitRecordModelToJson(
@@ -550,6 +684,8 @@ Map<String, dynamic> _$ServiceDeficitRecordModelToJson(
       'id': instance.id,
       'type': instance.type,
       'amount': instance.amount,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 OperationalServiceDeficitRecordModel
@@ -560,6 +696,12 @@ OperationalServiceDeficitRecordModel
           endDate: DateTime.parse(json['endDate'] as String),
           durationOfPresence: json['durationOfPresence'] as int,
           deficitAmount: json['deficitAmount'] as int?,
+          createdAt: json['createdAt'] == null
+              ? null
+              : DateTime.parse(json['createdAt'] as String),
+          updatedAt: json['updatedAt'] == null
+              ? null
+              : DateTime.parse(json['updatedAt'] as String),
         );
 
 Map<String, dynamic> _$OperationalServiceDeficitRecordModelToJson(
@@ -570,4 +712,26 @@ Map<String, dynamic> _$OperationalServiceDeficitRecordModelToJson(
       'endDate': instance.endDate.toIso8601String(),
       'durationOfPresence': instance.durationOfPresence,
       'deficitAmount': instance.deficitAmount,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+    };
+
+CaseModel _$CaseModelFromJson(Map<String, dynamic> json) => CaseModel(
+      id: json['id'] as int?,
+      caseName: json['caseName'] as String,
+      caseCode: json['caseCode'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$CaseModelToJson(CaseModel instance) => <String, dynamic>{
+      'id': instance.id,
+      'caseName': instance.caseName,
+      'caseCode': instance.caseCode,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };

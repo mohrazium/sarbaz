@@ -7,6 +7,7 @@ class ContactInfoTable extends Table {
   TextColumn get province => text().nullable()();
   TextColumn get city => text().nullable()();
   TextColumn get address => text()();
+  TextColumn get postalCode => text().nullable()();
   IntColumn get distance => integer()();
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();

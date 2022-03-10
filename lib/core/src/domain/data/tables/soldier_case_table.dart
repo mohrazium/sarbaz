@@ -14,8 +14,8 @@ class SoldierCaseTable extends Table {
   IntColumn get amountOfService => integer().nullable()();
   IntColumn get overtime =>
       integer().references(OvertimeTable, #id).nullable()();
-  IntColumn get vaccations =>
-      integer().references(VaccationsTable, #id).nullable()();
+  IntColumn get vacations =>
+      integer().references(VacationsTable, #id).nullable()();
   IntColumn get serviceDeficit =>
       integer().references(ServiceDeficitTable, #id).nullable()();
   IntColumn get rank => integer().references(RankTable, #id).nullable()();

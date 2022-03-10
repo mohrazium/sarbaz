@@ -1,7 +1,7 @@
 part of data;
 
-@DriftAccessor(tables: [DailyVaccationTable])
-class DailyVaccationDAO extends DatabaseAccessor<SoldierDatabase>
-    with _$DailyVaccationDAOMixin {
-  DailyVaccationDAO(SoldierDatabase db) : super(db);
+@DriftAccessor(tables: [DailyVacationTable])
+class DailyVacationDAO extends DatabaseAccessor<SoldierDatabase>
+    with _$DailyVacationDAOMixin {
+  DailyVacationDAO(SoldierDatabase db) : super(db);
 }

@@ -1,53 +1,56 @@
 part of controllers;
 
-class PersonalInfoController extends GetxController with ValidatorMixin {
+class PersonalInfoController extends GetxController
+    with ValidatorMixin, DateConverterMixin {
+  final GlobalKey<FormState> personalInfoFormGlobalKey = GlobalKey<FormState>();
+
   late RxInt personalInfoId = 0.obs;
-  late RxBool keepWindowOpen = false.obs;
-  late RxBool isEdit = false.obs;
-  late RxBool isEditable = false.obs;
-  late RxString selectedLevelOfEducation = "".obs;
-  late RxString selectedMaritalStatus = "".obs;
-  late LoggerService _logger;
+  late RxBool readOnly = true.obs;
+  late DateTime _dateOfBirth;
+
   late final PersonalInfoService _personalInfoService;
+  late final SoldierCaseEditorController _soldierCaseEditorController;
+  late final Rx<PersonalInfoModel> _model = Rx(PersonalInfoModel.empty());
 
-  late TextEditingController nationalCodeController,
-      nationalIdentityController,
-      firstNameController,
-      lastNameController,
-      fatherNameController,
-      dateOfBirthController,
-      placeOfBirthController,
-      placeOfIssueController;
-
-  // maritalStatusController,
-  // filedOfStudyController,
-  // nickNameController,
-  // numberOfChildrenController,
-  // mobileNumberController,
-  // levelOfEducationController,
-  // telephoneNumberController,
-  // distanceController,
-  // addressController;
+  late TextEditingController nationalCodeController;
+  late TextEditingController nationalIdentityController;
+  late TextEditingController firstNameController;
+  late TextEditingController lastNameController;
+  late TextEditingController fatherNameController;
+  late TextEditingController dateOfBirthController;
+  late TextEditingController placeOfBirthController;
+  late TextEditingController placeOfIssueController;
 
   @override
   void onInit() {
     super.onInit();
     nationalCodeController = TextEditingController();
+    nationalIdentityController = TextEditingController();
+    firstNameController = TextEditingController();
     lastNameController = TextEditingController();
     fatherNameController = TextEditingController();
-    firstNameController = TextEditingController();
     dateOfBirthController = TextEditingController();
     placeOfBirthController = TextEditingController();
     placeOfIssueController = TextEditingController();
-
     _personalInfoService = Get.find<PersonalInfoService>();
+    _soldierCaseEditorController = Get.find<SoldierCaseEditorController>();
+    int personId = _soldierCaseEditorController.personalInfoId.value;
+    if (personId != 0) {
+      logger.log(message: "$this has been initialized on new person mode.");
+      _loadPersonalInfo(personId);
+    } else {
+      logger.log(
+          message: "$this has been initialized on editable person mode.");
+      _changeReadOnly();
+    }
+    logger.log(message: "$this has been initialized.");
   }
 
   @override
   void onReady() {
     super.onReady();
 
-    debugPrint("onReady $this");
+    logger.log(message: "$this has been ready.");
   }
 
   @override
@@ -60,54 +63,96 @@ class PersonalInfoController extends GetxController with ValidatorMixin {
     dateOfBirthController.dispose();
     placeOfBirthController.dispose();
     placeOfIssueController.dispose();
-    _logger.log(Level.INFO, message: "${this} has been closed.");
+    logger.log(level: Level.INFO, message: "$this has been closed.");
     super.onClose();
   }
 
-  // void keepSelectedMaritalStatus() {
-  //   if (maritalStatusController.text.length > 0) {
-  //     selectedMaritalStatus = RxString(maritalStatusController.text);
-  //     if (Strings.maritalStatusSingle == maritalStatusController.text) {
-  //       numberOfChildrenController.text = 0.toString();
-  //     }
-  //   }
-
-  //   update();
-  // }
-
-  // void keepSelectedLevelOfEducation() {
-  //   if (levelOfEducationController.text.length > 0)
-  //     selectedLevelOfEducation.value = levelOfEducationController.text;
-  // }
-
-  Future<bool> _checkPersonalInfoDuplication(String nationalIdentity) async {
-    try {
-      _logger.log(Level.INFO,
-          message: "Checking personal info duplication by national identity.");
-      if (nationalIdentity.length == 10) {
-        final value =
-            await _personalInfoService.findByNationalIdentity(nationalIdentity);
-        if (value != null) {
-          _logger.log(Level.WARNING,
-              message:
-                  "Personal info is duplicated by nationalIdentity :$nationalIdentity.");
-          return Future.value(true);
-        } else {
-          _logger.log(Level.INFO,
-              message: "Personal info is not duplicated can be store.");
-          return Future.value(false);
-        }
-      } else {
-        return Future.value(false);
+  void onChangedNationalCodeField(String val) async {
+    if (val.length == 10) {
+      if (await _checkPersonalInfoDuplication(val)) {
+        MessageDialog.show(
+            title: Strings.info,
+            message: Strings.duplicationNationalCode,
+            messageDialogButtons: MessageDialogButtons.OK,
+            messageDialogType: MessageDialogType.ERROR,
+            okPressed: () {
+              nationalCodeController.clear();
+            });
       }
-    } catch (e) {
-      throw FailureException(
-          exception: e,
-          message: "An error was happened in checking duplication");
     }
   }
 
-  Future<bool> save({int? id}) async {
+  void onConfirmButtonPressed() {
+    logger.log(message: "onConfirmButtonClick");
+    if (!readOnly.value) {
+      if (personalInfoFormGlobalKey.currentState!.validate()) {
+        personalInfoFormGlobalKey.currentState!.save();
+        logger.log(message: "save clicked");
+        // use the email provided here
+
+        _changeReadOnly();
+      }
+    } else {
+      _changeReadOnly();
+    }
+  }
+
+  void onCancelButtonPressed() {
+    _loadPersonalInfo(_soldierCaseEditorController.personalInfoId.value);
+    _changeReadOnly();
+    logger.log(message: "cancel clicked");
+  }
+
+  void onCalenderPressed(context) async {
+    var now = Jalali.now().year;
+    Jalali? picked = await showPersianDatePicker(
+      context: context,
+      initialDate: Jalali(now - 20, 1),
+      firstDate: Jalali(now - 40, 1),
+      lastDate: Jalali(now - 16, 1),
+    );
+    if (picked != null) {
+      _dateOfBirth =
+          toDateTime(year: picked.year, month: picked.month, day: picked.day);
+      dateOfBirthController.text =
+          persianTools.convertEnToFa(picked.formatCompactDate());
+    }
+  }
+
+  _changeReadOnly() {
+    readOnly.value = !readOnly.value;
+  }
+
+  Future<bool> _checkPersonalInfoDuplication(String nationalIdentity) async {
+    //TODO: fix check person duplication
+    // try {
+    //   _logger.log(Level.INFO,
+    //       message: "Checking personal info duplication by national identity.");
+    //   if (nationalIdentity.length == 10) {
+    //     final value =
+    //         await _personalInfoService.findByNationalIdentity(nationalIdentity);
+    //     if (value != null) {
+    //       _logger.log(Level.WARNING,
+    //           message:
+    //               "Personal info is duplicated by nationalIdentity :$nationalIdentity.");
+    //       return Future.value(true);
+    //     } else {
+    //       _logger.log(Level.INFO,
+    //           message: "Personal info is not duplicated can be store.");
+    //       return Future.value(false);
+    //     }
+    //   } else {
+    //     return Future.value(false);
+    //   }
+    // } catch (e) {
+    //   throw FailureException(
+    //       exception: e,
+    //       message: "An error was happened in checking duplication");
+    // }
+    return false;
+  }
+
+  Future<bool> _save({int? id}) async {
     //   _logger.log(Level.INFO,
     //       message: "Check validation of Soldier editor form.");
     //   if (soldierEditorFormKey.currentState!.validate()) {
@@ -128,45 +173,34 @@ class PersonalInfoController extends GetxController with ValidatorMixin {
     return Future.value(false);
   }
 
-  Future<void> loadPersonalInfo(int personalInfoId) async {
-    // PersonalInfoModel model =
-    //     await personalInfoService.findById(personalInfoId);
-    // nationalIdentityController.text = model.nationalIdentity;
-    // lastNameController.text = model.lastName;
-    // maritalStatusController.text = model.maritalStatus;
-    // filedOfStudyController.text = model.filedOfStudy!;
-    // nickNameController.text = model.nickName!;
-    // fatherNameController.text = model.fatherName;
-    // numberOfChildrenController.text = model.numberOfChildren.toString();
-    // mobileNumberController.text = model.mobileNumber;
-    // firstNameController.text = model.firstName;
-    // dateOfBirthController.text = model.dateOfBirth;
-    // levelOfEducationController.text = model.levelOfEducation;
-    // telephoneNumberController.text = model.telephoneNumber;
-    // distanceController.text = model.distance.toString();
-    // addressController.text = model.address;
-
-    update();
+  Future<void> _loadPersonalInfo(int personalInfoId) async {
+    var founded = await _personalInfoService.findById(personalInfoId);
+    if (founded != null) {
+      _model.value = founded;
+      nationalCodeController.text = _model.value.nationalCode;
+      nationalIdentityController.text = _model.value.nationalIdentity ?? "";
+      lastNameController.text = _model.value.lastName;
+      fatherNameController.text = _model.value.fatherName ?? "";
+      firstNameController.text = _model.value.firstName;
+      dateOfBirthController.text = toShamsi(_model.value.dateOfBirth);
+      placeOfBirthController.text = _model.value.placeOfBirth ?? "";
+      placeOfIssueController.text = _model.value.placeOfIssue ?? "";
+    }
   }
 
-  // PersonalInfoModel catchFormData() {
-  //   return PersonalInfoModel(
-  //       nationalIdentity: nationalIdentityController.text,
-  //       firstName: firstNameController.text,
-  //       lastName: lastNameController.text,
-  //       fatherName: fatherNameController.text,
-  //       dateOfBirth: dateOfBirthController.text,
-  //       // maritalStatus: maritalStatusController.text,
-  //       // numberOfChildren: int.parse(numberOfChildrenController.text),
-  //       // levelOfEducation: levelOfEducationController.text,
-  //       // filedOfStudy: filedOfStudyController.text,
-  //       // mobileNumber: mobileNumberController.text,
-  //       // telephoneNumber: telephoneNumberController.text,
-  //       // address: addressController.text,
-  //       // distance: int.parse(distanceController.text));
-  // }
+  void _catchFormData() {
+    _model.value = PersonalInfoModel(
+      nationalCode: nationalCodeController.text.trim(),
+      nationalIdentity: nationalIdentityController.text.trim(),
+      firstName: firstNameController.text.trim(),
+      lastName: lastNameController.text.trim(),
+      fatherName: fatherNameController.text.trim(),
+      dateOfBirth: _dateOfBirth,
+      placeOfBirth: placeOfBirthController.text.trim(),
+    );
+  }
 
-  void clearEditor() {
+  void _clearEditor() {
     personalInfoId(0);
     nationalCodeController.clear();
     nationalIdentityController.clear();
@@ -177,30 +211,4 @@ class PersonalInfoController extends GetxController with ValidatorMixin {
     placeOfBirthController.clear();
     placeOfBirthController.clear();
   }
-
-  void onChangedNationalCodeField(String val) async {
-    if (val.length == 10) {
-      if (await _checkPersonalInfoDuplication(val)) {
-        MessageDialog.show(
-            title: Strings.info,
-            message: Strings.duplicationNationalCode,
-            messageDialogButtons: MessageDialogButtons.OK,
-            messageDialogType: MessageDialogType.ERROR,
-            okPressed: () {
-              nationalCodeController.clear();
-            });
-      }
-    }
-  }
-
-  void onConfirmButtonClick() {
-    printError(info: "onConfirmButtonClick");
-    isEdit.value = !isEdit.value;
-  }
-
-  void onConfirmButtonPressed() {
-    isEdit.value = !isEdit.value;
-  }
-
-  void onCancelButtonPressed() {}
 }

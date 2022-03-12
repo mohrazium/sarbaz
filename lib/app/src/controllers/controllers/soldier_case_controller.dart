@@ -1,3 +1,4 @@
 part of controllers;
 
- class SoldierCaseController extends GetxController {}
+class SoldierCaseController extends GetxController {
+}

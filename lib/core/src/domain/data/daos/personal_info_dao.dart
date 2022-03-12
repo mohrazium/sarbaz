@@ -42,4 +42,9 @@ class PersonalInfoDAO extends DatabaseAccessor<SoldierDatabase>
         ? Future.value(true)
         : Future.value(false);
   }
+
+  Future<PersonalInfoTableData?> findById(int id) async {
+    return (select(personalInfoTable)..where((tbl) => tbl.id.equals(id)))
+        .getSingleOrNull();
+  }
 }

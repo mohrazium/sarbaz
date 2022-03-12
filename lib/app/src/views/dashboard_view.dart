@@ -62,7 +62,10 @@ class DashboardDesktopView extends GetView<DashboardController> {
             onPressed: controller.onPressedProfile,
           ),
         ),
-        const SizedBox(height: kSpacing,width: kSpacing*10,),
+        const SizedBox(
+          height: kSpacing,
+          width: kSpacing * 10,
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: kPadding),
           child: MainMenu(onSelected: controller.onSelectedMainMenu),
@@ -104,6 +107,10 @@ class DashboardDesktopView extends GetView<DashboardController> {
                   color: Colors.red,
                   child: Text("page 4 "),
                 ),
+                Container(
+                  color: Colors.red,
+                  child: Text("page 4 "),
+                ),
                 _buildMainSection(onPressedMenu),
               ]);
         });
@@ -132,8 +139,7 @@ class DashboardDesktopView extends GetView<DashboardController> {
                 Expanded(
                   child: SearchField(
                     onSearch: controller.search,
-                    hintText: Strings.searchBar +
-                        controller.dashboardShownContentIndex.value.toString(),
+                    hintText: Strings.searchBar,
                   ),
                 ),
               ],

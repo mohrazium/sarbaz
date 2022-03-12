@@ -34,13 +34,12 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
 
   @override
   Future<PersonalInfoModel> findById(int id) async {
-    // late PersonalInfoModel model;
-    // await database.instance().then((db) async {
-    //   await db.personalInfoDAO
-    //       .findById(id)
-    //       .then((value) => model = PersonalInfoModel.fromTable(value!));
-    // });
-    return Future.value(null);
+    return await personalInfoDAO.findById(id).then((value) {
+      return value != null
+          ? PersonalInfoModel.fromJson(value.toJson())
+          : throw FailureException(
+              exception: ExceptionsType.NOT_FOUND, message: 'No person found!');
+    });
   }
 
   @override

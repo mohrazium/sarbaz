@@ -4,22 +4,16 @@ class SoldierCaseEditorController extends GetxController
     with GetSingleTickerProviderStateMixin {
   final soldierCaseEditorScaffoldKey = GlobalKey<ScaffoldState>();
 
-  //TODO: make widgets controller separate.
-  late Rx<int> soldierCaseEditorShownContentIndex = 0.obs;
-  late Rx<int> soldierCaseEditorContentLen = 0.obs;
-
   late Rx<TabController> tabController = Rx(TabController(
-      vsync: this,
-      initialIndex: 0,
-      length: soldierCaseEditorContentLen.value)
+      vsync: this, initialIndex: 0, length: soldierCaseEditorContentLen.value)
     ..addListener(() {
       soldierCaseEditorShownContentIndex.value = tabController.value.index;
     }));
 
-  final GlobalKey<FormState> soldierEditorFormKey = GlobalKey<FormState>();
-
+  late Rx<int> soldierCaseEditorShownContentIndex = 0.obs;
+  late Rx<int> soldierCaseEditorContentLen = 0.obs;
+  late Rx<int> personalInfoId = Rx<int>(1);
   final Rx<String> soldierCaseEditorTitle = "".obs;
-
   // Declare text editing controllers
   RxInt currentStep = 0.obs;
 
@@ -38,7 +32,6 @@ class SoldierCaseEditorController extends GetxController
       distanceController,
       addressController;
 
-  late RxInt personalInfoId = 0.obs;
   late RxBool keepWindowOpen = false.obs;
   late RxBool isEditable = false.obs;
   late RxString selectedLevelOfEducation = "".obs;
@@ -65,6 +58,7 @@ class SoldierCaseEditorController extends GetxController
     addressController = TextEditingController();
 
     _personalInfoService = Get.find<PersonalInfoService>();
+    _getEditorTitle();
   }
 
   @override
@@ -88,7 +82,15 @@ class SoldierCaseEditorController extends GetxController
     telephoneNumberController.dispose();
     distanceController.dispose();
     addressController.dispose();
-    _logger.log(Level.INFO, message: "${this} has been closed.");
+    _logger.log(level: Level.INFO, message: "${this} has been closed.");
+  }
+
+  void _getEditorTitle() async {
+    PersonalInfoModel? model =
+        await _personalInfoService.findById(personalInfoId.value);
+    if (model != null) {
+      soldierCaseEditorTitle.value = "${model.firstName} ${model.lastName}";
+    }
   }
 
   String? validateNationalIdentity(
@@ -136,18 +138,21 @@ class SoldierCaseEditorController extends GetxController
 
   Future<bool> checkPersonalInfoDuplication(String nationalIdentity) async {
     try {
-      _logger.log(Level.INFO,
+      _logger.log(
+          level: Level.INFO,
           message: "Checking personal info duplication by national identity.");
       if (nationalIdentity.length == 10) {
         final value =
             await _personalInfoService.findByNationalIdentity(nationalIdentity);
         if (value != null) {
-          _logger.log(Level.WARNING,
+          _logger.log(
+              level: Level.WARNING,
               message:
                   "Personal info is duplicated by nationalIdentity :$nationalIdentity.");
           return Future.value(true);
         } else {
-          _logger.log(Level.INFO,
+          _logger.log(
+              level: Level.INFO,
               message: "Personal info is not duplicated can be store.");
           return Future.value(false);
         }
@@ -241,7 +246,8 @@ class SoldierCaseEditorController extends GetxController
   void stepContinue() {
     if (currentStep.value < 1) currentStep.value += 1;
 
-    _logger.log(Level.INFO,
+    _logger.log(
+        level: Level.INFO,
         message: "Countinue step, the current step is ${currentStep.value}");
 
     update();
@@ -249,7 +255,8 @@ class SoldierCaseEditorController extends GetxController
 
   void stepCancel() {
     if (currentStep.value == 1) currentStep.value -= 1;
-    _logger.log(Level.INFO,
+    _logger.log(
+        level: Level.INFO,
         message: "Cancel step, the current step is ${currentStep.value}");
     update();
   }

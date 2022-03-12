@@ -8,6 +8,7 @@ class Strings {
   static const String lastName = "نام خانوادگی";
   static const String fatherName = "نام پدر";
   static const String dateOfBirth = "تاریخ تولد";
+  static const String placeOfIssue = "محل صدور";
   static const String maritalStatus = "وضعیت تاهل";
   static const String maritalStatusSingle = "مجرد";
   static const String maritalStatusMarried = "متاهل";

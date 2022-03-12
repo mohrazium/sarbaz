@@ -1,7 +1,6 @@
 part of mdi;
 
 class MdiController {
-  var logger = Get.find<LoggerService>();
   final List<MdiWindow> _windows = List.empty(growable: true);
 
   final VoidCallback _onUpdate;
@@ -33,7 +32,7 @@ class MdiController {
       if (targetWindow == null) {
         _newWindow(context, window, windowIdentifier);
       } else {
-        logger.log(Level.INFO,
+        logger.log(level:Level.INFO,
             message: "$windowIdentifier window is already opened.");
       }
     } else {
@@ -59,20 +58,20 @@ class MdiController {
     //Init onCloseButtonClicked
     window.onCloseButtonClicked = () {
       _windows.remove(window);
-      logger.log(Level.INFO, message: "$windowIdentifier window is closed.");
+      logger.log(level:Level.INFO, message: "$windowIdentifier window is closed.");
 
       _onUpdate();
     };
 
     //Init onCloseButtonClicked
     window.onMaximizeButtonClicked = () {
-      logger.log(Level.INFO, message: "$windowIdentifier window is maximized.");
+      logger.log(level:Level.INFO, message: "$windowIdentifier window is maximized.");
 
       _onUpdate();
     };
     //Init onCloseButtonClicked
     window.onMinimizeButtonClicked = () {
-      logger.log(Level.INFO, message: "$windowIdentifier window is minimized.");
+      logger.log(level:Level.INFO, message: "$windowIdentifier window is minimized.");
 
       _onUpdate();
     };
@@ -81,7 +80,7 @@ class MdiController {
 
     // Update Widgets after adding the new App
     _onUpdate();
-    logger.log(Level.INFO,
+    logger.log(level:Level.INFO,
         message:
             "New window added to window manager with id:$windowIdentifier");
   }

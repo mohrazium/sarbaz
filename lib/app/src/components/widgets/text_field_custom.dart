@@ -16,6 +16,9 @@ class TextFieldCustom extends StatefulWidget {
   final TextInputType? keyboardType;
   final ValueChanged<String>? onChanged;
   final int maxLength;
+  final bool readOnly;
+  final FormFieldSetter<String>? onSaved;
+
   const TextFieldCustom({
     Key? key,
     this.titleText,
@@ -33,6 +36,8 @@ class TextFieldCustom extends StatefulWidget {
     this.keyboardType,
     this.onChanged,
     this.maxLength = 255,
+    this.readOnly = true,
+    this.onSaved,
   }) : super(key: key);
 
   @override
@@ -76,6 +81,9 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
             height: widget.height,
             width: widget.width,
             child: TextFormField(
+              readOnly: widget.readOnly,
+              onSaved: widget.onSaved,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               maxLength: widget.maxLength,
               keyboardType: widget.keyboardType ?? TextInputType.text,
               inputFormatters: [

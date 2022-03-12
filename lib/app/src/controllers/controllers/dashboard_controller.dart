@@ -8,7 +8,7 @@ class DashboardController extends GetxController
 
 
   late Rx<TabController> tabController =
-      Rx(TabController(vsync: this, initialIndex: 0, length: 4)
+      Rx(TabController(vsync: this, initialIndex: 0, length: 5)
         ..addListener(() {
           dashboardShownContentIndex.value = tabController.value.index;
         }));

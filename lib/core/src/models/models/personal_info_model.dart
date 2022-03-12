@@ -2,22 +2,22 @@ part of models;
 
 @JsonSerializable()
 class PersonalInfoModel {
-  final int? id;
-  final String nationalCode;
-  final String? nationalIdentity;
-  final String firstName;
-  final String lastName;
-  final String? fatherName;
-  final DateTime? dateOfBirth;
-  final String? placeOfBirth;
-  final String? placeOfIssue;
-  final FurtherInfoModel? furtherInfo;
-  final ContactInfoModel? contactInfo;
-  final EducationalInfoModel? educationalInfo;
-  final SoldierModel? soldier;
-  final DateTime? createdAt; 
-  final DateTime? updatedAt;
-
+  late final int? id;
+  late final String nationalCode;
+  late final String? nationalIdentity;
+  late final String firstName;
+  late final String lastName;
+  late final String? fatherName;
+  late final DateTime? dateOfBirth;
+  late final String? placeOfBirth;
+  late final String? placeOfIssue;
+  late final FurtherInfoModel? furtherInfo;
+  late final ContactInfoModel? contactInfo;
+  late final EducationalInfoModel? educationalInfo;
+  late final SoldierModel? soldier;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  PersonalInfoModel.empty();
   PersonalInfoModel({
     this.id,
     required this.nationalCode,

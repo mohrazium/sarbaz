@@ -2,7 +2,7 @@ part of components;
 
 class FormCard extends StatelessWidget {
   final Key? globalFormKey;
-  final bool isEdit;
+  final bool readyOnly;
   final Function() onConfirmButtonPressed;
   final Function() onCancelButtonPressed;
   final double? maxWidth;
@@ -14,7 +14,7 @@ class FormCard extends StatelessWidget {
   const FormCard({
     Key? key,
     this.globalFormKey,
-    required this.isEdit,
+    required this.readyOnly,
     required this.onConfirmButtonPressed,
     required this.onCancelButtonPressed,
     this.maxWidth,
@@ -58,7 +58,7 @@ class FormCard extends StatelessWidget {
                             padding: const EdgeInsets.all(kPadding),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: columns,
                             ),
                           ),
@@ -80,7 +80,7 @@ class FormCard extends StatelessWidget {
     Widget _buildConfirmButton() {
       return ElevatedButton.icon(
         icon: Icon(
-          isEdit ? EvaIcons.edit : EvaIcons.checkmark,
+          readyOnly ? EvaIcons.edit : EvaIcons.checkmark,
           size: 24,
         ),
         onPressed: () => onConfirmButtonPressed(),
@@ -91,13 +91,13 @@ class FormCard extends StatelessWidget {
           ),
           elevation: 0,
         ),
-        label: Text(isEdit ? Strings.edit : Strings.save),
+        label: Text(readyOnly ? Strings.edit : Strings.save),
       );
     }
 
     Widget _buildCancelButton() {
       return ElevatedButton(
-        onPressed: () {},
+        onPressed: readyOnly ? null : () => onCancelButtonPressed(),
         style: ElevatedButton.styleFrom(
           fixedSize: const Size(120, 40),
           primary: Colors.grey[300],

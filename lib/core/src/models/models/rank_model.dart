@@ -2,11 +2,12 @@ part of models;
 
 @JsonSerializable()
 class RankModel {
-  final int? id;
-  final int gradeCode;
-  final String name;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  late final int? id;
+  late final int gradeCode;
+  late final String name;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  RankModel.empty();
   RankModel({
     this.id,
     required this.gradeCode,

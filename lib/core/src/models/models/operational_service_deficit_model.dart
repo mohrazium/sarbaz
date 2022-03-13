@@ -2,13 +2,14 @@ part of models;
 
 @JsonSerializable()
 class OperationalServiceDeficitRecordModel {
-  final int? id;
-  final DateTime startDate;
-  final DateTime endDate;
-  final int durationOfPresence;
-  final int? deficitAmount;
-      final DateTime? createdAt;
-  final DateTime? updatedAt;
+  late final int? id;
+  late final DateTime startDate;
+  late final DateTime endDate;
+  late final int durationOfPresence;
+  late final int? deficitAmount;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  OperationalServiceDeficitRecordModel.empty();
   OperationalServiceDeficitRecordModel({
     this.id,
     required this.startDate,

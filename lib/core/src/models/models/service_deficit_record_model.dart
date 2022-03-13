@@ -2,11 +2,12 @@ part of models;
 
 @JsonSerializable()
 class ServiceDeficitRecordModel {
-  final int? id;
-  final String? type;
-  final int amount;
-      final DateTime? createdAt;
-  final DateTime? updatedAt;
+  late final int? id;
+  late final String? type;
+  late final int amount;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  ServiceDeficitRecordModel.empty();
   ServiceDeficitRecordModel({
     this.id,
     this.type,
@@ -31,7 +32,7 @@ class ServiceDeficitRecordModel {
     );
   }
 
-   factory ServiceDeficitRecordModel.fromJson(Map<String, dynamic> json) =>
+  factory ServiceDeficitRecordModel.fromJson(Map<String, dynamic> json) =>
       _$ServiceDeficitRecordModelFromJson(json);
   Map<String, dynamic> toJson() => _$ServiceDeficitRecordModelToJson(this);
 }

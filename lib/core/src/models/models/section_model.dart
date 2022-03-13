@@ -2,15 +2,15 @@ part of models;
 
 @JsonSerializable()
 class SectionModel {
-  final int? id;
-  final String locationName;
-  final String? sectionCode;
-  final String? sectionName;
-  final String? sectionNameAbbr;
-  final SoldierModel? soldier;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-
+  late final int? id;
+  late final String locationName;
+  late final String? sectionCode;
+  late final String? sectionName;
+  late final String? sectionNameAbbr;
+  late final SoldierModel? soldier;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  SectionModel.empty();
   SectionModel({
     this.id,
     required this.locationName,

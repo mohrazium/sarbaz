@@ -2,15 +2,16 @@ part of models;
 
 @JsonSerializable()
 class TrainingStatusModel {
-  final int? id;
-  final DateTime? startDate;
-  final String placeName;
-  final int? period;
-  final String? status;
-  final String? type;
-  final DateTime? endDate;
-      final DateTime? createdAt;
-  final DateTime? updatedAt;
+  late final int? id;
+  late final DateTime? startDate;
+  late final String placeName;
+  late final int? period;
+  late final String? status;
+  late final String? type;
+  late final DateTime? endDate;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  TrainingStatusModel.empty();
   TrainingStatusModel({
     this.id,
     this.startDate,

@@ -2,12 +2,13 @@ part of models;
 
 @JsonSerializable()
 class ServiceDeficitModel {
-  final int? id;
-  final int? calculatedDeficitAmount;
-  final List<ServiceDeficitRecordModel>? records;
-  final List<OperationalServiceDeficitRecordModel>? operationalRecords;
-      final DateTime? createdAt;
-  final DateTime? updatedAt;
+  late final int? id;
+  late final int? calculatedDeficitAmount;
+  late final List<ServiceDeficitRecordModel>? records;
+  late final List<OperationalServiceDeficitRecordModel>? operationalRecords;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  ServiceDeficitModel.empty();
   ServiceDeficitModel({
     this.id,
     this.calculatedDeficitAmount,
@@ -31,7 +32,8 @@ class ServiceDeficitModel {
   }) {
     return ServiceDeficitModel(
       id: id ?? this.id,
-      calculatedDeficitAmount: calculatedDeficitAmount ?? this.calculatedDeficitAmount,
+      calculatedDeficitAmount:
+          calculatedDeficitAmount ?? this.calculatedDeficitAmount,
       records: records ?? this.records,
       operationalRecords: operationalRecords ?? this.operationalRecords,
       createdAt: createdAt ?? this.createdAt,

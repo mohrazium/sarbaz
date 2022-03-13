@@ -2,15 +2,15 @@ part of models;
 
 @JsonSerializable()
 class UnitPropertiesModel {
-  final int? id;
-  final String unitName;
-  final String? unitCode;
-  final String? unitCity;
-  final String? unitType;
-  final List<SectionModel> sections;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  
+  late final int? id;
+  late final String unitName;
+  late final String? unitCode;
+  late final String? unitCity;
+  late final String? unitType;
+  late final List<SectionModel> sections;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  UnitPropertiesModel.empty();
   UnitPropertiesModel({
     this.id,
     required this.unitName,

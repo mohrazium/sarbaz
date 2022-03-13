@@ -2,13 +2,14 @@ part of models;
 
 @JsonSerializable()
 class DailyVacationModel {
-  final int? id;
-  final DateTime startDate;
-  final DateTime endDate;
-  final int amount;
-  final String vacationType;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  late final int? id;
+  late final DateTime startDate;
+  late final DateTime endDate;
+  late final int amount;
+  late final String vacationType;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  DailyVacationModel.empty();
   DailyVacationModel({
     this.id,
     required this.startDate,

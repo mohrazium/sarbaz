@@ -2,15 +2,16 @@ part of models;
 
 @JsonSerializable()
 class EducationalInfoModel {
-  final int? id;
-  final String levelOfEducation;
-  final String? fieldOfStudy;
-  final String? educationPlace;
-  final double? grade;
-  final String? skills;
-  final bool? permissionToStudy;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  late final int? id;
+  late final String levelOfEducation;
+  late final String? fieldOfStudy;
+  late final String? educationPlace;
+  late final double? grade;
+  late final String? skills;
+  late final bool? permissionToStudy;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  EducationalInfoModel.empty();
   EducationalInfoModel({
     this.id,
     required this.levelOfEducation,

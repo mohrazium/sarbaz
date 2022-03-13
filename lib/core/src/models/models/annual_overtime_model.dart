@@ -2,13 +2,13 @@ part of models;
 
 @JsonSerializable()
 class AnnualOvertimeModel {
-  final int? id;
-  final int overtime;
-  final int? forgivenessOvertime;
-  final int overtimeBalance;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-
+ late final int? id;
+ late final int overtime;
+ late final int? forgivenessOvertime;
+ late final int overtimeBalance;
+ late final DateTime? createdAt;
+ late final DateTime? updatedAt;
+AnnualOvertimeModel.empty();
   AnnualOvertimeModel({
     this.id,
     required this.overtime,

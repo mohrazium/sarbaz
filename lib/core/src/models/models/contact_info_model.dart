@@ -2,16 +2,17 @@ part of models;
 
 @JsonSerializable()
 class ContactInfoModel {
-  final int? id;
-  final String? phoneNumber;
-  final String mobileNumber;
-  final String? province;
-  final String? city;
-  final String address;
-  final String? postalCode;
-  final int distance;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+late final int? id;
+late final String? phoneNumber;
+late final String mobileNumber;
+late final String? province;
+late final String? city;
+late final String address;
+late final String? postalCode;
+late final int distance;
+late final DateTime? createdAt;
+late final DateTime? updatedAt;
+ContactInfoModel.empty();
   ContactInfoModel({
     this.id,
     this.phoneNumber,

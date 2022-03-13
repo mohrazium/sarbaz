@@ -7,22 +7,23 @@ List<PersonalInfoModel> _paginatedPersonalInfo = <PersonalInfoModel>[];
 
 class SoldiersModelDataCell {
   final String? personnelCode;
-  final String firstName;
-  final String lastName;
-  final String fatherName;
-  final String nationalIdentity;
-  final String mobileNumber;
-  final String soldierStatus;
+  final String? firstName;
+  final String? lastName;
+  final String? fatherName;
+  final String? nationalCode;
+  final String? mobileNumber;
+  final String? soldierStatus;
   bool isSelected;
-  SoldiersModelDataCell(
-      this.personnelCode,
-      this.firstName,
-      this.lastName,
-      this.fatherName,
-      this.nationalIdentity,
-      this.mobileNumber,
-      this.soldierStatus,
-      this.isSelected);
+  SoldiersModelDataCell({
+    this.personnelCode = "",
+    this.firstName = "",
+    this.lastName = "",
+    this.fatherName = "",
+    this.nationalCode = "",
+    this.mobileNumber = "",
+    this.soldierStatus = "",
+    this.isSelected = false,
+  });
 }
 
 class SoldiersDataTable extends StatefulWidget {
@@ -59,7 +60,9 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
                 height: _dataPagerHeight,
                 child: SfDataPager(
                   delegate: personalInfoDataSource,
-                  pageCount: personalInfo.length / _rowsPerPage,
+                  pageCount: personalInfo.length >= 20
+                      ? personalInfo.length / _rowsPerPage
+                      : 1,
                   direction: Axis.horizontal,
                 ))
           ]);
@@ -69,12 +72,13 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
   _buildDataGrid(BoxConstraints constraint) {
     return SfDataGridTheme(
       data: SfDataGridThemeData(
-        rowHoverColor: Colorize.primaryColor.withOpacity(0.2),
-        selectionColor: Colorize.primaryColor,
-        //  headerColor: Colorize.primaryColorShade200,
+        rowHoverColor: Colorize.primaryColor.shade200,
+        selectionColor: Colorize.primaryColor.shade400,
+        headerColor: Colorize.primaryColor,
         sortIconColor: Colorize.backgroundColorShade400,
       ),
       child: SfDataGrid(
+        allowSorting: true,
         source: personalInfoDataSource,
         columnWidthMode: ColumnWidthMode.fill,
         columns: <GridColumn>[
@@ -85,7 +89,7 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
                       color: Colorize.primaryColor,
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(kBorderRadius))),
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(kPadding),
                   alignment: Alignment.center,
                   child: const Text(Strings.personnelCode,
                       style: TextStyle(
@@ -216,122 +220,132 @@ class PersonalInfoDataSource extends DataGridSource {
 
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
-    return DataGridRowAdapter(
-        cells: row.getCells().map<Widget>((dataGridCell) {
-      if (dataGridCell.columnName == Strings.personnelCode) {
-        return Container(
-            padding: const EdgeInsets.all(8.0),
-            alignment: Alignment.center,
-            child: Center(
-              child: Text(convertEnToFa(dataGridCell.value.toString()),
-                  style: const TextStyle(
-                    color: Colorize.foregroundColor,
-                    fontFamily: Fonts.sahelFontFamily,
-                    fontWeight: FontWeight.normal,
-                    letterSpacing: .8,
-                    fontSize: 15,
-                  )),
-            ));
-      } else if (dataGridCell.columnName == Strings.nationalCode) {
-        return Container(
-            padding: const EdgeInsets.all(8.0),
-            alignment: Alignment.center,
-            child: Center(
-              child: Text(convertEnToFa(dataGridCell.value.toString()),
-                  style: const TextStyle(
-                    color: Colorize.foregroundColor,
-                    fontFamily: Fonts.sahelFontFamily,
-                    fontWeight: FontWeight.normal,
-                    letterSpacing: .8,
-                    fontSize: 15,
-                  )),
-            ));
-      } else if (dataGridCell.columnName == Strings.firstName) {
-        return Container(
-            padding: const EdgeInsets.all(8.0),
-            alignment: Alignment.center,
-            child: Center(
-              child: Text(convertEnToFa(dataGridCell.value.toString()),
-                  style: const TextStyle(
-                    color: Colorize.foregroundColor,
-                    fontFamily: Fonts.sahelFontFamily,
-                    fontWeight: FontWeight.normal,
-                    letterSpacing: .8,
-                    fontSize: 15,
-                  )),
-            ));
-      } else if (dataGridCell.columnName == Strings.lastName) {
-        return Container(
-            padding: const EdgeInsets.all(8.0),
-            alignment: Alignment.center,
-            child: Center(
-              child: Text(convertEnToFa(dataGridCell.value.toString()),
-                  style: const TextStyle(
-                    color: Colorize.foregroundColor,
-                    fontFamily: Fonts.sahelFontFamily,
-                    fontWeight: FontWeight.normal,
-                    letterSpacing: .8,
-                    fontSize: 15,
-                  )),
-            ));
-      } else if (dataGridCell.columnName == Strings.fatherName) {
-        return Container(
-            padding: const EdgeInsets.all(8.0),
-            alignment: Alignment.center,
-            child: Center(
-              child: Text(convertEnToFa(dataGridCell.value.toString()),
-                  style: const TextStyle(
-                    color: Colorize.foregroundColor,
-                    fontFamily: Fonts.sahelFontFamily,
-                    fontWeight: FontWeight.normal,
-                    letterSpacing: .8,
-                    fontSize: 15,
-                  )),
-            ));
-      } else if (dataGridCell.columnName == Strings.latestStatus) {
-        return Container(
-            padding: const EdgeInsets.all(8.0),
-            alignment: Alignment.center,
-            child: Center(
-              child: Text(convertEnToFa(dataGridCell.value.toString()),
-                  style: const TextStyle(
-                    color: Colorize.foregroundColor,
-                    fontFamily: Fonts.sahelFontFamily,
-                    fontWeight: FontWeight.normal,
-                    letterSpacing: .8,
-                    fontSize: 15,
-                  )),
-            ));
-      } else if (dataGridCell.columnName == Strings.mobileNumber) {
-        return Container(
-            padding: const EdgeInsets.all(8.0),
-            alignment: Alignment.center,
-            child: Center(
-              child: Text(convertEnToFa(dataGridCell.value.toString()),
-                  style: const TextStyle(
-                    color: Colorize.foregroundColor,
-                    fontFamily: Fonts.sahelFontFamily,
-                    fontWeight: FontWeight.normal,
-                    letterSpacing: .8,
-                    fontSize: 15,
-                  )),
-            ));
-      } else {
-        return Container(
-            padding: const EdgeInsets.all(8.0),
-            alignment: Alignment.center,
-            child: Center(
-              child: Text(convertEnToFa(dataGridCell.value.toString()),
-                  style: const TextStyle(
-                    color: Colorize.foregroundColor,
-                    fontFamily: Fonts.sahelFontFamily,
-                    fontWeight: FontWeight.normal,
-                    letterSpacing: .8,
-                    fontSize: 15,
-                  )),
-            ));
+    Color getRowBackgroundColor() {
+      final int index = effectiveRows.indexOf(row);
+      if (index % 2 != 0) {
+        return Colorize.primaryColorShade100;
       }
-    }).toList());
+
+      return Colors.transparent;
+    }
+
+    return DataGridRowAdapter(
+        color: getRowBackgroundColor(),
+        cells: row.getCells().map<Widget>((dataGridCell) {
+          if (dataGridCell.columnName == Strings.personnelCode) {
+            return Container(
+                padding: const EdgeInsets.all(8.0),
+                alignment: Alignment.center,
+                child: Center(
+                  child: Text(convertEnToFa(dataGridCell.value),
+                      style: const TextStyle(
+                        color: Colorize.foregroundColor,
+                        fontFamily: Fonts.sahelFontFamily,
+                        fontWeight: FontWeight.normal,
+                        letterSpacing: .8,
+                        fontSize: 15,
+                      )),
+                ));
+          } else if (dataGridCell.columnName == Strings.nationalCode) {
+            return Container(
+                padding: const EdgeInsets.all(8.0),
+                alignment: Alignment.center,
+                child: Center(
+                  child: Text(convertEnToFa(dataGridCell.value),
+                      style: const TextStyle(
+                        color: Colorize.foregroundColor,
+                        fontFamily: Fonts.sahelFontFamily,
+                        fontWeight: FontWeight.normal,
+                        letterSpacing: .8,
+                        fontSize: 15,
+                      )),
+                ));
+          } else if (dataGridCell.columnName == Strings.firstName) {
+            return Container(
+                padding: const EdgeInsets.all(8.0),
+                alignment: Alignment.center,
+                child: Center(
+                  child: Text(convertEnToFa(dataGridCell.value),
+                      style: const TextStyle(
+                        color: Colorize.foregroundColor,
+                        fontFamily: Fonts.sahelFontFamily,
+                        fontWeight: FontWeight.normal,
+                        letterSpacing: .8,
+                        fontSize: 15,
+                      )),
+                ));
+          } else if (dataGridCell.columnName == Strings.lastName) {
+            return Container(
+                padding: const EdgeInsets.all(8.0),
+                alignment: Alignment.center,
+                child: Center(
+                  child: Text(convertEnToFa(dataGridCell.value),
+                      style: const TextStyle(
+                        color: Colorize.foregroundColor,
+                        fontFamily: Fonts.sahelFontFamily,
+                        fontWeight: FontWeight.normal,
+                        letterSpacing: .8,
+                        fontSize: 15,
+                      )),
+                ));
+          } else if (dataGridCell.columnName == Strings.fatherName) {
+            return Container(
+                padding: const EdgeInsets.all(8.0),
+                alignment: Alignment.center,
+                child: Center(
+                  child: Text(convertEnToFa(dataGridCell.value),
+                      style: const TextStyle(
+                        color: Colorize.foregroundColor,
+                        fontFamily: Fonts.sahelFontFamily,
+                        fontWeight: FontWeight.normal,
+                        letterSpacing: .8,
+                        fontSize: 15,
+                      )),
+                ));
+          } else if (dataGridCell.columnName == Strings.latestStatus) {
+            return Container(
+                padding: const EdgeInsets.all(8.0),
+                alignment: Alignment.center,
+                child: Center(
+                  child: Text(convertEnToFa(dataGridCell.value),
+                      style: const TextStyle(
+                        color: Colorize.foregroundColor,
+                        fontFamily: Fonts.sahelFontFamily,
+                        fontWeight: FontWeight.normal,
+                        letterSpacing: .8,
+                        fontSize: 15,
+                      )),
+                ));
+          } else if (dataGridCell.columnName == Strings.mobileNumber) {
+            return Container(
+                padding: const EdgeInsets.all(8.0),
+                alignment: Alignment.center,
+                child: Center(
+                  child: Text(convertEnToFa(dataGridCell.value),
+                      style: const TextStyle(
+                        color: Colorize.foregroundColor,
+                        fontFamily: Fonts.sahelFontFamily,
+                        fontWeight: FontWeight.normal,
+                        letterSpacing: .8,
+                        fontSize: 15,
+                      )),
+                ));
+          } else {
+            return Container(
+                padding: const EdgeInsets.all(8.0),
+                alignment: Alignment.center,
+                child: Center(
+                  child: Text(convertEnToFa(dataGridCell.value),
+                      style: const TextStyle(
+                        color: Colorize.foregroundColor,
+                        fontFamily: Fonts.sahelFontFamily,
+                        fontWeight: FontWeight.normal,
+                        letterSpacing: .8,
+                        fontSize: 15,
+                      )),
+                ));
+          }
+        }).toList());
   }
 
   @override
@@ -355,21 +369,28 @@ class PersonalInfoDataSource extends DataGridSource {
       return DataGridRow(cells: [
         DataGridCell(
             columnName: Strings.personnelCode,
-            value: dataGridRow.soldier!.personnelCode),
+            value: dataGridRow.soldier != null
+                ? dataGridRow.soldier!.personnelCode
+                : "-"),
         DataGridCell(
             columnName: Strings.nationalCode, value: dataGridRow.nationalCode),
         DataGridCell(
             columnName: Strings.firstName, value: dataGridRow.firstName),
         DataGridCell(columnName: Strings.lastName, value: dataGridRow.lastName),
         DataGridCell(
-            columnName: Strings.fatherName, value: dataGridRow.fatherName),
+            columnName: Strings.fatherName,
+            value: dataGridRow.fatherName ?? "-"),
         DataGridCell(
             columnName: Strings.mobileNumber,
-            value: dataGridRow.contactInfo!.mobileNumber),
+            value: dataGridRow.contactInfo != null
+                ? dataGridRow.contactInfo?.mobileNumber
+                : "-"),
         DataGridCell(
             columnName: Strings.latestStatus,
-            value: dataGridRow.soldier!.latestStatus),
-        DataGridCell(columnName: "id", value: dataGridRow.soldier!.id),
+            value: dataGridRow.soldier != null
+                ? dataGridRow.soldier!.latestStatus
+                : "-"),
+        DataGridCell(columnName: "id", value: dataGridRow.id.toString()),
       ]);
     }).toList(growable: false);
   }

@@ -2,17 +2,18 @@ part of models;
 
 @JsonSerializable()
 class VacationsModel {
-  final int? id;
-  final int? amountOfEligible;
-  final int? amountOfSick;
-  final int? amountOfIncentive;
-  final int? eligibleUsed;
-  final int? sickUsed;
-  final int? incentiveUsed;
-  final List<DailyVacationModel>? daily;
-  final List<HourlyVacationModel>? hourly;
-      final DateTime? createdAt;
-  final DateTime? updatedAt;
+  late final int? id;
+  late final int? amountOfEligible;
+  late final int? amountOfSick;
+  late final int? amountOfIncentive;
+  late final int? eligibleUsed;
+  late final int? sickUsed;
+  late final int? incentiveUsed;
+  late final List<DailyVacationModel>? daily;
+  late final List<HourlyVacationModel>? hourly;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  VacationsModel.empty();
   VacationsModel({
     this.id,
     this.amountOfEligible,
@@ -27,7 +28,7 @@ class VacationsModel {
     this.updatedAt,
   });
 
-   factory VacationsModel.fromJson(Map<String, dynamic> json) =>
+  factory VacationsModel.fromJson(Map<String, dynamic> json) =>
       _$VacationsModelFromJson(json);
   Map<String, dynamic> toJson() => _$VacationsModelToJson(this);
 

@@ -2,12 +2,13 @@ part of models;
 
 @JsonSerializable()
 class HealthStatusModel {
-  final int? id;
-  final bool isHealthy;
-  final String accordingTo;
-  final bool isBGroup;
-      final DateTime? createdAt;
-  final DateTime? updatedAt;
+  late final int? id;
+  late final bool isHealthy;
+  late final String accordingTo;
+  late final bool isBGroup;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  HealthStatusModel.empty();
   HealthStatusModel({
     this.id,
     required this.isHealthy,

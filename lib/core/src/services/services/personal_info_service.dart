@@ -7,9 +7,9 @@ abstract class PersonalInfoService extends Service<int, PersonalInfoModel> {
 }
 
 class PersonalInfoServiceImpl implements PersonalInfoService {
-  final PersonalInfoDAO personalInfoDAO;
+  final PersonalInfoDAO _personalInfoDAO;
 
-  PersonalInfoServiceImpl(this.personalInfoDAO);
+  PersonalInfoServiceImpl(this._personalInfoDAO);
 
   @override
   Future<List<PersonalInfoModel>?> findByKeyword(keyword) {
@@ -19,22 +19,22 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
 
   @override
   Future<void> save(PersonalInfoModel e) async {
-    await personalInfoDAO.doInsert(e.toJson());
+    await _personalInfoDAO.doInsert(e.toJson());
   }
 
   @override
   Future<List<PersonalInfoModel>> findAll() async {
     List<PersonalInfoModel> models = List.empty(growable: true);
-    final personanlInfos = await personalInfoDAO.findAll();
-    for (var personanlInfo in personanlInfos) {
-      models.add(PersonalInfoModel.fromJson(personanlInfo.toJson()));
+    final personsList = await _personalInfoDAO.findAll();
+    for (var person in personsList) {
+      models.add(PersonalInfoModel.fromJson(person.toJson()));
     }
     return models;
   }
 
   @override
   Future<PersonalInfoModel> findById(int id) async {
-    return await personalInfoDAO.findById(id).then((value) {
+    return await _personalInfoDAO.findById(id).then((value) {
       return value != null
           ? PersonalInfoModel.fromJson(value.toJson())
           : throw FailureException(
@@ -44,14 +44,14 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
 
   @override
   Future<void> update(PersonalInfoModel e) async {
-    await personalInfoDAO.doUpdate(e.toJson());
+    await _personalInfoDAO.doUpdate(e.toJson());
   }
 
   @override
   Future<bool> delete(PersonalInfoModel e) async {
     late bool result = false;
     try {
-      personalInfoDAO.doDelete(e.toJson()).then((value) => result);
+      _personalInfoDAO.doDelete(e.toJson()).then((value) => result);
       return Future.value(result);
     } catch (e) {
       return Future.value(result);

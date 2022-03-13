@@ -2,19 +2,20 @@ part of models;
 
 @JsonSerializable()
 class FurtherInfoModel {
-  final int? id;
-  final String maritalState;
-  final DateTime? dateOfMarriage;
-  final int? numberOfChildren;
-  final String? religion;
-  final String? sect;
-  final int? height;
-  final double? weight;
-  final String? hairColor;
-  final String? eyesColor;
-  final String? bloodType;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  late final int? id;
+  late final String maritalState;
+  late final DateTime? dateOfMarriage;
+  late final int? numberOfChildren;
+  late final String? religion;
+  late final String? sect;
+  late final int? height;
+  late final double? weight;
+  late final String? hairColor;
+  late final String? eyesColor;
+  late final String? bloodType;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  FurtherInfoModel.empty();
   FurtherInfoModel(
     this.id,
     this.maritalState,

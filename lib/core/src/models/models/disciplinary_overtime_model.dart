@@ -2,12 +2,13 @@ part of models;
 
 @JsonSerializable()
 class DisciplinaryOvertimeModel {
-  final int? id;
-  final int calculatedOvertime;
-  final List<ViolationsOvertimeModel>? violationsOvertimes;
-  final List<DailyAbsenceOvertimeModel>? dailyAbsenceOvertimes;
-    final DateTime? createdAt;
-  final DateTime? updatedAt;
+  late final int? id;
+  late final int calculatedOvertime;
+  late final List<ViolationsOvertimeModel>? violationsOvertimes;
+  late final List<DailyAbsenceOvertimeModel>? dailyAbsenceOvertimes;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  DisciplinaryOvertimeModel.empty();
   DisciplinaryOvertimeModel({
     this.id,
     required this.calculatedOvertime,
@@ -16,7 +17,7 @@ class DisciplinaryOvertimeModel {
     this.createdAt,
     this.updatedAt,
   });
-  
+
   factory DisciplinaryOvertimeModel.fromJson(Map<String, dynamic> json) =>
       _$DisciplinaryOvertimeModelFromJson(json);
   Map<String, dynamic> toJson() => _$DisciplinaryOvertimeModelToJson(this);
@@ -33,7 +34,8 @@ class DisciplinaryOvertimeModel {
       id: id ?? this.id,
       calculatedOvertime: calculatedOvertime ?? this.calculatedOvertime,
       violationsOvertimes: violationsOvertimes ?? this.violationsOvertimes,
-      dailyAbsenceOvertimes: dailyAbsenceOvertimes ?? this.dailyAbsenceOvertimes,
+      dailyAbsenceOvertimes:
+          dailyAbsenceOvertimes ?? this.dailyAbsenceOvertimes,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

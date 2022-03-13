@@ -2,22 +2,23 @@ part of models;
 
 @JsonSerializable()
 class SoldierCaseModel {
-  final int? id;
-  final String? fileNo;
-  final String? archiveFileNo;
-  final String? status;
-  final DateTime startDateOfService;
-  final DateTime endDateOfService;
-  final int legalPeriodOfService;
-  final DateTime introductionDate;
-  final int? lastPeriodOfService;
-  final int? amountOfService;
-  final OvertimeModel? overtime;
-  final VacationsModel? vacations;
-  final ServiceDeficitModel? serviceDeficit;
-  final RankModel? rank;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  late final int? id;
+  late final String? fileNo;
+  late final String? archiveFileNo;
+  late final String? status;
+  late final DateTime startDateOfService;
+  late final DateTime endDateOfService;
+  late final int legalPeriodOfService;
+  late final DateTime introductionDate;
+  late final int? lastPeriodOfService;
+  late final int? amountOfService;
+  late final OvertimeModel? overtime;
+  late final VacationsModel? vacations;
+  late final ServiceDeficitModel? serviceDeficit;
+  late final RankModel? rank;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  SoldierCaseModel.empty();
   SoldierCaseModel({
     this.id,
     this.fileNo,

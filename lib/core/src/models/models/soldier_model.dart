@@ -2,17 +2,18 @@ part of models;
 
 @JsonSerializable()
 class SoldierModel {
-  final int? id;
-  final String? imagePath;
-  final String? personnelCode;
-  final String? latestStatus;
-  final bool? divisionStatus;
-  final SectionModel? section;
-  final TrainingStatusModel? trainingStatus;
-  final HealthStatusModel? healthStatus;
-  final SoldierCaseModel? soldierCase;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  late final int? id;
+  late final String? imagePath;
+  late final String? personnelCode;
+  late final String? latestStatus;
+  late final bool? divisionStatus;
+  late final SectionModel? section;
+  late final TrainingStatusModel? trainingStatus;
+  late final HealthStatusModel? healthStatus;
+  late final SoldierCaseModel? soldierCase;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  SoldierModel.empty();
   SoldierModel({
     this.id,
     this.imagePath,

@@ -2,15 +2,15 @@ part of models;
 
 @JsonSerializable()
 class DailyAbsenceOvertimeModel {
-  final int? id;
-  final DateTime startDate;
-  final DateTime endDate;
-  final int absenceDays;
-  final bool isVacuum;
-  final int? overtime;
-    final DateTime? createdAt;
-  final DateTime? updatedAt;
-  
+  late final int? id;
+  late final DateTime startDate;
+  late final DateTime endDate;
+  late final int absenceDays;
+  late final bool isVacuum;
+  late final int? overtime;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  DailyAbsenceOvertimeModel.empty();
   DailyAbsenceOvertimeModel({
     this.id,
     required this.startDate,

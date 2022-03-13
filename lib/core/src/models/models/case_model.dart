@@ -2,12 +2,12 @@ part of models;
 
 @JsonSerializable()
 class CaseModel {
-  final int? id;
-  final String caseName;
-  final String? caseCode;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  
+  late final int? id;
+  late final String caseName;
+  late final String? caseCode;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  CaseModel.empty();
   CaseModel({
     this.id,
     required this.caseName,

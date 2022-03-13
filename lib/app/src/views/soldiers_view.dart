@@ -28,7 +28,10 @@ class SoldiersView extends GetView<SoldiersController> {
                     children: [
                       FilledButton(
                         icon: EvaIcons.plus,
-                        onPressed: () {},
+                        onPressed: () {
+                          print("refresh clicked");
+                          controller.loadAllPersons();
+                        },
                         label: Strings.newSoldier,
                       ),
                       const SizedBox(width: kSpacing),
@@ -60,8 +63,8 @@ class SoldiersView extends GetView<SoldiersController> {
               child: GetX(
                   init: controller,
                   builder: (_) {
-                    controller.fakeList();
-                    return SoldiersDataTable(data: controller.personalInfos);
+                    return SoldiersDataTable(
+                        data: controller.personnelList.value);
                   }),
             ),
           )

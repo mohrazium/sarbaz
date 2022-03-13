@@ -2,14 +2,14 @@ part of models;
 
 @JsonSerializable()
 class HourlyVacationModel {
-  final int? id;
-  final DateTime startTime;
-  final DateTime endTime;
-  final int? totalTime;
-  final int? overtimePerMonth;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-
+  late final int? id;
+  late final DateTime startTime;
+  late final DateTime endTime;
+  late final int? totalTime;
+  late final int? overtimePerMonth;
+  late final DateTime? createdAt;
+  late final DateTime? updatedAt;
+  HourlyVacationModel.empty();
   HourlyVacationModel({
     this.id,
     required this.startTime,

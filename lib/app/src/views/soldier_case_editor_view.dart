@@ -21,13 +21,12 @@ class SoldierCaseEditorView extends GetView<SoldierCaseEditorController> {
               label: Strings.soldiersSection,
               // totalNotif: 100,
             ),
-            
           ],
         ),
         viewHeader: Center(
-            child: HeaderText(
-          controller.soldierCaseEditorTitle.value,
-        )),
+            child: Obx(() => HeaderText(
+                  controller.getHeaderText(),
+                ))),
         children: [
           StaggeredGrid.count(
               crossAxisCount: getStaggeredAxis(context),
@@ -35,11 +34,11 @@ class SoldierCaseEditorView extends GetView<SoldierCaseEditorController> {
               crossAxisSpacing: 4,
               children: const [
                 Center(child: PersonalInfoView()),
-               // Center(child: FurtherInfoView()),
-               // Center(child: ContactInfoView()),
-               // Center(child: PersonalInfoView()),
-               // Center(child: PersonalInfoView()),
-               // Center(child: PersonalInfoView()),
+                // Center(child: FurtherInfoView()),
+                // Center(child: ContactInfoView()),
+                // Center(child: PersonalInfoView()),
+                // Center(child: PersonalInfoView()),
+                // Center(child: PersonalInfoView()),
               ])
         ],
       ),

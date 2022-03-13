@@ -6,7 +6,7 @@ class MainMenu extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final Function(int index, MainMenuSelectionButtonData value) onSelected;
+  final Function({required int index, MainMenuSelectionButtonData? value}) onSelected;
 
   @override
   Widget build(BuildContext context) {

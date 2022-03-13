@@ -12,11 +12,10 @@ class SoldierCaseEditorController extends GetxController
 
   late Rx<int> soldierCaseEditorShownContentIndex = 0.obs;
   late Rx<int> soldierCaseEditorContentLen = 0.obs;
-  late Rx<int> personalInfoId = Rx<int>(1);
-  final Rx<String> soldierCaseEditorTitle = "".obs;
-  // Declare text editing controllers
-  RxInt currentStep = 0.obs;
 
+  late final BridgeController bridgeController;
+
+  // Declare text editing controllers
   late TextEditingController nationalIdentityController,
       lastNameController,
       maritalStatusController,
@@ -32,16 +31,15 @@ class SoldierCaseEditorController extends GetxController
       distanceController,
       addressController;
 
-  late RxBool keepWindowOpen = false.obs;
   late RxBool isEditable = false.obs;
   late RxString selectedLevelOfEducation = "".obs;
   late RxString selectedMaritalStatus = "".obs;
-  late LoggerService _logger;
   late final PersonalInfoService _personalInfoService;
 
   @override
   void onInit() {
     super.onInit();
+    bridgeController = Get.find<BridgeController>();
     nationalIdentityController = TextEditingController();
     lastNameController = TextEditingController();
     maritalStatusController = TextEditingController();
@@ -58,7 +56,6 @@ class SoldierCaseEditorController extends GetxController
     addressController = TextEditingController();
 
     _personalInfoService = Get.find<PersonalInfoService>();
-    _getEditorTitle();
   }
 
   @override
@@ -82,15 +79,11 @@ class SoldierCaseEditorController extends GetxController
     telephoneNumberController.dispose();
     distanceController.dispose();
     addressController.dispose();
-    _logger.log(level: Level.INFO, message: "${this} has been closed.");
+    logger.log(level: Level.INFO, message: "${this} has been closed.");
   }
 
-  void _getEditorTitle() async {
-    PersonalInfoModel? model =
-        await _personalInfoService.findById(personalInfoId.value);
-    if (model != null) {
-      soldierCaseEditorTitle.value = "${model.firstName} ${model.lastName}";
-    }
+  String getHeaderText() {
+    return bridgeController.soldierNameAndFamily.value;
   }
 
   String? validateNationalIdentity(
@@ -138,20 +131,20 @@ class SoldierCaseEditorController extends GetxController
 
   Future<bool> checkPersonalInfoDuplication(String nationalIdentity) async {
     try {
-      _logger.log(
+      logger.log(
           level: Level.INFO,
           message: "Checking personal info duplication by national identity.");
       if (nationalIdentity.length == 10) {
         final value =
             await _personalInfoService.findByNationalIdentity(nationalIdentity);
         if (value != null) {
-          _logger.log(
+          logger.log(
               level: Level.WARNING,
               message:
                   "Personal info is duplicated by nationalIdentity :$nationalIdentity.");
           return Future.value(true);
         } else {
-          _logger.log(
+          logger.log(
               level: Level.INFO,
               message: "Personal info is not duplicated can be store.");
           return Future.value(false);
@@ -226,7 +219,7 @@ class SoldierCaseEditorController extends GetxController
   // }
 
   void clearEditor() {
-    personalInfoId(0);
+    bridgeController.personalInfoId(0);
     nationalIdentityController.clear();
     lastNameController.clear();
     maritalStatusController.clear();
@@ -241,24 +234,6 @@ class SoldierCaseEditorController extends GetxController
     telephoneNumberController.clear();
     distanceController.clear();
     addressController.clear();
-  }
-
-  void stepContinue() {
-    if (currentStep.value < 1) currentStep.value += 1;
-
-    _logger.log(
-        level: Level.INFO,
-        message: "Countinue step, the current step is ${currentStep.value}");
-
-    update();
-  }
-
-  void stepCancel() {
-    if (currentStep.value == 1) currentStep.value -= 1;
-    _logger.log(
-        level: Level.INFO,
-        message: "Cancel step, the current step is ${currentStep.value}");
-    update();
   }
 
   onSelectedMainMenu(int index, MenuBarButtonData value) {

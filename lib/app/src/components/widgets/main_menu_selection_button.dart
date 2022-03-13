@@ -24,10 +24,12 @@ class MainMenuSelectionButton extends StatefulWidget {
 
   final int initialSelected;
   final List<MainMenuSelectionButtonData> data;
-  final Function(int index, MainMenuSelectionButtonData value) onSelected;
+  final Function({required int index, MainMenuSelectionButtonData? value})
+      onSelected;
 
   @override
-  State<MainMenuSelectionButton> createState() => _MainMenuSelectionButtonState();
+  State<MainMenuSelectionButton> createState() =>
+      _MainMenuSelectionButtonState();
 }
 
 class _MainMenuSelectionButtonState extends State<MainMenuSelectionButton> {
@@ -47,11 +49,11 @@ class _MainMenuSelectionButtonState extends State<MainMenuSelectionButton> {
         final data = e.value;
 
         return Padding(
-          padding: const EdgeInsets.all(kSpacing/10),
+          padding: const EdgeInsets.all(kSpacing / 10),
           child: MainMenuButton(
             selected: selected == index,
             onPressed: () {
-              widget.onSelected(index, data);
+              widget.onSelected(index:index,value: data);
               setState(() {
                 selected = index;
               });

@@ -46,17 +46,16 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                         ),
                       ),
 
-                      //! Last name field
+//! Father name field
                       TextFieldCustom(
-                        titleText: Strings.lastName,
-                        controller: controller.lastNameController,
+                        titleText: Strings.fatherName,
+                        controller: controller.fatherNameController,
                         readOnly: controller.readOnly.value,
                         validator: (val) => controller.validateIsNotEmpty(
                           value: val,
                           errorMessage: Strings.requiredField,
                         ),
                       ),
-
                       //! Place of birth field
                       TextFieldCustom(
                         titleText: Strings.placeOfBirth,
@@ -76,10 +75,10 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                         readOnly: controller.readOnly.value,
                       ),
 
-                      //! Father name field
+                      //! Last name field
                       TextFieldCustom(
-                        titleText: Strings.fatherName,
-                        controller: controller.fatherNameController,
+                        titleText: Strings.lastName,
+                        controller: controller.lastNameController,
                         readOnly: controller.readOnly.value,
                         validator: (val) => controller.validateIsNotEmpty(
                           value: val,

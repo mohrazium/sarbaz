@@ -12,12 +12,12 @@ class SoldiersView extends GetView<SoldiersController> {
         children: [
           const Center(
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(kPadding),
               child: HeaderText(Strings.soldiersList),
             ),
           ),
           SizedBox(
-            height: kSpacing * 5,
+            height: kSpacing * 6,
             child: Expanded(
               child: GroupBox(
                 margin: const EdgeInsets.all(kPadding),
@@ -28,13 +28,10 @@ class SoldiersView extends GetView<SoldiersController> {
                     children: [
                       FilledButton(
                         icon: EvaIcons.plus,
-                        onPressed: () {
-                          print("refresh clicked");
-                          controller.loadAllPersons();
-                        },
+                        onPressed: ()=>controller.onNewSoldierPressed(),
                         label: Strings.newSoldier,
                       ),
-                      const SizedBox(width: kSpacing),
+                      const SizedBox(width: kSpacing,),
                       FilledButton(
                         icon: EvaIcons.plus,
                         onPressed: () {},
@@ -64,7 +61,9 @@ class SoldiersView extends GetView<SoldiersController> {
                   init: controller,
                   builder: (_) {
                     return SoldiersDataTable(
-                        data: controller.personnelList.value);
+                      data: controller.personnelList.value,
+                      onCellDoubleTap:(details)=> controller.onCellDoubleTap(details),
+                    );
                   }),
             ),
           )

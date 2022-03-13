@@ -2,22 +2,17 @@ part of controllers;
 
 class DashboardController extends GetxController
     with GetSingleTickerProviderStateMixin {
-
   final dashboardScaffoldKey = GlobalKey<ScaffoldState>();
-  late Rx<int> dashboardShownContentIndex = 0.obs;
+  late final BridgeController bridgeController;
 
-
-  late Rx<TabController> tabController =
-      Rx(TabController(vsync: this, initialIndex: 0, length: 5)
-        ..addListener(() {
-          dashboardShownContentIndex.value = tabController.value.index;
-        }));
+  late final Rx<TabController> tabController;
 
   Rx<String> todayHeader = Rx("");
 
-
   @override
   void onInit() {
+    bridgeController = Get.find<BridgeController>();
+    tabController = bridgeController.dashboardTabController;
     var today = Jalali.now().formatter;
     todayHeader.value =
         'امروز  ${today.wN} ${today.d} ${today.mN} ${today.yyyy}';
@@ -31,7 +26,6 @@ class DashboardController extends GetxController
     super.onClose();
   }
 
-
   final dataProfile = const UserProfileData(
     image: AssetImage(ImagesConstants.avatar),
     name: "نام کاربری",
@@ -40,7 +34,8 @@ class DashboardController extends GetxController
 
   final member = ["Avril Kimberly", "Michael Greg"];
 
-  final unitSoldiersOverview = const ProgressLineData(unitCapacity: 158, totalSoldiers: 58);
+  final unitSoldiersOverview =
+      const ProgressLineData(unitCapacity: 158, totalSoldiers: 58);
 
   final statusCards = [
     const StatusCardData(
@@ -149,8 +144,9 @@ class DashboardController extends GetxController
 
   void onPressedProfile() {}
 
-  void onSelectedMainMenu(int index, MainMenuSelectionButtonData value) {
-    tabController.value.index = index;
+  void onSelectedMainMenu(
+      {required int index, MainMenuSelectionButtonData? value}) {
+    bridgeController.setDashboardTab(index);
     update();
   }
 

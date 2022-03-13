@@ -94,12 +94,14 @@ class DashboardDesktopView extends GetView<DashboardController> {
   }
 
   Widget _buildBodyContent({Function()? onPressedMenu}) {
+    BridgeController bridgeController = Get.find<BridgeController>();
+
     return GetX(
-        init: controller,
+        init: bridgeController,
         builder: (_) {
           return TabBarView(
               physics: const NeverScrollableScrollPhysics(),
-              controller: controller.tabController.value,
+              controller: bridgeController.dashboardTabController.value,
               children: [
                 const SoldierCaseEditorView(),
                 const SoldiersView(),

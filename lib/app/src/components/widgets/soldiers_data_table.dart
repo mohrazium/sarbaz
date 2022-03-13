@@ -28,9 +28,21 @@ class SoldiersModelDataCell {
 
 class SoldiersDataTable extends StatefulWidget {
   final List<PersonalInfoModel> data;
+  final DataGridController? controller;
+  final DataGridCellTapCallback? onCellTap;
+  final DataGridCellDoubleTapCallback? onCellDoubleTap;
+
+  final DataGridCellTapCallback? onCellSecondaryTap;
+  final DataGridCellLongPressCallback? onCellLongPress;
+
   const SoldiersDataTable({
     Key? key,
     required this.data,
+    this.controller,
+    this.onCellTap,
+    this.onCellSecondaryTap,
+    this.onCellLongPress,
+    this.onCellDoubleTap,
   }) : super(key: key);
 
   @override
@@ -38,12 +50,13 @@ class SoldiersDataTable extends StatefulWidget {
 }
 
 class _SoldiersDataTableState extends State<SoldiersDataTable> {
-  late PersonalInfoDataSource personalInfoDataSource;
+  late final BridgeController bridgeController;
   @override
   void initState() {
     super.initState();
+    bridgeController = Get.find<BridgeController>();
     personalInfo = widget.data;
-    personalInfoDataSource = PersonalInfoDataSource(personalInfo: personalInfo);
+    bridgeController.setPersonalInfoDataSource(personalInfo);
   }
 
   @override
@@ -55,11 +68,13 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
             SizedBox(
                 height: constraint.maxHeight - _dataPagerHeight,
                 width: constraint.maxWidth,
-                child: _buildDataGrid(constraint)),
+                child: _buildDataGrid(
+                    constraint: constraint,
+                    dataSource: bridgeController.personalInfoDataSource.value)),
             SizedBox(
                 height: _dataPagerHeight,
                 child: SfDataPager(
-                  delegate: personalInfoDataSource,
+                  delegate: bridgeController.personalInfoDataSource.value,
                   pageCount: personalInfo.length >= 20
                       ? personalInfo.length / _rowsPerPage
                       : 1,
@@ -69,7 +84,9 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
         }));
   }
 
-  _buildDataGrid(BoxConstraints constraint) {
+  _buildDataGrid(
+      {required BoxConstraints constraint,
+      required PersonalInfoDataSource dataSource}) {
     return SfDataGridTheme(
       data: SfDataGridThemeData(
         rowHoverColor: Colorize.primaryColor.shade200,
@@ -78,9 +95,17 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
         sortIconColor: Colorize.backgroundColorShade400,
       ),
       child: SfDataGrid(
+        selectionMode: SelectionMode.singleDeselect,
+        navigationMode: GridNavigationMode.row,
+        controller: widget.controller,
         allowSorting: true,
-        source: personalInfoDataSource,
+        source: dataSource,
         columnWidthMode: ColumnWidthMode.fill,
+        onCellTap: widget.onCellTap,
+        onCellDoubleTap: widget.onCellDoubleTap,
+        onCellLongPress: widget.onCellLongPress,
+        onCellSecondaryTap: widget.onCellSecondaryTap,
+        selectionManager: CustomSelectionManager(),
         columns: <GridColumn>[
           GridColumn(
               columnName: 'personnelCode',
@@ -393,5 +418,16 @@ class PersonalInfoDataSource extends DataGridSource {
         DataGridCell(columnName: "id", value: dataGridRow.id.toString()),
       ]);
     }).toList(growable: false);
+  }
+}
+
+class CustomSelectionManager extends RowSelectionManager {
+  @override
+  void handleKeyEvent(RawKeyEvent keyEvent) {
+    if (keyEvent.logicalKey == LogicalKeyboardKey.enter) {
+      return;
+    }
+
+    super.handleKeyEvent(keyEvent);
   }
 }

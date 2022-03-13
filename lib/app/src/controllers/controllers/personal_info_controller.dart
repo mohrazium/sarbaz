@@ -3,13 +3,12 @@ part of controllers;
 class PersonalInfoController extends GetxController
     with ValidatorMixin, DateConverterMixin {
   final GlobalKey<FormState> personalInfoFormGlobalKey = GlobalKey<FormState>();
-
+  late final BridgeController bridgeController;
   late RxInt personalInfoId = 0.obs;
   late RxBool readOnly = true.obs;
   late DateTime _dateOfBirth;
 
   late final PersonalInfoService _personalInfoService;
-  late final SoldierCaseEditorController _soldierCaseEditorController;
   late final Rx<PersonalInfoModel> _model = Rx(PersonalInfoModel.empty());
 
   late TextEditingController nationalCodeController;
@@ -33,16 +32,8 @@ class PersonalInfoController extends GetxController
     placeOfBirthController = TextEditingController();
     placeOfIssueController = TextEditingController();
     _personalInfoService = Get.find<PersonalInfoService>();
-    _soldierCaseEditorController = Get.find<SoldierCaseEditorController>();
-    int personId = _soldierCaseEditorController.personalInfoId.value;
-    if (personId != 0) {
-      logger.log(message: "$this has been initialized on new person mode.");
-      _loadPersonalInfo(personId);
-    } else {
-      logger.log(
-          message: "$this has been initialized on editable person mode.");
-      _changeReadOnly();
-    }
+    bridgeController = Get.find<BridgeController>();
+    loadPersonaInfo(bridgeController.personalInfoId.value);
     logger.log(message: "$this has been initialized.");
   }
 
@@ -65,6 +56,24 @@ class PersonalInfoController extends GetxController
     placeOfIssueController.dispose();
     logger.log(level: Level.INFO, message: "$this has been closed.");
     super.onClose();
+  }
+
+  void loadPersonaInfo(int id) {
+    if (id != 0) {
+      logger.log(message: "$this has been initialized on new person mode.");
+      _loadPersonalInfo(id);
+    } else {
+      logger.log(
+          message: "$this has been initialized on editable person mode.");
+      _changeReadOnly();
+    }
+  }
+
+  void getSoldierNameAndFamily(PersonalInfoModel? model) {
+    if (model != null) {
+      bridgeController.soldierNameAndFamily.value =
+          "${model.firstName} ${model.lastName}";
+    }
   }
 
   void onChangedNationalCodeField(String val) async {
@@ -98,7 +107,7 @@ class PersonalInfoController extends GetxController
   }
 
   void onCancelButtonPressed() {
-    _loadPersonalInfo(_soldierCaseEditorController.personalInfoId.value);
+    _loadPersonalInfo(bridgeController.personalInfoId.value);
     _changeReadOnly();
     logger.log(message: "cancel clicked");
   }
@@ -185,6 +194,7 @@ class PersonalInfoController extends GetxController
       dateOfBirthController.text = toShamsi(_model.value.dateOfBirth);
       placeOfBirthController.text = _model.value.placeOfBirth ?? "";
       placeOfIssueController.text = _model.value.placeOfIssue ?? "";
+      getSoldierNameAndFamily(founded);
     }
   }
 

@@ -12,6 +12,7 @@ import 'package:shamsi_date/shamsi_date.dart' as shamsiTools;
 
 import 'package:sarbaz/core/core.dart';
 import 'package:sarbaz/utility/utility.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../components/components.dart';
 import '../pages/pages.dart';
@@ -43,3 +44,4 @@ part 'controllers/training_status_controller.dart';
 part 'controllers/unit_properties_controller.dart';
 part 'controllers/vaccations_controller.dart';
 part 'controllers/violations_overtime_controller.dart';
+part 'controllers/bridge_controller.dart';

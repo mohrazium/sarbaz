@@ -56,7 +56,6 @@ part of data;
 )
 class SoldierDatabase extends _$SoldierDatabase {
   SoldierDatabase() : super(DbConnection.openConnection());
-
   // you should bump this number whenever you change or add a table definition. Migrations
   // are covered later in this readme.
   @override
@@ -65,13 +64,16 @@ class SoldierDatabase extends _$SoldierDatabase {
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (Migrator m) async {
+          driftRuntimeOptions.defaultSerializer =
+              const DefaultMapValueSerializer();
           await m.createAll();
           for (int i = 0; i < Strings.gForcesOfRGuards.length; i++) {
-            await into(rankTable).insertOnConflictUpdate(RankTableCompanion.insert(
-                id: Value(i+1),
-                gradeCode: Value(i+1),
-                name: Value(Strings.gForcesOfRGuards[i]),
-                createdAt: Value(DateTime.now())));
+            await into(rankTable).insertOnConflictUpdate(
+                RankTableCompanion.insert(
+                    id: Value(i + 1),
+                    gradeCode: Value(i + 1),
+                    name: Value(Strings.gForcesOfRGuards[i]),
+                    createdAt: Value(DateTime.now())));
           }
         },
         onUpgrade: (Migrator m, int from, int to) async {
@@ -94,7 +96,6 @@ class SoldierDatabase extends _$SoldierDatabase {
           await customStatement('PRAGMA foreign_keys = ON');
           // ...
         },
-        
       );
 }
 

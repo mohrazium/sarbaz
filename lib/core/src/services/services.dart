@@ -5,6 +5,7 @@ import 'package:sarbaz/core/src/config/config.dart';
 import 'package:sarbaz/core/src/domain/data/data.dart';
 import 'package:sarbaz/core/src/models/models.dart';
 import 'package:sarbaz/utility/src/exceptions/exceptions.dart';
+import 'package:sarbaz/utility/src/mapper/mapper.dart';
 
 part 'generic_service.dart';
 part 'services/contact_info_service.dart';

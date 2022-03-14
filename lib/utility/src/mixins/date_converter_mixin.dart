@@ -20,4 +20,13 @@ mixin DateConverterMixin {
   }) {
     return Jalali(year, month, day, hour, minute, second).toDateTime();
   }
+
+  DateTime toDateTimeFomString(String str) {
+    str = persianTools.convertFaToEn(str);
+    var splitDate = (str.split("/"));
+    return toDateTime(
+        year: int.parse(splitDate[0]),
+        month: int.parse(splitDate[1]),
+        day: int.parse(splitDate[2]));
+  }
 }

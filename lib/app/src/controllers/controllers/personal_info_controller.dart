@@ -6,7 +6,6 @@ class PersonalInfoController extends GetxController
   late final BridgeController bridgeController;
   late RxInt personalInfoId = 0.obs;
   late RxBool readOnly = true.obs;
-  late DateTime _dateOfBirth;
 
   late final PersonalInfoService _personalInfoService;
   late final Rx<PersonalInfoModel> _model = Rx(PersonalInfoModel.empty());
@@ -33,7 +32,7 @@ class PersonalInfoController extends GetxController
     placeOfIssueController = TextEditingController();
     _personalInfoService = Get.find<PersonalInfoService>();
     bridgeController = Get.find<BridgeController>();
-    loadPersonaInfo(bridgeController.personalInfoId.value);
+    initPersonaInfo(bridgeController.personalInfoId.value);
     logger.log(message: "$this has been initialized.");
   }
 
@@ -58,7 +57,7 @@ class PersonalInfoController extends GetxController
     super.onClose();
   }
 
-  void loadPersonaInfo(int id) {
+  void initPersonaInfo(int id) {
     if (id != 0) {
       logger.log(message: "$this has been initialized on new person mode.");
       _loadPersonalInfo(id);
@@ -97,8 +96,7 @@ class PersonalInfoController extends GetxController
       if (personalInfoFormGlobalKey.currentState!.validate()) {
         personalInfoFormGlobalKey.currentState!.save();
         logger.log(message: "save clicked");
-        // use the email provided here
-
+        _save();
         _changeReadOnly();
       }
     } else {
@@ -121,8 +119,6 @@ class PersonalInfoController extends GetxController
       lastDate: Jalali(now - 16, 1),
     );
     if (picked != null) {
-      _dateOfBirth =
-          toDateTime(year: picked.year, month: picked.month, day: picked.day);
       dateOfBirthController.text =
           persianTools.convertEnToFa(picked.formatCompactDate());
     }
@@ -162,23 +158,16 @@ class PersonalInfoController extends GetxController
   }
 
   Future<bool> _save({int? id}) async {
-    //   _logger.log(Level.INFO,
-    //       message: "Check validation of Soldier editor form.");
-    //   if (soldierEditorFormKey.currentState!.validate()) {
-    //     _logger.log(Level.INFO, message: "Soldier editor form is valid.");
-    //     _logger.log(Level.INFO,
-    //         message: "Catching data from Soldier editor form.");
-    //  //   PersonalInfoModel model = catchFormData();
-    //     if (id == null) {
-    //       await _personalInfoService.save(model);
-    //       clearEditor();
-    //       return Future.value(true);
-    //     } else {
-    //       //TODO 1 :load personal info to editor and update here.
-    //     }
-    // }
+    _catchFormData();
+    if (id == null) {
+      await _personalInfoService.save(_model.value);
+      Get.find<SoldiersController>().loadAllPersons();
+      _clearEditor();
+      return Future.value(true);
+    } else {
+      //TODO 1 :load personal info to editor and update here.
+    }
 
-    // _logger.log(Level.INFO, message: "Soldier editor form is not valid.");
     return Future.value(false);
   }
 
@@ -205,8 +194,9 @@ class PersonalInfoController extends GetxController
       firstName: firstNameController.text.trim(),
       lastName: lastNameController.text.trim(),
       fatherName: fatherNameController.text.trim(),
-      dateOfBirth: _dateOfBirth,
+      dateOfBirth: toDateTimeFomString(dateOfBirthController.text.trim()),
       placeOfBirth: placeOfBirthController.text.trim(),
+      placeOfIssue: placeOfIssueController.text.trim(),
     );
   }
 
@@ -219,6 +209,6 @@ class PersonalInfoController extends GetxController
     firstNameController.clear();
     dateOfBirthController.clear();
     placeOfBirthController.clear();
-    placeOfBirthController.clear();
+    placeOfIssueController.clear();
   }
 }

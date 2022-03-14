@@ -31,7 +31,8 @@ class SoldiersController extends GetxController {
         .getCells()
         .last
         .value);
-    Get.find<PersonalInfoController>().loadPersonaInfo(id);
+    Get.find<PersonalInfoController>().initPersonaInfo(id);
+    
     bridgeController.setDashboardTab(0);
   }
 

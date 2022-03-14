@@ -24,9 +24,9 @@ class MainMenu extends StatelessWidget {
           // totalNotif: 100,
         ),
         MainMenuSelectionButtonData(
-          activeIcon: EvaIcons.calendar,
-          icon: EvaIcons.calendarOutline,
-          label: Strings.vacationRegistration,
+          activeIcon: EvaIcons.person,
+          icon: EvaIcons.personOutline,
+          label: Strings.soldierCase,
           //totalNotif: 20,
         ),
         MainMenuSelectionButtonData(

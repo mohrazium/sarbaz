@@ -19,7 +19,10 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
 
   @override
   Future<void> save(PersonalInfoModel e) async {
-    await _personalInfoDAO.doInsert(e.toJson());
+    var res = await _personalInfoDAO.doInsert(e.toJson());
+    if (res != null) {
+      logger.log(message: "person is saved");
+    }
   }
 
   @override
@@ -27,7 +30,7 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
     List<PersonalInfoModel> models = List.empty(growable: true);
     final personsList = await _personalInfoDAO.findAll();
     for (var person in personsList) {
-      models.add(PersonalInfoModel.fromJson(person.toJson()));
+      models.add(PersonalInfoModel.fromJson(person.toJson(serializer: const DefaultMapValueSerializer())));
     }
     return models;
   }
@@ -36,7 +39,7 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
   Future<PersonalInfoModel> findById(int id) async {
     return await _personalInfoDAO.findById(id).then((value) {
       return value != null
-          ? PersonalInfoModel.fromJson(value.toJson())
+          ? PersonalInfoModel.fromJson(value.toJson(serializer: const DefaultMapValueSerializer()))
           : throw FailureException(
               exception: ExceptionsType.NOT_FOUND, message: 'No person found!');
     });

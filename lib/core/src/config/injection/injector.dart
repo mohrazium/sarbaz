@@ -16,6 +16,7 @@ void _setup(String environment) {
   if (environment == Env.dev) {
     _environmentMode = environment;
     final soldierDatabase = SoldierDatabaseHelper().instance;
+    
     soldierDatabase.auditDAO.setup();
     Get.lazyPut<LoggerService>(() => LoggerService());
     // _setupDb();

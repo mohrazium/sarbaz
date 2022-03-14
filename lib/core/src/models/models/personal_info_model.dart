@@ -1,6 +1,6 @@
 part of models;
 
-@JsonSerializable()
+@JsonSerializable(anyMap: true)
 class PersonalInfoModel {
   late final int? id;
   late final String nationalCode;

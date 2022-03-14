@@ -13,7 +13,9 @@ class PersonalInfoDAO extends DatabaseAccessor<SoldierDatabase>
 
   Future<PersonalInfoTableData> doInsert(Map<String, dynamic> entry) {
     return into(personalInfoTable).insertReturning(
-        PersonalInfoTableData.fromJson(entry).toCompanion(true));
+        PersonalInfoTableData.fromJson(entry,
+                serializer: const DefaultMapValueSerializer())
+            .toCompanion(true));
   }
 
   Future<List<PersonalInfoTableData>> findAll() async {

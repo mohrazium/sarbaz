@@ -10,6 +10,7 @@ class BridgeController extends GetxController
       Rx(TabController(vsync: this, initialIndex: 0, length: 5)
         ..addListener(() {
           dashboardShownContentIndex.value = dashboardTabController.value.index;
+          print(dashboardShownContentIndex.value);
         }));
   late final Rx<PersonalInfoDataSource> personalInfoDataSource =
       Rx(PersonalInfoDataSource(personalInfo: []));

@@ -187,8 +187,7 @@ Map<String, dynamic> _$HourlyVacationModelToJson(
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
-PersonalInfoModel _$PersonalInfoModelFromJson(Map<String, dynamic> json) =>
-    PersonalInfoModel(
+PersonalInfoModel _$PersonalInfoModelFromJson(Map json) => PersonalInfoModel(
       id: json['id'] as int?,
       nationalCode: json['nationalCode'] as String,
       nationalIdentity: json['nationalIdentity'] as String?,
@@ -203,18 +202,19 @@ PersonalInfoModel _$PersonalInfoModelFromJson(Map<String, dynamic> json) =>
       furtherInfo: json['furtherInfo'] == null
           ? null
           : FurtherInfoModel.fromJson(
-              json['furtherInfo'] as Map<String, dynamic>),
+              Map<String, dynamic>.from(json['furtherInfo'] as Map)),
       contactInfo: json['contactInfo'] == null
           ? null
           : ContactInfoModel.fromJson(
-              json['contactInfo'] as Map<String, dynamic>),
+              Map<String, dynamic>.from(json['contactInfo'] as Map)),
       educationalInfo: json['educationalInfo'] == null
           ? null
           : EducationalInfoModel.fromJson(
-              json['educationalInfo'] as Map<String, dynamic>),
+              Map<String, dynamic>.from(json['educationalInfo'] as Map)),
       soldier: json['soldier'] == null
           ? null
-          : SoldierModel.fromJson(json['soldier'] as Map<String, dynamic>),
+          : SoldierModel.fromJson(
+              Map<String, dynamic>.from(json['soldier'] as Map)),
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),

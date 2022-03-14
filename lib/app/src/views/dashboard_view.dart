@@ -103,17 +103,17 @@ class DashboardDesktopView extends GetView<DashboardController> {
               physics: const NeverScrollableScrollPhysics(),
               controller: bridgeController.dashboardTabController.value,
               children: [
-                const SoldierCaseEditorView(),
-                const SoldiersView(),
-                Container(
-                  color: Colors.red,
-                  child: Text("page 4 "),
-                ),
-                Container(
-                  color: Colors.red,
-                  child: Text("page 4 "),
-                ),
                 _buildMainSection(onPressedMenu),
+                const SoldiersView(),
+                const SoldierCaseEditorView(),
+                Container(
+                  color: Colors.red,
+                  child: Text("page 4 "),
+                ),
+                Container(
+                  color: Colors.red,
+                  child: Text("page 4 "),
+                ),
               ]);
         });
   }

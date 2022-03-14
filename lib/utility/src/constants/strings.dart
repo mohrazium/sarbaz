@@ -67,6 +67,7 @@ class Strings {
   static const String info = "توجه";
   static const String duplicationNationalCode = "این کد ملی قبلا ثبت شده است";
   static const String placeOfBirth="محل تولد";
+  static const String soldierCase ="پرونده سرباز";
 
   static const List<String> maritalStatusList = [
     maritalStatusSingle,
@@ -95,5 +96,4 @@ class Strings {
     "ستوان دوم ",
     "ستوان یکم ",
   ];
-
 }

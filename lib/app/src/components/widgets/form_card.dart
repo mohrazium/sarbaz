@@ -84,13 +84,6 @@ class FormCard extends StatelessWidget {
           size: 24,
         ),
         onPressed: () => onConfirmButtonPressed(),
-        style: ElevatedButton.styleFrom(
-          fixedSize: const Size(120, 40),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(kBorderRadius),
-          ),
-          elevation: 0,
-        ),
         label: Text(readyOnly ? Strings.edit : Strings.save),
       );
     }
@@ -99,13 +92,8 @@ class FormCard extends StatelessWidget {
       return ElevatedButton(
         onPressed: readyOnly ? null : () => onCancelButtonPressed(),
         style: ElevatedButton.styleFrom(
-          fixedSize: const Size(120, 40),
-          primary: Colors.grey[300],
-          onPrimary: Colors.grey[850],
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(kBorderRadius),
-          ),
-          elevation: 0,
+          primary: Colorize.foregroundColorShade200,
+          onPrimary: Colorize.foregroundColorShade500,
         ),
         child: const Text(Strings.cancel),
       );

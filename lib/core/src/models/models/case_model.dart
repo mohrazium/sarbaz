@@ -3,15 +3,19 @@ part of models;
 @JsonSerializable()
 class CaseModel {
   late final int? id;
-  late final String caseName;
-  late final String? caseCode;
+  late final String? caseName;
+  late final String caseCode;
+  late final bool isFull;
+  late final String? description;
   late final DateTime? createdAt;
   late final DateTime? updatedAt;
   CaseModel.empty();
   CaseModel({
     this.id,
-    required this.caseName,
-    this.caseCode,
+    this.caseName,
+    required this.caseCode,
+    this.isFull = false,
+    this.description,
     this.createdAt,
     this.updatedAt,
   });
@@ -24,6 +28,8 @@ class CaseModel {
     int? id,
     String? caseName,
     String? caseCode,
+    bool? isFull,
+    String? description,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -31,6 +37,8 @@ class CaseModel {
       id: id ?? this.id,
       caseName: caseName ?? this.caseName,
       caseCode: caseCode ?? this.caseCode,
+      isFull: isFull ?? this.isFull,
+      description: description ?? this.description,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

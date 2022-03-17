@@ -4,8 +4,7 @@ class PersonalInfoController extends GetxController
     with ValidatorMixin, DateConverterMixin {
   final GlobalKey<FormState> personalInfoFormGlobalKey = GlobalKey<FormState>();
   late final BridgeController bridgeController;
-  late RxInt personalInfoId = 0.obs;
-  late RxBool readOnly = true.obs;
+  late RxBool readOnly = false.obs;
 
   late final PersonalInfoService _personalInfoService;
   late final Rx<PersonalInfoModel> _model = Rx(PersonalInfoModel.empty());
@@ -32,7 +31,7 @@ class PersonalInfoController extends GetxController
     placeOfIssueController = TextEditingController();
     _personalInfoService = Get.find<PersonalInfoService>();
     bridgeController = Get.find<BridgeController>();
-    initPersonaInfo(bridgeController.personalInfoId.value);
+    initPersonaInfo();
     logger.log(message: "$this has been initialized.");
   }
 
@@ -57,21 +56,25 @@ class PersonalInfoController extends GetxController
     super.onClose();
   }
 
-  void initPersonaInfo(int id) {
-    if (id != 0) {
+  void initPersonaInfo() {
+    final id = bridgeController.personalInfoId.value;
+    if (id == 0) {
       logger.log(message: "$this has been initialized on new person mode.");
-      _loadPersonalInfo(id);
+      bridgeController.soldierNameAndFamily("...");
+      _clearEditor();
+      readOnly(false);
     } else {
       logger.log(
           message: "$this has been initialized on editable person mode.");
-      _changeReadOnly();
+      _loadPersonalInfo(id);
+      readOnly(true);
     }
   }
 
   void getSoldierNameAndFamily(PersonalInfoModel? model) {
     if (model != null) {
-      bridgeController.soldierNameAndFamily.value =
-          "${model.firstName} ${model.lastName}";
+      bridgeController
+          .soldierNameAndFamily("${model.firstName} ${model.lastName}");
     }
   }
 
@@ -83,7 +86,7 @@ class PersonalInfoController extends GetxController
             message: Strings.duplicationNationalCode,
             messageDialogButtons: MessageDialogButtons.OK,
             messageDialogType: MessageDialogType.ERROR,
-            okPressed: () {
+            onOkPressed: () {
               nationalCodeController.clear();
             });
       }
@@ -96,18 +99,28 @@ class PersonalInfoController extends GetxController
       if (personalInfoFormGlobalKey.currentState!.validate()) {
         personalInfoFormGlobalKey.currentState!.save();
         logger.log(message: "save clicked");
-        _save();
-        _changeReadOnly();
+        MessageDialog.show(
+            title: "Strings.saveInfoTitle",
+            messageDialogButtons: MessageDialogButtons.YES_NO,
+            messageDialogType: MessageDialogType.INFO,
+            message: "اطلاعات ثبت شود",
+            onYesPressed: () {
+              _save();
+            });
+        readOnly(true);
       }
     } else {
-      _changeReadOnly();
+      readOnly(false);
     }
   }
 
   void onCancelButtonPressed() {
-    _loadPersonalInfo(bridgeController.personalInfoId.value);
-    _changeReadOnly();
-    logger.log(message: "cancel clicked");
+    if (bridgeController.personalInfoId.value == 0) {
+      _clearEditor();
+    } else {
+      _loadPersonalInfo(bridgeController.personalInfoId.value);
+      readOnly(true);
+    }
   }
 
   void onCalenderPressed(context) async {
@@ -124,51 +137,34 @@ class PersonalInfoController extends GetxController
     }
   }
 
-  _changeReadOnly() {
-    readOnly.value = !readOnly.value;
-  }
-
   Future<bool> _checkPersonalInfoDuplication(String nationalIdentity) async {
-    //TODO: fix check person duplication
-    // try {
-    //   _logger.log(Level.INFO,
-    //       message: "Checking personal info duplication by national identity.");
-    //   if (nationalIdentity.length == 10) {
-    //     final value =
-    //         await _personalInfoService.findByNationalIdentity(nationalIdentity);
-    //     if (value != null) {
-    //       _logger.log(Level.WARNING,
-    //           message:
-    //               "Personal info is duplicated by nationalIdentity :$nationalIdentity.");
-    //       return Future.value(true);
-    //     } else {
-    //       _logger.log(Level.INFO,
-    //           message: "Personal info is not duplicated can be store.");
-    //       return Future.value(false);
-    //     }
-    //   } else {
-    //     return Future.value(false);
-    //   }
-    // } catch (e) {
-    //   throw FailureException(
-    //       exception: e,
-    //       message: "An error was happened in checking duplication");
-    // }
-    return false;
-  }
-
-  Future<bool> _save({int? id}) async {
-    _catchFormData();
-    if (id == null) {
-      await _personalInfoService.save(_model.value);
-      Get.find<SoldiersController>().loadAllPersons();
-      _clearEditor();
+    if (await _personalInfoService.findByNationalCode(nationalIdentity) !=
+        null) {
+      logger.log(
+          level: Level.WARNING,
+          message:
+              "Personal info is duplicated by nationalIdentity :$nationalIdentity.");
       return Future.value(true);
     } else {
-      //TODO 1 :load personal info to editor and update here.
+      return Future.value(false);
     }
+  }
 
-    return Future.value(false);
+  void _save() async {
+    _catchFormData();
+    final id = bridgeController.personalInfoId.value;
+    if (id == 0) {
+      await _personalInfoService.save(_model.value);
+      showToast(
+        "person saved",
+      );
+      Get.find<SoldiersController>().loadAllPersons();
+    } else {
+      //TODO 1 :load personal info to editor and update here.
+      showToast(
+        "person updated",
+      );
+    }
   }
 
   Future<void> _loadPersonalInfo(int personalInfoId) async {
@@ -201,7 +197,7 @@ class PersonalInfoController extends GetxController
   }
 
   void _clearEditor() {
-    personalInfoId(0);
+    bridgeController.personalInfoId(0);
     nationalCodeController.clear();
     nationalIdentityController.clear();
     lastNameController.clear();

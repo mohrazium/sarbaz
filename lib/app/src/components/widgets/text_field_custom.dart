@@ -106,41 +106,6 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
 
   _getInputDecoration() {
     return InputDecoration(
-        contentPadding: const EdgeInsets.all(kPadding / 3),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(width: 1.5, color: Colorize.accentColor),
-          borderRadius: BorderRadius.all(
-            Radius.circular(kBorderRadius),
-          ),
-        ),
-        focusedErrorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(width: 1.5, color: Colorize.errorColor),
-          borderRadius: BorderRadius.all(
-            Radius.circular(kBorderRadius),
-          ),
-        ),
-        border: const OutlineInputBorder(
-          borderSide:
-              BorderSide(width: 1.5, color: Colorize.primaryColorShade300),
-          borderRadius: BorderRadius.all(
-            Radius.circular(kBorderRadius),
-          ),
-        ),
-        enabledBorder: const OutlineInputBorder(
-          borderSide:
-              BorderSide(width: 1.5, color: Colorize.primaryColorShade300),
-          borderRadius: BorderRadius.all(
-            Radius.circular(kBorderRadius),
-          ),
-        ),
-        errorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(width: 1.5, color: Colorize.errorColor),
-          borderRadius: BorderRadius.all(
-            Radius.circular(kBorderRadius),
-          ),
-        ),
-        fillColor: Colorize.backgroundColor,
-        filled: true,
         hintText: widget.hintText,
         icon: widget.icon,
         prefixIcon: widget.prefixIcon,

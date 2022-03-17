@@ -16,10 +16,15 @@ class LoggerService {
 
   static void setup() {
     Logger.root.level = Level.ALL;
-    Logger.root.onRecord.listen((rec) => print(
-        '${_getPlatformNameAndVersion()}: ${rec.level.name}: ${rec.time.year}-${rec.time.month}-${rec.time.day} ${rec.time.hour}:${rec.time.minute}:${rec.time.second} : ${rec.loggerName} => ${rec.message}'));
-    _setLogger()
-        .log(level: Level.INFO, message: "Logger service is started...");
+    Logger.root.onRecord.listen(
+      (rec) => print(
+          // '${_getPlatformNameAndVersion()}: ${rec.level.name}: ${rec.time.year}-${rec.time.month}-${rec.time.day} ${rec.time.hour}:${rec.time.minute}:${rec.time.second} : ${rec.loggerName} => ${rec.message}'),
+          '${rec.level.name}: ${rec.time.year}-${rec.time.month}-${rec.time.day} ${rec.time.hour}:${rec.time.minute}:${rec.time.second} : ${rec.loggerName} => ${rec.message}'),
+    );
+    _setLogger().log(
+        level: Level.INFO,
+        message:
+            "${_getPlatformNameAndVersion()} : Logger service is started...");
   }
 
   static String _getPlatformNameAndVersion() {

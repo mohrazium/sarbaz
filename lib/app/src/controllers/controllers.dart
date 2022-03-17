@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:logging/logging.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';

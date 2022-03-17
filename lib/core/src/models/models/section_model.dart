@@ -7,7 +7,7 @@ class SectionModel {
   late final String? sectionCode;
   late final String? sectionName;
   late final String? sectionNameAbbr;
-  late final SoldierModel? soldier;
+  late final List<SoldierModel>? soldiers;
   late final DateTime? createdAt;
   late final DateTime? updatedAt;
   SectionModel.empty();
@@ -17,7 +17,7 @@ class SectionModel {
     this.sectionCode,
     this.sectionName,
     this.sectionNameAbbr,
-    this.soldier,
+    this.soldiers,
     this.createdAt,
     this.updatedAt,
   });
@@ -32,7 +32,7 @@ class SectionModel {
     String? sectionCode,
     String? sectionName,
     String? sectionNameAbbr,
-    SoldierModel? soldier,
+    List<SoldierModel>? soldiers,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -42,7 +42,7 @@ class SectionModel {
       sectionCode: sectionCode ?? this.sectionCode,
       sectionName: sectionName ?? this.sectionName,
       sectionNameAbbr: sectionNameAbbr ?? this.sectionNameAbbr,
-      soldier: soldier ?? this.soldier,
+      soldiers: soldiers ?? this.soldiers,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

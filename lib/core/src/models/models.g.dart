@@ -268,9 +268,9 @@ SectionModel _$SectionModelFromJson(Map<String, dynamic> json) => SectionModel(
       sectionCode: json['sectionCode'] as String?,
       sectionName: json['sectionName'] as String?,
       sectionNameAbbr: json['sectionNameAbbr'] as String?,
-      soldier: json['soldier'] == null
-          ? null
-          : SoldierModel.fromJson(json['soldier'] as Map<String, dynamic>),
+      soldiers: (json['soldiers'] as List<dynamic>?)
+          ?.map((e) => SoldierModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -286,7 +286,7 @@ Map<String, dynamic> _$SectionModelToJson(SectionModel instance) =>
       'sectionCode': instance.sectionCode,
       'sectionName': instance.sectionName,
       'sectionNameAbbr': instance.sectionNameAbbr,
-      'soldier': instance.soldier,
+      'soldiers': instance.soldiers,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };
@@ -325,7 +325,9 @@ Map<String, dynamic> _$ServiceDeficitModelToJson(
 SoldierCaseModel _$SoldierCaseModelFromJson(Map<String, dynamic> json) =>
     SoldierCaseModel(
       id: json['id'] as int?,
-      fileNo: json['fileNo'] as String?,
+      membershipType: json['membershipType'] as String,
+      dispatchField: json['dispatchField'] as String,
+      serviceCategory: json['serviceCategory'] as String,
       archiveFileNo: json['archiveFileNo'] as String?,
       status: json['status'] as String?,
       startDateOfService: DateTime.parse(json['startDateOfService'] as String),
@@ -347,6 +349,9 @@ SoldierCaseModel _$SoldierCaseModelFromJson(Map<String, dynamic> json) =>
       rank: json['rank'] == null
           ? null
           : RankModel.fromJson(json['rank'] as Map<String, dynamic>),
+      caseNo: json['caseNo'] == null
+          ? null
+          : CaseModel.fromJson(json['caseNo'] as Map<String, dynamic>),
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -358,7 +363,9 @@ SoldierCaseModel _$SoldierCaseModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$SoldierCaseModelToJson(SoldierCaseModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'fileNo': instance.fileNo,
+      'membershipType': instance.membershipType,
+      'dispatchField': instance.dispatchField,
+      'serviceCategory': instance.serviceCategory,
       'archiveFileNo': instance.archiveFileNo,
       'status': instance.status,
       'startDateOfService': instance.startDateOfService.toIso8601String(),
@@ -371,6 +378,7 @@ Map<String, dynamic> _$SoldierCaseModelToJson(SoldierCaseModel instance) =>
       'vacations': instance.vacations,
       'serviceDeficit': instance.serviceDeficit,
       'rank': instance.rank,
+      'caseNo': instance.caseNo,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };
@@ -718,8 +726,9 @@ Map<String, dynamic> _$OperationalServiceDeficitRecordModelToJson(
 
 CaseModel _$CaseModelFromJson(Map<String, dynamic> json) => CaseModel(
       id: json['id'] as int?,
-      caseName: json['caseName'] as String,
-      caseCode: json['caseCode'] as String?,
+      caseName: json['caseName'] as String?,
+      caseCode: json['caseCode'] as String,
+      isFull: json['isFull'] as bool? ?? false,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -732,6 +741,7 @@ Map<String, dynamic> _$CaseModelToJson(CaseModel instance) => <String, dynamic>{
       'id': instance.id,
       'caseName': instance.caseName,
       'caseCode': instance.caseCode,
+      'isFull': instance.isFull,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };

@@ -11,5 +11,4 @@ class ContactInfoTable extends Table {
   IntColumn get distance => integer()();
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
-
 }

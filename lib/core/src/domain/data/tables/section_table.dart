@@ -6,6 +6,9 @@ class SectionTable extends Table {
   TextColumn get sectionCode => text().nullable()();
   TextColumn get sectionName => text().nullable()();
   TextColumn get sectionNameAbbr => text().nullable()();
+  IntColumn get unit =>
+      integer().references(UnitPropertiesTable, #id).nullable()();
+  TextColumn get description => text().nullable()();
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
 }

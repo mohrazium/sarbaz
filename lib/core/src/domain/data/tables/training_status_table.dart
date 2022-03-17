@@ -8,6 +8,7 @@ class TrainingStatusTable extends Table {
   TextColumn get status => text().nullable()();
   TextColumn get type => text().nullable()();
   DateTimeColumn get endDate => dateTime().nullable()();
+  TextColumn get description => text().nullable()();
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
 }

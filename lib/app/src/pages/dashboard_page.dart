@@ -21,7 +21,7 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     final currentSize = MediaQuery.of(context).size;
-    return Scaffold(
+    return   Scaffold(
       body: SafeArea(
         child: Stack(
           children: [

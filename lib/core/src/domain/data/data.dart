@@ -37,6 +37,7 @@ part 'tables/unit_properties_table.dart';
 part 'tables/vacations_table.dart';
 part 'tables/violations_overtime_table.dart';
 part 'tables/operational_service_deficit_table.dart';
+part 'tables/relative_contacts_info_table.dart';
 
 /// DAOs
 part 'daos/annual_overtime_dao.dart';
@@ -44,7 +45,7 @@ part 'daos/audit_dao.dart';
 part 'daos/case_dao.dart';
 part 'daos/contact_info_dao.dart';
 part 'daos/daily_absence_overtime_dao.dart';
-part 'daos/daily_vaccation_dao.dart';
+part 'daos/daily_vacation_dao.dart';
 part 'daos/disciplinary_overtime_dao.dart';
 part 'daos/educational_info_dao.dart';
 part 'daos/further_info_dao.dart';
@@ -60,7 +61,7 @@ part 'daos/soldier_case_dao.dart';
 part 'daos/soldier_dao.dart';
 part 'daos/training_status_dao.dart';
 part 'daos/unit_properties_dao.dart';
-part 'daos/vaccations_dao.dart';
+part 'daos/vacations_dao.dart';
 part 'daos/violations_overtime_dao.dart';
 part 'daos/operational_service_deficit_dao.dart';
-
+part 'daos/relative_contacts_info_dao.dart';

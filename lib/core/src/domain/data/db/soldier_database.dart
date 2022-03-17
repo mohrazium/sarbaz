@@ -16,6 +16,7 @@ part of data;
     OvertimeTable,
     PersonalInfoTable,
     RankTable,
+    RelativeContactsInfoTable,
     SectionTable,
     ServiceDeficitRecordTable,
     ServiceDeficitTable,
@@ -42,6 +43,7 @@ part of data;
     OvertimeDAO,
     PersonalInfoDAO,
     RankDAO,
+    RelativeContactsInfoDAO,
     SectionDAO,
     ServiceDeficitRecordDAO,
     ServiceDeficitDAO,
@@ -63,9 +65,12 @@ class SoldierDatabase extends _$SoldierDatabase {
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        onCreate: (Migrator m) async {
+        beforeOpen: (details) async {
+          await customStatement('PRAGMA foreign_keys = ON');
           driftRuntimeOptions.defaultSerializer =
               const DefaultMapValueSerializer();
+        },
+        onCreate: (Migrator m) async {
           await m.createAll();
           for (int i = 0; i < Strings.gForcesOfRGuards.length; i++) {
             await into(rankTable).insertOnConflictUpdate(
@@ -91,10 +96,6 @@ class SoldierDatabase extends _$SoldierDatabase {
             assert(wrongForeignKeys.isEmpty,
                 "${wrongForeignKeys.map((e) => e.data)}");
           }
-        },
-        beforeOpen: (details) async {
-          await customStatement('PRAGMA foreign_keys = ON');
-          // ...
         },
       );
 }

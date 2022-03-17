@@ -96,4 +96,8 @@ class Strings {
     "ستوان دوم ",
     "ستوان یکم ",
   ];
+
+  static const String attention="توجه";
+
+  static const  String rowCount = "ردیف";
 }

@@ -19,14 +19,6 @@ class FilledButton extends StatelessWidget {
     return ElevatedButton.icon(
       icon: _buildIcon(),
       onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        primary: color ?? Colorize.accentColorShade200,
-        fixedSize: const Size(120, 40),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(kBorderRadius),
-        ),
-        elevation: 0,
-      ),
       label: _buildLabel(),
     );
   }

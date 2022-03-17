@@ -24,3 +24,5 @@ const kDesktopScreenBreakPoint = 1024.0;
 const kTabletScreenBreakPoint = 839.0;
 const kMobileScreenBreakPoint = 480.0;
 const kWatchScreenBreakPoint = 200.0;
+
+ Locale  get kDefaultLocale=> const Locale('fa', 'IR');

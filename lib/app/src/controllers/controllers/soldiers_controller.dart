@@ -7,7 +7,6 @@ class SoldiersController extends GetxController {
   late final DataGridController dataGridController;
   late final BridgeController bridgeController;
 
-
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -31,13 +30,16 @@ class SoldiersController extends GetxController {
         .getCells()
         .last
         .value);
-    Get.find<PersonalInfoController>().initPersonaInfo(id);
-    
-    bridgeController.setDashboardTab(0);
+    bridgeController.personalInfoId(id);
+    Get.find<PersonalInfoController>().initPersonaInfo();
+    bridgeController
+        .setDashboardTab(bridgeController.dashboardTabSoldiersEditor);
   }
 
   void onNewSoldierPressed() {
-    bridgeController.setDashboardTab(0);
-    bridgeController.personalInfoId.value = 0;
+    bridgeController
+        .setDashboardTab(bridgeController.dashboardTabSoldiersEditor);
+    bridgeController.personalInfoId(0);
+    Get.find<PersonalInfoController>().initPersonaInfo();
   }
 }

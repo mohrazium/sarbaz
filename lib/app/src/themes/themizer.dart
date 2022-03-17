@@ -8,13 +8,14 @@ class Themizer {
         brightness: Brightness.light,
         // primarySwatch: ,
         primaryColor: Colorize.primaryColor,
-        primaryColorBrightness: Brightness.light,
         secondaryHeaderColor: Colorize.accentColor,
         scaffoldBackgroundColor: Colorize.backgroundColor,
         backgroundColor: Colorize.backgroundColor[300],
         iconTheme: _Themizer._().iconTheme,
         appBarTheme: _Themizer._().appBarTheme,
         textTheme: _Themizer._().textTheme,
+        elevatedButtonTheme: _Themizer._().elevatedButtonThemeData,
+
         inputDecorationTheme: _Themizer._().inputDecorationTheme,
       );
 
@@ -48,42 +49,63 @@ class _Themizer {
       caption: Fonts.caption());
 
   InputDecorationTheme get inputDecorationTheme => const InputDecorationTheme(
-      filled: true,
-      contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
-      errorStyle: TextStyle(
-        height: 0,
-      ),
-      labelStyle: TextStyle(
-        color: Colorize.primaryColor,
-        fontSize: 12.0,
-      ),
-      counterStyle: TextStyle(
-        color: Colors.transparent,
-        fontSize: 4.0,
-      ),
-      errorBorder: UnderlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
+        contentPadding: EdgeInsets.all(kPadding / 3),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 1.5, color: Colorize.accentColor),
+          borderRadius: BorderRadius.all(
+            Radius.circular(kBorderRadius),
+          ),
         ),
-        borderSide: BorderSide(width: 4, color: Colors.red),
-      ),
-      focusedErrorBorder: UnderlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 1.5, color: Colorize.errorColor),
+          borderRadius: BorderRadius.all(
+            Radius.circular(kBorderRadius),
+          ),
         ),
-        borderSide: BorderSide(width: 4, color: Colors.red),
-      ),
-      focusColor: Colorize.accentColor,
-      focusedBorder: UnderlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
+        border: OutlineInputBorder(
+          borderSide:
+              BorderSide(width: 1.5, color: Colorize.primaryColorShade300),
+          borderRadius: BorderRadius.all(
+            Radius.circular(kBorderRadius),
+          ),
         ),
-        borderSide: BorderSide(width: 4, color: Colorize.accentColor),
-      ),
-      enabledBorder: UnderlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
+        enabledBorder: OutlineInputBorder(
+          borderSide:
+              BorderSide(width: 1.5, color: Colorize.primaryColorShade300),
+          borderRadius: BorderRadius.all(
+            Radius.circular(kBorderRadius),
+          ),
         ),
-        borderSide: BorderSide(width: 4, color: Colorize.primaryColor),
-      ));
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 1.5, color: Colorize.errorColor),
+          borderRadius: BorderRadius.all(
+            Radius.circular(kBorderRadius),
+          ),
+        ),
+        fillColor: Colorize.backgroundColor,
+        filled: true,
+        errorStyle: TextStyle(
+          height: 0,
+        ),
+        labelStyle: TextStyle(
+          color: Colorize.primaryColor,
+          fontSize: 12.0,
+        ),
+        counterStyle: TextStyle(
+          color: Colors.transparent,
+          fontSize: 4.0,
+        ),
+        focusColor: Colorize.accentColor,
+      );
+
+  ElevatedButtonThemeData get elevatedButtonThemeData =>
+      ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          fixedSize: const Size(120, 40),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(kBorderRadius),
+          ),
+          elevation: 0,
+        ),
+      );
 }

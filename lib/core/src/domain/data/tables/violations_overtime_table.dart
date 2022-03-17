@@ -5,6 +5,7 @@ class ViolationsOvertimeTable extends Table {
   TextColumn get violationType => text()();
   IntColumn get overtime => integer()();
   IntColumn get forgivenessOvertime => integer()();
+  TextColumn get description => text().nullable()();
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
 }

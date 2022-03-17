@@ -3,7 +3,9 @@ part of models;
 @JsonSerializable()
 class SoldierCaseModel {
   late final int? id;
-  late final String? fileNo;
+  late final String membershipType;
+  late final String dispatchField;
+  late final String serviceCategory;
   late final String? archiveFileNo;
   late final String? status;
   late final DateTime startDateOfService;
@@ -16,12 +18,16 @@ class SoldierCaseModel {
   late final VacationsModel? vacations;
   late final ServiceDeficitModel? serviceDeficit;
   late final RankModel? rank;
+  late final CaseModel? caseNo;
+
   late final DateTime? createdAt;
   late final DateTime? updatedAt;
   SoldierCaseModel.empty();
   SoldierCaseModel({
     this.id,
-    this.fileNo,
+    required this.membershipType,
+    required this.dispatchField,
+    required this.serviceCategory,
     this.archiveFileNo,
     this.status,
     required this.startDateOfService,
@@ -34,6 +40,7 @@ class SoldierCaseModel {
     this.vacations,
     this.serviceDeficit,
     this.rank,
+    this.caseNo,
     this.createdAt,
     this.updatedAt,
   });
@@ -44,7 +51,9 @@ class SoldierCaseModel {
 
   SoldierCaseModel copyWith({
     int? id,
-    String? fileNo,
+    String? membershipType,
+    String? dispatchField,
+    String? serviceCategory,
     String? archiveFileNo,
     String? status,
     DateTime? startDateOfService,
@@ -57,12 +66,15 @@ class SoldierCaseModel {
     VacationsModel? vacations,
     ServiceDeficitModel? serviceDeficit,
     RankModel? rank,
+    CaseModel? caseNo,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
     return SoldierCaseModel(
       id: id ?? this.id,
-      fileNo: fileNo ?? this.fileNo,
+      membershipType: membershipType ?? this.membershipType,
+      dispatchField: dispatchField ?? this.dispatchField,
+      serviceCategory: serviceCategory ?? this.serviceCategory,
       archiveFileNo: archiveFileNo ?? this.archiveFileNo,
       status: status ?? this.status,
       startDateOfService: startDateOfService ?? this.startDateOfService,
@@ -75,6 +87,7 @@ class SoldierCaseModel {
       vacations: vacations ?? this.vacations,
       serviceDeficit: serviceDeficit ?? this.serviceDeficit,
       rank: rank ?? this.rank,
+      caseNo: caseNo ?? this.caseNo,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

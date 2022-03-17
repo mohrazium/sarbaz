@@ -14,7 +14,11 @@ class MainMenuSelectionButtonData {
   });
 }
 
-class MainMenuSelectionButton extends StatefulWidget {
+class MainMenuSelectionButton extends GetWidget {
+  final int initialSelected;
+  final List<MainMenuSelectionButtonData> data;
+  final Function({required int index, MainMenuSelectionButtonData? value})
+      onSelected;
   const MainMenuSelectionButton({
     this.initialSelected = 0,
     required this.data,
@@ -22,44 +26,31 @@ class MainMenuSelectionButton extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
-  final int initialSelected;
-  final List<MainMenuSelectionButtonData> data;
-  final Function({required int index, MainMenuSelectionButtonData? value})
-      onSelected;
-
-  @override
-  State<MainMenuSelectionButton> createState() =>
-      _MainMenuSelectionButtonState();
-}
-
-class _MainMenuSelectionButtonState extends State<MainMenuSelectionButton> {
-  late int selected;
-
-  @override
-  void initState() {
-    super.initState();
-    selected = widget.initialSelected;
-  }
-
   @override
   Widget build(BuildContext context) {
+    late int selected;
+    BridgeController bridgeController = Get.find<BridgeController>();
+
+    selected = initialSelected;
+    bridgeController.selectedDashboardMainMenuIndex(selected);
     return Column(
-      children: widget.data.asMap().entries.map((e) {
+      children: data.asMap().entries.map((e) {
         final index = e.key;
         final data = e.value;
-
         return Padding(
           padding: const EdgeInsets.all(kSpacing / 10),
-          child: MainMenuButton(
-            selected: selected == index,
-            onPressed: () {
-              widget.onSelected(index:index,value: data);
-              setState(() {
-                selected = index;
-              });
-            },
-            data: data,
-          ),
+          child: GetX(
+              init: bridgeController,
+              builder: (_) => MainMenuButton(
+                    selected:
+                        bridgeController.selectedDashboardMainMenuIndex.value ==
+                            index,
+                    onPressed: () {
+                      onSelected(index: index, value: data);
+                      bridgeController.selectedDashboardMainMenuIndex(index);
+                    },
+                    data: data,
+                  )),
         );
       }).toList(),
     );

@@ -49,4 +49,7 @@ class PersonalInfoDAO extends DatabaseAccessor<SoldierDatabase>
     return (select(personalInfoTable)..where((tbl) => tbl.id.equals(id)))
         .getSingleOrNull();
   }
+   Future<PersonalInfoTableData?> findByNationalCode(String code) async {
+    return (select(personalInfoTable)..where((tbl) => tbl.nationalCode.equals(code))).watchSingleOrNull().first;
+  }
 }

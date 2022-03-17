@@ -17,10 +17,10 @@ enum MessageDialogButtons {
 
 class MessageDialog {
   static void show({
-    Function? okPressed,
-    Function? cancelPressed,
-    Function? yesPressed,
-    Function? noPressed,
+    Function? onOkPressed,
+    Function? onCancelPressed,
+    Function? onYesPressed,
+    Function? onNoPressed,
     required String title,
     required String message,
     required MessageDialogType messageDialogType,
@@ -35,7 +35,7 @@ class MessageDialog {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Image.asset(
-                _chooseAssest(messageDialogType),
+                _chooseAssets(messageDialogType),
                 height: 86.0,
                 width: 86.0,
               ),
@@ -48,10 +48,10 @@ class MessageDialog {
               ),
               _chooseButtons(
                 messageDialogButtons,
-                okPressed: okPressed,
-                cancelPressed: cancelPressed,
-                yesPressed: yesPressed,
-                noPressed: noPressed,
+                okPressed: onOkPressed,
+                cancelPressed: onCancelPressed,
+                yesPressed: onYesPressed,
+                noPressed: onNoPressed,
               )
             ],
           ),
@@ -71,13 +71,16 @@ class MessageDialog {
     switch (buttons) {
       case MessageDialogButtons.OK:
         return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: MaterialButton(
-            // textTheme: Themizer.textStyle.,
+          padding: const EdgeInsets.all(kPadding),
+          child: ElevatedButton(
             onPressed: () {
-              if (okPressed != null) okPressed();
+              if (okPressed != null) {
+                okPressed();
+              }
 
-              if (Get.isDialogOpen!) Get.back();
+              if (Get.isDialogOpen!) {
+                Get.back();
+              }
             },
             child: const Text("باشه"),
           ),
@@ -88,27 +91,38 @@ class MessageDialog {
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: MaterialButton(
-                  // textStyle: Themizer.textStyle,
+                padding: const EdgeInsets.all(kPadding),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colorize.accentColor,
+                  ),
                   onPressed: () {
-                    if (okPressed != null) okPressed();
+                    if (okPressed != null) {
+                      okPressed();
+                    }
 
-                    if (Get.isDialogOpen!) Get.back();
+                    if (Get.isDialogOpen!) {
+                      Get.back();
+                    }
                   },
-                  color: Colors.green,
                   child: const Text("تایید"),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: MaterialButton(
+                padding: const EdgeInsets.all(kPadding),
+                child: ElevatedButton(
                   // textStyle: Themizer.textStyle,
-                  color: Colors.red,
+                  style: ElevatedButton.styleFrom(
+                    primary: Colorize.errorColor,
+                  ),
                   onPressed: () {
-                    if (cancelPressed != null) cancelPressed();
+                    if (cancelPressed != null) {
+                      cancelPressed();
+                    }
 
-                    if (Get.isDialogOpen!) Get.back();
+                    if (Get.isDialogOpen!) {
+                      Get.back();
+                    }
                   },
                   child: const Text("لغو"),
                 ),
@@ -119,18 +133,25 @@ class MessageDialog {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              MaterialButton(
+              ElevatedButton(
                 // textStyle: Themizer.textStyle,
                 onPressed: () {
                   if (yesPressed != null) yesPressed();
 
                   if (Get.isDialogOpen!) Get.back();
                 },
-                color: Colors.green,
+                style: ElevatedButton.styleFrom(
+                  primary: Colorize.accentColor,
+                  onPrimary: Colorize.foregroundColorShade500,
+                ),
                 child: const Text("بله"),
               ),
-              MaterialButton(
-                color: Colors.red,
+              const SizedBox(width: kSpacing),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colorize.foregroundColorShade200,
+                  onPrimary: Colorize.foregroundColorShade500,
+                ),
                 onPressed: () {
                   if (noPressed != null) noPressed();
 
@@ -144,18 +165,18 @@ class MessageDialog {
     }
   }
 
-  static String _chooseAssest(MessageDialogType type) {
+  static String _chooseAssets(MessageDialogType type) {
     switch (type) {
       case MessageDialogType.ERROR:
-        return "assets/images/error.gif";
+        return "assets/images/error.png";
       case MessageDialogType.INFO:
-        return "assets/images/info.gif";
+        return "assets/images/info.png";
       case MessageDialogType.WARNING:
-        return "assets/images/warning.gif";
+        return "assets/images/warning.png";
       case MessageDialogType.SUCCESSFULLY:
-        return "assets/images/success.gif";
+        return "assets/images/success.png";
       case MessageDialogType.FAILURE:
-        return "assets/images/error.gif";
+        return "assets/images/failure.png";
 
       default:
         return "";

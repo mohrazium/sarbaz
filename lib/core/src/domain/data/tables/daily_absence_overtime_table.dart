@@ -7,6 +7,7 @@ class DailyAbsenceOvertimeTable extends Table {
   BoolColumn get isVacuum => boolean()();
   IntColumn get absenceDays => integer()();
   IntColumn get overtime => integer().nullable()();
+  TextColumn get description => text().nullable()();
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
 }

@@ -1,6 +1,6 @@
 part of components;
 
-const int _rowsPerPage = 20;
+const int _rowsPerPage = 15;
 const double _dataPagerHeight = 60;
 List<PersonalInfoModel> personalInfo = <PersonalInfoModel>[];
 List<PersonalInfoModel> _paginatedPersonalInfo = <PersonalInfoModel>[];

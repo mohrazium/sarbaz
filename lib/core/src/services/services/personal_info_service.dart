@@ -3,7 +3,7 @@ part of services;
 abstract class PersonalInfoService extends Service<int, PersonalInfoModel> {
   Future<List<PersonalInfoModel>?> findByKeyword(dynamic keyword);
   Future<bool> existsByNationalIdentity(String nationalIdentity);
-  Future<PersonalInfoModel?> findByNationalIdentity(String nationalIdentity);
+  Future<PersonalInfoModel?> findByNationalCode(String nationalIdentity);
 }
 
 class PersonalInfoServiceImpl implements PersonalInfoService {
@@ -30,7 +30,8 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
     List<PersonalInfoModel> models = List.empty(growable: true);
     final personsList = await _personalInfoDAO.findAll();
     for (var person in personsList) {
-      models.add(PersonalInfoModel.fromJson(person.toJson(serializer: const DefaultMapValueSerializer())));
+      models.add(PersonalInfoModel.fromJson(
+          person.toJson()));
     }
     return models;
   }
@@ -39,7 +40,8 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
   Future<PersonalInfoModel> findById(int id) async {
     return await _personalInfoDAO.findById(id).then((value) {
       return value != null
-          ? PersonalInfoModel.fromJson(value.toJson(serializer: const DefaultMapValueSerializer()))
+          ? PersonalInfoModel.fromJson(
+              value.toJson())
           : throw FailureException(
               exception: ExceptionsType.NOT_FOUND, message: 'No person found!');
     });
@@ -77,17 +79,14 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
   }
 
   @override
-  Future<PersonalInfoModel?> findByNationalIdentity(
-      String nationalIdentity) async {
-    // late PersonalInfoModel model;
-    // try {
-    //   await database.instance().then((db) async => db.personalInfoDAO
-    //       .findByNationalIdentity(nationalIdentity)
-    //       .then((value) => model = PersonalInfoModel.fromTable(value!)));
-    //   return Future.value(model);
-    // } catch (e) {
-    //   throw FailureException(exception: e, message: "شخص مورد نظر یافت نشد!");
-    // }
-    return Future.value(null);
+  Future<PersonalInfoModel?> findByNationalCode(String nationalCode) async {
+    return await _personalInfoDAO
+        .findByNationalCode(nationalCode)
+        .then((value) {
+      return value != null
+          ? PersonalInfoModel.fromJson(value.toJson())
+          : throw FailureException(
+              exception: ExceptionsType.NOT_FOUND, message: 'No person found!');
+    });
   }
 }

@@ -6,8 +6,9 @@ class UnitPropertiesTable extends Table {
   TextColumn get unitCode => text().nullable()();
   TextColumn get unitCity => text().nullable()();
   TextColumn get unitType => text().nullable()();
-  IntColumn get sections =>
-      integer().references(SectionTable, #id).nullable()();
+  
+  
+  TextColumn get description => text().nullable()();
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
 }

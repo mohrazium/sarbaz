@@ -16,9 +16,9 @@ class FurtherInfoModel {
   late final DateTime? createdAt;
   late final DateTime? updatedAt;
   FurtherInfoModel.empty();
-  FurtherInfoModel(
+  FurtherInfoModel({
     this.id,
-    this.maritalState,
+   required this.maritalState,
     this.dateOfMarriage,
     this.numberOfChildren,
     this.religion,
@@ -30,40 +30,40 @@ class FurtherInfoModel {
     this.bloodType,
     this.createdAt,
     this.updatedAt,
-  );
+  });
   factory FurtherInfoModel.fromJson(Map<String, dynamic> json) =>
       _$FurtherInfoModelFromJson(json);
   Map<String, dynamic> toJson() => _$FurtherInfoModelToJson(this);
 
   FurtherInfoModel copyWith({
-    int? id,
-    String? maritalState,
-    DateTime? dateOfMarriage,
-    int? numberOfChildren,
-    String? religion,
-    String? sect,
-    int? height,
-    double? weight,
-    String? hairColor,
-    String? eyesColor,
-    String? bloodType,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+     int? id,
+     String? maritalState,
+     DateTime? dateOfMarriage,
+     int? numberOfChildren,
+     String? religion,
+     String? sect,
+     int? height,
+     double? weight,
+     String? hairColor,
+     String? eyesColor,
+     String? bloodType,
+     DateTime? createdAt,
+     DateTime? updatedAt,
   }) {
     return FurtherInfoModel(
-      id ?? this.id,
-      maritalState ?? this.maritalState,
-      dateOfMarriage ?? this.dateOfMarriage,
-      numberOfChildren ?? this.numberOfChildren,
-      religion ?? this.religion,
-      sect ?? this.sect,
-      height ?? this.height,
-      weight ?? this.weight,
-      hairColor ?? this.hairColor,
-      eyesColor ?? this.eyesColor,
-      bloodType ?? this.bloodType,
-      createdAt ?? this.createdAt,
-      updatedAt ?? this.updatedAt,
+      id: id ?? this.id,
+      maritalState: maritalState ?? this.maritalState,
+      dateOfMarriage: dateOfMarriage ?? this.dateOfMarriage,
+      numberOfChildren: numberOfChildren ?? this.numberOfChildren,
+      religion: religion ?? this.religion,
+      sect: sect ?? this.sect,
+      height: height ?? this.height,
+      weight: weight ?? this.weight,
+      hairColor: hairColor ?? this.hairColor,
+      eyesColor: eyesColor ?? this.eyesColor,
+      bloodType: bloodType ?? this.bloodType,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }

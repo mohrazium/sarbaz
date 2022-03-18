@@ -98,23 +98,23 @@ Map<String, dynamic> _$EducationalInfoModelToJson(
 
 FurtherInfoModel _$FurtherInfoModelFromJson(Map<String, dynamic> json) =>
     FurtherInfoModel(
-      json['id'] as int?,
-      json['maritalState'] as String,
-      json['dateOfMarriage'] == null
+      id: json['id'] as int?,
+      maritalState: json['maritalState'] as String,
+      dateOfMarriage: json['dateOfMarriage'] == null
           ? null
           : DateTime.parse(json['dateOfMarriage'] as String),
-      json['numberOfChildren'] as int?,
-      json['religion'] as String?,
-      json['sect'] as String?,
-      json['height'] as int?,
-      (json['weight'] as num?)?.toDouble(),
-      json['hairColor'] as String?,
-      json['eyesColor'] as String?,
-      json['bloodType'] as String?,
-      json['createdAt'] == null
+      numberOfChildren: json['numberOfChildren'] as int?,
+      religion: json['religion'] as String?,
+      sect: json['sect'] as String?,
+      height: json['height'] as int?,
+      weight: (json['weight'] as num?)?.toDouble(),
+      hairColor: json['hairColor'] as String?,
+      eyesColor: json['eyesColor'] as String?,
+      bloodType: json['bloodType'] as String?,
+      createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
-      json['updatedAt'] == null
+      updatedAt: json['updatedAt'] == null
           ? null
           : DateTime.parse(json['updatedAt'] as String),
     );
@@ -597,6 +597,7 @@ AnnualOvertimeModel _$AnnualOvertimeModelFromJson(Map<String, dynamic> json) =>
       overtime: json['overtime'] as int,
       forgivenessOvertime: json['forgivenessOvertime'] as int?,
       overtimeBalance: json['overtimeBalance'] as int,
+      description: json['description'] as String?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -612,6 +613,7 @@ Map<String, dynamic> _$AnnualOvertimeModelToJson(
       'overtime': instance.overtime,
       'forgivenessOvertime': instance.forgivenessOvertime,
       'overtimeBalance': instance.overtimeBalance,
+      'description': instance.description,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };
@@ -729,6 +731,7 @@ CaseModel _$CaseModelFromJson(Map<String, dynamic> json) => CaseModel(
       caseName: json['caseName'] as String?,
       caseCode: json['caseCode'] as String,
       isFull: json['isFull'] as bool? ?? false,
+      description: json['description'] as String?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -742,6 +745,7 @@ Map<String, dynamic> _$CaseModelToJson(CaseModel instance) => <String, dynamic>{
       'caseName': instance.caseName,
       'caseCode': instance.caseCode,
       'isFull': instance.isFull,
+      'description': instance.description,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };

@@ -27,13 +27,13 @@ class ServiceDeficitServiceImpl implements ServiceDeficitService {
   }
 
   @override
-  Future<void> save(ServiceDeficitModel model) {
+  Future<int> save(ServiceDeficitModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(ServiceDeficitModel model) {
+  Future<bool> update(ServiceDeficitModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

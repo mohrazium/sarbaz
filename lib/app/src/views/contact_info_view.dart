@@ -1,6 +1,6 @@
 part of views;
 
-class ContactInfoView extends GetView<PersonalInfoController> {
+class ContactInfoView extends GetView<ContactInfoController> {
   const ContactInfoView({Key? key}) : super(key: key);
 
   @override

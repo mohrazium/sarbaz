@@ -26,13 +26,13 @@ class VacationsServiceImpl implements VacationsService {
   }
 
   @override
-  Future<void> save(VacationsModel model) {
+  Future<int> save(VacationsModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(VacationsModel model) {
+  Future<bool> update(VacationsModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

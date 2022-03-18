@@ -25,13 +25,13 @@ class HealthStatusServiceImpl implements HealthStatusService {
   }
 
   @override
-  Future<void> save(HealthStatusModel model) {
+  Future<int> save(HealthStatusModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(HealthStatusModel model) {
+  Future<bool> update(HealthStatusModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

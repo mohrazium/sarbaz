@@ -27,13 +27,13 @@ class AnnualOvertimeServiceImpl implements AnnualOvertimeService {
   }
 
   @override
-  Future<void> save(AnnualOvertimeModel model) {
+  Future<int> save(AnnualOvertimeModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(AnnualOvertimeModel model) {
+  Future<bool> update(AnnualOvertimeModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

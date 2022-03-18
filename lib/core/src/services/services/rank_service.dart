@@ -26,13 +26,13 @@ class RankServiceImpl implements RankService {
   }
 
   @override
-  Future<void> save(RankModel model) {
+  Future<int> save(RankModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(RankModel model) {
+  Future<bool> update(RankModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

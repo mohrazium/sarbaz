@@ -26,13 +26,13 @@ class SoldierCaseServiceImpl implements SoldierCaseService {
   }
 
   @override
-  Future<void> save(SoldierCaseModel model) {
+  Future<int> save(SoldierCaseModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(SoldierCaseModel model) {
+  Future<bool> update(SoldierCaseModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

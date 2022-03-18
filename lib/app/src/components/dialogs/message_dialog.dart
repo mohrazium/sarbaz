@@ -29,23 +29,34 @@ class MessageDialog {
     Get.dialog(
       Dialog(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(kPadding),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
                 _chooseAssets(messageDialogType),
-                height: 86.0,
-                width: 86.0,
+                height: 64.0,
+                width: 64.0,
               ),
-              Text(
-                title,
-                style: Fonts.headline5(),
+              Padding(
+                padding: const EdgeInsets.all(kPadding),
+                child: Text(
+                  title,
+                  style: Fonts.headline5(),
+                ),
               ),
-              Text(
-                message,
+              Padding(
+                padding: const EdgeInsets.all(kPadding),
+                child: Text(
+                  message,
+                  style: Fonts.body1(),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                ),
               ),
+              const SizedBox(height: kSpacing),
               _chooseButtons(
                 messageDialogButtons,
                 okPressed: onOkPressed,

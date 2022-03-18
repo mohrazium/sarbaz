@@ -1,6 +1,73 @@
 part of constants;
 
 class Strings {
+  static const List<String> maritalStatusList = [
+    maritalStateSingle,
+    maritalStateMarried
+  ];
+  static const List<String> levelOfEducationList = [
+    "زیردیپلم",
+    "دیپلم",
+    "فوق دیپلم",
+    "لیسانس",
+    "فوق لیسانس",
+    "دکتری"
+  ];
+
+  static const List<String> gForcesOfRGuards = [
+    "سرباز",
+    " سرباز دوم",
+    "سرباز یکم",
+    "رزم‌یار",
+    "رزم‌آور سوم",
+    "رزم‌آور دوم",
+    "رزم‌آور یکم",
+    "رزم‌دار دوم",
+    "رزم‌دار یکم",
+    "ستوان سوم ",
+    "ستوان دوم ",
+    "ستوان یکم ",
+  ];
+
+  static const List<String> religionList = [
+    "اسلام",
+  ];
+  static const List<String> sectList = [
+    "شیعه",
+  ];
+  static const List<String> bloodTypeList = [
+    "O-",
+    "O+",
+    "A-",
+    "A+",
+    "B-",
+    "B+",
+    "AB-",
+    "AB",
+  ];
+
+  static const List<String> eyesColorList = [
+    "کهربایی",
+    "آبی",
+    "قهوه‌ای",
+    "میشی",
+    "سبز",
+    "خاکستری",
+    "عسلی",
+  ];
+
+static const List<String> hairColorList=[
+  "مشکی",
+  "قهوه‌ای",
+  "قرمز",
+  "مسی",
+  "خرمایی",
+  "بور",
+  "جوگندمی",
+  "سفید",
+];
+
+
   static const String dashboard = 'پیشخوان';
   static const String newSoldier = "سرباز جدید";
   static const String title = "سرباز";
@@ -9,9 +76,9 @@ class Strings {
   static const String fatherName = "نام پدر";
   static const String dateOfBirth = "تاریخ تولد";
   static const String placeOfIssue = "محل صدور";
-  static const String maritalStatus = "وضعیت تاهل";
-  static const String maritalStatusSingle = "مجرد";
-  static const String maritalStatusMarried = "متاهل";
+  static const String maritalState = "وضعیت تاهل";
+  static const String maritalStateSingle = "مجرد";
+  static const String maritalStateMarried = "متاهل";
   static const String numberOfChildren = "تعداد فرزندان";
   static const String levelOfEducation = "سطح تحصیلات";
   static const String filedOfStudy = "رشته تحصیلی";
@@ -52,7 +119,7 @@ class Strings {
   static const String requiredField = "این فیلد الزامی است.*";
   static const String wrongMobileNumber = "شماره موبایل نامعتبر است.";
   static const String soldiersSection = "سربازان";
-  static const String searchBar = "جستوجو کنید ....";
+  static const String search = "جستوجو";
   static const String searchBarHint =
       "برای مثال مشخصات سرباز یا نام معاونت و قسمت های مورد نظر را بنویسید ...";
   static const String sections = "معاونت ها";
@@ -66,38 +133,30 @@ class Strings {
   static const String archive = "بایگانی";
   static const String info = "توجه";
   static const String duplicationNationalCode = "این کد ملی قبلا ثبت شده است";
-  static const String placeOfBirth="محل تولد";
-  static const String soldierCase ="پرونده سرباز";
+  static const String placeOfBirth = "محل تولد";
+  static const String soldierCase = "پرونده سرباز";
+  static const String attention = "توجه";
+  static const String rowCount = "ردیف";
+  static const String successfullySavingInfo = "اطلاعات با موفقیت ثبت شد";
+  static const String unsuccessfullySavingInfo =
+      "ذخیره ی اطلاعات با مشکل مواجه شد";
+  static const String successfullyUpdatingInfo = "اطلاعات با موفقیت ویرایش شد";
+  static const String unsuccessfullyUpdatingInfo =
+      "ویرایش اطلاعات با مشکل مواجه شد";
+  static const String saveInfoTitle = "ثبت اطلاعات";
+  static const String saveInfoMessage = "آیا اطلاعات مورد نظر ثبت شوند؟";
+  static const String dateOfMarriage = "تاریخ عقد";
+  static const String dateOfMarriageIsNotBeforeTody =
+      "تاریخ عقد نامعتبر است,تاریخ باید قبل از امروز باشد";
+  static const String religion = "دین";
+  static const String sect = "مذهب";
+  static const String weight = "وزن";
 
-  static const List<String> maritalStatusList = [
-    maritalStatusSingle,
-    maritalStatusMarried
-  ];
-  static const List<String> levelOfEducationList = [
-    "زیردیپلم",
-    "دیپلم",
-    "فوق دیپلم",
-    "لیسانس",
-    "فوق لیسانس",
-    "دکتری"
-  ];
+  static const String eyesColor = "رنگ چشم";
 
-  static const List<String> gForcesOfRGuards = [
-    "سرباز",
-    " سرباز دوم",
-    "سرباز یکم",
-    "رزم‌یار",
-    "رزم‌آور سوم",
-    "رزم‌آور دوم",
-    "رزم‌آور یکم",
-    "رزم‌دار دوم",
-    "رزم‌دار یکم",
-    "ستوان سوم ",
-    "ستوان دوم ",
-    "ستوان یکم ",
-  ];
+  static const String height = "قد";
 
-  static const String attention="توجه";
+  static const String hairColor = "رنگ مو";
 
-  static const  String rowCount = "ردیف";
+  static const String bloodType = "گروه خونی";
 }

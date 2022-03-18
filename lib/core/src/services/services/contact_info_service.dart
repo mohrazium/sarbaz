@@ -25,13 +25,13 @@ class ContactInfoServiceImpl implements ContactInfoService {
   }
 
   @override
-  Future<void> save(ContactInfoModel model) {
+  Future<int> save(ContactInfoModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(ContactInfoModel model) {
+  Future<bool> update(ContactInfoModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

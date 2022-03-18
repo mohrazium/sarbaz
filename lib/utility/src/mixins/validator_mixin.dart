@@ -3,7 +3,7 @@
 part of mixins;
 
 /// use this mixin for all form field
-mixin ValidatorMixin {
+mixin ValidatorMixin implements DateConverterMixin {
   String? validateNationalIdentity(
       {required String? value, required String errorMessage}) {
     if (value!.isEmpty) {
@@ -17,6 +17,18 @@ mixin ValidatorMixin {
       {required String? value, required String errorMessage}) {
     if (value!.isEmpty) {
       return errorMessage;
+    }
+  }
+
+  String? validateBeforeToday(
+      {required String? value, required String errorMessage}) {
+    try {
+      DateTime? date = toDateTimeFromString(value);
+      if (date != null && date.isAfter(DateTime.now())) {
+        return errorMessage;
+      }
+    } catch (ignore) {
+      return null;
     }
   }
 

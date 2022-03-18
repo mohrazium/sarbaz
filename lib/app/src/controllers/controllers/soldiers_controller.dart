@@ -6,7 +6,7 @@ class SoldiersController extends GetxController {
   Rx<List<PersonalInfoModel>> personnelList = Rx(<PersonalInfoModel>[]);
   late final DataGridController dataGridController;
   late final BridgeController bridgeController;
-
+  late DataGridCellTapDetails cellTapDetails;
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -41,5 +41,25 @@ class SoldiersController extends GetxController {
         .setDashboardTab(bridgeController.dashboardTabSoldiersEditor);
     bridgeController.personalInfoId(0);
     Get.find<PersonalInfoController>().initPersonaInfo();
+  }
+
+  onEditSoldierPressed() {
+    int id = int.parse(bridgeController.personalInfoDataSource.value
+        .effectiveRows[cellTapDetails.rowColumnIndex.rowIndex - 1]
+        .getCells()
+        .last
+        .value);
+    bridgeController.personalInfoId(id);
+    Get.find<PersonalInfoController>().initPersonaInfo();
+    bridgeController
+        .setDashboardTab(bridgeController.dashboardTabSoldiersEditor);
+  }
+
+  onDeleteSoldierPressed() {
+    
+  }
+
+  onCellTap(DataGridCellTapDetails details) {
+    cellTapDetails = details;
   }
 }

@@ -30,13 +30,13 @@ class DailyVacationServiceImpl implements DailyVacationService {
   }
 
   @override
-  Future<void> save(DailyVacationModel model) {
+  Future<int> save(DailyVacationModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(DailyVacationModel model) {
+  Future<bool> update(DailyVacationModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

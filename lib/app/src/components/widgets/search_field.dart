@@ -3,31 +3,28 @@ part of components;
 class SearchField extends StatelessWidget {
   SearchField({
     this.onSearch,
-    this.hintText,
     Key? key,
   }) : super(key: key);
 
   final controller = TextEditingController();
   final Function(String value)? onSearch;
-  final String? hintText;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
+    return Padding(
+      padding: const EdgeInsets.only(top: kPadding-5),
+      child: TextFieldCustom(
+        width: double.maxFinite,
+        height: 55,
+        controller: controller,
         prefixIcon: const Icon(EvaIcons.search),
-        enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(width: .1),
-        ),
-        hintText: hintText ?? "جستجو...",
+        hintText: Strings.search,
+        onEditingComplete: () {
+          FocusScope.of(context).unfocus();
+          if (onSearch != null) onSearch!(controller.text);
+        },
+        textInputAction: TextInputAction.search,
       ),
-      onEditingComplete: () {
-        FocusScope.of(context).unfocus();
-        if (onSearch != null) onSearch!(controller.text);
-      },
-      textInputAction: TextInputAction.search,
-      style: const TextStyle(color: Colorize.foregroundColor),
     );
   }
 }

@@ -18,11 +18,13 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
   }
 
   @override
-  Future<void> save(PersonalInfoModel e) async {
-    var res = await _personalInfoDAO.doInsert(e.toJson());
-    if (res != null) {
+  Future<int> save(PersonalInfoModel e) async {
+    int res = 0;
+    await _personalInfoDAO.doInsert(e.toJson()).then((value) {
       logger.log(message: "person is saved");
-    }
+      res = value.id ?? 0;
+    });
+    return Future.value(res);
   }
 
   @override
@@ -30,8 +32,7 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
     List<PersonalInfoModel> models = List.empty(growable: true);
     final personsList = await _personalInfoDAO.findAll();
     for (var person in personsList) {
-      models.add(PersonalInfoModel.fromJson(
-          person.toJson()));
+      models.add(PersonalInfoModel.fromJson(person.toJson()));
     }
     return models;
   }
@@ -40,16 +41,15 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
   Future<PersonalInfoModel> findById(int id) async {
     return await _personalInfoDAO.findById(id).then((value) {
       return value != null
-          ? PersonalInfoModel.fromJson(
-              value.toJson())
+          ? PersonalInfoModel.fromJson(value.toJson())
           : throw FailureException(
               exception: ExceptionsType.NOT_FOUND, message: 'No person found!');
     });
   }
 
   @override
-  Future<void> update(PersonalInfoModel e) async {
-    await _personalInfoDAO.doUpdate(e.toJson());
+  Future<bool> update(PersonalInfoModel e) async {
+    return await _personalInfoDAO.doUpdate(e.toJson());
   }
 
   @override

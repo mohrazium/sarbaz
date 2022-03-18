@@ -18,6 +18,9 @@ class TextFieldCustom extends StatefulWidget {
   final int maxLength;
   final bool readOnly;
   final FormFieldSetter<String>? onSaved;
+  final VoidCallback? onEditingComplete;
+  final TextInputAction? textInputAction;
+  final List<TextInputFormatter>? inputFormatters;
 
   const TextFieldCustom({
     Key? key,
@@ -36,8 +39,11 @@ class TextFieldCustom extends StatefulWidget {
     this.keyboardType,
     this.onChanged,
     this.maxLength = 255,
-    this.readOnly = true,
+    this.readOnly = false,
     this.onSaved,
+    this.onEditingComplete,
+    this.textInputAction,
+    this.inputFormatters,
   }) : super(key: key);
 
   @override
@@ -60,6 +66,13 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
 
   @override
   Widget build(BuildContext context) {
+    List<TextInputFormatter> formatter = [
+      widget.keyboardType == TextInputType.number
+          ? FilteringTextInputFormatter.digitsOnly
+          : FilteringTextInputFormatter.singleLineFormatter,
+      LengthLimitingTextInputFormatter(widget.maxLength),
+    ];
+    formatter.addAll(widget.inputFormatters ?? []);
     getPasswordIconState();
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -81,17 +94,14 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
             height: widget.height,
             width: widget.width,
             child: TextFormField(
+              textInputAction: widget.textInputAction,
               readOnly: widget.readOnly,
               onSaved: widget.onSaved,
+              onEditingComplete: widget.onEditingComplete,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               maxLength: widget.maxLength,
               keyboardType: widget.keyboardType ?? TextInputType.text,
-              inputFormatters: [
-                widget.keyboardType == TextInputType.number
-                    ? FilteringTextInputFormatter.digitsOnly
-                    : FilteringTextInputFormatter.singleLineFormatter,
-                LengthLimitingTextInputFormatter(widget.maxLength),
-              ],
+              inputFormatters: formatter,
               obscureText: widget.isSecure ? !_isShowPassword : false,
               controller: widget.controller,
               validator: widget.validator,
@@ -108,16 +118,18 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
     return InputDecoration(
         hintText: widget.hintText,
         icon: widget.icon,
-        prefixIcon: widget.prefixIcon,
+        prefixIcon:!widget.readOnly ? widget.prefixIcon : null,
         suffixIcon: widget.isSecure
             ? IconButton(
                 padding: const EdgeInsets.all(0.0),
                 icon: _textFieldIcon,
-                onPressed: () {
-                  setState(() {
-                    _isShowPassword = !_isShowPassword;
-                  });
-                },
+                onPressed: widget.readOnly
+                    ? null
+                    : () {
+                        setState(() {
+                          _isShowPassword = !_isShowPassword;
+                        });
+                      },
               )
             : widget.suffixIcon);
   }

@@ -21,12 +21,22 @@ mixin DateConverterMixin {
     return Jalali(year, month, day, hour, minute, second).toDateTime();
   }
 
-  DateTime toDateTimeFomString(String str) {
-    str = persianTools.convertFaToEn(str);
-    var splitDate = (str.split("/"));
-    return toDateTime(
-        year: int.parse(splitDate[0]),
-        month: int.parse(splitDate[1]),
-        day: int.parse(splitDate[2]));
+  DateTime? toDateTimeFromString(String? str) {
+    if (str != null && str.isNotEmpty) {
+      str = persianTools.convertFaToEn(str);
+      var splitDate = (str.split("/"));
+      final y = int.parse(splitDate[0]);
+      final m = int.parse(splitDate[1]);
+      final d = int.parse(splitDate[2]);
+      return toDateTime(
+        year: y <= DateTime.now().toJalali().year - 50
+            ? y
+            : DateTime.now().toJalali().year - 50,
+        month: m <= 12 ? m : 12,
+        day: d <= 31 ? d : 30,
+      );
+    } else {
+      return null;
+    }
   }
 }

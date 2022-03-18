@@ -29,13 +29,13 @@ class OperationalServiceDeficitRecordServiceImpl
   }
 
   @override
-  Future<void> save(OperationalServiceDeficitRecordModel model) {
+  Future<int> save(OperationalServiceDeficitRecordModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(OperationalServiceDeficitRecordModel model) {
+  Future<bool> update(OperationalServiceDeficitRecordModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

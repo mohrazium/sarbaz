@@ -1,7 +1,7 @@
 part of components;
 
-class RecentActivitesHeader extends StatelessWidget {
-  const RecentActivitesHeader({Key? key}) : super(key: key);
+class RecentActivitiesHeader extends StatelessWidget {
+  const RecentActivitiesHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

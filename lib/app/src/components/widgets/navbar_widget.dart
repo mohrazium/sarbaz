@@ -1,11 +1,14 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 part of components;
 
 class NavBarWidget extends StatelessWidget {
-  const NavBarWidget({Key? key, required this.items, this.height});
-
   final List<Widget> items;
   final double? height;
 
+  const NavBarWidget({Key? key, required this.items, this.height});
+
+  
 
   @override
   Widget build(BuildContext context) {

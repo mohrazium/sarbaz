@@ -26,13 +26,13 @@ class OvertimeServiceImpl implements OvertimeService {
   }
 
   @override
-  Future<void> save(OvertimeModel model) {
+  Future<int> save(OvertimeModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(OvertimeModel model) {
+  Future<bool> update(OvertimeModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

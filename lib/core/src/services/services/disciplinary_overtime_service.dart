@@ -26,13 +26,13 @@ class DisciplinaryOvertimeServiceImpl implements DisciplinaryOvertimeService {
   }
 
   @override
-  Future<void> save(DisciplinaryOvertimeModel model) {
+  Future<int> save(DisciplinaryOvertimeModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(DisciplinaryOvertimeModel model) {
+  Future<bool> update(DisciplinaryOvertimeModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

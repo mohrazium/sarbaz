@@ -36,13 +36,13 @@ class HourlyVacationServiceImpl implements HourlyVacationService {
   }
 
   @override
-  Future<void> save(HourlyVacationModel model) {
+  Future<int> save(HourlyVacationModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(HourlyVacationModel model) {
+  Future<bool> update(HourlyVacationModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

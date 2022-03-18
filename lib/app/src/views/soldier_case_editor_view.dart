@@ -34,11 +34,7 @@ class SoldierCaseEditorView extends GetView<SoldierCaseEditorController> {
               crossAxisSpacing: 4,
               children: const [
                 Center(child: PersonalInfoView()),
-                // Center(child: FurtherInfoView()),
-                // Center(child: ContactInfoView()),
-                // Center(child: PersonalInfoView()),
-                // Center(child: PersonalInfoView()),
-                // Center(child: PersonalInfoView()),
+                Center(child: FurtherInfoView()),
               ])
         ],
       ),

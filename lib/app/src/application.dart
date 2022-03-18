@@ -16,6 +16,8 @@ part 'application_entry_point.dart';
 
 class SarbazApplication {
   void run() {
+    //DriftRuntimeOptions driftRuntimeOptions = DriftRuntimeOptions();
+    //driftRuntimeOptions.defaultSerializer = const DefaultMapValueSerializer();
     WidgetsFlutterBinding.ensureInitialized();
     // Setting up logging services for better logging.
     LoggerService.setup();

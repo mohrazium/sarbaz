@@ -36,16 +36,7 @@ class SoldierCaseEditorController extends GetxController
 
   
 
-  // void keepSelectedMaritalStatus() {
-  //   if (maritalStatusController.text.length > 0) {
-  //     selectedMaritalStatus = RxString(maritalStatusController.text);
-  //     if (Strings.maritalStatusSingle == maritalStatusController.text) {
-  //       numberOfChildrenController.text = 0.toString();
-  //     }
-  //   }
-
-  //   update();
-  // }
+  
 
   // void keepSelectedLevelOfEducation() {
   //   if (levelOfEducationController.text.length > 0)

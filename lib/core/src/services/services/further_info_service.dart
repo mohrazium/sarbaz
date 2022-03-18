@@ -26,13 +26,13 @@ class FurtherInfoServiceImpl implements FurtherInfoService {
   }
 
   @override
-  Future<void> save(FurtherInfoModel model) {
+  Future<int> save(FurtherInfoModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(FurtherInfoModel model) {
+  Future<bool> update(FurtherInfoModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

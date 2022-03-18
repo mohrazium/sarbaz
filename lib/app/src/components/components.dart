@@ -2,7 +2,6 @@ library components;
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -13,8 +12,6 @@ import 'package:sarbaz/app/src/controllers/controllers.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
 import 'package:sarbaz/core/src/models/models.dart';
 import 'package:sarbaz/utility/utility.dart';
 

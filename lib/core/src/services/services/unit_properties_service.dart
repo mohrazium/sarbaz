@@ -27,13 +27,13 @@ class UnitPropertiesServiceImpl implements UnitPropertiesService {
   }
 
   @override
-  Future<void> save(UnitPropertiesModel model) {
+  Future<int> save(UnitPropertiesModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(UnitPropertiesModel model) {
+  Future<bool> update(UnitPropertiesModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

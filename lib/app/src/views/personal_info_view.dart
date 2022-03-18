@@ -91,6 +91,12 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                         titleText: Strings.dateOfBirth,
                         controller: controller.dateOfBirthController,
                         readOnly: controller.readOnly.value,
+                        inputFormatters: [
+                          MaskedInputFormatter(
+                            "0000/00/00",
+                            allowedCharMatcher: RegExp('[0-9]'),
+                          ),
+                        ],
                         prefixIcon: IconButton(
                             icon: const Icon(
                               EvaIcons.calendar,

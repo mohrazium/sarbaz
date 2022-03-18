@@ -16,44 +16,41 @@ class SoldiersView extends GetView<SoldiersController> {
               child: HeaderText(Strings.soldiersList),
             ),
           ),
-          SizedBox(
-            height: kSpacing * 6,
-            child: Expanded(
-              child: GroupBox(
-                margin: const EdgeInsets.all(kPadding),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      FilledButton(
-                        icon: EvaIcons.plus,
-                        onPressed: ()=>controller.onNewSoldierPressed(),
-                        label: Strings.newSoldier,
-                      ),
-                      const SizedBox(width: kSpacing,),
-                      FilledButton(
-                        icon: EvaIcons.plus,
-                        onPressed: () {},
-                        label: Strings.edit,
-                      ),
-                      const SizedBox(width: kSpacing),
-                      FilledButton(
-                        icon: EvaIcons.plus,
-                        onPressed: () {},
-                        label: Strings.delete,
-                      ),
-                      const SizedBox(width: kSpacing),
-                      FilledButton(
-                        icon: EvaIcons.plus,
-                        onPressed: () {},
-                        label: Strings.delete,
-                      ),
-                      const SizedBox(width: kSpacing),
-                      Expanded(child: SearchField())
-                    ]),
-              ),
-            ),
+          GroupBox(
+            height: kSpacing * 4,
+            margin: const EdgeInsets.all(kPadding / 3),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  FilledButton(
+                    icon: EvaIcons.plus,
+                    onPressed: () => controller.onNewSoldierPressed(),
+                    label: Strings.newSoldier,
+                  ),
+                  const SizedBox(
+                    width: kSpacing,
+                  ),
+                  FilledButton(
+                    icon: EvaIcons.plus,
+                    onPressed: () => controller.onEditSoldierPressed(),
+                    label: Strings.edit,
+                  ),
+                  const SizedBox(width: kSpacing),
+                  FilledButton(
+                    icon: EvaIcons.plus,
+                    onPressed: () => controller.onDeleteSoldierPressed(),
+                    label: Strings.delete,
+                  ),
+                  const SizedBox(width: kSpacing),
+                  Expanded(child: SearchField()),
+                  const SizedBox(width: kSpacing),
+                  FilledButton(
+                      onPressed: () {},
+                      icon: EvaIcons.search,
+                      label: Strings.search)
+                ]),
           ),
           Expanded(
             child: GroupBox(
@@ -62,7 +59,10 @@ class SoldiersView extends GetView<SoldiersController> {
                   builder: (_) {
                     return SoldiersDataTable(
                       data: controller.personnelList.value,
-                      onCellDoubleTap:(details)=> controller.onCellDoubleTap(details),
+                      onCellTap: ((details) =>
+                          controller.onCellTap(details)),
+                      onCellDoubleTap: (details) =>
+                          controller.onCellDoubleTap(details),
                     );
                   }),
             ),

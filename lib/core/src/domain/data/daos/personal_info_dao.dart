@@ -24,16 +24,9 @@ class PersonalInfoDAO extends DatabaseAccessor<SoldierDatabase>
         .get();
   }
 
-  Future<PersonalInfoTableData> doUpdate(Map<String, dynamic> entry) async {
-    var isUpdated = await update(personalInfoTable)
-        .replace(PersonalInfoTableData.fromJson(entry).toCompanion(false));
-    if (isUpdated) {
-      return (select(personalInfoTable)
-            ..where((tbl) => tbl.id.equals(entry['id'].value as int)))
-          .watchSingle()
-          .first;
-    }
-    return Future.error("Error in updating personal info");
+  Future<bool> doUpdate(Map<String, dynamic> entry) async {
+    final entryData = PersonalInfoTableData.fromJson(entry).toCompanion(true);
+    return await update(personalInfoTable).replace(entryData);
   }
 
   Future<bool> doDelete(Map<String, dynamic> entry) async {
@@ -49,7 +42,11 @@ class PersonalInfoDAO extends DatabaseAccessor<SoldierDatabase>
     return (select(personalInfoTable)..where((tbl) => tbl.id.equals(id)))
         .getSingleOrNull();
   }
-   Future<PersonalInfoTableData?> findByNationalCode(String code) async {
-    return (select(personalInfoTable)..where((tbl) => tbl.nationalCode.equals(code))).watchSingleOrNull().first;
+
+  Future<PersonalInfoTableData?> findByNationalCode(String code) async {
+    return (select(personalInfoTable)
+          ..where((tbl) => tbl.nationalCode.equals(code)))
+        .watchSingleOrNull()
+        .first;
   }
 }

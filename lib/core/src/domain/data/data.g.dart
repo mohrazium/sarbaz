@@ -845,394 +845,6 @@ class $AuditTableTable extends AuditTable
   }
 }
 
-class RelativeContactsInfoTableData extends DataClass
-    implements Insertable<RelativeContactsInfoTableData> {
-  final int? id;
-  final String nameAndFamily;
-  final String phoneNumber;
-  final String? workAddress;
-  final String? homeAddress;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  RelativeContactsInfoTableData(
-      {this.id,
-      required this.nameAndFamily,
-      required this.phoneNumber,
-      this.workAddress,
-      this.homeAddress,
-      this.createdAt,
-      this.updatedAt});
-  factory RelativeContactsInfoTableData.fromData(Map<String, dynamic> data,
-      {String? prefix}) {
-    final effectivePrefix = prefix ?? '';
-    return RelativeContactsInfoTableData(
-      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      nameAndFamily: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}name_and_family'])!,
-      phoneNumber: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}phone_number'])!,
-      workAddress: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}work_address']),
-      homeAddress: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}home_address']),
-      createdAt: const DateTimeType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
-      updatedAt: const DateTimeType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}updated_at']),
-    );
-  }
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (!nullToAbsent || id != null) {
-      map['id'] = Variable<int?>(id);
-    }
-    map['name_and_family'] = Variable<String>(nameAndFamily);
-    map['phone_number'] = Variable<String>(phoneNumber);
-    if (!nullToAbsent || workAddress != null) {
-      map['work_address'] = Variable<String?>(workAddress);
-    }
-    if (!nullToAbsent || homeAddress != null) {
-      map['home_address'] = Variable<String?>(homeAddress);
-    }
-    if (!nullToAbsent || createdAt != null) {
-      map['created_at'] = Variable<DateTime?>(createdAt);
-    }
-    if (!nullToAbsent || updatedAt != null) {
-      map['updated_at'] = Variable<DateTime?>(updatedAt);
-    }
-    return map;
-  }
-
-  RelativeContactsInfoTableCompanion toCompanion(bool nullToAbsent) {
-    return RelativeContactsInfoTableCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      nameAndFamily: Value(nameAndFamily),
-      phoneNumber: Value(phoneNumber),
-      workAddress: workAddress == null && nullToAbsent
-          ? const Value.absent()
-          : Value(workAddress),
-      homeAddress: homeAddress == null && nullToAbsent
-          ? const Value.absent()
-          : Value(homeAddress),
-      createdAt: createdAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createdAt),
-      updatedAt: updatedAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(updatedAt),
-    );
-  }
-
-  factory RelativeContactsInfoTableData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return RelativeContactsInfoTableData(
-      id: serializer.fromJson<int?>(json['id']),
-      nameAndFamily: serializer.fromJson<String>(json['nameAndFamily']),
-      phoneNumber: serializer.fromJson<String>(json['phoneNumber']),
-      workAddress: serializer.fromJson<String?>(json['workAddress']),
-      homeAddress: serializer.fromJson<String?>(json['homeAddress']),
-      createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
-      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int?>(id),
-      'nameAndFamily': serializer.toJson<String>(nameAndFamily),
-      'phoneNumber': serializer.toJson<String>(phoneNumber),
-      'workAddress': serializer.toJson<String?>(workAddress),
-      'homeAddress': serializer.toJson<String?>(homeAddress),
-      'createdAt': serializer.toJson<DateTime?>(createdAt),
-      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
-    };
-  }
-
-  RelativeContactsInfoTableData copyWith(
-          {int? id,
-          String? nameAndFamily,
-          String? phoneNumber,
-          String? workAddress,
-          String? homeAddress,
-          DateTime? createdAt,
-          DateTime? updatedAt}) =>
-      RelativeContactsInfoTableData(
-        id: id ?? this.id,
-        nameAndFamily: nameAndFamily ?? this.nameAndFamily,
-        phoneNumber: phoneNumber ?? this.phoneNumber,
-        workAddress: workAddress ?? this.workAddress,
-        homeAddress: homeAddress ?? this.homeAddress,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
-  @override
-  String toString() {
-    return (StringBuffer('RelativeContactsInfoTableData(')
-          ..write('id: $id, ')
-          ..write('nameAndFamily: $nameAndFamily, ')
-          ..write('phoneNumber: $phoneNumber, ')
-          ..write('workAddress: $workAddress, ')
-          ..write('homeAddress: $homeAddress, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, nameAndFamily, phoneNumber, workAddress,
-      homeAddress, createdAt, updatedAt);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is RelativeContactsInfoTableData &&
-          other.id == this.id &&
-          other.nameAndFamily == this.nameAndFamily &&
-          other.phoneNumber == this.phoneNumber &&
-          other.workAddress == this.workAddress &&
-          other.homeAddress == this.homeAddress &&
-          other.createdAt == this.createdAt &&
-          other.updatedAt == this.updatedAt);
-}
-
-class RelativeContactsInfoTableCompanion
-    extends UpdateCompanion<RelativeContactsInfoTableData> {
-  final Value<int?> id;
-  final Value<String> nameAndFamily;
-  final Value<String> phoneNumber;
-  final Value<String?> workAddress;
-  final Value<String?> homeAddress;
-  final Value<DateTime?> createdAt;
-  final Value<DateTime?> updatedAt;
-  const RelativeContactsInfoTableCompanion({
-    this.id = const Value.absent(),
-    this.nameAndFamily = const Value.absent(),
-    this.phoneNumber = const Value.absent(),
-    this.workAddress = const Value.absent(),
-    this.homeAddress = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.updatedAt = const Value.absent(),
-  });
-  RelativeContactsInfoTableCompanion.insert({
-    this.id = const Value.absent(),
-    required String nameAndFamily,
-    required String phoneNumber,
-    this.workAddress = const Value.absent(),
-    this.homeAddress = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.updatedAt = const Value.absent(),
-  })  : nameAndFamily = Value(nameAndFamily),
-        phoneNumber = Value(phoneNumber);
-  static Insertable<RelativeContactsInfoTableData> custom({
-    Expression<int?>? id,
-    Expression<String>? nameAndFamily,
-    Expression<String>? phoneNumber,
-    Expression<String?>? workAddress,
-    Expression<String?>? homeAddress,
-    Expression<DateTime?>? createdAt,
-    Expression<DateTime?>? updatedAt,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (nameAndFamily != null) 'name_and_family': nameAndFamily,
-      if (phoneNumber != null) 'phone_number': phoneNumber,
-      if (workAddress != null) 'work_address': workAddress,
-      if (homeAddress != null) 'home_address': homeAddress,
-      if (createdAt != null) 'created_at': createdAt,
-      if (updatedAt != null) 'updated_at': updatedAt,
-    });
-  }
-
-  RelativeContactsInfoTableCompanion copyWith(
-      {Value<int?>? id,
-      Value<String>? nameAndFamily,
-      Value<String>? phoneNumber,
-      Value<String?>? workAddress,
-      Value<String?>? homeAddress,
-      Value<DateTime?>? createdAt,
-      Value<DateTime?>? updatedAt}) {
-    return RelativeContactsInfoTableCompanion(
-      id: id ?? this.id,
-      nameAndFamily: nameAndFamily ?? this.nameAndFamily,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-      workAddress: workAddress ?? this.workAddress,
-      homeAddress: homeAddress ?? this.homeAddress,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int?>(id.value);
-    }
-    if (nameAndFamily.present) {
-      map['name_and_family'] = Variable<String>(nameAndFamily.value);
-    }
-    if (phoneNumber.present) {
-      map['phone_number'] = Variable<String>(phoneNumber.value);
-    }
-    if (workAddress.present) {
-      map['work_address'] = Variable<String?>(workAddress.value);
-    }
-    if (homeAddress.present) {
-      map['home_address'] = Variable<String?>(homeAddress.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime?>(createdAt.value);
-    }
-    if (updatedAt.present) {
-      map['updated_at'] = Variable<DateTime?>(updatedAt.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('RelativeContactsInfoTableCompanion(')
-          ..write('id: $id, ')
-          ..write('nameAndFamily: $nameAndFamily, ')
-          ..write('phoneNumber: $phoneNumber, ')
-          ..write('workAddress: $workAddress, ')
-          ..write('homeAddress: $homeAddress, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $RelativeContactsInfoTableTable extends RelativeContactsInfoTable
-    with
-        TableInfo<$RelativeContactsInfoTableTable,
-            RelativeContactsInfoTableData> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $RelativeContactsInfoTableTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
-      'id', aliasedName, true,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _nameAndFamilyMeta =
-      const VerificationMeta('nameAndFamily');
-  @override
-  late final GeneratedColumn<String?> nameAndFamily = GeneratedColumn<String?>(
-      'name_and_family', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
-  final VerificationMeta _phoneNumberMeta =
-      const VerificationMeta('phoneNumber');
-  @override
-  late final GeneratedColumn<String?> phoneNumber = GeneratedColumn<String?>(
-      'phone_number', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
-  final VerificationMeta _workAddressMeta =
-      const VerificationMeta('workAddress');
-  @override
-  late final GeneratedColumn<String?> workAddress = GeneratedColumn<String?>(
-      'work_address', aliasedName, true,
-      type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _homeAddressMeta =
-      const VerificationMeta('homeAddress');
-  @override
-  late final GeneratedColumn<String?> homeAddress = GeneratedColumn<String?>(
-      'home_address', aliasedName, true,
-      type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
-  @override
-  late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
-      'created_at', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
-  final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
-  @override
-  late final GeneratedColumn<DateTime?> updatedAt = GeneratedColumn<DateTime?>(
-      'updated_at', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
-  @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        nameAndFamily,
-        phoneNumber,
-        workAddress,
-        homeAddress,
-        createdAt,
-        updatedAt
-      ];
-  @override
-  String get aliasedName => _alias ?? 'relative_contacts_info_table';
-  @override
-  String get actualTableName => 'relative_contacts_info_table';
-  @override
-  VerificationContext validateIntegrity(
-      Insertable<RelativeContactsInfoTableData> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('name_and_family')) {
-      context.handle(
-          _nameAndFamilyMeta,
-          nameAndFamily.isAcceptableOrUnknown(
-              data['name_and_family']!, _nameAndFamilyMeta));
-    } else if (isInserting) {
-      context.missing(_nameAndFamilyMeta);
-    }
-    if (data.containsKey('phone_number')) {
-      context.handle(
-          _phoneNumberMeta,
-          phoneNumber.isAcceptableOrUnknown(
-              data['phone_number']!, _phoneNumberMeta));
-    } else if (isInserting) {
-      context.missing(_phoneNumberMeta);
-    }
-    if (data.containsKey('work_address')) {
-      context.handle(
-          _workAddressMeta,
-          workAddress.isAcceptableOrUnknown(
-              data['work_address']!, _workAddressMeta));
-    }
-    if (data.containsKey('home_address')) {
-      context.handle(
-          _homeAddressMeta,
-          homeAddress.isAcceptableOrUnknown(
-              data['home_address']!, _homeAddressMeta));
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
-    }
-    if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  RelativeContactsInfoTableData map(Map<String, dynamic> data,
-      {String? tablePrefix}) {
-    return RelativeContactsInfoTableData.fromData(data,
-        prefix: tablePrefix != null ? '$tablePrefix.' : null);
-  }
-
-  @override
-  $RelativeContactsInfoTableTable createAlias(String alias) {
-    return $RelativeContactsInfoTableTable(attachedDatabase, alias);
-  }
-}
-
 class ContactInfoTableData extends DataClass
     implements Insertable<ContactInfoTableData> {
   final int? id;
@@ -1243,7 +855,6 @@ class ContactInfoTableData extends DataClass
   final String address;
   final String? postalCode;
   final int distance;
-  final int? relativeContacts;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   ContactInfoTableData(
@@ -1255,7 +866,6 @@ class ContactInfoTableData extends DataClass
       required this.address,
       this.postalCode,
       required this.distance,
-      this.relativeContacts,
       this.createdAt,
       this.updatedAt});
   factory ContactInfoTableData.fromData(Map<String, dynamic> data,
@@ -1277,8 +887,6 @@ class ContactInfoTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}postal_code']),
       distance: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}distance'])!,
-      relativeContacts: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}relative_contacts']),
       createdAt: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
       updatedAt: const DateTimeType()
@@ -1306,9 +914,6 @@ class ContactInfoTableData extends DataClass
       map['postal_code'] = Variable<String?>(postalCode);
     }
     map['distance'] = Variable<int>(distance);
-    if (!nullToAbsent || relativeContacts != null) {
-      map['relative_contacts'] = Variable<int?>(relativeContacts);
-    }
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime?>(createdAt);
     }
@@ -1334,9 +939,6 @@ class ContactInfoTableData extends DataClass
           ? const Value.absent()
           : Value(postalCode),
       distance: Value(distance),
-      relativeContacts: relativeContacts == null && nullToAbsent
-          ? const Value.absent()
-          : Value(relativeContacts),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -1358,7 +960,6 @@ class ContactInfoTableData extends DataClass
       address: serializer.fromJson<String>(json['address']),
       postalCode: serializer.fromJson<String?>(json['postalCode']),
       distance: serializer.fromJson<int>(json['distance']),
-      relativeContacts: serializer.fromJson<int?>(json['relativeContacts']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -1375,7 +976,6 @@ class ContactInfoTableData extends DataClass
       'address': serializer.toJson<String>(address),
       'postalCode': serializer.toJson<String?>(postalCode),
       'distance': serializer.toJson<int>(distance),
-      'relativeContacts': serializer.toJson<int?>(relativeContacts),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
@@ -1390,7 +990,6 @@ class ContactInfoTableData extends DataClass
           String? address,
           String? postalCode,
           int? distance,
-          int? relativeContacts,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       ContactInfoTableData(
@@ -1402,7 +1001,6 @@ class ContactInfoTableData extends DataClass
         address: address ?? this.address,
         postalCode: postalCode ?? this.postalCode,
         distance: distance ?? this.distance,
-        relativeContacts: relativeContacts ?? this.relativeContacts,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -1417,7 +1015,6 @@ class ContactInfoTableData extends DataClass
           ..write('address: $address, ')
           ..write('postalCode: $postalCode, ')
           ..write('distance: $distance, ')
-          ..write('relativeContacts: $relativeContacts, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -1426,7 +1023,7 @@ class ContactInfoTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(id, phoneNumber, mobileNumber, province, city,
-      address, postalCode, distance, relativeContacts, createdAt, updatedAt);
+      address, postalCode, distance, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1439,7 +1036,6 @@ class ContactInfoTableData extends DataClass
           other.address == this.address &&
           other.postalCode == this.postalCode &&
           other.distance == this.distance &&
-          other.relativeContacts == this.relativeContacts &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -1453,7 +1049,6 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
   final Value<String> address;
   final Value<String?> postalCode;
   final Value<int> distance;
-  final Value<int?> relativeContacts;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   const ContactInfoTableCompanion({
@@ -1465,7 +1060,6 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
     this.address = const Value.absent(),
     this.postalCode = const Value.absent(),
     this.distance = const Value.absent(),
-    this.relativeContacts = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -1478,7 +1072,6 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
     required String address,
     this.postalCode = const Value.absent(),
     required int distance,
-    this.relativeContacts = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   })  : mobileNumber = Value(mobileNumber),
@@ -1493,7 +1086,6 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
     Expression<String>? address,
     Expression<String?>? postalCode,
     Expression<int>? distance,
-    Expression<int?>? relativeContacts,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
   }) {
@@ -1506,7 +1098,6 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
       if (address != null) 'address': address,
       if (postalCode != null) 'postal_code': postalCode,
       if (distance != null) 'distance': distance,
-      if (relativeContacts != null) 'relative_contacts': relativeContacts,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -1521,7 +1112,6 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
       Value<String>? address,
       Value<String?>? postalCode,
       Value<int>? distance,
-      Value<int?>? relativeContacts,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
     return ContactInfoTableCompanion(
@@ -1533,7 +1123,6 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
       address: address ?? this.address,
       postalCode: postalCode ?? this.postalCode,
       distance: distance ?? this.distance,
-      relativeContacts: relativeContacts ?? this.relativeContacts,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -1566,9 +1155,6 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
     if (distance.present) {
       map['distance'] = Variable<int>(distance.value);
     }
-    if (relativeContacts.present) {
-      map['relative_contacts'] = Variable<int?>(relativeContacts.value);
-    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime?>(createdAt.value);
     }
@@ -1589,7 +1175,6 @@ class ContactInfoTableCompanion extends UpdateCompanion<ContactInfoTableData> {
           ..write('address: $address, ')
           ..write('postalCode: $postalCode, ')
           ..write('distance: $distance, ')
-          ..write('relativeContacts: $relativeContacts, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -1647,14 +1232,6 @@ class $ContactInfoTableTable extends ContactInfoTable
   late final GeneratedColumn<int?> distance = GeneratedColumn<int?>(
       'distance', aliasedName, false,
       type: const IntType(), requiredDuringInsert: true);
-  final VerificationMeta _relativeContactsMeta =
-      const VerificationMeta('relativeContacts');
-  @override
-  late final GeneratedColumn<int?> relativeContacts = GeneratedColumn<int?>(
-      'relative_contacts', aliasedName, true,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      defaultConstraints: 'REFERENCES relative_contacts_info_table (id)');
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
@@ -1675,7 +1252,6 @@ class $ContactInfoTableTable extends ContactInfoTable
         address,
         postalCode,
         distance,
-        relativeContacts,
         createdAt,
         updatedAt
       ];
@@ -1731,12 +1307,6 @@ class $ContactInfoTableTable extends ContactInfoTable
           distance.isAcceptableOrUnknown(data['distance']!, _distanceMeta));
     } else if (isInserting) {
       context.missing(_distanceMeta);
-    }
-    if (data.containsKey('relative_contacts')) {
-      context.handle(
-          _relativeContactsMeta,
-          relativeContacts.isAcceptableOrUnknown(
-              data['relative_contacts']!, _relativeContactsMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -2639,6 +2209,7 @@ class ViolationsOvertimeTableData extends DataClass
   final String violationType;
   final int overtime;
   final int forgivenessOvertime;
+  final String? description;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   ViolationsOvertimeTableData(
@@ -2646,6 +2217,7 @@ class ViolationsOvertimeTableData extends DataClass
       required this.violationType,
       required this.overtime,
       required this.forgivenessOvertime,
+      this.description,
       this.createdAt,
       this.updatedAt});
   factory ViolationsOvertimeTableData.fromData(Map<String, dynamic> data,
@@ -2659,6 +2231,8 @@ class ViolationsOvertimeTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}overtime'])!,
       forgivenessOvertime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}forgiveness_overtime'])!,
+      description: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
       createdAt: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
       updatedAt: const DateTimeType()
@@ -2674,6 +2248,9 @@ class ViolationsOvertimeTableData extends DataClass
     map['violation_type'] = Variable<String>(violationType);
     map['overtime'] = Variable<int>(overtime);
     map['forgiveness_overtime'] = Variable<int>(forgivenessOvertime);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String?>(description);
+    }
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime?>(createdAt);
     }
@@ -2689,6 +2266,9 @@ class ViolationsOvertimeTableData extends DataClass
       violationType: Value(violationType),
       overtime: Value(overtime),
       forgivenessOvertime: Value(forgivenessOvertime),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -2707,6 +2287,7 @@ class ViolationsOvertimeTableData extends DataClass
       overtime: serializer.fromJson<int>(json['overtime']),
       forgivenessOvertime:
           serializer.fromJson<int>(json['forgivenessOvertime']),
+      description: serializer.fromJson<String?>(json['description']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -2719,6 +2300,7 @@ class ViolationsOvertimeTableData extends DataClass
       'violationType': serializer.toJson<String>(violationType),
       'overtime': serializer.toJson<int>(overtime),
       'forgivenessOvertime': serializer.toJson<int>(forgivenessOvertime),
+      'description': serializer.toJson<String?>(description),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
@@ -2729,6 +2311,7 @@ class ViolationsOvertimeTableData extends DataClass
           String? violationType,
           int? overtime,
           int? forgivenessOvertime,
+          String? description,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       ViolationsOvertimeTableData(
@@ -2736,6 +2319,7 @@ class ViolationsOvertimeTableData extends DataClass
         violationType: violationType ?? this.violationType,
         overtime: overtime ?? this.overtime,
         forgivenessOvertime: forgivenessOvertime ?? this.forgivenessOvertime,
+        description: description ?? this.description,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -2746,6 +2330,7 @@ class ViolationsOvertimeTableData extends DataClass
           ..write('violationType: $violationType, ')
           ..write('overtime: $overtime, ')
           ..write('forgivenessOvertime: $forgivenessOvertime, ')
+          ..write('description: $description, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -2753,8 +2338,8 @@ class ViolationsOvertimeTableData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(
-      id, violationType, overtime, forgivenessOvertime, createdAt, updatedAt);
+  int get hashCode => Object.hash(id, violationType, overtime,
+      forgivenessOvertime, description, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2763,6 +2348,7 @@ class ViolationsOvertimeTableData extends DataClass
           other.violationType == this.violationType &&
           other.overtime == this.overtime &&
           other.forgivenessOvertime == this.forgivenessOvertime &&
+          other.description == this.description &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -2773,6 +2359,7 @@ class ViolationsOvertimeTableCompanion
   final Value<String> violationType;
   final Value<int> overtime;
   final Value<int> forgivenessOvertime;
+  final Value<String?> description;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   const ViolationsOvertimeTableCompanion({
@@ -2780,6 +2367,7 @@ class ViolationsOvertimeTableCompanion
     this.violationType = const Value.absent(),
     this.overtime = const Value.absent(),
     this.forgivenessOvertime = const Value.absent(),
+    this.description = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -2788,6 +2376,7 @@ class ViolationsOvertimeTableCompanion
     required String violationType,
     required int overtime,
     required int forgivenessOvertime,
+    this.description = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   })  : violationType = Value(violationType),
@@ -2798,6 +2387,7 @@ class ViolationsOvertimeTableCompanion
     Expression<String>? violationType,
     Expression<int>? overtime,
     Expression<int>? forgivenessOvertime,
+    Expression<String?>? description,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
   }) {
@@ -2807,6 +2397,7 @@ class ViolationsOvertimeTableCompanion
       if (overtime != null) 'overtime': overtime,
       if (forgivenessOvertime != null)
         'forgiveness_overtime': forgivenessOvertime,
+      if (description != null) 'description': description,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -2817,6 +2408,7 @@ class ViolationsOvertimeTableCompanion
       Value<String>? violationType,
       Value<int>? overtime,
       Value<int>? forgivenessOvertime,
+      Value<String?>? description,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
     return ViolationsOvertimeTableCompanion(
@@ -2824,6 +2416,7 @@ class ViolationsOvertimeTableCompanion
       violationType: violationType ?? this.violationType,
       overtime: overtime ?? this.overtime,
       forgivenessOvertime: forgivenessOvertime ?? this.forgivenessOvertime,
+      description: description ?? this.description,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -2844,6 +2437,9 @@ class ViolationsOvertimeTableCompanion
     if (forgivenessOvertime.present) {
       map['forgiveness_overtime'] = Variable<int>(forgivenessOvertime.value);
     }
+    if (description.present) {
+      map['description'] = Variable<String?>(description.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime?>(createdAt.value);
     }
@@ -2860,6 +2456,7 @@ class ViolationsOvertimeTableCompanion
           ..write('violationType: $violationType, ')
           ..write('overtime: $overtime, ')
           ..write('forgivenessOvertime: $forgivenessOvertime, ')
+          ..write('description: $description, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -2897,6 +2494,12 @@ class $ViolationsOvertimeTableTable extends ViolationsOvertimeTable
   late final GeneratedColumn<int?> forgivenessOvertime = GeneratedColumn<int?>(
       'forgiveness_overtime', aliasedName, false,
       type: const IntType(), requiredDuringInsert: true);
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'description', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
@@ -2908,8 +2511,15 @@ class $ViolationsOvertimeTableTable extends ViolationsOvertimeTable
       'updated_at', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, violationType, overtime, forgivenessOvertime, createdAt, updatedAt];
+  List<GeneratedColumn> get $columns => [
+        id,
+        violationType,
+        overtime,
+        forgivenessOvertime,
+        description,
+        createdAt,
+        updatedAt
+      ];
   @override
   String get aliasedName => _alias ?? 'violations_overtime_table';
   @override
@@ -2944,6 +2554,12 @@ class $ViolationsOvertimeTableTable extends ViolationsOvertimeTable
               data['forgiveness_overtime']!, _forgivenessOvertimeMeta));
     } else if (isInserting) {
       context.missing(_forgivenessOvertimeMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -4410,6 +4026,7 @@ class HealthStatusTableData extends DataClass
   final bool isHealthy;
   final String accordingTo;
   final bool isBGroup;
+  final String? description;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   HealthStatusTableData(
@@ -4417,6 +4034,7 @@ class HealthStatusTableData extends DataClass
       required this.isHealthy,
       required this.accordingTo,
       required this.isBGroup,
+      this.description,
       this.createdAt,
       this.updatedAt});
   factory HealthStatusTableData.fromData(Map<String, dynamic> data,
@@ -4430,6 +4048,8 @@ class HealthStatusTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}according_to'])!,
       isBGroup: const BoolType()
           .mapFromDatabaseResponse(data['${effectivePrefix}is_b_group'])!,
+      description: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
       createdAt: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
       updatedAt: const DateTimeType()
@@ -4445,6 +4065,9 @@ class HealthStatusTableData extends DataClass
     map['is_healthy'] = Variable<bool>(isHealthy);
     map['according_to'] = Variable<String>(accordingTo);
     map['is_b_group'] = Variable<bool>(isBGroup);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String?>(description);
+    }
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime?>(createdAt);
     }
@@ -4460,6 +4083,9 @@ class HealthStatusTableData extends DataClass
       isHealthy: Value(isHealthy),
       accordingTo: Value(accordingTo),
       isBGroup: Value(isBGroup),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -4477,6 +4103,7 @@ class HealthStatusTableData extends DataClass
       isHealthy: serializer.fromJson<bool>(json['isHealthy']),
       accordingTo: serializer.fromJson<String>(json['accordingTo']),
       isBGroup: serializer.fromJson<bool>(json['isBGroup']),
+      description: serializer.fromJson<String?>(json['description']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -4489,6 +4116,7 @@ class HealthStatusTableData extends DataClass
       'isHealthy': serializer.toJson<bool>(isHealthy),
       'accordingTo': serializer.toJson<String>(accordingTo),
       'isBGroup': serializer.toJson<bool>(isBGroup),
+      'description': serializer.toJson<String?>(description),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
@@ -4499,6 +4127,7 @@ class HealthStatusTableData extends DataClass
           bool? isHealthy,
           String? accordingTo,
           bool? isBGroup,
+          String? description,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       HealthStatusTableData(
@@ -4506,6 +4135,7 @@ class HealthStatusTableData extends DataClass
         isHealthy: isHealthy ?? this.isHealthy,
         accordingTo: accordingTo ?? this.accordingTo,
         isBGroup: isBGroup ?? this.isBGroup,
+        description: description ?? this.description,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -4516,6 +4146,7 @@ class HealthStatusTableData extends DataClass
           ..write('isHealthy: $isHealthy, ')
           ..write('accordingTo: $accordingTo, ')
           ..write('isBGroup: $isBGroup, ')
+          ..write('description: $description, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -4523,8 +4154,8 @@ class HealthStatusTableData extends DataClass
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, isHealthy, accordingTo, isBGroup, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      id, isHealthy, accordingTo, isBGroup, description, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -4533,6 +4164,7 @@ class HealthStatusTableData extends DataClass
           other.isHealthy == this.isHealthy &&
           other.accordingTo == this.accordingTo &&
           other.isBGroup == this.isBGroup &&
+          other.description == this.description &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -4543,6 +4175,7 @@ class HealthStatusTableCompanion
   final Value<bool> isHealthy;
   final Value<String> accordingTo;
   final Value<bool> isBGroup;
+  final Value<String?> description;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   const HealthStatusTableCompanion({
@@ -4550,6 +4183,7 @@ class HealthStatusTableCompanion
     this.isHealthy = const Value.absent(),
     this.accordingTo = const Value.absent(),
     this.isBGroup = const Value.absent(),
+    this.description = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -4558,6 +4192,7 @@ class HealthStatusTableCompanion
     required bool isHealthy,
     required String accordingTo,
     required bool isBGroup,
+    this.description = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   })  : isHealthy = Value(isHealthy),
@@ -4568,6 +4203,7 @@ class HealthStatusTableCompanion
     Expression<bool>? isHealthy,
     Expression<String>? accordingTo,
     Expression<bool>? isBGroup,
+    Expression<String?>? description,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
   }) {
@@ -4576,6 +4212,7 @@ class HealthStatusTableCompanion
       if (isHealthy != null) 'is_healthy': isHealthy,
       if (accordingTo != null) 'according_to': accordingTo,
       if (isBGroup != null) 'is_b_group': isBGroup,
+      if (description != null) 'description': description,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -4586,6 +4223,7 @@ class HealthStatusTableCompanion
       Value<bool>? isHealthy,
       Value<String>? accordingTo,
       Value<bool>? isBGroup,
+      Value<String?>? description,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
     return HealthStatusTableCompanion(
@@ -4593,6 +4231,7 @@ class HealthStatusTableCompanion
       isHealthy: isHealthy ?? this.isHealthy,
       accordingTo: accordingTo ?? this.accordingTo,
       isBGroup: isBGroup ?? this.isBGroup,
+      description: description ?? this.description,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -4613,6 +4252,9 @@ class HealthStatusTableCompanion
     if (isBGroup.present) {
       map['is_b_group'] = Variable<bool>(isBGroup.value);
     }
+    if (description.present) {
+      map['description'] = Variable<String?>(description.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime?>(createdAt.value);
     }
@@ -4629,6 +4271,7 @@ class HealthStatusTableCompanion
           ..write('isHealthy: $isHealthy, ')
           ..write('accordingTo: $accordingTo, ')
           ..write('isBGroup: $isBGroup, ')
+          ..write('description: $description, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -4669,6 +4312,12 @@ class $HealthStatusTableTable extends HealthStatusTable
       type: const BoolType(),
       requiredDuringInsert: true,
       defaultConstraints: 'CHECK (is_b_group IN (0, 1))');
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'description', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
@@ -4681,7 +4330,7 @@ class $HealthStatusTableTable extends HealthStatusTable
       type: const IntType(), requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, isHealthy, accordingTo, isBGroup, createdAt, updatedAt];
+      [id, isHealthy, accordingTo, isBGroup, description, createdAt, updatedAt];
   @override
   String get aliasedName => _alias ?? 'health_status_table';
   @override
@@ -4715,6 +4364,12 @@ class $HealthStatusTableTable extends HealthStatusTable
     } else if (isInserting) {
       context.missing(_isBGroupMeta);
     }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
@@ -4747,6 +4402,7 @@ class HourlyVacationTableData extends DataClass
   final DateTime endTime;
   final int? totalTime;
   final int? overtimePerMonth;
+  final String? description;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   HourlyVacationTableData(
@@ -4755,6 +4411,7 @@ class HourlyVacationTableData extends DataClass
       required this.endTime,
       this.totalTime,
       this.overtimePerMonth,
+      this.description,
       this.createdAt,
       this.updatedAt});
   factory HourlyVacationTableData.fromData(Map<String, dynamic> data,
@@ -4770,6 +4427,8 @@ class HourlyVacationTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}total_time']),
       overtimePerMonth: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}overtime_per_month']),
+      description: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
       createdAt: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
       updatedAt: const DateTimeType()
@@ -4789,6 +4448,9 @@ class HourlyVacationTableData extends DataClass
     }
     if (!nullToAbsent || overtimePerMonth != null) {
       map['overtime_per_month'] = Variable<int?>(overtimePerMonth);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String?>(description);
     }
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime?>(createdAt);
@@ -4810,6 +4472,9 @@ class HourlyVacationTableData extends DataClass
       overtimePerMonth: overtimePerMonth == null && nullToAbsent
           ? const Value.absent()
           : Value(overtimePerMonth),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -4828,6 +4493,7 @@ class HourlyVacationTableData extends DataClass
       endTime: serializer.fromJson<DateTime>(json['endTime']),
       totalTime: serializer.fromJson<int?>(json['totalTime']),
       overtimePerMonth: serializer.fromJson<int?>(json['overtimePerMonth']),
+      description: serializer.fromJson<String?>(json['description']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -4841,6 +4507,7 @@ class HourlyVacationTableData extends DataClass
       'endTime': serializer.toJson<DateTime>(endTime),
       'totalTime': serializer.toJson<int?>(totalTime),
       'overtimePerMonth': serializer.toJson<int?>(overtimePerMonth),
+      'description': serializer.toJson<String?>(description),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
@@ -4852,6 +4519,7 @@ class HourlyVacationTableData extends DataClass
           DateTime? endTime,
           int? totalTime,
           int? overtimePerMonth,
+          String? description,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       HourlyVacationTableData(
@@ -4860,6 +4528,7 @@ class HourlyVacationTableData extends DataClass
         endTime: endTime ?? this.endTime,
         totalTime: totalTime ?? this.totalTime,
         overtimePerMonth: overtimePerMonth ?? this.overtimePerMonth,
+        description: description ?? this.description,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -4871,6 +4540,7 @@ class HourlyVacationTableData extends DataClass
           ..write('endTime: $endTime, ')
           ..write('totalTime: $totalTime, ')
           ..write('overtimePerMonth: $overtimePerMonth, ')
+          ..write('description: $description, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -4879,7 +4549,7 @@ class HourlyVacationTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(id, startTime, endTime, totalTime,
-      overtimePerMonth, createdAt, updatedAt);
+      overtimePerMonth, description, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -4889,6 +4559,7 @@ class HourlyVacationTableData extends DataClass
           other.endTime == this.endTime &&
           other.totalTime == this.totalTime &&
           other.overtimePerMonth == this.overtimePerMonth &&
+          other.description == this.description &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -4900,6 +4571,7 @@ class HourlyVacationTableCompanion
   final Value<DateTime> endTime;
   final Value<int?> totalTime;
   final Value<int?> overtimePerMonth;
+  final Value<String?> description;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   const HourlyVacationTableCompanion({
@@ -4908,6 +4580,7 @@ class HourlyVacationTableCompanion
     this.endTime = const Value.absent(),
     this.totalTime = const Value.absent(),
     this.overtimePerMonth = const Value.absent(),
+    this.description = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -4917,6 +4590,7 @@ class HourlyVacationTableCompanion
     required DateTime endTime,
     this.totalTime = const Value.absent(),
     this.overtimePerMonth = const Value.absent(),
+    this.description = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   })  : startTime = Value(startTime),
@@ -4927,6 +4601,7 @@ class HourlyVacationTableCompanion
     Expression<DateTime>? endTime,
     Expression<int?>? totalTime,
     Expression<int?>? overtimePerMonth,
+    Expression<String?>? description,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
   }) {
@@ -4936,6 +4611,7 @@ class HourlyVacationTableCompanion
       if (endTime != null) 'end_time': endTime,
       if (totalTime != null) 'total_time': totalTime,
       if (overtimePerMonth != null) 'overtime_per_month': overtimePerMonth,
+      if (description != null) 'description': description,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -4947,6 +4623,7 @@ class HourlyVacationTableCompanion
       Value<DateTime>? endTime,
       Value<int?>? totalTime,
       Value<int?>? overtimePerMonth,
+      Value<String?>? description,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
     return HourlyVacationTableCompanion(
@@ -4955,6 +4632,7 @@ class HourlyVacationTableCompanion
       endTime: endTime ?? this.endTime,
       totalTime: totalTime ?? this.totalTime,
       overtimePerMonth: overtimePerMonth ?? this.overtimePerMonth,
+      description: description ?? this.description,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -4978,6 +4656,9 @@ class HourlyVacationTableCompanion
     if (overtimePerMonth.present) {
       map['overtime_per_month'] = Variable<int?>(overtimePerMonth.value);
     }
+    if (description.present) {
+      map['description'] = Variable<String?>(description.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime?>(createdAt.value);
     }
@@ -4995,6 +4676,7 @@ class HourlyVacationTableCompanion
           ..write('endTime: $endTime, ')
           ..write('totalTime: $totalTime, ')
           ..write('overtimePerMonth: $overtimePerMonth, ')
+          ..write('description: $description, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -5036,6 +4718,12 @@ class $HourlyVacationTableTable extends HourlyVacationTable
   late final GeneratedColumn<int?> overtimePerMonth = GeneratedColumn<int?>(
       'overtime_per_month', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'description', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
@@ -5053,6 +4741,7 @@ class $HourlyVacationTableTable extends HourlyVacationTable
         endTime,
         totalTime,
         overtimePerMonth,
+        description,
         createdAt,
         updatedAt
       ];
@@ -5091,6 +4780,12 @@ class $HourlyVacationTableTable extends HourlyVacationTable
           overtimePerMonth.isAcceptableOrUnknown(
               data['overtime_per_month']!, _overtimePerMonthMeta));
     }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
@@ -5124,12 +4819,18 @@ class OperationalServiceDeficitRecordTableData extends DataClass
   final DateTime endDate;
   final int durationOfPresence;
   final int? deficitAmount;
+  final String? description;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   OperationalServiceDeficitRecordTableData(
       {this.id,
       required this.startDate,
       required this.endDate,
       required this.durationOfPresence,
-      this.deficitAmount});
+      this.deficitAmount,
+      this.description,
+      this.createdAt,
+      this.updatedAt});
   factory OperationalServiceDeficitRecordTableData.fromData(
       Map<String, dynamic> data,
       {String? prefix}) {
@@ -5144,6 +4845,12 @@ class OperationalServiceDeficitRecordTableData extends DataClass
           data['${effectivePrefix}duration_of_presence'])!,
       deficitAmount: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}deficit_amount']),
+      description: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
+      createdAt: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
+      updatedAt: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}updated_at']),
     );
   }
   @override
@@ -5158,6 +4865,15 @@ class OperationalServiceDeficitRecordTableData extends DataClass
     if (!nullToAbsent || deficitAmount != null) {
       map['deficit_amount'] = Variable<int?>(deficitAmount);
     }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String?>(description);
+    }
+    if (!nullToAbsent || createdAt != null) {
+      map['created_at'] = Variable<DateTime?>(createdAt);
+    }
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime?>(updatedAt);
+    }
     return map;
   }
 
@@ -5170,6 +4886,15 @@ class OperationalServiceDeficitRecordTableData extends DataClass
       deficitAmount: deficitAmount == null && nullToAbsent
           ? const Value.absent()
           : Value(deficitAmount),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      createdAt: createdAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
     );
   }
 
@@ -5183,6 +4908,9 @@ class OperationalServiceDeficitRecordTableData extends DataClass
       endDate: serializer.fromJson<DateTime>(json['endDate']),
       durationOfPresence: serializer.fromJson<int>(json['durationOfPresence']),
       deficitAmount: serializer.fromJson<int?>(json['deficitAmount']),
+      description: serializer.fromJson<String?>(json['description']),
+      createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
   }
   @override
@@ -5194,6 +4922,9 @@ class OperationalServiceDeficitRecordTableData extends DataClass
       'endDate': serializer.toJson<DateTime>(endDate),
       'durationOfPresence': serializer.toJson<int>(durationOfPresence),
       'deficitAmount': serializer.toJson<int?>(deficitAmount),
+      'description': serializer.toJson<String?>(description),
+      'createdAt': serializer.toJson<DateTime?>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
   }
 
@@ -5202,13 +4933,19 @@ class OperationalServiceDeficitRecordTableData extends DataClass
           DateTime? startDate,
           DateTime? endDate,
           int? durationOfPresence,
-          int? deficitAmount}) =>
+          int? deficitAmount,
+          String? description,
+          DateTime? createdAt,
+          DateTime? updatedAt}) =>
       OperationalServiceDeficitRecordTableData(
         id: id ?? this.id,
         startDate: startDate ?? this.startDate,
         endDate: endDate ?? this.endDate,
         durationOfPresence: durationOfPresence ?? this.durationOfPresence,
         deficitAmount: deficitAmount ?? this.deficitAmount,
+        description: description ?? this.description,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
       );
   @override
   String toString() {
@@ -5217,14 +4954,17 @@ class OperationalServiceDeficitRecordTableData extends DataClass
           ..write('startDate: $startDate, ')
           ..write('endDate: $endDate, ')
           ..write('durationOfPresence: $durationOfPresence, ')
-          ..write('deficitAmount: $deficitAmount')
+          ..write('deficitAmount: $deficitAmount, ')
+          ..write('description: $description, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, startDate, endDate, durationOfPresence, deficitAmount);
+  int get hashCode => Object.hash(id, startDate, endDate, durationOfPresence,
+      deficitAmount, description, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -5233,7 +4973,10 @@ class OperationalServiceDeficitRecordTableData extends DataClass
           other.startDate == this.startDate &&
           other.endDate == this.endDate &&
           other.durationOfPresence == this.durationOfPresence &&
-          other.deficitAmount == this.deficitAmount);
+          other.deficitAmount == this.deficitAmount &&
+          other.description == this.description &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
 }
 
 class OperationalServiceDeficitRecordTableCompanion
@@ -5243,12 +4986,18 @@ class OperationalServiceDeficitRecordTableCompanion
   final Value<DateTime> endDate;
   final Value<int> durationOfPresence;
   final Value<int?> deficitAmount;
+  final Value<String?> description;
+  final Value<DateTime?> createdAt;
+  final Value<DateTime?> updatedAt;
   const OperationalServiceDeficitRecordTableCompanion({
     this.id = const Value.absent(),
     this.startDate = const Value.absent(),
     this.endDate = const Value.absent(),
     this.durationOfPresence = const Value.absent(),
     this.deficitAmount = const Value.absent(),
+    this.description = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
   });
   OperationalServiceDeficitRecordTableCompanion.insert({
     this.id = const Value.absent(),
@@ -5256,6 +5005,9 @@ class OperationalServiceDeficitRecordTableCompanion
     required DateTime endDate,
     required int durationOfPresence,
     this.deficitAmount = const Value.absent(),
+    this.description = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
   })  : startDate = Value(startDate),
         endDate = Value(endDate),
         durationOfPresence = Value(durationOfPresence);
@@ -5265,6 +5017,9 @@ class OperationalServiceDeficitRecordTableCompanion
     Expression<DateTime>? endDate,
     Expression<int>? durationOfPresence,
     Expression<int?>? deficitAmount,
+    Expression<String?>? description,
+    Expression<DateTime?>? createdAt,
+    Expression<DateTime?>? updatedAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -5273,6 +5028,9 @@ class OperationalServiceDeficitRecordTableCompanion
       if (durationOfPresence != null)
         'duration_of_presence': durationOfPresence,
       if (deficitAmount != null) 'deficit_amount': deficitAmount,
+      if (description != null) 'description': description,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
     });
   }
 
@@ -5281,13 +5039,19 @@ class OperationalServiceDeficitRecordTableCompanion
       Value<DateTime>? startDate,
       Value<DateTime>? endDate,
       Value<int>? durationOfPresence,
-      Value<int?>? deficitAmount}) {
+      Value<int?>? deficitAmount,
+      Value<String?>? description,
+      Value<DateTime?>? createdAt,
+      Value<DateTime?>? updatedAt}) {
     return OperationalServiceDeficitRecordTableCompanion(
       id: id ?? this.id,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       durationOfPresence: durationOfPresence ?? this.durationOfPresence,
       deficitAmount: deficitAmount ?? this.deficitAmount,
+      description: description ?? this.description,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
@@ -5309,6 +5073,15 @@ class OperationalServiceDeficitRecordTableCompanion
     if (deficitAmount.present) {
       map['deficit_amount'] = Variable<int?>(deficitAmount.value);
     }
+    if (description.present) {
+      map['description'] = Variable<String?>(description.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime?>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime?>(updatedAt.value);
+    }
     return map;
   }
 
@@ -5319,7 +5092,10 @@ class OperationalServiceDeficitRecordTableCompanion
           ..write('startDate: $startDate, ')
           ..write('endDate: $endDate, ')
           ..write('durationOfPresence: $durationOfPresence, ')
-          ..write('deficitAmount: $deficitAmount')
+          ..write('deficitAmount: $deficitAmount, ')
+          ..write('description: $description, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
           ..write(')'))
         .toString();
   }
@@ -5364,9 +5140,33 @@ class $OperationalServiceDeficitRecordTableTable
   late final GeneratedColumn<int?> deficitAmount = GeneratedColumn<int?>(
       'deficit_amount', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, startDate, endDate, durationOfPresence, deficitAmount];
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'description', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
+      'created_at', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime?> updatedAt = GeneratedColumn<DateTime?>(
+      'updated_at', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        startDate,
+        endDate,
+        durationOfPresence,
+        deficitAmount,
+        description,
+        createdAt,
+        updatedAt
+      ];
   @override
   String get aliasedName =>
       _alias ?? 'operational_service_deficit_record_table';
@@ -5406,6 +5206,20 @@ class $OperationalServiceDeficitRecordTableTable
           _deficitAmountMeta,
           deficitAmount.isAcceptableOrUnknown(
               data['deficit_amount']!, _deficitAmountMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
     }
     return context;
   }
@@ -5732,6 +5546,421 @@ class $OvertimeTableTable extends OvertimeTable
   }
 }
 
+class UnitPropertiesTableData extends DataClass
+    implements Insertable<UnitPropertiesTableData> {
+  final int? id;
+  final String unitName;
+  final String? unitCode;
+  final String? unitCity;
+  final String? unitType;
+  final String? description;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  UnitPropertiesTableData(
+      {this.id,
+      required this.unitName,
+      this.unitCode,
+      this.unitCity,
+      this.unitType,
+      this.description,
+      this.createdAt,
+      this.updatedAt});
+  factory UnitPropertiesTableData.fromData(Map<String, dynamic> data,
+      {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return UnitPropertiesTableData(
+      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      unitName: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}unit_name'])!,
+      unitCode: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}unit_code']),
+      unitCity: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}unit_city']),
+      unitType: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}unit_type']),
+      description: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
+      createdAt: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
+      updatedAt: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}updated_at']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int?>(id);
+    }
+    map['unit_name'] = Variable<String>(unitName);
+    if (!nullToAbsent || unitCode != null) {
+      map['unit_code'] = Variable<String?>(unitCode);
+    }
+    if (!nullToAbsent || unitCity != null) {
+      map['unit_city'] = Variable<String?>(unitCity);
+    }
+    if (!nullToAbsent || unitType != null) {
+      map['unit_type'] = Variable<String?>(unitType);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String?>(description);
+    }
+    if (!nullToAbsent || createdAt != null) {
+      map['created_at'] = Variable<DateTime?>(createdAt);
+    }
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime?>(updatedAt);
+    }
+    return map;
+  }
+
+  UnitPropertiesTableCompanion toCompanion(bool nullToAbsent) {
+    return UnitPropertiesTableCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      unitName: Value(unitName),
+      unitCode: unitCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(unitCode),
+      unitCity: unitCity == null && nullToAbsent
+          ? const Value.absent()
+          : Value(unitCity),
+      unitType: unitType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(unitType),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      createdAt: createdAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+    );
+  }
+
+  factory UnitPropertiesTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UnitPropertiesTableData(
+      id: serializer.fromJson<int?>(json['id']),
+      unitName: serializer.fromJson<String>(json['unitName']),
+      unitCode: serializer.fromJson<String?>(json['unitCode']),
+      unitCity: serializer.fromJson<String?>(json['unitCity']),
+      unitType: serializer.fromJson<String?>(json['unitType']),
+      description: serializer.fromJson<String?>(json['description']),
+      createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int?>(id),
+      'unitName': serializer.toJson<String>(unitName),
+      'unitCode': serializer.toJson<String?>(unitCode),
+      'unitCity': serializer.toJson<String?>(unitCity),
+      'unitType': serializer.toJson<String?>(unitType),
+      'description': serializer.toJson<String?>(description),
+      'createdAt': serializer.toJson<DateTime?>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+    };
+  }
+
+  UnitPropertiesTableData copyWith(
+          {int? id,
+          String? unitName,
+          String? unitCode,
+          String? unitCity,
+          String? unitType,
+          String? description,
+          DateTime? createdAt,
+          DateTime? updatedAt}) =>
+      UnitPropertiesTableData(
+        id: id ?? this.id,
+        unitName: unitName ?? this.unitName,
+        unitCode: unitCode ?? this.unitCode,
+        unitCity: unitCity ?? this.unitCity,
+        unitType: unitType ?? this.unitType,
+        description: description ?? this.description,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('UnitPropertiesTableData(')
+          ..write('id: $id, ')
+          ..write('unitName: $unitName, ')
+          ..write('unitCode: $unitCode, ')
+          ..write('unitCity: $unitCity, ')
+          ..write('unitType: $unitType, ')
+          ..write('description: $description, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, unitName, unitCode, unitCity, unitType,
+      description, createdAt, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UnitPropertiesTableData &&
+          other.id == this.id &&
+          other.unitName == this.unitName &&
+          other.unitCode == this.unitCode &&
+          other.unitCity == this.unitCity &&
+          other.unitType == this.unitType &&
+          other.description == this.description &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class UnitPropertiesTableCompanion
+    extends UpdateCompanion<UnitPropertiesTableData> {
+  final Value<int?> id;
+  final Value<String> unitName;
+  final Value<String?> unitCode;
+  final Value<String?> unitCity;
+  final Value<String?> unitType;
+  final Value<String?> description;
+  final Value<DateTime?> createdAt;
+  final Value<DateTime?> updatedAt;
+  const UnitPropertiesTableCompanion({
+    this.id = const Value.absent(),
+    this.unitName = const Value.absent(),
+    this.unitCode = const Value.absent(),
+    this.unitCity = const Value.absent(),
+    this.unitType = const Value.absent(),
+    this.description = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  UnitPropertiesTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String unitName,
+    this.unitCode = const Value.absent(),
+    this.unitCity = const Value.absent(),
+    this.unitType = const Value.absent(),
+    this.description = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  }) : unitName = Value(unitName);
+  static Insertable<UnitPropertiesTableData> custom({
+    Expression<int?>? id,
+    Expression<String>? unitName,
+    Expression<String?>? unitCode,
+    Expression<String?>? unitCity,
+    Expression<String?>? unitType,
+    Expression<String?>? description,
+    Expression<DateTime?>? createdAt,
+    Expression<DateTime?>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (unitName != null) 'unit_name': unitName,
+      if (unitCode != null) 'unit_code': unitCode,
+      if (unitCity != null) 'unit_city': unitCity,
+      if (unitType != null) 'unit_type': unitType,
+      if (description != null) 'description': description,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  UnitPropertiesTableCompanion copyWith(
+      {Value<int?>? id,
+      Value<String>? unitName,
+      Value<String?>? unitCode,
+      Value<String?>? unitCity,
+      Value<String?>? unitType,
+      Value<String?>? description,
+      Value<DateTime?>? createdAt,
+      Value<DateTime?>? updatedAt}) {
+    return UnitPropertiesTableCompanion(
+      id: id ?? this.id,
+      unitName: unitName ?? this.unitName,
+      unitCode: unitCode ?? this.unitCode,
+      unitCity: unitCity ?? this.unitCity,
+      unitType: unitType ?? this.unitType,
+      description: description ?? this.description,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int?>(id.value);
+    }
+    if (unitName.present) {
+      map['unit_name'] = Variable<String>(unitName.value);
+    }
+    if (unitCode.present) {
+      map['unit_code'] = Variable<String?>(unitCode.value);
+    }
+    if (unitCity.present) {
+      map['unit_city'] = Variable<String?>(unitCity.value);
+    }
+    if (unitType.present) {
+      map['unit_type'] = Variable<String?>(unitType.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String?>(description.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime?>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime?>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UnitPropertiesTableCompanion(')
+          ..write('id: $id, ')
+          ..write('unitName: $unitName, ')
+          ..write('unitCode: $unitCode, ')
+          ..write('unitCity: $unitCity, ')
+          ..write('unitType: $unitType, ')
+          ..write('description: $description, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $UnitPropertiesTableTable extends UnitPropertiesTable
+    with TableInfo<$UnitPropertiesTableTable, UnitPropertiesTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UnitPropertiesTableTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, true,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _unitNameMeta = const VerificationMeta('unitName');
+  @override
+  late final GeneratedColumn<String?> unitName = GeneratedColumn<String?>(
+      'unit_name', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _unitCodeMeta = const VerificationMeta('unitCode');
+  @override
+  late final GeneratedColumn<String?> unitCode = GeneratedColumn<String?>(
+      'unit_code', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _unitCityMeta = const VerificationMeta('unitCity');
+  @override
+  late final GeneratedColumn<String?> unitCity = GeneratedColumn<String?>(
+      'unit_city', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _unitTypeMeta = const VerificationMeta('unitType');
+  @override
+  late final GeneratedColumn<String?> unitType = GeneratedColumn<String?>(
+      'unit_type', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'description', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
+      'created_at', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime?> updatedAt = GeneratedColumn<DateTime?>(
+      'updated_at', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        unitName,
+        unitCode,
+        unitCity,
+        unitType,
+        description,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  String get aliasedName => _alias ?? 'unit_properties_table';
+  @override
+  String get actualTableName => 'unit_properties_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<UnitPropertiesTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('unit_name')) {
+      context.handle(_unitNameMeta,
+          unitName.isAcceptableOrUnknown(data['unit_name']!, _unitNameMeta));
+    } else if (isInserting) {
+      context.missing(_unitNameMeta);
+    }
+    if (data.containsKey('unit_code')) {
+      context.handle(_unitCodeMeta,
+          unitCode.isAcceptableOrUnknown(data['unit_code']!, _unitCodeMeta));
+    }
+    if (data.containsKey('unit_city')) {
+      context.handle(_unitCityMeta,
+          unitCity.isAcceptableOrUnknown(data['unit_city']!, _unitCityMeta));
+    }
+    if (data.containsKey('unit_type')) {
+      context.handle(_unitTypeMeta,
+          unitType.isAcceptableOrUnknown(data['unit_type']!, _unitTypeMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  UnitPropertiesTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    return UnitPropertiesTableData.fromData(data,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $UnitPropertiesTableTable createAlias(String alias) {
+    return $UnitPropertiesTableTable(attachedDatabase, alias);
+  }
+}
+
 class SectionTableData extends DataClass
     implements Insertable<SectionTableData> {
   final int? id;
@@ -5739,6 +5968,8 @@ class SectionTableData extends DataClass
   final String? sectionCode;
   final String? sectionName;
   final String? sectionNameAbbr;
+  final int? unit;
+  final String? description;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   SectionTableData(
@@ -5747,6 +5978,8 @@ class SectionTableData extends DataClass
       this.sectionCode,
       this.sectionName,
       this.sectionNameAbbr,
+      this.unit,
+      this.description,
       this.createdAt,
       this.updatedAt});
   factory SectionTableData.fromData(Map<String, dynamic> data,
@@ -5762,6 +5995,10 @@ class SectionTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}section_name']),
       sectionNameAbbr: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}section_name_abbr']),
+      unit: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}unit']),
+      description: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
       createdAt: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
       updatedAt: const DateTimeType()
@@ -5783,6 +6020,12 @@ class SectionTableData extends DataClass
     }
     if (!nullToAbsent || sectionNameAbbr != null) {
       map['section_name_abbr'] = Variable<String?>(sectionNameAbbr);
+    }
+    if (!nullToAbsent || unit != null) {
+      map['unit'] = Variable<int?>(unit);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String?>(description);
     }
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime?>(createdAt);
@@ -5806,6 +6049,10 @@ class SectionTableData extends DataClass
       sectionNameAbbr: sectionNameAbbr == null && nullToAbsent
           ? const Value.absent()
           : Value(sectionNameAbbr),
+      unit: unit == null && nullToAbsent ? const Value.absent() : Value(unit),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -5824,6 +6071,8 @@ class SectionTableData extends DataClass
       sectionCode: serializer.fromJson<String?>(json['sectionCode']),
       sectionName: serializer.fromJson<String?>(json['sectionName']),
       sectionNameAbbr: serializer.fromJson<String?>(json['sectionNameAbbr']),
+      unit: serializer.fromJson<int?>(json['unit']),
+      description: serializer.fromJson<String?>(json['description']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -5837,6 +6086,8 @@ class SectionTableData extends DataClass
       'sectionCode': serializer.toJson<String?>(sectionCode),
       'sectionName': serializer.toJson<String?>(sectionName),
       'sectionNameAbbr': serializer.toJson<String?>(sectionNameAbbr),
+      'unit': serializer.toJson<int?>(unit),
+      'description': serializer.toJson<String?>(description),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
@@ -5848,6 +6099,8 @@ class SectionTableData extends DataClass
           String? sectionCode,
           String? sectionName,
           String? sectionNameAbbr,
+          int? unit,
+          String? description,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       SectionTableData(
@@ -5856,6 +6109,8 @@ class SectionTableData extends DataClass
         sectionCode: sectionCode ?? this.sectionCode,
         sectionName: sectionName ?? this.sectionName,
         sectionNameAbbr: sectionNameAbbr ?? this.sectionNameAbbr,
+        unit: unit ?? this.unit,
+        description: description ?? this.description,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -5867,6 +6122,8 @@ class SectionTableData extends DataClass
           ..write('sectionCode: $sectionCode, ')
           ..write('sectionName: $sectionName, ')
           ..write('sectionNameAbbr: $sectionNameAbbr, ')
+          ..write('unit: $unit, ')
+          ..write('description: $description, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -5875,7 +6132,7 @@ class SectionTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(id, locationName, sectionCode, sectionName,
-      sectionNameAbbr, createdAt, updatedAt);
+      sectionNameAbbr, unit, description, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -5885,6 +6142,8 @@ class SectionTableData extends DataClass
           other.sectionCode == this.sectionCode &&
           other.sectionName == this.sectionName &&
           other.sectionNameAbbr == this.sectionNameAbbr &&
+          other.unit == this.unit &&
+          other.description == this.description &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -5895,6 +6154,8 @@ class SectionTableCompanion extends UpdateCompanion<SectionTableData> {
   final Value<String?> sectionCode;
   final Value<String?> sectionName;
   final Value<String?> sectionNameAbbr;
+  final Value<int?> unit;
+  final Value<String?> description;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   const SectionTableCompanion({
@@ -5903,6 +6164,8 @@ class SectionTableCompanion extends UpdateCompanion<SectionTableData> {
     this.sectionCode = const Value.absent(),
     this.sectionName = const Value.absent(),
     this.sectionNameAbbr = const Value.absent(),
+    this.unit = const Value.absent(),
+    this.description = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -5912,6 +6175,8 @@ class SectionTableCompanion extends UpdateCompanion<SectionTableData> {
     this.sectionCode = const Value.absent(),
     this.sectionName = const Value.absent(),
     this.sectionNameAbbr = const Value.absent(),
+    this.unit = const Value.absent(),
+    this.description = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   }) : locationName = Value(locationName);
@@ -5921,6 +6186,8 @@ class SectionTableCompanion extends UpdateCompanion<SectionTableData> {
     Expression<String?>? sectionCode,
     Expression<String?>? sectionName,
     Expression<String?>? sectionNameAbbr,
+    Expression<int?>? unit,
+    Expression<String?>? description,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
   }) {
@@ -5930,6 +6197,8 @@ class SectionTableCompanion extends UpdateCompanion<SectionTableData> {
       if (sectionCode != null) 'section_code': sectionCode,
       if (sectionName != null) 'section_name': sectionName,
       if (sectionNameAbbr != null) 'section_name_abbr': sectionNameAbbr,
+      if (unit != null) 'unit': unit,
+      if (description != null) 'description': description,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -5941,6 +6210,8 @@ class SectionTableCompanion extends UpdateCompanion<SectionTableData> {
       Value<String?>? sectionCode,
       Value<String?>? sectionName,
       Value<String?>? sectionNameAbbr,
+      Value<int?>? unit,
+      Value<String?>? description,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
     return SectionTableCompanion(
@@ -5949,6 +6220,8 @@ class SectionTableCompanion extends UpdateCompanion<SectionTableData> {
       sectionCode: sectionCode ?? this.sectionCode,
       sectionName: sectionName ?? this.sectionName,
       sectionNameAbbr: sectionNameAbbr ?? this.sectionNameAbbr,
+      unit: unit ?? this.unit,
+      description: description ?? this.description,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -5972,6 +6245,12 @@ class SectionTableCompanion extends UpdateCompanion<SectionTableData> {
     if (sectionNameAbbr.present) {
       map['section_name_abbr'] = Variable<String?>(sectionNameAbbr.value);
     }
+    if (unit.present) {
+      map['unit'] = Variable<int?>(unit.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String?>(description.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime?>(createdAt.value);
     }
@@ -5989,6 +6268,8 @@ class SectionTableCompanion extends UpdateCompanion<SectionTableData> {
           ..write('sectionCode: $sectionCode, ')
           ..write('sectionName: $sectionName, ')
           ..write('sectionNameAbbr: $sectionNameAbbr, ')
+          ..write('unit: $unit, ')
+          ..write('description: $description, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -6033,6 +6314,19 @@ class $SectionTableTable extends SectionTable
   late final GeneratedColumn<String?> sectionNameAbbr =
       GeneratedColumn<String?>('section_name_abbr', aliasedName, true,
           type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _unitMeta = const VerificationMeta('unit');
+  @override
+  late final GeneratedColumn<int?> unit = GeneratedColumn<int?>(
+      'unit', aliasedName, true,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'REFERENCES unit_properties_table (id)');
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'description', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
@@ -6050,6 +6344,8 @@ class $SectionTableTable extends SectionTable
         sectionCode,
         sectionName,
         sectionNameAbbr,
+        unit,
+        description,
         createdAt,
         updatedAt
       ];
@@ -6091,6 +6387,16 @@ class $SectionTableTable extends SectionTable
           sectionNameAbbr.isAcceptableOrUnknown(
               data['section_name_abbr']!, _sectionNameAbbrMeta));
     }
+    if (data.containsKey('unit')) {
+      context.handle(
+          _unitMeta, unit.isAcceptableOrUnknown(data['unit']!, _unitMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
@@ -6125,6 +6431,7 @@ class TrainingStatusTableData extends DataClass
   final String? status;
   final String? type;
   final DateTime? endDate;
+  final String? description;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   TrainingStatusTableData(
@@ -6135,6 +6442,7 @@ class TrainingStatusTableData extends DataClass
       this.status,
       this.type,
       this.endDate,
+      this.description,
       this.createdAt,
       this.updatedAt});
   factory TrainingStatusTableData.fromData(Map<String, dynamic> data,
@@ -6154,6 +6462,8 @@ class TrainingStatusTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}type']),
       endDate: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}end_date']),
+      description: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
       createdAt: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
       updatedAt: const DateTimeType()
@@ -6182,6 +6492,9 @@ class TrainingStatusTableData extends DataClass
     if (!nullToAbsent || endDate != null) {
       map['end_date'] = Variable<DateTime?>(endDate);
     }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String?>(description);
+    }
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime?>(createdAt);
     }
@@ -6206,6 +6519,9 @@ class TrainingStatusTableData extends DataClass
       endDate: endDate == null && nullToAbsent
           ? const Value.absent()
           : Value(endDate),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -6226,6 +6542,7 @@ class TrainingStatusTableData extends DataClass
       status: serializer.fromJson<String?>(json['status']),
       type: serializer.fromJson<String?>(json['type']),
       endDate: serializer.fromJson<DateTime?>(json['endDate']),
+      description: serializer.fromJson<String?>(json['description']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -6241,6 +6558,7 @@ class TrainingStatusTableData extends DataClass
       'status': serializer.toJson<String?>(status),
       'type': serializer.toJson<String?>(type),
       'endDate': serializer.toJson<DateTime?>(endDate),
+      'description': serializer.toJson<String?>(description),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
@@ -6254,6 +6572,7 @@ class TrainingStatusTableData extends DataClass
           String? status,
           String? type,
           DateTime? endDate,
+          String? description,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       TrainingStatusTableData(
@@ -6264,6 +6583,7 @@ class TrainingStatusTableData extends DataClass
         status: status ?? this.status,
         type: type ?? this.type,
         endDate: endDate ?? this.endDate,
+        description: description ?? this.description,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -6277,6 +6597,7 @@ class TrainingStatusTableData extends DataClass
           ..write('status: $status, ')
           ..write('type: $type, ')
           ..write('endDate: $endDate, ')
+          ..write('description: $description, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -6285,7 +6606,7 @@ class TrainingStatusTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(id, startDate, placeName, period, status,
-      type, endDate, createdAt, updatedAt);
+      type, endDate, description, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -6297,6 +6618,7 @@ class TrainingStatusTableData extends DataClass
           other.status == this.status &&
           other.type == this.type &&
           other.endDate == this.endDate &&
+          other.description == this.description &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -6310,6 +6632,7 @@ class TrainingStatusTableCompanion
   final Value<String?> status;
   final Value<String?> type;
   final Value<DateTime?> endDate;
+  final Value<String?> description;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   const TrainingStatusTableCompanion({
@@ -6320,6 +6643,7 @@ class TrainingStatusTableCompanion
     this.status = const Value.absent(),
     this.type = const Value.absent(),
     this.endDate = const Value.absent(),
+    this.description = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -6331,6 +6655,7 @@ class TrainingStatusTableCompanion
     this.status = const Value.absent(),
     this.type = const Value.absent(),
     this.endDate = const Value.absent(),
+    this.description = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   }) : placeName = Value(placeName);
@@ -6342,6 +6667,7 @@ class TrainingStatusTableCompanion
     Expression<String?>? status,
     Expression<String?>? type,
     Expression<DateTime?>? endDate,
+    Expression<String?>? description,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
   }) {
@@ -6353,6 +6679,7 @@ class TrainingStatusTableCompanion
       if (status != null) 'status': status,
       if (type != null) 'type': type,
       if (endDate != null) 'end_date': endDate,
+      if (description != null) 'description': description,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -6366,6 +6693,7 @@ class TrainingStatusTableCompanion
       Value<String?>? status,
       Value<String?>? type,
       Value<DateTime?>? endDate,
+      Value<String?>? description,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
     return TrainingStatusTableCompanion(
@@ -6376,6 +6704,7 @@ class TrainingStatusTableCompanion
       status: status ?? this.status,
       type: type ?? this.type,
       endDate: endDate ?? this.endDate,
+      description: description ?? this.description,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -6405,6 +6734,9 @@ class TrainingStatusTableCompanion
     if (endDate.present) {
       map['end_date'] = Variable<DateTime?>(endDate.value);
     }
+    if (description.present) {
+      map['description'] = Variable<String?>(description.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime?>(createdAt.value);
     }
@@ -6424,6 +6756,7 @@ class TrainingStatusTableCompanion
           ..write('status: $status, ')
           ..write('type: $type, ')
           ..write('endDate: $endDate, ')
+          ..write('description: $description, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -6474,6 +6807,12 @@ class $TrainingStatusTableTable extends TrainingStatusTable
   late final GeneratedColumn<DateTime?> endDate = GeneratedColumn<DateTime?>(
       'end_date', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'description', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
@@ -6493,6 +6832,7 @@ class $TrainingStatusTableTable extends TrainingStatusTable
         status,
         type,
         endDate,
+        description,
         createdAt,
         updatedAt
       ];
@@ -6534,6 +6874,12 @@ class $TrainingStatusTableTable extends TrainingStatusTable
     if (data.containsKey('end_date')) {
       context.handle(_endDateMeta,
           endDate.isAcceptableOrUnknown(data['end_date']!, _endDateMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -7445,12 +7791,14 @@ class ServiceDeficitRecordTableData extends DataClass
   final int? id;
   final String? type;
   final int amount;
+  final String? description;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   ServiceDeficitRecordTableData(
       {this.id,
       this.type,
       required this.amount,
+      this.description,
       this.createdAt,
       this.updatedAt});
   factory ServiceDeficitRecordTableData.fromData(Map<String, dynamic> data,
@@ -7462,6 +7810,8 @@ class ServiceDeficitRecordTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}type']),
       amount: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}amount'])!,
+      description: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
       createdAt: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
       updatedAt: const DateTimeType()
@@ -7478,6 +7828,9 @@ class ServiceDeficitRecordTableData extends DataClass
       map['type'] = Variable<String?>(type);
     }
     map['amount'] = Variable<int>(amount);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String?>(description);
+    }
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime?>(createdAt);
     }
@@ -7492,6 +7845,9 @@ class ServiceDeficitRecordTableData extends DataClass
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       type: type == null && nullToAbsent ? const Value.absent() : Value(type),
       amount: Value(amount),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -7508,6 +7864,7 @@ class ServiceDeficitRecordTableData extends DataClass
       id: serializer.fromJson<int?>(json['id']),
       type: serializer.fromJson<String?>(json['type']),
       amount: serializer.fromJson<int>(json['amount']),
+      description: serializer.fromJson<String?>(json['description']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -7519,6 +7876,7 @@ class ServiceDeficitRecordTableData extends DataClass
       'id': serializer.toJson<int?>(id),
       'type': serializer.toJson<String?>(type),
       'amount': serializer.toJson<int>(amount),
+      'description': serializer.toJson<String?>(description),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
@@ -7528,12 +7886,14 @@ class ServiceDeficitRecordTableData extends DataClass
           {int? id,
           String? type,
           int? amount,
+          String? description,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       ServiceDeficitRecordTableData(
         id: id ?? this.id,
         type: type ?? this.type,
         amount: amount ?? this.amount,
+        description: description ?? this.description,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -7543,6 +7903,7 @@ class ServiceDeficitRecordTableData extends DataClass
           ..write('id: $id, ')
           ..write('type: $type, ')
           ..write('amount: $amount, ')
+          ..write('description: $description, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -7550,7 +7911,8 @@ class ServiceDeficitRecordTableData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, type, amount, createdAt, updatedAt);
+  int get hashCode =>
+      Object.hash(id, type, amount, description, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -7558,6 +7920,7 @@ class ServiceDeficitRecordTableData extends DataClass
           other.id == this.id &&
           other.type == this.type &&
           other.amount == this.amount &&
+          other.description == this.description &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -7567,12 +7930,14 @@ class ServiceDeficitRecordTableCompanion
   final Value<int?> id;
   final Value<String?> type;
   final Value<int> amount;
+  final Value<String?> description;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   const ServiceDeficitRecordTableCompanion({
     this.id = const Value.absent(),
     this.type = const Value.absent(),
     this.amount = const Value.absent(),
+    this.description = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -7580,6 +7945,7 @@ class ServiceDeficitRecordTableCompanion
     this.id = const Value.absent(),
     this.type = const Value.absent(),
     required int amount,
+    this.description = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   }) : amount = Value(amount);
@@ -7587,6 +7953,7 @@ class ServiceDeficitRecordTableCompanion
     Expression<int?>? id,
     Expression<String?>? type,
     Expression<int>? amount,
+    Expression<String?>? description,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
   }) {
@@ -7594,6 +7961,7 @@ class ServiceDeficitRecordTableCompanion
       if (id != null) 'id': id,
       if (type != null) 'type': type,
       if (amount != null) 'amount': amount,
+      if (description != null) 'description': description,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -7603,12 +7971,14 @@ class ServiceDeficitRecordTableCompanion
       {Value<int?>? id,
       Value<String?>? type,
       Value<int>? amount,
+      Value<String?>? description,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
     return ServiceDeficitRecordTableCompanion(
       id: id ?? this.id,
       type: type ?? this.type,
       amount: amount ?? this.amount,
+      description: description ?? this.description,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -7626,6 +7996,9 @@ class ServiceDeficitRecordTableCompanion
     if (amount.present) {
       map['amount'] = Variable<int>(amount.value);
     }
+    if (description.present) {
+      map['description'] = Variable<String?>(description.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime?>(createdAt.value);
     }
@@ -7641,6 +8014,7 @@ class ServiceDeficitRecordTableCompanion
           ..write('id: $id, ')
           ..write('type: $type, ')
           ..write('amount: $amount, ')
+          ..write('description: $description, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -7673,6 +8047,12 @@ class $ServiceDeficitRecordTableTable extends ServiceDeficitRecordTable
   late final GeneratedColumn<int?> amount = GeneratedColumn<int?>(
       'amount', aliasedName, false,
       type: const IntType(), requiredDuringInsert: true);
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'description', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
@@ -7685,7 +8065,7 @@ class $ServiceDeficitRecordTableTable extends ServiceDeficitRecordTable
       type: const IntType(), requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, type, amount, createdAt, updatedAt];
+      [id, type, amount, description, createdAt, updatedAt];
   @override
   String get aliasedName => _alias ?? 'service_deficit_record_table';
   @override
@@ -7708,6 +8088,12 @@ class $ServiceDeficitRecordTableTable extends ServiceDeficitRecordTable
           amount.isAcceptableOrUnknown(data['amount']!, _amountMeta));
     } else if (isInserting) {
       context.missing(_amountMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -8399,6 +8785,7 @@ class SoldierCaseTableData extends DataClass
   final int? vacations;
   final int? serviceDeficit;
   final int? rank;
+  final int? unit;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   SoldierCaseTableData(
@@ -8419,6 +8806,7 @@ class SoldierCaseTableData extends DataClass
       this.vacations,
       this.serviceDeficit,
       this.rank,
+      this.unit,
       this.createdAt,
       this.updatedAt});
   factory SoldierCaseTableData.fromData(Map<String, dynamic> data,
@@ -8458,6 +8846,8 @@ class SoldierCaseTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}service_deficit']),
       rank: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}rank']),
+      unit: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}unit']),
       createdAt: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
       updatedAt: const DateTimeType()
@@ -8504,6 +8894,9 @@ class SoldierCaseTableData extends DataClass
     if (!nullToAbsent || rank != null) {
       map['rank'] = Variable<int?>(rank);
     }
+    if (!nullToAbsent || unit != null) {
+      map['unit'] = Variable<int?>(unit);
+    }
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime?>(createdAt);
     }
@@ -8546,6 +8939,7 @@ class SoldierCaseTableData extends DataClass
           ? const Value.absent()
           : Value(serviceDeficit),
       rank: rank == null && nullToAbsent ? const Value.absent() : Value(rank),
+      unit: unit == null && nullToAbsent ? const Value.absent() : Value(unit),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -8579,6 +8973,7 @@ class SoldierCaseTableData extends DataClass
       vacations: serializer.fromJson<int?>(json['vacations']),
       serviceDeficit: serializer.fromJson<int?>(json['serviceDeficit']),
       rank: serializer.fromJson<int?>(json['rank']),
+      unit: serializer.fromJson<int?>(json['unit']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -8604,6 +8999,7 @@ class SoldierCaseTableData extends DataClass
       'vacations': serializer.toJson<int?>(vacations),
       'serviceDeficit': serializer.toJson<int?>(serviceDeficit),
       'rank': serializer.toJson<int?>(rank),
+      'unit': serializer.toJson<int?>(unit),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
@@ -8627,6 +9023,7 @@ class SoldierCaseTableData extends DataClass
           int? vacations,
           int? serviceDeficit,
           int? rank,
+          int? unit,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       SoldierCaseTableData(
@@ -8647,6 +9044,7 @@ class SoldierCaseTableData extends DataClass
         vacations: vacations ?? this.vacations,
         serviceDeficit: serviceDeficit ?? this.serviceDeficit,
         rank: rank ?? this.rank,
+        unit: unit ?? this.unit,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -8670,6 +9068,7 @@ class SoldierCaseTableData extends DataClass
           ..write('vacations: $vacations, ')
           ..write('serviceDeficit: $serviceDeficit, ')
           ..write('rank: $rank, ')
+          ..write('unit: $unit, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -8695,6 +9094,7 @@ class SoldierCaseTableData extends DataClass
       vacations,
       serviceDeficit,
       rank,
+      unit,
       createdAt,
       updatedAt);
   @override
@@ -8718,6 +9118,7 @@ class SoldierCaseTableData extends DataClass
           other.vacations == this.vacations &&
           other.serviceDeficit == this.serviceDeficit &&
           other.rank == this.rank &&
+          other.unit == this.unit &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -8740,6 +9141,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
   final Value<int?> vacations;
   final Value<int?> serviceDeficit;
   final Value<int?> rank;
+  final Value<int?> unit;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   const SoldierCaseTableCompanion({
@@ -8760,6 +9162,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     this.vacations = const Value.absent(),
     this.serviceDeficit = const Value.absent(),
     this.rank = const Value.absent(),
+    this.unit = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -8781,6 +9184,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     this.vacations = const Value.absent(),
     this.serviceDeficit = const Value.absent(),
     this.rank = const Value.absent(),
+    this.unit = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   })  : membershipType = Value(membershipType),
@@ -8808,6 +9212,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     Expression<int?>? vacations,
     Expression<int?>? serviceDeficit,
     Expression<int?>? rank,
+    Expression<int?>? unit,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
   }) {
@@ -8832,6 +9237,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
       if (vacations != null) 'vacations': vacations,
       if (serviceDeficit != null) 'service_deficit': serviceDeficit,
       if (rank != null) 'rank': rank,
+      if (unit != null) 'unit': unit,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -8855,6 +9261,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
       Value<int?>? vacations,
       Value<int?>? serviceDeficit,
       Value<int?>? rank,
+      Value<int?>? unit,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
     return SoldierCaseTableCompanion(
@@ -8875,6 +9282,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
       vacations: vacations ?? this.vacations,
       serviceDeficit: serviceDeficit ?? this.serviceDeficit,
       rank: rank ?? this.rank,
+      unit: unit ?? this.unit,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -8936,6 +9344,9 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     if (rank.present) {
       map['rank'] = Variable<int?>(rank.value);
     }
+    if (unit.present) {
+      map['unit'] = Variable<int?>(unit.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime?>(createdAt.value);
     }
@@ -8965,6 +9376,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
           ..write('vacations: $vacations, ')
           ..write('serviceDeficit: $serviceDeficit, ')
           ..write('rank: $rank, ')
+          ..write('unit: $unit, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -9086,6 +9498,13 @@ class $SoldierCaseTableTable extends SoldierCaseTable
       type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'REFERENCES rank_table (id)');
+  final VerificationMeta _unitMeta = const VerificationMeta('unit');
+  @override
+  late final GeneratedColumn<int?> unit = GeneratedColumn<int?>(
+      'unit', aliasedName, true,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'REFERENCES unit_properties_table (id)');
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
@@ -9115,6 +9534,7 @@ class $SoldierCaseTableTable extends SoldierCaseTable
         vacations,
         serviceDeficit,
         rank,
+        unit,
         createdAt,
         updatedAt
       ];
@@ -9230,6 +9650,10 @@ class $SoldierCaseTableTable extends SoldierCaseTable
     if (data.containsKey('rank')) {
       context.handle(
           _rankMeta, rank.isAcceptableOrUnknown(data['rank']!, _rankMeta));
+    }
+    if (data.containsKey('unit')) {
+      context.handle(
+          _unitMeta, unit.isAcceptableOrUnknown(data['unit']!, _unitMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -10535,40 +10959,40 @@ class $PersonalInfoTableTable extends PersonalInfoTable
   }
 }
 
-class UnitPropertiesTableData extends DataClass
-    implements Insertable<UnitPropertiesTableData> {
+class RelativeContactsInfoTableData extends DataClass
+    implements Insertable<RelativeContactsInfoTableData> {
   final int? id;
-  final String unitName;
-  final String? unitCode;
-  final String? unitCity;
-  final String? unitType;
-  final int? sections;
+  final String nameAndFamily;
+  final String phoneNumber;
+  final String? workAddress;
+  final String? homeAddress;
+  final int? contactInfo;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  UnitPropertiesTableData(
+  RelativeContactsInfoTableData(
       {this.id,
-      required this.unitName,
-      this.unitCode,
-      this.unitCity,
-      this.unitType,
-      this.sections,
+      required this.nameAndFamily,
+      required this.phoneNumber,
+      this.workAddress,
+      this.homeAddress,
+      this.contactInfo,
       this.createdAt,
       this.updatedAt});
-  factory UnitPropertiesTableData.fromData(Map<String, dynamic> data,
+  factory RelativeContactsInfoTableData.fromData(Map<String, dynamic> data,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return UnitPropertiesTableData(
+    return RelativeContactsInfoTableData(
       id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      unitName: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}unit_name'])!,
-      unitCode: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}unit_code']),
-      unitCity: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}unit_city']),
-      unitType: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}unit_type']),
-      sections: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}sections']),
+      nameAndFamily: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}name_and_family'])!,
+      phoneNumber: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}phone_number'])!,
+      workAddress: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}work_address']),
+      homeAddress: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}home_address']),
+      contactInfo: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}contact_info']),
       createdAt: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
       updatedAt: const DateTimeType()
@@ -10581,18 +11005,16 @@ class UnitPropertiesTableData extends DataClass
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int?>(id);
     }
-    map['unit_name'] = Variable<String>(unitName);
-    if (!nullToAbsent || unitCode != null) {
-      map['unit_code'] = Variable<String?>(unitCode);
+    map['name_and_family'] = Variable<String>(nameAndFamily);
+    map['phone_number'] = Variable<String>(phoneNumber);
+    if (!nullToAbsent || workAddress != null) {
+      map['work_address'] = Variable<String?>(workAddress);
     }
-    if (!nullToAbsent || unitCity != null) {
-      map['unit_city'] = Variable<String?>(unitCity);
+    if (!nullToAbsent || homeAddress != null) {
+      map['home_address'] = Variable<String?>(homeAddress);
     }
-    if (!nullToAbsent || unitType != null) {
-      map['unit_type'] = Variable<String?>(unitType);
-    }
-    if (!nullToAbsent || sections != null) {
-      map['sections'] = Variable<int?>(sections);
+    if (!nullToAbsent || contactInfo != null) {
+      map['contact_info'] = Variable<int?>(contactInfo);
     }
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime?>(createdAt);
@@ -10603,22 +11025,20 @@ class UnitPropertiesTableData extends DataClass
     return map;
   }
 
-  UnitPropertiesTableCompanion toCompanion(bool nullToAbsent) {
-    return UnitPropertiesTableCompanion(
+  RelativeContactsInfoTableCompanion toCompanion(bool nullToAbsent) {
+    return RelativeContactsInfoTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      unitName: Value(unitName),
-      unitCode: unitCode == null && nullToAbsent
+      nameAndFamily: Value(nameAndFamily),
+      phoneNumber: Value(phoneNumber),
+      workAddress: workAddress == null && nullToAbsent
           ? const Value.absent()
-          : Value(unitCode),
-      unitCity: unitCity == null && nullToAbsent
+          : Value(workAddress),
+      homeAddress: homeAddress == null && nullToAbsent
           ? const Value.absent()
-          : Value(unitCity),
-      unitType: unitType == null && nullToAbsent
+          : Value(homeAddress),
+      contactInfo: contactInfo == null && nullToAbsent
           ? const Value.absent()
-          : Value(unitType),
-      sections: sections == null && nullToAbsent
-          ? const Value.absent()
-          : Value(sections),
+          : Value(contactInfo),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -10628,16 +11048,16 @@ class UnitPropertiesTableData extends DataClass
     );
   }
 
-  factory UnitPropertiesTableData.fromJson(Map<String, dynamic> json,
+  factory RelativeContactsInfoTableData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return UnitPropertiesTableData(
+    return RelativeContactsInfoTableData(
       id: serializer.fromJson<int?>(json['id']),
-      unitName: serializer.fromJson<String>(json['unitName']),
-      unitCode: serializer.fromJson<String?>(json['unitCode']),
-      unitCity: serializer.fromJson<String?>(json['unitCity']),
-      unitType: serializer.fromJson<String?>(json['unitType']),
-      sections: serializer.fromJson<int?>(json['sections']),
+      nameAndFamily: serializer.fromJson<String>(json['nameAndFamily']),
+      phoneNumber: serializer.fromJson<String>(json['phoneNumber']),
+      workAddress: serializer.fromJson<String?>(json['workAddress']),
+      homeAddress: serializer.fromJson<String?>(json['homeAddress']),
+      contactInfo: serializer.fromJson<int?>(json['contactInfo']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -10647,44 +11067,44 @@ class UnitPropertiesTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int?>(id),
-      'unitName': serializer.toJson<String>(unitName),
-      'unitCode': serializer.toJson<String?>(unitCode),
-      'unitCity': serializer.toJson<String?>(unitCity),
-      'unitType': serializer.toJson<String?>(unitType),
-      'sections': serializer.toJson<int?>(sections),
+      'nameAndFamily': serializer.toJson<String>(nameAndFamily),
+      'phoneNumber': serializer.toJson<String>(phoneNumber),
+      'workAddress': serializer.toJson<String?>(workAddress),
+      'homeAddress': serializer.toJson<String?>(homeAddress),
+      'contactInfo': serializer.toJson<int?>(contactInfo),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
   }
 
-  UnitPropertiesTableData copyWith(
+  RelativeContactsInfoTableData copyWith(
           {int? id,
-          String? unitName,
-          String? unitCode,
-          String? unitCity,
-          String? unitType,
-          int? sections,
+          String? nameAndFamily,
+          String? phoneNumber,
+          String? workAddress,
+          String? homeAddress,
+          int? contactInfo,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
-      UnitPropertiesTableData(
+      RelativeContactsInfoTableData(
         id: id ?? this.id,
-        unitName: unitName ?? this.unitName,
-        unitCode: unitCode ?? this.unitCode,
-        unitCity: unitCity ?? this.unitCity,
-        unitType: unitType ?? this.unitType,
-        sections: sections ?? this.sections,
+        nameAndFamily: nameAndFamily ?? this.nameAndFamily,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        workAddress: workAddress ?? this.workAddress,
+        homeAddress: homeAddress ?? this.homeAddress,
+        contactInfo: contactInfo ?? this.contactInfo,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
   @override
   String toString() {
-    return (StringBuffer('UnitPropertiesTableData(')
+    return (StringBuffer('RelativeContactsInfoTableData(')
           ..write('id: $id, ')
-          ..write('unitName: $unitName, ')
-          ..write('unitCode: $unitCode, ')
-          ..write('unitCity: $unitCity, ')
-          ..write('unitType: $unitType, ')
-          ..write('sections: $sections, ')
+          ..write('nameAndFamily: $nameAndFamily, ')
+          ..write('phoneNumber: $phoneNumber, ')
+          ..write('workAddress: $workAddress, ')
+          ..write('homeAddress: $homeAddress, ')
+          ..write('contactInfo: $contactInfo, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -10692,90 +11112,91 @@ class UnitPropertiesTableData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, unitName, unitCode, unitCity, unitType,
-      sections, createdAt, updatedAt);
+  int get hashCode => Object.hash(id, nameAndFamily, phoneNumber, workAddress,
+      homeAddress, contactInfo, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is UnitPropertiesTableData &&
+      (other is RelativeContactsInfoTableData &&
           other.id == this.id &&
-          other.unitName == this.unitName &&
-          other.unitCode == this.unitCode &&
-          other.unitCity == this.unitCity &&
-          other.unitType == this.unitType &&
-          other.sections == this.sections &&
+          other.nameAndFamily == this.nameAndFamily &&
+          other.phoneNumber == this.phoneNumber &&
+          other.workAddress == this.workAddress &&
+          other.homeAddress == this.homeAddress &&
+          other.contactInfo == this.contactInfo &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
 
-class UnitPropertiesTableCompanion
-    extends UpdateCompanion<UnitPropertiesTableData> {
+class RelativeContactsInfoTableCompanion
+    extends UpdateCompanion<RelativeContactsInfoTableData> {
   final Value<int?> id;
-  final Value<String> unitName;
-  final Value<String?> unitCode;
-  final Value<String?> unitCity;
-  final Value<String?> unitType;
-  final Value<int?> sections;
+  final Value<String> nameAndFamily;
+  final Value<String> phoneNumber;
+  final Value<String?> workAddress;
+  final Value<String?> homeAddress;
+  final Value<int?> contactInfo;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
-  const UnitPropertiesTableCompanion({
+  const RelativeContactsInfoTableCompanion({
     this.id = const Value.absent(),
-    this.unitName = const Value.absent(),
-    this.unitCode = const Value.absent(),
-    this.unitCity = const Value.absent(),
-    this.unitType = const Value.absent(),
-    this.sections = const Value.absent(),
+    this.nameAndFamily = const Value.absent(),
+    this.phoneNumber = const Value.absent(),
+    this.workAddress = const Value.absent(),
+    this.homeAddress = const Value.absent(),
+    this.contactInfo = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
-  UnitPropertiesTableCompanion.insert({
+  RelativeContactsInfoTableCompanion.insert({
     this.id = const Value.absent(),
-    required String unitName,
-    this.unitCode = const Value.absent(),
-    this.unitCity = const Value.absent(),
-    this.unitType = const Value.absent(),
-    this.sections = const Value.absent(),
+    required String nameAndFamily,
+    required String phoneNumber,
+    this.workAddress = const Value.absent(),
+    this.homeAddress = const Value.absent(),
+    this.contactInfo = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
-  }) : unitName = Value(unitName);
-  static Insertable<UnitPropertiesTableData> custom({
+  })  : nameAndFamily = Value(nameAndFamily),
+        phoneNumber = Value(phoneNumber);
+  static Insertable<RelativeContactsInfoTableData> custom({
     Expression<int?>? id,
-    Expression<String>? unitName,
-    Expression<String?>? unitCode,
-    Expression<String?>? unitCity,
-    Expression<String?>? unitType,
-    Expression<int?>? sections,
+    Expression<String>? nameAndFamily,
+    Expression<String>? phoneNumber,
+    Expression<String?>? workAddress,
+    Expression<String?>? homeAddress,
+    Expression<int?>? contactInfo,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (unitName != null) 'unit_name': unitName,
-      if (unitCode != null) 'unit_code': unitCode,
-      if (unitCity != null) 'unit_city': unitCity,
-      if (unitType != null) 'unit_type': unitType,
-      if (sections != null) 'sections': sections,
+      if (nameAndFamily != null) 'name_and_family': nameAndFamily,
+      if (phoneNumber != null) 'phone_number': phoneNumber,
+      if (workAddress != null) 'work_address': workAddress,
+      if (homeAddress != null) 'home_address': homeAddress,
+      if (contactInfo != null) 'contact_info': contactInfo,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
   }
 
-  UnitPropertiesTableCompanion copyWith(
+  RelativeContactsInfoTableCompanion copyWith(
       {Value<int?>? id,
-      Value<String>? unitName,
-      Value<String?>? unitCode,
-      Value<String?>? unitCity,
-      Value<String?>? unitType,
-      Value<int?>? sections,
+      Value<String>? nameAndFamily,
+      Value<String>? phoneNumber,
+      Value<String?>? workAddress,
+      Value<String?>? homeAddress,
+      Value<int?>? contactInfo,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
-    return UnitPropertiesTableCompanion(
+    return RelativeContactsInfoTableCompanion(
       id: id ?? this.id,
-      unitName: unitName ?? this.unitName,
-      unitCode: unitCode ?? this.unitCode,
-      unitCity: unitCity ?? this.unitCity,
-      unitType: unitType ?? this.unitType,
-      sections: sections ?? this.sections,
+      nameAndFamily: nameAndFamily ?? this.nameAndFamily,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      workAddress: workAddress ?? this.workAddress,
+      homeAddress: homeAddress ?? this.homeAddress,
+      contactInfo: contactInfo ?? this.contactInfo,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -10787,20 +11208,20 @@ class UnitPropertiesTableCompanion
     if (id.present) {
       map['id'] = Variable<int?>(id.value);
     }
-    if (unitName.present) {
-      map['unit_name'] = Variable<String>(unitName.value);
+    if (nameAndFamily.present) {
+      map['name_and_family'] = Variable<String>(nameAndFamily.value);
     }
-    if (unitCode.present) {
-      map['unit_code'] = Variable<String?>(unitCode.value);
+    if (phoneNumber.present) {
+      map['phone_number'] = Variable<String>(phoneNumber.value);
     }
-    if (unitCity.present) {
-      map['unit_city'] = Variable<String?>(unitCity.value);
+    if (workAddress.present) {
+      map['work_address'] = Variable<String?>(workAddress.value);
     }
-    if (unitType.present) {
-      map['unit_type'] = Variable<String?>(unitType.value);
+    if (homeAddress.present) {
+      map['home_address'] = Variable<String?>(homeAddress.value);
     }
-    if (sections.present) {
-      map['sections'] = Variable<int?>(sections.value);
+    if (contactInfo.present) {
+      map['contact_info'] = Variable<int?>(contactInfo.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime?>(createdAt.value);
@@ -10813,13 +11234,13 @@ class UnitPropertiesTableCompanion
 
   @override
   String toString() {
-    return (StringBuffer('UnitPropertiesTableCompanion(')
+    return (StringBuffer('RelativeContactsInfoTableCompanion(')
           ..write('id: $id, ')
-          ..write('unitName: $unitName, ')
-          ..write('unitCode: $unitCode, ')
-          ..write('unitCity: $unitCity, ')
-          ..write('unitType: $unitType, ')
-          ..write('sections: $sections, ')
+          ..write('nameAndFamily: $nameAndFamily, ')
+          ..write('phoneNumber: $phoneNumber, ')
+          ..write('workAddress: $workAddress, ')
+          ..write('homeAddress: $homeAddress, ')
+          ..write('contactInfo: $contactInfo, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -10827,12 +11248,14 @@ class UnitPropertiesTableCompanion
   }
 }
 
-class $UnitPropertiesTableTable extends UnitPropertiesTable
-    with TableInfo<$UnitPropertiesTableTable, UnitPropertiesTableData> {
+class $RelativeContactsInfoTableTable extends RelativeContactsInfoTable
+    with
+        TableInfo<$RelativeContactsInfoTableTable,
+            RelativeContactsInfoTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $UnitPropertiesTableTable(this.attachedDatabase, [this._alias]);
+  $RelativeContactsInfoTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -10840,33 +11263,38 @@ class $UnitPropertiesTableTable extends UnitPropertiesTable
       type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _unitNameMeta = const VerificationMeta('unitName');
+  final VerificationMeta _nameAndFamilyMeta =
+      const VerificationMeta('nameAndFamily');
   @override
-  late final GeneratedColumn<String?> unitName = GeneratedColumn<String?>(
-      'unit_name', aliasedName, false,
+  late final GeneratedColumn<String?> nameAndFamily = GeneratedColumn<String?>(
+      'name_and_family', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
-  final VerificationMeta _unitCodeMeta = const VerificationMeta('unitCode');
+  final VerificationMeta _phoneNumberMeta =
+      const VerificationMeta('phoneNumber');
   @override
-  late final GeneratedColumn<String?> unitCode = GeneratedColumn<String?>(
-      'unit_code', aliasedName, true,
+  late final GeneratedColumn<String?> phoneNumber = GeneratedColumn<String?>(
+      'phone_number', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _workAddressMeta =
+      const VerificationMeta('workAddress');
+  @override
+  late final GeneratedColumn<String?> workAddress = GeneratedColumn<String?>(
+      'work_address', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _unitCityMeta = const VerificationMeta('unitCity');
+  final VerificationMeta _homeAddressMeta =
+      const VerificationMeta('homeAddress');
   @override
-  late final GeneratedColumn<String?> unitCity = GeneratedColumn<String?>(
-      'unit_city', aliasedName, true,
+  late final GeneratedColumn<String?> homeAddress = GeneratedColumn<String?>(
+      'home_address', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _unitTypeMeta = const VerificationMeta('unitType');
+  final VerificationMeta _contactInfoMeta =
+      const VerificationMeta('contactInfo');
   @override
-  late final GeneratedColumn<String?> unitType = GeneratedColumn<String?>(
-      'unit_type', aliasedName, true,
-      type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _sectionsMeta = const VerificationMeta('sections');
-  @override
-  late final GeneratedColumn<int?> sections = GeneratedColumn<int?>(
-      'sections', aliasedName, true,
+  late final GeneratedColumn<int?> contactInfo = GeneratedColumn<int?>(
+      'contact_info', aliasedName, true,
       type: const IntType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'REFERENCES section_table (id)');
+      defaultConstraints: 'REFERENCES contact_info_table (id)');
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
@@ -10880,48 +11308,60 @@ class $UnitPropertiesTableTable extends UnitPropertiesTable
   @override
   List<GeneratedColumn> get $columns => [
         id,
-        unitName,
-        unitCode,
-        unitCity,
-        unitType,
-        sections,
+        nameAndFamily,
+        phoneNumber,
+        workAddress,
+        homeAddress,
+        contactInfo,
         createdAt,
         updatedAt
       ];
   @override
-  String get aliasedName => _alias ?? 'unit_properties_table';
+  String get aliasedName => _alias ?? 'relative_contacts_info_table';
   @override
-  String get actualTableName => 'unit_properties_table';
+  String get actualTableName => 'relative_contacts_info_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<UnitPropertiesTableData> instance,
+      Insertable<RelativeContactsInfoTableData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('unit_name')) {
-      context.handle(_unitNameMeta,
-          unitName.isAcceptableOrUnknown(data['unit_name']!, _unitNameMeta));
+    if (data.containsKey('name_and_family')) {
+      context.handle(
+          _nameAndFamilyMeta,
+          nameAndFamily.isAcceptableOrUnknown(
+              data['name_and_family']!, _nameAndFamilyMeta));
     } else if (isInserting) {
-      context.missing(_unitNameMeta);
+      context.missing(_nameAndFamilyMeta);
     }
-    if (data.containsKey('unit_code')) {
-      context.handle(_unitCodeMeta,
-          unitCode.isAcceptableOrUnknown(data['unit_code']!, _unitCodeMeta));
+    if (data.containsKey('phone_number')) {
+      context.handle(
+          _phoneNumberMeta,
+          phoneNumber.isAcceptableOrUnknown(
+              data['phone_number']!, _phoneNumberMeta));
+    } else if (isInserting) {
+      context.missing(_phoneNumberMeta);
     }
-    if (data.containsKey('unit_city')) {
-      context.handle(_unitCityMeta,
-          unitCity.isAcceptableOrUnknown(data['unit_city']!, _unitCityMeta));
+    if (data.containsKey('work_address')) {
+      context.handle(
+          _workAddressMeta,
+          workAddress.isAcceptableOrUnknown(
+              data['work_address']!, _workAddressMeta));
     }
-    if (data.containsKey('unit_type')) {
-      context.handle(_unitTypeMeta,
-          unitType.isAcceptableOrUnknown(data['unit_type']!, _unitTypeMeta));
+    if (data.containsKey('home_address')) {
+      context.handle(
+          _homeAddressMeta,
+          homeAddress.isAcceptableOrUnknown(
+              data['home_address']!, _homeAddressMeta));
     }
-    if (data.containsKey('sections')) {
-      context.handle(_sectionsMeta,
-          sections.isAcceptableOrUnknown(data['sections']!, _sectionsMeta));
+    if (data.containsKey('contact_info')) {
+      context.handle(
+          _contactInfoMeta,
+          contactInfo.isAcceptableOrUnknown(
+              data['contact_info']!, _contactInfoMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -10937,15 +11377,15 @@ class $UnitPropertiesTableTable extends UnitPropertiesTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  UnitPropertiesTableData map(Map<String, dynamic> data,
+  RelativeContactsInfoTableData map(Map<String, dynamic> data,
       {String? tablePrefix}) {
-    return UnitPropertiesTableData.fromData(data,
+    return RelativeContactsInfoTableData.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $UnitPropertiesTableTable createAlias(String alias) {
-    return $UnitPropertiesTableTable(attachedDatabase, alias);
+  $RelativeContactsInfoTableTable createAlias(String alias) {
+    return $RelativeContactsInfoTableTable(attachedDatabase, alias);
   }
 }
 
@@ -10954,8 +11394,6 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
   late final $AnnualOvertimeTableTable annualOvertimeTable =
       $AnnualOvertimeTableTable(this);
   late final $AuditTableTable auditTable = $AuditTableTable(this);
-  late final $RelativeContactsInfoTableTable relativeContactsInfoTable =
-      $RelativeContactsInfoTableTable(this);
   late final $ContactInfoTableTable contactInfoTable =
       $ContactInfoTableTable(this);
   late final $DailyAbsenceOvertimeTableTable dailyAbsenceOvertimeTable =
@@ -10978,6 +11416,8 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
       operationalServiceDeficitRecordTable =
       $OperationalServiceDeficitRecordTableTable(this);
   late final $OvertimeTableTable overtimeTable = $OvertimeTableTable(this);
+  late final $UnitPropertiesTableTable unitPropertiesTable =
+      $UnitPropertiesTableTable(this);
   late final $SectionTableTable sectionTable = $SectionTableTable(this);
   late final $TrainingStatusTableTable trainingStatusTable =
       $TrainingStatusTableTable(this);
@@ -10993,8 +11433,8 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
   late final $SoldierTableTable soldierTable = $SoldierTableTable(this);
   late final $PersonalInfoTableTable personalInfoTable =
       $PersonalInfoTableTable(this);
-  late final $UnitPropertiesTableTable unitPropertiesTable =
-      $UnitPropertiesTableTable(this);
+  late final $RelativeContactsInfoTableTable relativeContactsInfoTable =
+      $RelativeContactsInfoTableTable(this);
   late final AnnualOvertimeDAO annualOvertimeDAO =
       AnnualOvertimeDAO(this as SoldierDatabase);
   late final AuditDAO auditDAO = AuditDAO(this as SoldierDatabase);
@@ -11045,7 +11485,6 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
         annualOvertimeTable,
         auditTable,
-        relativeContactsInfoTable,
         contactInfoTable,
         dailyAbsenceOvertimeTable,
         dailyVacationTable,
@@ -11057,6 +11496,7 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
         hourlyVacationTable,
         operationalServiceDeficitRecordTable,
         overtimeTable,
+        unitPropertiesTable,
         sectionTable,
         trainingStatusTable,
         caseTable,
@@ -11067,7 +11507,7 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
         soldierCaseTable,
         soldierTable,
         personalInfoTable,
-        unitPropertiesTable
+        relativeContactsInfoTable
       ];
 }
 
@@ -11086,10 +11526,10 @@ mixin _$CaseDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $AuditTableTable get auditTable => attachedDatabase.auditTable;
 }
 mixin _$ContactInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
-  $RelativeContactsInfoTableTable get relativeContactsInfoTable =>
-      attachedDatabase.relativeContactsInfoTable;
   $ContactInfoTableTable get contactInfoTable =>
       attachedDatabase.contactInfoTable;
+  $RelativeContactsInfoTableTable get relativeContactsInfoTable =>
+      attachedDatabase.relativeContactsInfoTable;
 }
 mixin _$DailyAbsenceOvertimeDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
@@ -11137,12 +11577,12 @@ mixin _$OvertimeDAOMixin on DatabaseAccessor<SoldierDatabase> {
 mixin _$PersonalInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $FurtherInfoTableTable get furtherInfoTable =>
       attachedDatabase.furtherInfoTable;
-  $RelativeContactsInfoTableTable get relativeContactsInfoTable =>
-      attachedDatabase.relativeContactsInfoTable;
   $ContactInfoTableTable get contactInfoTable =>
       attachedDatabase.contactInfoTable;
   $EducationalInfoTableTable get educationalInfoTable =>
       attachedDatabase.educationalInfoTable;
+  $UnitPropertiesTableTable get unitPropertiesTable =>
+      attachedDatabase.unitPropertiesTable;
   $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
   $TrainingStatusTableTable get trainingStatusTable =>
       attachedDatabase.trainingStatusTable;
@@ -11181,6 +11621,8 @@ mixin _$RankDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $RankTableTable get rankTable => attachedDatabase.rankTable;
 }
 mixin _$SectionDAOMixin on DatabaseAccessor<SoldierDatabase> {
+  $UnitPropertiesTableTable get unitPropertiesTable =>
+      attachedDatabase.unitPropertiesTable;
   $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
 }
 mixin _$ServiceDeficitRecordDAOMixin on DatabaseAccessor<SoldierDatabase> {
@@ -11220,10 +11662,14 @@ mixin _$SoldierCaseDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $ServiceDeficitTableTable get serviceDeficitTable =>
       attachedDatabase.serviceDeficitTable;
   $RankTableTable get rankTable => attachedDatabase.rankTable;
+  $UnitPropertiesTableTable get unitPropertiesTable =>
+      attachedDatabase.unitPropertiesTable;
   $SoldierCaseTableTable get soldierCaseTable =>
       attachedDatabase.soldierCaseTable;
 }
 mixin _$SoldierDAOMixin on DatabaseAccessor<SoldierDatabase> {
+  $UnitPropertiesTableTable get unitPropertiesTable =>
+      attachedDatabase.unitPropertiesTable;
   $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
   $TrainingStatusTableTable get trainingStatusTable =>
       attachedDatabase.trainingStatusTable;
@@ -11261,9 +11707,9 @@ mixin _$TrainingStatusDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.trainingStatusTable;
 }
 mixin _$UnitPropertiesDAOMixin on DatabaseAccessor<SoldierDatabase> {
-  $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
   $UnitPropertiesTableTable get unitPropertiesTable =>
       attachedDatabase.unitPropertiesTable;
+  $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
 }
 mixin _$VacationsDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $DailyVacationTableTable get dailyVacationTable =>
@@ -11283,6 +11729,8 @@ mixin _$OperationalServiceDeficitRecordDAOMixin
           attachedDatabase.operationalServiceDeficitRecordTable;
 }
 mixin _$RelativeContactsInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
+  $ContactInfoTableTable get contactInfoTable =>
+      attachedDatabase.contactInfoTable;
   $RelativeContactsInfoTableTable get relativeContactsInfoTable =>
       attachedDatabase.relativeContactsInfoTable;
 }

@@ -27,13 +27,13 @@ class DailyAbsenceOvertimeServiceImpl implements DailyAbsenceOvertimeService {
   }
 
   @override
-  Future<void> save(DailyAbsenceOvertimeModel model) {
+  Future<int> save(DailyAbsenceOvertimeModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(DailyAbsenceOvertimeModel model) {
+  Future<bool> update(DailyAbsenceOvertimeModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_type_check
+
 part of pages;
 
 class SplashPage extends StatefulWidget {

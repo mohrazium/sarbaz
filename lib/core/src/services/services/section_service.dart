@@ -26,13 +26,13 @@ class SectionServiceImpl implements SectionService {
   }
 
   @override
-  Future<void> save(SectionModel model) {
+  Future<int> save(SectionModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(SectionModel model) {
+  Future<bool> update(SectionModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

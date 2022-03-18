@@ -3,7 +3,7 @@ part of controllers;
 class PersonalInfoController extends GetxController
     with ValidatorMixin, DateConverterMixin {
   final GlobalKey<FormState> personalInfoFormGlobalKey = GlobalKey<FormState>();
-  late final BridgeController bridgeController;
+  late final BridgeController _bridgeController;
   late RxBool readOnly = false.obs;
 
   late final PersonalInfoService _personalInfoService;
@@ -30,7 +30,7 @@ class PersonalInfoController extends GetxController
     placeOfBirthController = TextEditingController();
     placeOfIssueController = TextEditingController();
     _personalInfoService = Get.find<PersonalInfoService>();
-    bridgeController = Get.find<BridgeController>();
+    _bridgeController = Get.find<BridgeController>();
     initPersonaInfo();
     logger.log(message: "$this has been initialized.");
   }
@@ -57,10 +57,10 @@ class PersonalInfoController extends GetxController
   }
 
   void initPersonaInfo() {
-    final id = bridgeController.personalInfoId.value;
+    final id = _bridgeController.personalInfoId.value;
     if (id == 0) {
       logger.log(message: "$this has been initialized on new person mode.");
-      bridgeController.soldierNameAndFamily("...");
+      _bridgeController.soldierNameAndFamily("...");
       _clearEditor();
       readOnly(false);
     } else {
@@ -73,37 +73,40 @@ class PersonalInfoController extends GetxController
 
   void getSoldierNameAndFamily(PersonalInfoModel? model) {
     if (model != null) {
-      bridgeController
+      _bridgeController
           .soldierNameAndFamily("${model.firstName} ${model.lastName}");
     }
   }
 
   void onChangedNationalCodeField(String val) async {
-    if (val.length == 10) {
-      if (await _checkPersonalInfoDuplication(val)) {
-        MessageDialog.show(
-            title: Strings.info,
-            message: Strings.duplicationNationalCode,
-            messageDialogButtons: MessageDialogButtons.OK,
-            messageDialogType: MessageDialogType.ERROR,
-            onOkPressed: () {
-              nationalCodeController.clear();
-            });
+    try {
+      if (val.length == 10) {
+        if (await _checkPersonalInfoDuplication(val)) {
+          MessageDialog.show(
+              title: Strings.info,
+              message: Strings.duplicationNationalCode,
+              messageDialogButtons: MessageDialogButtons.OK,
+              messageDialogType: MessageDialogType.ERROR,
+              onOkPressed: () {
+                nationalCodeController.clear();
+              });
+        }
       }
+    } catch (e) {
+      logger.log(message: "Fail to checking duplication with error $e");
     }
   }
 
   void onConfirmButtonPressed() {
-    logger.log(message: "onConfirmButtonClick");
     if (!readOnly.value) {
       if (personalInfoFormGlobalKey.currentState!.validate()) {
         personalInfoFormGlobalKey.currentState!.save();
-        logger.log(message: "save clicked");
+        logger.log(message: "personal info form is valid to save.");
         MessageDialog.show(
-            title: "Strings.saveInfoTitle",
+            title: Strings.saveInfoTitle,
             messageDialogButtons: MessageDialogButtons.YES_NO,
             messageDialogType: MessageDialogType.INFO,
-            message: "اطلاعات ثبت شود",
+            message: Strings.saveInfoMessage,
             onYesPressed: () {
               _save();
             });
@@ -115,10 +118,10 @@ class PersonalInfoController extends GetxController
   }
 
   void onCancelButtonPressed() {
-    if (bridgeController.personalInfoId.value == 0) {
+    if (_bridgeController.personalInfoId.value == 0) {
       _clearEditor();
     } else {
-      _loadPersonalInfo(bridgeController.personalInfoId.value);
+      _loadPersonalInfo(_bridgeController.personalInfoId.value);
       readOnly(true);
     }
   }
@@ -151,20 +154,21 @@ class PersonalInfoController extends GetxController
   }
 
   void _save() async {
-    _catchFormData();
-    final id = bridgeController.personalInfoId.value;
+    final id = _bridgeController.personalInfoId.value;
     if (id == 0) {
+      _catchFormData();
       await _personalInfoService.save(_model.value);
       showToast(
-        "person saved",
+        Strings.successfullySavingInfo,
       );
-      Get.find<SoldiersController>().loadAllPersons();
     } else {
-      //TODO 1 :load personal info to editor and update here.
+      _catchFormData(personalInfoId: id);
+      await _personalInfoService.update(_model.value);
       showToast(
-        "person updated",
+        Strings.successfullyUpdatingInfo,
       );
     }
+    Get.find<SoldiersController>().loadAllPersons();
   }
 
   Future<void> _loadPersonalInfo(int personalInfoId) async {
@@ -183,21 +187,22 @@ class PersonalInfoController extends GetxController
     }
   }
 
-  void _catchFormData() {
+  void _catchFormData({int? personalInfoId}) {
     _model.value = PersonalInfoModel(
+      id: personalInfoId,
       nationalCode: nationalCodeController.text.trim(),
       nationalIdentity: nationalIdentityController.text.trim(),
       firstName: firstNameController.text.trim(),
       lastName: lastNameController.text.trim(),
       fatherName: fatherNameController.text.trim(),
-      dateOfBirth: toDateTimeFomString(dateOfBirthController.text.trim()),
+      dateOfBirth: toDateTimeFromString(dateOfBirthController.text.trim()),
       placeOfBirth: placeOfBirthController.text.trim(),
       placeOfIssue: placeOfIssueController.text.trim(),
     );
   }
 
   void _clearEditor() {
-    bridgeController.personalInfoId(0);
+    _bridgeController.personalInfoId(0);
     nationalCodeController.clear();
     nationalIdentityController.clear();
     lastNameController.clear();

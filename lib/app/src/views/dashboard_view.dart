@@ -31,7 +31,7 @@ class DashboardDesktopView extends GetView<DashboardController> {
                     height: constraints.maxHeight, child: _buildBodyContent()),
               ),
 
-              //! letf sidebar
+              //! left sidebar
               // SizedBox(
               //   height: MediaQuery.of(context).size.height,
               //   child: const VerticalDivider(),
@@ -85,7 +85,7 @@ class DashboardDesktopView extends GetView<DashboardController> {
         // Padding(
         //   padding: const EdgeInsets.all(kSpacing),
         //   child: Text(
-        //     "2021 Teamwork lisence",
+        //     "2021 Teamwork license",
         //     style: Theme.of(context).textTheme.caption,
         //   ),
         // ),
@@ -108,11 +108,9 @@ class DashboardDesktopView extends GetView<DashboardController> {
                 const SoldierCaseEditorView(),
                 Container(
                   color: Colors.red,
-                  child: Text("page 4 "),
                 ),
                 Container(
                   color: Colors.red,
-                  child: Text("page 4 "),
                 ),
               ]);
         });
@@ -141,7 +139,6 @@ class DashboardDesktopView extends GetView<DashboardController> {
                 Expanded(
                   child: SearchField(
                     onSearch: controller.search,
-                    hintText: Strings.searchBar,
                   ),
                 ),
               ],
@@ -163,7 +160,7 @@ class DashboardDesktopView extends GetView<DashboardController> {
             const SizedBox(height: kSpacing),
             StatusCardsOverview(data: controller.statusCards),
             const SizedBox(height: kSpacing * 2),
-            const RecentActivitesHeader(),
+            const RecentActivitiesHeader(),
             const SizedBox(height: kSpacing),
             RecentActivities(
               data: controller.weeklyTask,

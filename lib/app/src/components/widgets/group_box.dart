@@ -6,6 +6,8 @@ class GroupBox extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final Color? color;
   final BorderRadius? borderRadius;
+  final double? height;
+  final double? width;
 
   const GroupBox({
     Key? key,
@@ -14,6 +16,8 @@ class GroupBox extends StatelessWidget {
     this.margin,
     this.color,
     this.borderRadius,
+    this.height,
+    this.width,
   }) : super(key: key);
 
   @override
@@ -24,8 +28,9 @@ class GroupBox extends StatelessWidget {
         borderRadius: borderRadius ??
             const BorderRadius.all(Radius.circular(kBorderRadius)),
         child: Container(
+            width: width,
+            height: height,
             color: color ?? Colorize.backgroundColorShade600,
-
             child: margin == null
                 ? child
                 : Padding(

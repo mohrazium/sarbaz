@@ -27,13 +27,13 @@ class EducationalInfoServiceImpl implements EducationalInfoService {
   }
 
   @override
-  Future<void> save(EducationalInfoModel model) {
+  Future<int> save(EducationalInfoModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(EducationalInfoModel model) {
+  Future<bool> update(EducationalInfoModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

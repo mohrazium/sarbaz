@@ -26,13 +26,13 @@ class TrainingStatusServiceImpl implements TrainingStatusService {
   }
 
   @override
-  Future<void> save(TrainingStatusModel model) {
+  Future<int> save(TrainingStatusModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(TrainingStatusModel model) {
+  Future<bool> update(TrainingStatusModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

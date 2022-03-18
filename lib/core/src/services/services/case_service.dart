@@ -26,13 +26,13 @@ class CaseServiceImpl implements CaseService {
   }
 
   @override
-  Future<void> save(CaseModel model) {
+  Future<int> save(CaseModel model) {
     // TODO: implement save
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(CaseModel model) {
+  Future<bool> update(CaseModel model) {
     // TODO: implement update
     throw UnimplementedError();
   }

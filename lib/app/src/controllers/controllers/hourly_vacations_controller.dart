@@ -9,4 +9,4 @@
 //   //     hour: int.parse(s.split(":")[0]), minute: int.parse(s.split(":")[1]));
 part of controllers;
 
- class HourlyVaccationController extends GetxController {}
+ class HourlyVacationController extends GetxController {}

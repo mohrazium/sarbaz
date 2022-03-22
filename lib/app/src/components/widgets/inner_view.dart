@@ -1,95 +1,109 @@
 part of components;
 
-class InnerView extends StatefulWidget {
+class InnerView extends GetWidget {
   final Widget viewHeader;
   final List<Widget> children;
-  final MenuBar menu;
+  final List<TabMenu> tabMenus;
 
   const InnerView({
     Key? key,
     required this.viewHeader,
-    required this.menu,
+    required this.tabMenus,
     required this.children,
   }) : super(key: key);
 
   @override
-  State<InnerView> createState() => _InnerViewState();
-}
-
-class _InnerViewState extends State<InnerView> with TickerProviderStateMixin {
-  final controller = Get.find<SoldierCaseEditorController>();
-
-  @override
   Widget build(BuildContext context) {
-    controller.soldierCaseEditorContentLen.value = widget.children.length;
-    return Scaffold(body: SafeArea(child: _buildScaffoldBody()));
-  }
-
-  Widget _buildScaffoldBody() {
-    List<Widget> _buildChildren() {
-      return widget.children
-          .asMap()
-          .entries
-          .map(
-            (e) => Column(
-                children: [
-                  Expanded(
-                    child: GroupBox(
-                      padding: const EdgeInsets.fromLTRB(
-                          kSpacing / 5, 0, kSpacing / 5, kSpacing / 5),
-                      borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(kBorderRadius),
-                          bottomRight: Radius.circular(kBorderRadius)),
-                      child: ListView(
-                          controller: ScrollController(),
-                          shrinkWrap: true,
-                          children: [
-                            e.value,
-                          ]),
-                    ),
-                  ),
-                ]),
-          )
-          .toList(growable: true);
-    }
-
-    return Padding(
-      padding: const EdgeInsets.all(kPadding),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          SizedBox(
-            child: Container(
-                padding: const EdgeInsets.all(kPadding),
+    final controller = Get.find<SoldierCaseEditorController>();
+    controller.soldierCaseEditorContentLen.value = children.length;
+    //return Scaffold(body: SafeArea(child: _buildScaffoldBody()));
+    return Scaffold(
+        body: NestedScrollView(
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return <Widget>[
+          SliverAppBar(
+            elevation: 0,
+            title: Container(
+                width: kSpacing * 20,
+                height: kSpacing * 2,
                 decoration: const BoxDecoration(
                     color: Colorize.primaryColorShade100,
                     borderRadius: BorderRadius.all(
                       Radius.circular(kBorderRadius),
                     )),
-                child: widget.viewHeader),
+                child: viewHeader),
+            pinned: true,
+            floating: false,
+            bottom: TabBar(
+              controller: controller.tabController.value,
+              padding: const EdgeInsets.only(
+                  top: kPadding, left: kPadding, right: kPadding),
+              indicatorColor: Colors.transparent,
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.black,
+              indicator: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(kBorderRadius),
+                      topRight: Radius.circular(kBorderRadius)),
+                  color: Colorize.primaryColor),
+              isScrollable: true,
+              tabs: _buildTabs(),
+            ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: kPadding, left: kPadding),
-            child: widget.menu,
+        ];
+      },
+      body: GroupBox(
+          padding: const EdgeInsets.fromLTRB(kSpacing, 0, kSpacing, kSpacing),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(kBorderRadius),
           ),
-          Expanded(
-            child: GroupBox(
-                padding: const EdgeInsets.fromLTRB(
-                    kSpacing / 5, 0, kSpacing / 5, kSpacing / 5),
-                child: GetX(
-                    init: controller,
-                    builder: (_) {
-                      return TabBarView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        controller: controller.tabController.value,
-                        children: _buildChildren(),
-                      );
-                    })),
+          child: GetX(
+              init: controller,
+              builder: (_) {
+                return TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: controller.tabController.value,
+                  children: _buildViews(),
+                );
+              })),
+    ));
+  }
+
+  List<Widget> _buildViews() {
+    return children
+        .asMap()
+        .entries
+        .map(
+          (e) => Column(children: [
+            Expanded(
+              child: ListView(
+                  controller: ScrollController(),
+                  shrinkWrap: true,
+                  children: [
+                    e.value,
+                  ]),
+            ),
+          ]),
+        )
+        .toList(growable: true);
+  }
+
+  List<Widget> _buildTabs() {
+    return tabMenus
+        .asMap()
+        .entries
+        .map(
+          (e) => Tab(
+            child:
+                Align(alignment: Alignment.center, child: Text(e.value.label)),
+            height: 100,
+            iconMargin: const EdgeInsets.all(kPadding),
+            icon: Icon(
+              e.value.icon,
+              size: kSpacing * 2,
+            ),
           ),
-        ],
-      ),
-    );
+        )
+        .toList(growable: true);
   }
 }

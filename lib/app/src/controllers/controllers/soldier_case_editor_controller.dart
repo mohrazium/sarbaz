@@ -43,7 +43,7 @@ class SoldierCaseEditorController extends GetxController
   //     selectedLevelOfEducation.value = levelOfEducationController.text;
   // }
 
-  onSelectedMainMenu(int index, MenuBarButtonData value) {
+  onSelectedMainMenu(int index, TabMenu value) {
     tabController.value.index = index;
   }
 }

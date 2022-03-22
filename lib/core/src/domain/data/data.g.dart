@@ -11554,6 +11554,45 @@ mixin _$EducationalInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
 mixin _$FurtherInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $FurtherInfoTableTable get furtherInfoTable =>
       attachedDatabase.furtherInfoTable;
+  $ContactInfoTableTable get contactInfoTable =>
+      attachedDatabase.contactInfoTable;
+  $EducationalInfoTableTable get educationalInfoTable =>
+      attachedDatabase.educationalInfoTable;
+  $UnitPropertiesTableTable get unitPropertiesTable =>
+      attachedDatabase.unitPropertiesTable;
+  $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
+  $TrainingStatusTableTable get trainingStatusTable =>
+      attachedDatabase.trainingStatusTable;
+  $HealthStatusTableTable get healthStatusTable =>
+      attachedDatabase.healthStatusTable;
+  $CaseTableTable get caseTable => attachedDatabase.caseTable;
+  $ViolationsOvertimeTableTable get violationsOvertimeTable =>
+      attachedDatabase.violationsOvertimeTable;
+  $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
+      attachedDatabase.dailyAbsenceOvertimeTable;
+  $DisciplinaryOvertimeTableTable get disciplinaryOvertimeTable =>
+      attachedDatabase.disciplinaryOvertimeTable;
+  $AnnualOvertimeTableTable get annualOvertimeTable =>
+      attachedDatabase.annualOvertimeTable;
+  $OvertimeTableTable get overtimeTable => attachedDatabase.overtimeTable;
+  $DailyVacationTableTable get dailyVacationTable =>
+      attachedDatabase.dailyVacationTable;
+  $HourlyVacationTableTable get hourlyVacationTable =>
+      attachedDatabase.hourlyVacationTable;
+  $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
+  $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
+      attachedDatabase.serviceDeficitRecordTable;
+  $OperationalServiceDeficitRecordTableTable
+      get operationalServiceDeficitRecordTable =>
+          attachedDatabase.operationalServiceDeficitRecordTable;
+  $ServiceDeficitTableTable get serviceDeficitTable =>
+      attachedDatabase.serviceDeficitTable;
+  $RankTableTable get rankTable => attachedDatabase.rankTable;
+  $SoldierCaseTableTable get soldierCaseTable =>
+      attachedDatabase.soldierCaseTable;
+  $SoldierTableTable get soldierTable => attachedDatabase.soldierTable;
+  $PersonalInfoTableTable get personalInfoTable =>
+      attachedDatabase.personalInfoTable;
 }
 mixin _$HealthStatusDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $HealthStatusTableTable get healthStatusTable =>

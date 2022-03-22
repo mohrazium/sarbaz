@@ -57,9 +57,8 @@ part of data;
   ],
 )
 class SoldierDatabase extends _$SoldierDatabase {
-  SoldierDatabase() : super(DbConnection.openConnection());
-  // you should bump this number whenever you change or add a table definition. Migrations
-  // are covered later in this readme.
+  SoldierDatabase(QueryExecutor e) : super(e);
+
   @override
   int get schemaVersion => 1;
 
@@ -100,6 +99,5 @@ class SoldierDatabase extends _$SoldierDatabase {
       );
 }
 
-class SoldierDatabaseHelper {
-  SoldierDatabase get instance => SoldierDatabase();
-}
+
+

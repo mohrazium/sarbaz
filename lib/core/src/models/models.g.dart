@@ -187,7 +187,8 @@ Map<String, dynamic> _$HourlyVacationModelToJson(
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
-PersonalInfoModel _$PersonalInfoModelFromJson(Map json) => PersonalInfoModel(
+PersonalInfoModel _$PersonalInfoModelFromJson(Map<String, dynamic> json) =>
+    PersonalInfoModel(
       id: json['id'] as int?,
       nationalCode: json['nationalCode'] as String,
       nationalIdentity: json['nationalIdentity'] as String?,
@@ -199,22 +200,6 @@ PersonalInfoModel _$PersonalInfoModelFromJson(Map json) => PersonalInfoModel(
           : DateTime.parse(json['dateOfBirth'] as String),
       placeOfBirth: json['placeOfBirth'] as String?,
       placeOfIssue: json['placeOfIssue'] as String?,
-      furtherInfo: json['furtherInfo'] == null
-          ? null
-          : FurtherInfoModel.fromJson(
-              Map<String, dynamic>.from(json['furtherInfo'] as Map)),
-      contactInfo: json['contactInfo'] == null
-          ? null
-          : ContactInfoModel.fromJson(
-              Map<String, dynamic>.from(json['contactInfo'] as Map)),
-      educationalInfo: json['educationalInfo'] == null
-          ? null
-          : EducationalInfoModel.fromJson(
-              Map<String, dynamic>.from(json['educationalInfo'] as Map)),
-      soldier: json['soldier'] == null
-          ? null
-          : SoldierModel.fromJson(
-              Map<String, dynamic>.from(json['soldier'] as Map)),
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -234,10 +219,6 @@ Map<String, dynamic> _$PersonalInfoModelToJson(PersonalInfoModel instance) =>
       'dateOfBirth': instance.dateOfBirth?.toIso8601String(),
       'placeOfBirth': instance.placeOfBirth,
       'placeOfIssue': instance.placeOfIssue,
-      'furtherInfo': instance.furtherInfo,
-      'contactInfo': instance.contactInfo,
-      'educationalInfo': instance.educationalInfo,
-      'soldier': instance.soldier,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };

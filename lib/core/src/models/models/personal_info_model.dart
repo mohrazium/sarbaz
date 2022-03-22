@@ -1,23 +1,27 @@
 part of models;
 
-@JsonSerializable(anyMap: true)
+@JsonSerializable()
 class PersonalInfoModel {
-  late final int? id;
-  late final String nationalCode;
-  late final String? nationalIdentity;
-  late final String firstName;
-  late final String lastName;
-  late final String? fatherName;
-  late final DateTime? dateOfBirth;
-  late final String? placeOfBirth;
-  late final String? placeOfIssue;
-  late final FurtherInfoModel? furtherInfo;
-  late final ContactInfoModel? contactInfo;
-  late final EducationalInfoModel? educationalInfo;
-  late final SoldierModel? soldier;
-  late final DateTime? createdAt;
-  late final DateTime? updatedAt;
-  PersonalInfoModel.empty();
+  final int? id;
+  final String nationalCode;
+  final String? nationalIdentity;
+  final String firstName;
+  final String lastName;
+  final String? fatherName;
+  final DateTime? dateOfBirth;
+  final String? placeOfBirth;
+  final String? placeOfIssue;
+  @JsonKey(ignore: true)
+  final FurtherInfoModel? furtherInfo;
+  @JsonKey(ignore: true)
+  final ContactInfoModel? contactInfo;
+  @JsonKey(ignore: true)
+  final EducationalInfoModel? educationalInfo;
+  @JsonKey(ignore: true)
+  final SoldierModel? soldier;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+
   PersonalInfoModel({
     this.id,
     required this.nationalCode,
@@ -39,6 +43,26 @@ class PersonalInfoModel {
   factory PersonalInfoModel.fromJson(Map<String, dynamic> json) =>
       _$PersonalInfoModelFromJson(json);
   Map<String, dynamic> toJson() => _$PersonalInfoModelToJson(this);
+
+  factory PersonalInfoModel.init() {
+    return PersonalInfoModel(
+      id: null,
+      nationalCode: "",
+      nationalIdentity: null,
+      firstName: "",
+      lastName: "",
+      fatherName: null,
+      dateOfBirth: null,
+      placeOfBirth: null,
+      placeOfIssue: null,
+      furtherInfo: null,
+      contactInfo: null,
+      educationalInfo: null,
+      soldier: null,
+      createdAt: null,
+      updatedAt: null,
+    );
+  }
 
   PersonalInfoModel copyWith({
     int? id,
@@ -74,5 +98,10 @@ class PersonalInfoModel {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
+  }
+
+  @override
+  String toString() {
+    return 'PersonalInfoModel(id: $id, nationalCode: $nationalCode, nationalIdentity: $nationalIdentity, firstName: $firstName, lastName: $lastName, fatherName: $fatherName, dateOfBirth: $dateOfBirth, placeOfBirth: $placeOfBirth, placeOfIssue: $placeOfIssue, furtherInfo: $furtherInfo, contactInfo: $contactInfo, educationalInfo: $educationalInfo, soldier: $soldier, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }

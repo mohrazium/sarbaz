@@ -46,4 +46,10 @@ class BridgeController extends GetxController
   void setPersonalInfoDataSource(data) {
     personalInfoDataSource.value = PersonalInfoDataSource(personalInfo: data);
   }
+
+  void initSoldierEditorForms() {
+    Get.find<PersonalInfoController>().initForm();
+    
+    Get.find<FurtherInfoController>().initForm();
+  }
 }

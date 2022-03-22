@@ -31,7 +31,7 @@ class SoldiersController extends GetxController {
         .last
         .value);
     bridgeController.personalInfoId(id);
-    Get.find<PersonalInfoController>().initPersonaInfo();
+    bridgeController.initSoldierEditorForms();
     bridgeController
         .setDashboardTab(bridgeController.dashboardTabSoldiersEditor);
   }
@@ -40,7 +40,7 @@ class SoldiersController extends GetxController {
     bridgeController
         .setDashboardTab(bridgeController.dashboardTabSoldiersEditor);
     bridgeController.personalInfoId(0);
-    Get.find<PersonalInfoController>().initPersonaInfo();
+    bridgeController.initSoldierEditorForms();
   }
 
   onEditSoldierPressed() {
@@ -50,14 +50,12 @@ class SoldiersController extends GetxController {
         .last
         .value);
     bridgeController.personalInfoId(id);
-    Get.find<PersonalInfoController>().initPersonaInfo();
+    bridgeController.initSoldierEditorForms();
     bridgeController
         .setDashboardTab(bridgeController.dashboardTabSoldiersEditor);
   }
 
-  onDeleteSoldierPressed() {
-    
-  }
+  onDeleteSoldierPressed() {}
 
   onCellTap(DataGridCellTapDetails details) {
     cellTapDetails = details;

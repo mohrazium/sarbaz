@@ -76,24 +76,26 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                     children: [
                       //! Date of marriage field
                       TextFieldCustom(
-                        titleText: Strings.dateOfMarriage,
-                        controller: controller.dateOfMarriageController,
-                        readOnly: controller.readOnly.value,
-                        prefixIcon: IconButton(
-                            icon: const Icon(
-                              EvaIcons.calendar,
-                              color: Colorize.primaryColorShade300,
+                          titleText: Strings.dateOfMarriage,
+                          controller: controller.dateOfMarriageController,
+                          readOnly: controller.readOnly.value,
+                          prefixIcon: IconButton(
+                              icon: const Icon(
+                                EvaIcons.calendar,
+                                color: Colorize.primaryColorShade300,
+                              ),
+                              onPressed: () =>
+                                  controller.onCalenderPressed(context)),
+                          inputFormatters: [
+                            MaskedInputFormatter(
+                              "0000/00/00",
+                              allowedCharMatcher: RegExp('[0-9]'),
                             ),
-                            onPressed: () =>
-                                controller.onCalenderPressed(context)),
-                        inputFormatters: [
-                          MaskedInputFormatter(
-                            "0000/00/00",
-                            allowedCharMatcher: RegExp('[0-9]'),
+                          ],
+                          validator: (val) =>
+                              controller.validateDate(value: val)
+                          //TODO: FIX marital date to be before today date and is single or not otherwise is not valid.
                           ),
-                        ],
-                        //TODO: FIX marital date to be before today date and is single or not otherwise is not valid.
-                      ),
 
                       //! Religion field
                       TextFieldCustom(

@@ -56,17 +56,16 @@ class Strings {
     "عسلی",
   ];
 
-static const List<String> hairColorList=[
-  "مشکی",
-  "قهوه‌ای",
-  "قرمز",
-  "مسی",
-  "خرمایی",
-  "بور",
-  "جوگندمی",
-  "سفید",
-];
-
+  static const List<String> hairColorList = [
+    "مشکی",
+    "قهوه‌ای",
+    "قرمز",
+    "مسی",
+    "خرمایی",
+    "بور",
+    "جوگندمی",
+    "سفید",
+  ];
 
   static const String dashboard = 'پیشخوان';
   static const String newSoldier = "سرباز جدید";
@@ -151,12 +150,15 @@ static const List<String> hairColorList=[
   static const String religion = "دین";
   static const String sect = "مذهب";
   static const String weight = "وزن";
-
   static const String eyesColor = "رنگ چشم";
-
   static const String height = "قد";
-
   static const String hairColor = "رنگ مو";
-
   static const String bloodType = "گروه خونی";
+  static const String createdAt = "ایجاد شده در ";
+  static const String updatedAt = "بروز شده در ";
+  static const String yearNotValid = "سال وارد شده نامعتبر است";
+  static const String monthNotValid = "ماه وارد شده نامعتبر است";
+  static const String dayNotValid = "روز وارد شده نامعتبر است";
+  static const String fieldCantBeEmpty= "این فیلد نمی تواند خالی باشد*";
+
 }

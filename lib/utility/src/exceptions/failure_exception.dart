@@ -8,7 +8,7 @@ enum ExceptionsType {
 
 class FailureException  {
   late final String? message;
-  final Object exception;
+  final Object? exception;
 
   FailureException({this.exception = Exception, this.message}) {
     _handleException();

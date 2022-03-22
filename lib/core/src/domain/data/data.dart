@@ -6,10 +6,11 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
+
 import 'package:sarbaz/utility/utility.dart';
 
 part 'data.g.dart';
-part 'db/database_connection.dart';
+part 'db/helper.dart';
 part 'db/soldier_database.dart';
 
 /// TABLES

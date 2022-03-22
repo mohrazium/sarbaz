@@ -3,11 +3,11 @@ part of controllers;
 class PersonalInfoController extends GetxController
     with ValidatorMixin, DateConverterMixin {
   final GlobalKey<FormState> personalInfoFormGlobalKey = GlobalKey<FormState>();
-  late final BridgeController _bridgeController;
+  late final BridgeController bridgeController;
   late RxBool readOnly = false.obs;
 
   late final PersonalInfoService _personalInfoService;
-  late final Rx<PersonalInfoModel> _model = Rx(PersonalInfoModel.empty());
+  late final Rx<PersonalInfoModel> model = Rx(PersonalInfoModel.init());
 
   late TextEditingController nationalCodeController;
   late TextEditingController nationalIdentityController;
@@ -30,9 +30,10 @@ class PersonalInfoController extends GetxController
     placeOfBirthController = TextEditingController();
     placeOfIssueController = TextEditingController();
     _personalInfoService = Get.find<PersonalInfoService>();
-    _bridgeController = Get.find<BridgeController>();
-    initPersonaInfo();
-    logger.log(message: "$this has been initialized.");
+    bridgeController = Get.find<BridgeController>();
+    logger.log(message: "$this has been initialized."); 
+       initForm();
+
   }
 
   @override
@@ -56,11 +57,13 @@ class PersonalInfoController extends GetxController
     super.onClose();
   }
 
-  void initPersonaInfo() {
-    final id = _bridgeController.personalInfoId.value;
+  void initForm() {
+    final id = bridgeController.personalInfoId.value;
     if (id == 0) {
       logger.log(message: "$this has been initialized on new person mode.");
-      _bridgeController.soldierNameAndFamily("...");
+      bridgeController.soldierNameAndFamily("...");
+      // model.value.createdAt = null;
+      //  model.value.updatedAt = null;
       _clearEditor();
       readOnly(false);
     } else {
@@ -73,7 +76,7 @@ class PersonalInfoController extends GetxController
 
   void getSoldierNameAndFamily(PersonalInfoModel? model) {
     if (model != null) {
-      _bridgeController
+      bridgeController
           .soldierNameAndFamily("${model.firstName} ${model.lastName}");
     }
   }
@@ -97,6 +100,11 @@ class PersonalInfoController extends GetxController
     }
   }
 
+  void onChangedFirstAndLastNameField(String val) async {
+    bridgeController.soldierNameAndFamily(
+        firstNameController.text + " " + lastNameController.text);
+  }
+
   void onConfirmButtonPressed() {
     if (!readOnly.value) {
       if (personalInfoFormGlobalKey.currentState!.validate()) {
@@ -118,10 +126,10 @@ class PersonalInfoController extends GetxController
   }
 
   void onCancelButtonPressed() {
-    if (_bridgeController.personalInfoId.value == 0) {
+    if (bridgeController.personalInfoId.value == 0) {
       _clearEditor();
     } else {
-      _loadPersonalInfo(_bridgeController.personalInfoId.value);
+      _loadPersonalInfo(bridgeController.personalInfoId.value);
       readOnly(true);
     }
   }
@@ -154,41 +162,45 @@ class PersonalInfoController extends GetxController
   }
 
   void _save() async {
-    final id = _bridgeController.personalInfoId.value;
+    final id = bridgeController.personalInfoId.value;
     if (id == 0) {
       _catchFormData();
-      await _personalInfoService.save(_model.value);
+      int res = await _personalInfoService.save(model.value);
+      bridgeController.personalInfoId(res);
+      initForm();
       showToast(
         Strings.successfullySavingInfo,
       );
     } else {
       _catchFormData(personalInfoId: id);
-      await _personalInfoService.update(_model.value);
+      await _personalInfoService.update(model.value);
+      initForm();
       showToast(
         Strings.successfullyUpdatingInfo,
       );
     }
+
     Get.find<SoldiersController>().loadAllPersons();
   }
 
   Future<void> _loadPersonalInfo(int personalInfoId) async {
     var founded = await _personalInfoService.findById(personalInfoId);
     if (founded != null) {
-      _model.value = founded;
-      nationalCodeController.text = _model.value.nationalCode;
-      nationalIdentityController.text = _model.value.nationalIdentity ?? "";
-      lastNameController.text = _model.value.lastName;
-      fatherNameController.text = _model.value.fatherName ?? "";
-      firstNameController.text = _model.value.firstName;
-      dateOfBirthController.text = toShamsi(_model.value.dateOfBirth);
-      placeOfBirthController.text = _model.value.placeOfBirth ?? "";
-      placeOfIssueController.text = _model.value.placeOfIssue ?? "";
+      model.value = founded;
+      nationalCodeController.text = model.value.nationalCode;
+      nationalIdentityController.text = model.value.nationalIdentity ?? "";
+      lastNameController.text = model.value.lastName;
+      fatherNameController.text = model.value.fatherName ?? "";
+      firstNameController.text = model.value.firstName;
+      dateOfBirthController.text = toShamsi(model.value.dateOfBirth);
+      placeOfBirthController.text = model.value.placeOfBirth ?? "";
+      placeOfIssueController.text = model.value.placeOfIssue ?? "";
       getSoldierNameAndFamily(founded);
     }
   }
 
   void _catchFormData({int? personalInfoId}) {
-    _model.value = PersonalInfoModel(
+    model.value = PersonalInfoModel(
       id: personalInfoId,
       nationalCode: nationalCodeController.text.trim(),
       nationalIdentity: nationalIdentityController.text.trim(),
@@ -202,7 +214,8 @@ class PersonalInfoController extends GetxController
   }
 
   void _clearEditor() {
-    _bridgeController.personalInfoId(0);
+    bridgeController.personalInfoId(0);
+    model(PersonalInfoModel.init());
     nationalCodeController.clear();
     nationalIdentityController.clear();
     lastNameController.clear();

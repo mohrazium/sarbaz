@@ -12,10 +12,9 @@ class PersonalInfoDAO extends DatabaseAccessor<SoldierDatabase>
   PersonalInfoDAO(SoldierDatabase db) : super(db);
 
   Future<PersonalInfoTableData> doInsert(Map<String, dynamic> entry) {
+    final data = PersonalInfoTableData.fromJson(entry);
     return into(personalInfoTable).insertReturning(
-        PersonalInfoTableData.fromJson(entry,
-                serializer: const DefaultMapValueSerializer())
-            .toCompanion(true));
+        data.copyWith(createdAt: DateTime.now()).toCompanion(true));
   }
 
   Future<List<PersonalInfoTableData>> findAll() async {
@@ -25,8 +24,9 @@ class PersonalInfoDAO extends DatabaseAccessor<SoldierDatabase>
   }
 
   Future<bool> doUpdate(Map<String, dynamic> entry) async {
-    final entryData = PersonalInfoTableData.fromJson(entry).toCompanion(true);
-    return await update(personalInfoTable).replace(entryData);
+    final entryData = PersonalInfoTableData.fromJson(entry);
+    return await update(personalInfoTable).replace(
+        entryData.copyWith(updatedAt: DateTime.now()).toCompanion(true));
   }
 
   Future<bool> doDelete(Map<String, dynamic> entry) async {

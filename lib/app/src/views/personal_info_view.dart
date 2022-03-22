@@ -13,6 +13,8 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                 onConfirmButtonPressed: () =>
                     controller.onConfirmButtonPressed(),
                 onCancelButtonPressed: () => controller.onCancelButtonPressed(),
+                createdAt: controller.model.value.createdAt,
+                updatedAt: controller.model.value.updatedAt,
                 headerContent: const Center(
                     child: Text(
                   Strings.personalInfo,
@@ -44,9 +46,11 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                           value: val,
                           errorMessage: Strings.requiredField,
                         ),
+                        onChanged: (val) =>
+                            controller.onChangedFirstAndLastNameField(val),
                       ),
 
-//! Father name field
+                      //! Father name field
                       TextFieldCustom(
                         titleText: Strings.fatherName,
                         controller: controller.fatherNameController,
@@ -84,6 +88,8 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                           value: val,
                           errorMessage: Strings.requiredField,
                         ),
+                        onChanged: (val) =>
+                            controller.onChangedFirstAndLastNameField(val),
                       ),
 
                       //! Date of birth field
@@ -104,6 +110,8 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                             ),
                             onPressed: () =>
                                 controller.onCalenderPressed(context)),
+                          validator: (val) =>
+                              controller.validateDate(value: val)
                       ),
 
                       //! Place of birth name field

@@ -63,9 +63,8 @@ class _InnerViewState extends State<InnerView> with TickerProviderStateMixin {
           SizedBox(
             child: Container(
                 padding: const EdgeInsets.all(kPadding),
-                width: 200,
                 decoration: const BoxDecoration(
-                    color: Colorize.primaryColorShade200,
+                    color: Colorize.primaryColorShade100,
                     borderRadius: BorderRadius.all(
                       Radius.circular(kBorderRadius),
                     )),

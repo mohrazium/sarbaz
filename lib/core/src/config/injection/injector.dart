@@ -12,11 +12,11 @@ class Env {
 
 String _environmentMode = "";
 
-void _setup(String environment) {
+Future<void> _setup(String environment) async {
   if (environment == Env.dev) {
     _environmentMode = environment;
-    final soldierDatabase = SoldierDatabaseHelper().instance;
-    
+    // final soldierDatabase = kIsWeb ? soldierWebDb() : soldierNativeDb();
+    final soldierDatabase = SoldierDatabaseHelper().dbInstance;
     soldierDatabase.auditDAO.setup();
     Get.lazyPut<LoggerService>(() => LoggerService());
     // _setupDb();

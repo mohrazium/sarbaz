@@ -30,11 +30,23 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
   @override
   Future<List<PersonalInfoModel>> findAll() async {
     List<PersonalInfoModel> models = List.empty(growable: true);
-    final personsList = await _personalInfoDAO.findAll();
-    for (var person in personsList) {
-      models.add(PersonalInfoModel.fromJson(person.toJson()));
-    }
-    return models;
+    PersonalInfoModel personalInfoModel = PersonalInfoModel.init();
+    return await _personalInfoDAO.findAll().then((personsList) {
+      for (var person in personsList) {
+        personalInfoModel = PersonalInfoModel.fromJson(
+          person.toJson(),
+        );
+        if (person.furtherInfo != null) {
+          Get.find<FurtherInfoService>().findById(person.id!).then((value) {
+            personalInfoModel = personalInfoModel.copyWith(furtherInfo: value);
+            logger.log(message: personalInfoModel.toString());
+          });
+        }
+
+        models.add(personalInfoModel);
+      }
+      return models;
+    });
   }
 
   @override

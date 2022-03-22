@@ -49,6 +49,7 @@ dev_dependencies:
   build_runner: 
   drift_dev: 
   flutter_lints:
+  build_web_compilers:
 
 flutter:
   uses-material-design: true

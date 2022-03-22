@@ -7,7 +7,7 @@ mixin ValidatorMixin implements DateConverterMixin {
   String? validateNationalIdentity(
       {required String? value, required String errorMessage}) {
     if (value!.isEmpty) {
-      return "این فیلد الزامی است*";
+      return Strings.fieldCantBeEmpty;
     } else if (!persianTools.verifyIranianNationalId(value)) {
       return errorMessage;
     }
@@ -35,10 +35,30 @@ mixin ValidatorMixin implements DateConverterMixin {
   String? validateMobileNumber(
       {required String value, required String errorMessage}) {
     if (value.isEmpty) {
-      return "این فیلد نمی تواند خالی باشد*";
+      return Strings.fieldCantBeEmpty;
     } else {
       if (!persianTools.phoneNumberValidator(value)) {
         return errorMessage;
+      }
+    }
+  }
+
+  String? validateDate({required String? value, String? errorMessage}) {
+    if (value!.isNotEmpty) {
+      RegExp dateRegExp = RegExp(
+        r"[0-9]{4}/[0-9]{2}/[0-9]{2}",
+        caseSensitive: false,
+        multiLine: false,
+      );
+      if (dateRegExp.hasMatch(value)) {
+        var splitDate = (value.split("/"));
+        if (int.parse(splitDate[0]) > 1450) {
+          return Strings.yearNotValid;
+        } else if (int.parse(splitDate[1]) > 12) {
+          return Strings.monthNotValid;
+        } else if (int.parse(splitDate[2]) > 31) {
+          return Strings.dayNotValid;
+        }
       }
     }
   }

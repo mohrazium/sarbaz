@@ -1,6 +1,6 @@
 part of components;
 
-class FormCard extends StatelessWidget {
+class FormCard extends StatelessWidget with DateConverterMixin {
   final Key? globalFormKey;
   final bool readyOnly;
   final Function() onConfirmButtonPressed;
@@ -11,6 +11,8 @@ class FormCard extends StatelessWidget {
   final Color? headerColor;
   final Widget headerContent;
   final List<Column> columns;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   const FormCard({
     Key? key,
     this.globalFormKey,
@@ -23,6 +25,8 @@ class FormCard extends StatelessWidget {
     this.headerColor,
     required this.headerContent,
     required this.columns,
+    this.createdAt,
+    this.updatedAt,
   }) : super(key: key);
 
   @override
@@ -64,7 +68,7 @@ class FormCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      _buildButtons(),
+                      _buildFooter(),
                     ],
                   ),
                 ],
@@ -76,7 +80,7 @@ class FormCard extends StatelessWidget {
     );
   }
 
-  Widget _buildButtons() {
+  Widget _buildFooter() {
     Widget _buildConfirmButton() {
       return ElevatedButton.icon(
         icon: Icon(
@@ -103,13 +107,36 @@ class FormCard extends StatelessWidget {
       padding: const EdgeInsets.all(kPadding),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
         children: [
-          _buildConfirmButton(),
-          const SizedBox(
-            width: 10,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                createdAt != null
+                    ? "${Strings.createdAt}: ${toShamsi(createdAt)}"
+                    : "",
+                style: Themizer.basic.textTheme.caption,
+              ),
+              Text(
+                updatedAt != null
+                    ? "${Strings.updatedAt}: ${toShamsi(updatedAt)}"
+                    : "",
+                style: Themizer.basic.textTheme.caption,
+              ),
+            ],
           ),
-          _buildCancelButton()
+          Row(
+            children: [
+              _buildConfirmButton(),
+              const SizedBox(
+                width: kSpacing/2,
+              ),
+              _buildCancelButton()
+            ],
+          ),
         ],
       ),
     );

@@ -50,13 +50,12 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
   }
 
   @override
-  Future<PersonalInfoModel> findById(int id) async {
+  Future<PersonalInfoModel?> findById(int id) async {
     return await _personalInfoDAO.findById(id).then((value) {
-      return value != null
-          ? PersonalInfoModel.fromJson(value.toJson())
-          : throw FailureException(
-              exception: ExceptionsType.NOT_FOUND, message: 'No person found!');
-    });
+      return value != null ? PersonalInfoModel.fromJson(value.toJson()) : null;
+    }).onError((error, stackTrace) => throw FailureException(
+        'An error happened on find by id in $runtimeType.',
+        exception: ExceptionType.NOT_FOUND));
   }
 
   @override
@@ -97,8 +96,9 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
         .then((value) {
       return value != null
           ? PersonalInfoModel.fromJson(value.toJson())
-          : throw FailureException(
-              exception: ExceptionsType.NOT_FOUND, message: 'No person found!');
-    });
+          : throw FailureException("Personal info not found by $nationalCode");
+    }).onError((error, stackTrace) => throw FailureException(
+            'An error happened on find by national code in $runtimeType.',
+            exception: ExceptionType.NOT_FOUND));
   }
 }

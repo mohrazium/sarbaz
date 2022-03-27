@@ -8,7 +8,8 @@ class ApplicationEntryPoint extends StatelessWidget {
     Get.config(
         enableLog: true,
         defaultPopGesture: true,
-        defaultTransition: Transition.native);
+        defaultTransition: Transition.circularReveal);
+//   Catcher(rootWidget: MyApp(), debugConfig: debugOptions, releaseConfig: releaseOptions);
 
     return StyledToast(
         locale: kDefaultLocale, //You have to set this parameters to your locale

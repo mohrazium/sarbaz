@@ -5,6 +5,7 @@ class FurtherInfoController extends GetxController
   final GlobalKey<FormState> furtherInfoFormGlobalKey = GlobalKey<FormState>();
   late final BridgeController bridgeController;
   late RxBool readOnly = false.obs;
+  late RxInt personalInfoId = 0.obs;
 
   late final FurtherInfoService _furtherInfoService;
   late final Rx<FurtherInfoModel> model = Rx(FurtherInfoModel.init());
@@ -36,15 +37,15 @@ class FurtherInfoController extends GetxController
     bloodTypeController = TextEditingController();
     _furtherInfoService = Get.find<FurtherInfoService>();
     bridgeController = Get.find<BridgeController>();
-    initForm();
-    logger.log(message: "$this has been initialized.");
+    initForm(0);
+    logger.log(message: "$runtimeType has been initialized.");
   }
 
   @override
   void onReady() {
     super.onReady();
 
-    logger.log(message: "$this has been ready.");
+    logger.log(message: "$runtimeType has been ready.");
   }
 
   @override
@@ -59,30 +60,30 @@ class FurtherInfoController extends GetxController
     hairColorController.dispose();
     eyesColorController.dispose();
     bloodTypeController.dispose();
-    logger.log(level: Level.INFO, message: "$this has been closed.");
+    logger.log(level: Level.INFO, message: "$runtimeType has been closed.");
     super.onClose();
   }
 
-  void initForm() {
-    print("555555555555");
+  void initForm(int personalInfoId) {
     _loadInfo();
-
-    int personalInfoId = bridgeController.personalInfoId.value;
     logger.log(
         message:
             "======================= $personalInfoId /// ${model.value.id}");
 
     if (personalInfoId == 0 && model.value.id == 0) {
-      logger.log(message: "$this has been initialized on new info mode.");
+      logger.log(
+          message: "$runtimeType has been initialized on new info mode.");
       _clearEditor();
       readOnly(false);
     } else if (personalInfoId != 0 && model.value.id == 0) {
-      logger.log(message: "$this has been initialized on new info mode.");
+      logger.log(
+          message: "$runtimeType has been initialized on new info mode.");
       _clearEditor();
       readOnly(false);
     } else if (personalInfoId != 0 && model.value.id != 0) {
       logger.log(
-          message: "$this has been initialized on editable person mode.");
+          message:
+              "$runtimeType has been initialized on editable person mode.");
       readOnly(true);
     } else {
       logger.log(
@@ -112,7 +113,7 @@ class FurtherInfoController extends GetxController
   }
 
   void onCancelButtonPressed() {
-    if (bridgeController.personalInfoId.value == 0 || model.value.id == 0) {
+    if (model.value.id == 0) {
       _clearEditor();
     } else {
       _loadInfo();
@@ -277,7 +278,8 @@ class FurtherInfoController extends GetxController
     logger.log(
         message:
             "Going to save further info with data ${model.value.toString()}");
-    int personalInfoId = bridgeController.personalInfoId.value;
+    int personalInfoId = 0;
+    //bridgeController.personalInfoId.value;
     if (personalInfoId != 0 && model.value.id == 0) {
       _catchFormData();
       logger.log(
@@ -285,7 +287,7 @@ class FurtherInfoController extends GetxController
               "in save : Going to save further info with data ${model.value.toString()}");
       await _furtherInfoService.saveWithParentId(model.value,
           personalInfoId: personalInfoId);
-      initForm();
+      initForm(0);
       showToast(
         Strings.successfullySavingInfo,
       );
@@ -295,7 +297,7 @@ class FurtherInfoController extends GetxController
           message:
               "in update : Going to save further info with data ${model.value.toString()}");
       await _furtherInfoService.update(model.value);
-      initForm();
+      initForm(personalInfoId);
       showToast(
         Strings.successfullyUpdatingInfo,
       );
@@ -306,11 +308,11 @@ class FurtherInfoController extends GetxController
 
   Future<void> _loadInfo() async {
     var founded = await _furtherInfoService
-        .findById(bridgeController.personalInfoId.value);
-        
+        .findById(0);
+// bridgeController.personalInfoId.value
     model(FurtherInfoModel.init());
 
-    if (founded !=null && founded.id != 0) {
+    if (founded != null && founded.id != 0) {
       model(founded);
       maritalStateController.text = model.value.maritalState;
       dateOfMarriageController.text = toShamsi(model.value.dateOfMarriage);
@@ -349,7 +351,7 @@ class FurtherInfoController extends GetxController
   }
 
   void _clearEditor() {
-    bridgeController.personalInfoId(0);
+    // bridgeController.personalInfoId(0);
     model(FurtherInfoModel.init());
     maritalStateController.clear();
     dateOfMarriageController.clear();

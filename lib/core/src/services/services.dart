@@ -1,6 +1,7 @@
 library services;
 
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:sarbaz/core/src/config/config.dart';
 import 'package:sarbaz/core/src/domain/data/data.dart';
 import 'package:sarbaz/core/src/models/models.dart';

@@ -30,8 +30,7 @@ class SoldiersController extends GetxController {
         .getCells()
         .last
         .value);
-    bridgeController.personalInfoId(id);
-    bridgeController.initSoldierEditorForms();
+    bridgeController.initSoldierEditorForms(id);
     bridgeController
         .setDashboardTab(bridgeController.dashboardTabSoldiersEditor);
   }
@@ -39,8 +38,7 @@ class SoldiersController extends GetxController {
   void onNewSoldierPressed() {
     bridgeController
         .setDashboardTab(bridgeController.dashboardTabSoldiersEditor);
-    bridgeController.personalInfoId(0);
-    bridgeController.initSoldierEditorForms();
+    bridgeController.initSoldierEditorForms(0);
   }
 
   onEditSoldierPressed() {
@@ -49,8 +47,7 @@ class SoldiersController extends GetxController {
         .getCells()
         .last
         .value);
-    bridgeController.personalInfoId(id);
-    bridgeController.initSoldierEditorForms();
+    bridgeController.initSoldierEditorForms(id);
     bridgeController
         .setDashboardTab(bridgeController.dashboardTabSoldiersEditor);
   }

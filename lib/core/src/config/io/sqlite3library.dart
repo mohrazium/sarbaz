@@ -1,4 +1,4 @@
-part of lib_loader;
+part of io;
 
 class Sqlite3Library {
   static void load() {

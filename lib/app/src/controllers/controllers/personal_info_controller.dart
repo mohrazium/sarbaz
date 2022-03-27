@@ -3,11 +3,13 @@ part of controllers;
 class PersonalInfoController extends GetxController
     with ValidatorMixin, DateConverterMixin {
   final GlobalKey<FormState> personalInfoFormGlobalKey = GlobalKey<FormState>();
-  late final BridgeController bridgeController;
+
   late RxBool readOnly = false.obs;
 
-  late final PersonalInfoService _personalInfoService;
+  late final PersonalInfoService personalInfoService;
   late final Rx<PersonalInfoModel> model = Rx(PersonalInfoModel.init());
+
+  late final BridgeController bridgeController;
 
   late TextEditingController nationalCodeController;
   late TextEditingController nationalIdentityController;
@@ -29,18 +31,17 @@ class PersonalInfoController extends GetxController
     dateOfBirthController = TextEditingController();
     placeOfBirthController = TextEditingController();
     placeOfIssueController = TextEditingController();
-    _personalInfoService = Get.find<PersonalInfoService>();
+    personalInfoService = Get.find<PersonalInfoService>();
     bridgeController = Get.find<BridgeController>();
-    logger.log(message: "$this has been initialized."); 
-       initForm();
-
+    logger.log(message: "$runtimeType has been initialized.");
+    initForm(bridgeController.personalInfoId.value);
   }
 
   @override
   void onReady() {
     super.onReady();
 
-    logger.log(message: "$this has been ready.");
+    logger.log(message: "$runtimeType has been ready.");
   }
 
   @override
@@ -53,22 +54,21 @@ class PersonalInfoController extends GetxController
     dateOfBirthController.dispose();
     placeOfBirthController.dispose();
     placeOfIssueController.dispose();
-    logger.log(level: Level.INFO, message: "$this has been closed.");
+    logger.log(level: Level.INFO, message: "$runtimeType has been closed.");
     super.onClose();
   }
 
-  void initForm() {
-    final id = bridgeController.personalInfoId.value;
+  void initForm(int id) {
     if (id == 0) {
-      logger.log(message: "$this has been initialized on new person mode.");
+      logger.log(
+          message: "$runtimeType has been initialized on new person mode.");
       bridgeController.soldierNameAndFamily("...");
-      // model.value.createdAt = null;
-      //  model.value.updatedAt = null;
       _clearEditor();
       readOnly(false);
     } else {
       logger.log(
-          message: "$this has been initialized on editable person mode.");
+          message:
+              "$runtimeType has been initialized on editable person mode.");
       _loadPersonalInfo(id);
       readOnly(true);
     }
@@ -82,9 +82,9 @@ class PersonalInfoController extends GetxController
   }
 
   void onChangedNationalCodeField(String val) async {
-    try {
-      if (val.length == 10) {
-        if (await _checkPersonalInfoDuplication(val)) {
+    if (val.length == 10) {
+      await _checkPersonalInfoDuplication(val).then((value) {
+        if (value) {
           MessageDialog.show(
               title: Strings.info,
               message: Strings.duplicationNationalCode,
@@ -94,9 +94,7 @@ class PersonalInfoController extends GetxController
                 nationalCodeController.clear();
               });
         }
-      }
-    } catch (e) {
-      logger.log(message: "Fail to checking duplication with error $e");
+      }).catchError((e) => null);
     }
   }
 
@@ -116,7 +114,7 @@ class PersonalInfoController extends GetxController
             messageDialogType: MessageDialogType.INFO,
             message: Strings.saveInfoMessage,
             onYesPressed: () {
-              _save();
+              _save(bridgeController.personalInfoId.value);
             });
         readOnly(true);
       }
@@ -126,12 +124,9 @@ class PersonalInfoController extends GetxController
   }
 
   void onCancelButtonPressed() {
-    if (bridgeController.personalInfoId.value == 0) {
-      _clearEditor();
-    } else {
-      _loadPersonalInfo(bridgeController.personalInfoId.value);
-      readOnly(true);
-    }
+    _clearEditor();
+    _loadPersonalInfo(bridgeController.personalInfoId.value);
+    readOnly(true);
   }
 
   void onCalenderPressed(context) async {
@@ -149,42 +144,55 @@ class PersonalInfoController extends GetxController
   }
 
   Future<bool> _checkPersonalInfoDuplication(String nationalIdentity) async {
-    if (await _personalInfoService.findByNationalCode(nationalIdentity) !=
-        null) {
-      logger.log(
-          level: Level.WARNING,
-          message:
-              "Personal info is duplicated by nationalIdentity :$nationalIdentity.");
-      return Future.value(true);
-    } else {
-      return Future.value(false);
-    }
+    bool checked = false;
+    await personalInfoService
+        .findByNationalCode(nationalIdentity)
+        .then((value) {
+      if (value != null) {
+        checked = true;
+        logger.log(
+            level: Level.WARNING,
+            message:
+                "Personal info is duplicated by nationalIdentity :$nationalIdentity.");
+      }
+    });
+
+    return Future.value(checked);
   }
 
-  void _save() async {
-    final id = bridgeController.personalInfoId.value;
+  void _save(int id) async {
     if (id == 0) {
       _catchFormData();
-      int res = await _personalInfoService.save(model.value);
-      bridgeController.personalInfoId(res);
-      initForm();
-      showToast(
-        Strings.successfullySavingInfo,
-      );
+      await personalInfoService.save(model.value).then((value) {
+        logger.log(message: "personal info data was saved.");
+        initForm(value);
+        showToast(
+          Strings.successfullySavingInfo,
+        );
+      }).catchError((onError) {
+        showToast(
+          Strings.unsuccessfullySavingInfo,
+        );
+      });
     } else {
       _catchFormData(personalInfoId: id);
-      await _personalInfoService.update(model.value);
-      initForm();
-      showToast(
-        Strings.successfullyUpdatingInfo,
-      );
+      await personalInfoService.update(model.value).then((value) {
+        initForm(id);
+        showToast(
+          Strings.successfullyUpdatingInfo,
+        );
+      }).catchError((onError) {
+        showToast(
+          Strings.unsuccessfullyUpdatingInfo,
+        );
+      });
     }
 
     Get.find<SoldiersController>().loadAllPersons();
   }
 
   Future<void> _loadPersonalInfo(int personalInfoId) async {
-    var founded = await _personalInfoService.findById(personalInfoId);
+    var founded = await personalInfoService.findById(personalInfoId);
     if (founded != null) {
       model.value = founded;
       nationalCodeController.text = model.value.nationalCode;
@@ -214,7 +222,6 @@ class PersonalInfoController extends GetxController
   }
 
   void _clearEditor() {
-    bridgeController.personalInfoId(0);
     model(PersonalInfoModel.init());
     nationalCodeController.clear();
     nationalIdentityController.clear();

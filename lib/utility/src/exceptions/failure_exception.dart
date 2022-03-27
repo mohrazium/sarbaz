@@ -2,15 +2,19 @@
 
 part of exceptions;
 
-enum ExceptionsType {
+enum ExceptionType {
   NOT_FOUND,
+  IGNORE,
 }
 
-class FailureException  {
+class FailureException {
   late final String? message;
   final Object? exception;
 
-  FailureException({this.exception = Exception, this.message}) {
+  FailureException(
+    this.message, {
+    this.exception = Exception,
+  }) {
     _handleException();
   }
 
@@ -21,10 +25,13 @@ class FailureException  {
     if (exception is Exception) {
       logger.log(
           level: Level.WARNING,
-          message: "$exception with an error => ${exception.toString()}");
-    } else if (exception is ExceptionsType) {
-      if (exception == ExceptionsType.NOT_FOUND) {
+          message:
+              "${exception.runtimeType} with an error => ${exception.toString()}");
+    } else if (exception is ExceptionType) {
+      if (exception == ExceptionType.NOT_FOUND) {
         logger.log(message: message ?? "Your object is null or not found!");
+      } else if (exception == ExceptionType.IGNORE) {
+        logger.log(message: message ?? "Your object ignored.");
       }
     }
   }

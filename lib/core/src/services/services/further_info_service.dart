@@ -24,22 +24,18 @@ class FurtherInfoServiceImpl implements FurtherInfoService {
 
   @override
   Future<FurtherInfoModel?> findById(int personalInfoId) async {
-    FurtherInfoModel model = FurtherInfoModel.init();
-    await Get.find<PersonalInfoService>().findById(personalInfoId).then((personalInfoValue) async {
-      if (personalInfoValue != null) {
-        await furtherInfoDAO.findById(personalInfoValue.id!).then((value) {
-          if (value != null) {
-            model = FurtherInfoModel.fromJson(value.toJson());
-          } else {
-            //throw FailureException(message: "Further info not found by personal id.");
-          }
-        });
-      } else {
-        throw FailureException(
-            message: "Personal info not found in further info service");
-      }
-    });
-    return model;
+    return await Get.find<PersonalInfoService>().findById(personalInfoId).then(
+        (personalInfoValue) async {
+      return personalInfoValue != null
+          ? await furtherInfoDAO.findById(personalInfoValue.id!).then((value) {
+              return value != null
+                  ? FurtherInfoModel.fromJson(value.toJson())
+                  : null;
+            }).onError((error, stackTrace) => throw FailureException(
+              "An error happened in finding further info by personal id with error: ${error.runtimeType}"))
+          : null;
+    }).onError((error, stackTrace) => throw FailureException(
+        "An error happened in finding personal info by personal id in $runtimeType with error : ${error.runtimeType}"));
   }
 
   @override

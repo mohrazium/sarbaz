@@ -2,7 +2,8 @@ part of data;
 
 class PersonalInfoTable extends Table {
   IntColumn get id => integer().autoIncrement().nullable()();
-  TextColumn get nationalCode => text().withLength(min: 10, max: 10)();
+  TextColumn get nationalCode =>
+      text().withLength(min: 10, max: 10).customConstraint("UNIQUE")();
   TextColumn get nationalIdentity => text().nullable()();
   TextColumn get firstName => text()();
   TextColumn get lastName => text()();

@@ -10750,7 +10750,8 @@ class $PersonalInfoTableTable extends PersonalInfoTable
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 10, maxTextLength: 10),
       type: const StringType(),
-      requiredDuringInsert: true);
+      requiredDuringInsert: true,
+      $customConstraints: 'UNIQUE');
   final VerificationMeta _nationalIdentityMeta =
       const VerificationMeta('nationalIdentity');
   @override

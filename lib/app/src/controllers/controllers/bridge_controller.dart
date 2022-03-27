@@ -9,10 +9,12 @@ class BridgeController extends GetxController
   final int dashboardTabSections = 3;
   final int dashboardTabSettings = 4;
 
+  late RxInt personalInfoId = 0.obs;
+
   final Rx<int> selectedDashboardMainMenuIndex = 0.obs;
 
   late Rx<int> dashboardShownContentIndex = 0.obs;
-  late Rx<int> personalInfoId = Rx<int>(0);
+
   final Rx<String> soldierNameAndFamily = "".obs;
 
   late Rx<TabController> dashboardTabController =
@@ -47,9 +49,9 @@ class BridgeController extends GetxController
     personalInfoDataSource.value = PersonalInfoDataSource(personalInfo: data);
   }
 
-  void initSoldierEditorForms() {
-    Get.find<PersonalInfoController>().initForm();
-    
-    Get.find<FurtherInfoController>().initForm();
+  void initSoldierEditorForms(int pId) {
+    personalInfoId(pId);
+    Get.find<PersonalInfoController>().initForm(personalInfoId.value);
+    Get.find<FurtherInfoController>().initForm(personalInfoId.value);
   }
 }

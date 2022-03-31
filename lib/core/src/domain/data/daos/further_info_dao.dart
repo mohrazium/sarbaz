@@ -4,6 +4,7 @@ part of data;
 class FurtherInfoDAO extends DatabaseAccessor<SoldierDatabase>
     with _$FurtherInfoDAOMixin {
   FurtherInfoDAO(SoldierDatabase db) : super(db);
+
   Future<FurtherInfoTableData> doInsert(
       Map<String, dynamic> entry, int personalInfoId) async {
     final data = FurtherInfoTableData.fromJson(entry);
@@ -24,4 +25,11 @@ class FurtherInfoDAO extends DatabaseAccessor<SoldierDatabase>
     return (select(furtherInfoTable)..where((tbl) => tbl.id.equals(id)))
         .getSingleOrNull();
   }
+
+  Future<bool> doUpdate(Map<String, dynamic> entry) async {
+    final entryData = FurtherInfoTableData.fromJson(entry);
+    return await update(furtherInfoTable).replace(
+        entryData.copyWith(updatedAt: DateTime.now()).toCompanion(true));
+  }
+
 }

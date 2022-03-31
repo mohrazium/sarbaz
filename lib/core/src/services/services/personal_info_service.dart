@@ -2,14 +2,14 @@ part of services;
 
 abstract class PersonalInfoService extends Service<int, PersonalInfoModel> {
   Future<List<PersonalInfoModel>?> findByKeyword(dynamic keyword);
-  Future<bool> existsByNationalIdentity(String nationalIdentity);
   Future<PersonalInfoModel?> findByNationalCode(String nationalIdentity);
+  Future<int> findFurtherInfoIdById(int personalId);
 }
 
 class PersonalInfoServiceImpl implements PersonalInfoService {
-  final PersonalInfoDAO _personalInfoDAO;
+  final PersonalInfoDAO personalInfoDAO;
 
-  PersonalInfoServiceImpl(this._personalInfoDAO);
+  PersonalInfoServiceImpl(this.personalInfoDAO);
 
   @override
   Future<List<PersonalInfoModel>?> findByKeyword(keyword) {
@@ -19,19 +19,18 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
 
   @override
   Future<int> save(PersonalInfoModel e) async {
-    int res = 0;
-    await _personalInfoDAO.doInsert(e.toJson()).then((value) {
+    return await personalInfoDAO.doInsert(e.toJson()).then((value) {
       logger.log(message: "person is saved");
-      res = value.id ?? 0;
-    });
-    return Future.value(res);
+      return value.id ?? 0;
+    }).onError((error, stackTrace) => throw FailureException(
+        "saving personal info failed with error $stackTrace"));
   }
 
   @override
   Future<List<PersonalInfoModel>> findAll() async {
     List<PersonalInfoModel> models = List.empty(growable: true);
     PersonalInfoModel personalInfoModel = PersonalInfoModel.init();
-    return await _personalInfoDAO.findAll().then((personsList) {
+    return await personalInfoDAO.findAll().then((personsList) {
       for (var person in personsList) {
         personalInfoModel = PersonalInfoModel.fromJson(
           person.toJson(),
@@ -39,19 +38,19 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
         if (person.furtherInfo != null) {
           Get.find<FurtherInfoService>().findById(person.id!).then((value) {
             personalInfoModel = personalInfoModel.copyWith(furtherInfo: value);
-            logger.log(message: personalInfoModel.toString());
           });
         }
 
         models.add(personalInfoModel);
       }
       return models;
-    });
+    }).onError((error, stackTrace) => throw FailureException(
+        "loading all personal infos, failed with error $stackTrace"));
   }
 
   @override
   Future<PersonalInfoModel?> findById(int id) async {
-    return await _personalInfoDAO.findById(id).then((value) {
+    return await personalInfoDAO.findById(id).then((value) {
       return value != null ? PersonalInfoModel.fromJson(value.toJson()) : null;
     }).onError((error, stackTrace) => throw FailureException(
         'An error happened on find by id in $runtimeType.',
@@ -60,45 +59,40 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
 
   @override
   Future<bool> update(PersonalInfoModel e) async {
-    return await _personalInfoDAO.doUpdate(e.toJson());
+    return await personalInfoDAO
+        .doUpdate(e.toJson())
+        .then((value) => value)
+        .onError((error, stackTrace) => throw FailureException(
+            "updating personal info failed, with error $stackTrace"));
   }
 
   @override
   Future<bool> delete(PersonalInfoModel e) async {
-    late bool result = false;
-    try {
-      _personalInfoDAO.doDelete(e.toJson()).then((value) => result);
-      return Future.value(result);
-    } catch (e) {
-      return Future.value(result);
-    }
-  }
-
-  @override
-  Future<bool> existsByNationalIdentity(String nationalIdentity) async {
-    // bool result = false;
-    // try {
-    //  personalInfoDAO
-    //       .existsByNationalIdentity(nationalIdentity)
-    //       .then((value) => result = value!));
-    //   ;
-    //   return Future.value(result);
-    // } catch (e) {
-    //   return Future.value(result);
-    // }
-    return Future.value(null);
+    return await personalInfoDAO
+        .doDelete(e.toJson())
+        .then((value) => value)
+        .onError((error, stackTrace) => throw FailureException(
+            "deleting personal info failed, with error $stackTrace"));
   }
 
   @override
   Future<PersonalInfoModel?> findByNationalCode(String nationalCode) async {
-    return await _personalInfoDAO
-        .findByNationalCode(nationalCode)
-        .then((value) {
+    return await personalInfoDAO.findByNationalCode(nationalCode).then((value) {
       return value != null
           ? PersonalInfoModel.fromJson(value.toJson())
           : throw FailureException("Personal info not found by $nationalCode");
     }).onError((error, stackTrace) => throw FailureException(
-            'An error happened on find by national code in $runtimeType.',
-            exception: ExceptionType.NOT_FOUND));
+        'An error happened on find by national code in $runtimeType.',
+        exception: ExceptionType.NOT_FOUND));
+  }
+
+  @override
+  Future<int> findFurtherInfoIdById(int personalId) {
+    return personalInfoDAO.findById(personalId).then((value) {
+      return value != null && value.furtherInfo != null
+          ? value.furtherInfo!
+          : 0;
+    }).onError((error, stackTrace) =>
+        throw FailureException("personal info not found by id."));
   }
 }

@@ -159,6 +159,8 @@ class Strings {
   static const String yearNotValid = "سال وارد شده نامعتبر است";
   static const String monthNotValid = "ماه وارد شده نامعتبر است";
   static const String dayNotValid = "روز وارد شده نامعتبر است";
-  static const String fieldCantBeEmpty= "این فیلد نمی تواند خالی باشد*";
+  static const String fieldCantBeEmpty = "این فیلد نمی تواند خالی باشد*";
+  static const String personalInfoIsnotSavedPleaseSave = "اطلاعات فردی ذخیره نشده اند, لطفا ابتدا اقدام به ذخیره ی اطلاعات فردی نمایید";
 
+  static const String error="خطایی رخ داده است";
 }

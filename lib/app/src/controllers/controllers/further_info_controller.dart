@@ -5,11 +5,13 @@ class FurtherInfoController extends GetxController
   final GlobalKey<FormState> furtherInfoFormGlobalKey = GlobalKey<FormState>();
   late final BridgeController bridgeController;
   late RxBool readOnly = false.obs;
-  late RxInt personalInfoId = 0.obs;
 
-  late final FurtherInfoService _furtherInfoService;
+  late final FurtherInfoService furtherInfoService;
   late final Rx<FurtherInfoModel> model = Rx(FurtherInfoModel.init());
   late final Rx<String> selectedMaritalState = Rx("");
+
+  late final Rx<bool> isEnableNumberOfChildrenFiled = true.obs;
+  late final Rx<bool> isEnableDateOfMarriageFiled = true.obs;
 
   late TextEditingController maritalStateController;
   late TextEditingController dateOfMarriageController;
@@ -27,17 +29,17 @@ class FurtherInfoController extends GetxController
     super.onInit();
     maritalStateController = TextEditingController();
     dateOfMarriageController = TextEditingController();
-    numberOfChildrenController = TextEditingController();
-    religionController = TextEditingController();
-    sectController = TextEditingController();
-    heightController = TextEditingController();
-    weightController = TextEditingController();
-    hairColorController = TextEditingController();
-    eyesColorController = TextEditingController();
+    numberOfChildrenController = TextEditingController(text: "0");
+    religionController = TextEditingController(text: Strings.religionList[0]);
+    sectController = TextEditingController(text: Strings.sectList[0]);
+    heightController = TextEditingController(text: "0");
+    weightController = TextEditingController(text: "0.0");
+    hairColorController = TextEditingController(text: Strings.hairColorList[0]);
+    eyesColorController = TextEditingController(text: Strings.eyesColorList[0]);
     bloodTypeController = TextEditingController();
-    _furtherInfoService = Get.find<FurtherInfoService>();
+    furtherInfoService = Get.find<FurtherInfoService>();
     bridgeController = Get.find<BridgeController>();
-    initForm(0);
+    initForm();
     logger.log(message: "$runtimeType has been initialized.");
   }
 
@@ -64,56 +66,44 @@ class FurtherInfoController extends GetxController
     super.onClose();
   }
 
-  void initForm(int personalInfoId) {
+  void initForm() {
+    _clearEditor();
     _loadInfo();
-    logger.log(
-        message:
-            "======================= $personalInfoId /// ${model.value.id}");
-
-    if (personalInfoId == 0 && model.value.id == 0) {
-      logger.log(
-          message: "$runtimeType has been initialized on new info mode.");
-      _clearEditor();
-      readOnly(false);
-    } else if (personalInfoId != 0 && model.value.id == 0) {
-      logger.log(
-          message: "$runtimeType has been initialized on new info mode.");
-      _clearEditor();
-      readOnly(false);
-    } else if (personalInfoId != 0 && model.value.id != 0) {
-      logger.log(
-          message:
-              "$runtimeType has been initialized on editable person mode.");
-      readOnly(true);
-    } else {
-      logger.log(
-          message:
-              "====fuuuuuuuuuuuuuuuuuuuck ${personalInfoId}///${model.value.id}");
-    }
   }
 
-  void onConfirmButtonPressed() {
+  Future<void> onConfirmButtonPressed() async {
     if (!readOnly.value) {
-      if (furtherInfoFormGlobalKey.currentState!.validate()) {
-        furtherInfoFormGlobalKey.currentState!.save();
-        logger.log(message: "Further info form is valid to save.");
-        MessageDialog.show(
-            title: Strings.saveInfoTitle,
-            messageDialogButtons: MessageDialogButtons.YES_NO,
-            messageDialogType: MessageDialogType.INFO,
-            message: Strings.saveInfoMessage,
-            onYesPressed: () {
-              _save();
-            });
-        readOnly(true);
-      }
+      await bridgeController.isPersonalInfoSaved().then((value) {
+        if (value) {
+          if (furtherInfoFormGlobalKey.currentState!.validate()) {
+            furtherInfoFormGlobalKey.currentState!.save();
+            logger.log(message: "Further info form is valid to save.");
+            MessageDialog.show(
+                title: Strings.saveInfoTitle,
+                messageDialogButtons: MessageDialogButtons.YES_NO,
+                messageDialogType: MessageDialogType.INFO,
+                message: Strings.saveInfoMessage,
+                onYesPressed: () {
+                  _save();
+                  logger.log(message: "saving further info...");
+
+                  Get.find<SoldiersController>().loadAll();
+                  readOnly(true);
+                });
+          }
+        } else {
+          showToast(Strings.personalInfoIsnotSavedPleaseSave);
+        }
+      }).catchError((onError) {
+        showToast(Strings.error);
+      });
     } else {
       readOnly(false);
     }
   }
 
   void onCancelButtonPressed() {
-    if (model.value.id == 0) {
+    if (model.value.id == null) {
       _clearEditor();
     } else {
       _loadInfo();
@@ -221,7 +211,7 @@ class FurtherInfoController extends GetxController
       icon: const Icon(Icons.arrow_drop_down),
       onSelected: (String value) {
         maritalStateController.text = value;
-        _keepSelectedMaritalStatus();
+        maritalStateChanged();
       },
       itemBuilder: (BuildContext context) {
         return Strings.maritalStatusList
@@ -275,61 +265,69 @@ class FurtherInfoController extends GetxController
   }
 
   void _save() async {
-    logger.log(
-        message:
-            "Going to save further info with data ${model.value.toString()}");
-    int personalInfoId = 0;
-    //bridgeController.personalInfoId.value;
-    if (personalInfoId != 0 && model.value.id == 0) {
-      _catchFormData();
-      logger.log(
-          message:
-              "in save : Going to save further info with data ${model.value.toString()}");
-      await _furtherInfoService.saveWithParentId(model.value,
-          personalInfoId: personalInfoId);
-      initForm(0);
-      showToast(
-        Strings.successfullySavingInfo,
-      );
-    } else if (personalInfoId != 0 && model.value.id != 0) {
-      _catchFormData(furtherInfoId: model.value.id);
-      logger.log(
-          message:
-              "in update : Going to save further info with data ${model.value.toString()}");
-      await _furtherInfoService.update(model.value);
-      initForm(personalInfoId);
-      showToast(
-        Strings.successfullyUpdatingInfo,
-      );
+    _catchFormData();
+    if (model.value.id == null) {
+      await furtherInfoService
+          .saveWithParentId(model.value,
+              personalInfoId: bridgeController.personalInfoId.value)
+          .then((value) {
+        if (value != 0) {
+          model(model.value.copyWith(id: value));
+          showToast(Strings.successfullySavingInfo);
+        } else {
+          showToast(Strings.unsuccessfullySavingInfo);
+        }
+      }).catchError((onError) {
+        showToast(Strings.error);
+      });
+    } else {
+      furtherInfoService.update(model.value).then((value) {
+        if (value) {
+          _loadInfo();
+          showToast(Strings.successfullyUpdatingInfo);
+        } else {
+          showToast(Strings.unsuccessfullyUpdatingInfo);
+        }
+      }).catchError((onError) {
+        showToast(Strings.error);
+      });
     }
-
-    Get.find<SoldiersController>().loadAllPersons();
   }
 
   Future<void> _loadInfo() async {
-    var founded = await _furtherInfoService
-        .findById(0);
-// bridgeController.personalInfoId.value
-    model(FurtherInfoModel.init());
-
-    if (founded != null && founded.id != 0) {
-      model(founded);
-      maritalStateController.text = model.value.maritalState;
-      dateOfMarriageController.text = toShamsi(model.value.dateOfMarriage);
-      numberOfChildrenController.text = model.value.numberOfChildren.toString();
-      religionController.text = model.value.religion ?? "";
-      sectController.text = model.value.sect ?? "";
-      heightController.text = model.value.height.toString();
-      weightController.text = model.value.weight.toString();
-      hairColorController.text = model.value.hairColor ?? "";
-      eyesColorController.text = model.value.eyesColor ?? "";
-      bloodTypeController.text = model.value.bloodType ?? "";
-    }
+    await furtherInfoService
+        .findByPersonalInfoId(bridgeController.personalInfoId.value)
+        .then((value) {
+      if (value?.id != null) {
+        _clearEditor();
+        readOnly(true);
+        model(value);
+        maritalStateController.text = model.value.maritalState;
+        dateOfMarriageController.text = toShamsi(model.value.dateOfMarriage);
+        numberOfChildrenController.text = model.value.numberOfChildren != null
+            ? model.value.numberOfChildren.toString()
+            : "0";
+        religionController.text = model.value.religion ?? "";
+        sectController.text = model.value.sect ?? "";
+        heightController.text =
+            model.value.height != null ? model.value.height.toString() : "0";
+        weightController.text =
+            model.value.weight != null ? model.value.weight.toString() : "0.0";
+        hairColorController.text = model.value.hairColor ?? "";
+        eyesColorController.text = model.value.eyesColor ?? "";
+        bloodTypeController.text = model.value.bloodType ?? "";
+      } else {
+        _clearEditor();
+        readOnly(false);
+      }
+    }).catchError((onError) {
+      showToast(Strings.error);
+    });
   }
 
-  FurtherInfoModel _catchFormData({int? furtherInfoId}) {
-    return FurtherInfoModel(
-        id: furtherInfoId,
+  void _catchFormData() {
+    model(FurtherInfoModel(
+        id: model.value.id,
         maritalState: maritalStateController.text.trim(),
         dateOfMarriage:
             toDateTimeFromString(dateOfMarriageController.text.trim()),
@@ -347,11 +345,10 @@ class FurtherInfoController extends GetxController
             : "0"),
         hairColor: hairColorController.text.trim(),
         eyesColor: eyesColorController.text.trim(),
-        bloodType: bloodTypeController.text.trim());
+        bloodType: bloodTypeController.text.trim()));
   }
 
   void _clearEditor() {
-    // bridgeController.personalInfoId(0);
     model(FurtherInfoModel.init());
     maritalStateController.clear();
     dateOfMarriageController.clear();
@@ -365,12 +362,15 @@ class FurtherInfoController extends GetxController
     bloodTypeController.clear();
   }
 
-  void _keepSelectedMaritalStatus() {
-    if (maritalStateController.text.isNotEmpty) {
-      selectedMaritalState(maritalStateController.text);
-      if (Strings.maritalStateSingle == maritalStateController.text) {
-        numberOfChildrenController.text = 0.toString();
-      }
+  void maritalStateChanged() {
+    if (maritalStateController.text == Strings.maritalStateMarried) {
+      isEnableDateOfMarriageFiled(true);
+      isEnableNumberOfChildrenFiled(true);
+    } else {
+      isEnableDateOfMarriageFiled(false);
+      isEnableNumberOfChildrenFiled(false);
+      dateOfMarriageController.text = "";
+      numberOfChildrenController.text = "0";
     }
   }
 }

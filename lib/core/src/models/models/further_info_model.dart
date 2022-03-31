@@ -17,7 +17,7 @@ class FurtherInfoModel {
   final DateTime? updatedAt;
   factory FurtherInfoModel.init() {
     return FurtherInfoModel(
-      id: 0,
+      id: null,
       maritalState: "",
       dateOfMarriage: null,
       numberOfChildren: null,

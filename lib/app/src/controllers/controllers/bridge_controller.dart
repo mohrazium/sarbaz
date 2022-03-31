@@ -52,6 +52,14 @@ class BridgeController extends GetxController
   void initSoldierEditorForms(int pId) {
     personalInfoId(pId);
     Get.find<PersonalInfoController>().initForm(personalInfoId.value);
-    Get.find<FurtherInfoController>().initForm(personalInfoId.value);
+    Get.find<FurtherInfoController>().initForm();
+  }
+
+  Future<bool> isPersonalInfoSaved() async {
+    return await Get.find<PersonalInfoService>()
+        .findById(personalInfoId.value)
+        .then((value) {
+      return value != null ? true : false;
+    }).catchError((onError) {});
   }
 }

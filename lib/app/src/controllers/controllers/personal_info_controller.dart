@@ -115,8 +115,8 @@ class PersonalInfoController extends GetxController
             message: Strings.saveInfoMessage,
             onYesPressed: () {
               _save(bridgeController.personalInfoId.value);
+              readOnly(true);
             });
-        readOnly(true);
       }
     } else {
       readOnly(false);
@@ -166,6 +166,7 @@ class PersonalInfoController extends GetxController
       await personalInfoService.save(model.value).then((value) {
         logger.log(message: "personal info data was saved.");
         initForm(value);
+        bridgeController.personalInfoId(value);
         showToast(
           Strings.successfullySavingInfo,
         );
@@ -188,7 +189,7 @@ class PersonalInfoController extends GetxController
       });
     }
 
-    Get.find<SoldiersController>().loadAllPersons();
+    Get.find<SoldiersController>().loadAll();
   }
 
   Future<void> _loadPersonalInfo(int personalInfoId) async {

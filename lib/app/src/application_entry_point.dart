@@ -45,7 +45,7 @@ class ApplicationEntryPoint extends StatelessWidget {
           smartManagement: SmartManagement.full,
           enableLog: true,
           title: Strings.title,
-          theme: Themizer.basic,
+          theme: Themizer.light,
           darkTheme: ThemeData.dark().copyWith(primaryColor: Colors.purple),
           // NOTE: Optional - use themeMode to specify the startup theme
           themeMode: ThemeMode.light,

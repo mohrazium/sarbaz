@@ -2,8 +2,15 @@ part of themes;
 
 class Themizer {
   Themizer._();
+  Color invert(Color color) {
+    final r = 255 - color.red;
+    final g = 255 - color.green;
+    final b = 255 - color.blue;
 
-  static ThemeData get basic => ThemeData(
+    return Color.fromARGB((color.opacity * 255).round(), r, g, b);
+  }
+
+  static ThemeData get light => ThemeData(
         fontFamily: FontConstants.sahel,
         brightness: Brightness.light,
         // primarySwatch: ,
@@ -19,6 +26,21 @@ class Themizer {
         inputDecorationTheme: _Themizer._().inputDecorationTheme,
       );
 
+  static ThemeData get dark => ThemeData(
+        fontFamily: FontConstants.sahel,
+        brightness: Brightness.light,
+        // primarySwatch: ,
+        primaryColor: Colorize.primaryColor,
+        secondaryHeaderColor: Colorize.accentColor,
+        scaffoldBackgroundColor: Colorize.backgroundColor,
+        backgroundColor: Colorize.backgroundColor[300],
+        iconTheme: _Themizer._().iconTheme,
+        appBarTheme: _Themizer._().appBarTheme,
+        textTheme: _Themizer._().textTheme,
+        elevatedButtonTheme: _Themizer._().elevatedButtonThemeData,
+
+        inputDecorationTheme: _Themizer._().inputDecorationTheme,
+      );
   static TextStyle get textStyle =>
       const TextStyle(fontFamily: FontConstants.sahel);
 }

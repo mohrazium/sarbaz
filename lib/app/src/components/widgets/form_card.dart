@@ -118,13 +118,13 @@ class FormCard extends StatelessWidget with DateConverterMixin {
                 createdAt != null
                     ? "${Strings.createdAt}: ${toShamsi(createdAt)}"
                     : "",
-                style: Themizer.basic.textTheme.caption,
+                style: Themizer.light.textTheme.caption,
               ),
               Text(
                 updatedAt != null
                     ? "${Strings.updatedAt}: ${toShamsi(updatedAt)}"
                     : "",
-                style: Themizer.basic.textTheme.caption,
+                style: Themizer.light.textTheme.caption,
               ),
             ],
           ),

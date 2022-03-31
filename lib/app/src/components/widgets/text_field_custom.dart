@@ -17,6 +17,7 @@ class TextFieldCustom extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final int maxLength;
   final bool readOnly;
+  final bool enabled;
   final FormFieldSetter<String>? onSaved;
   final VoidCallback? onEditingComplete;
   final TextInputAction? textInputAction;
@@ -44,6 +45,7 @@ class TextFieldCustom extends StatefulWidget {
     this.onEditingComplete,
     this.textInputAction,
     this.inputFormatters,
+    this.enabled = true,
   }) : super(key: key);
 
   @override
@@ -96,6 +98,7 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
             child: TextFormField(
               textInputAction: widget.textInputAction,
               readOnly: widget.readOnly,
+              enabled: widget.enabled,
               onSaved: widget.onSaved,
               onEditingComplete: widget.onEditingComplete,
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -118,7 +121,7 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
     return InputDecoration(
         hintText: widget.hintText,
         icon: widget.icon,
-        prefixIcon:!widget.readOnly ? widget.prefixIcon : null,
+        prefixIcon: !widget.readOnly ? widget.prefixIcon : null,
         suffixIcon: widget.isSecure
             ? IconButton(
                 padding: const EdgeInsets.all(0.0),

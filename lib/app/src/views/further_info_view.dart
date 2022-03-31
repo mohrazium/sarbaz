@@ -12,6 +12,8 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                 readyOnly: controller.readOnly.value,
                 onConfirmButtonPressed: () =>
                     controller.onConfirmButtonPressed(),
+                createdAt: controller.model.value.createdAt,
+                updatedAt: controller.model.value.updatedAt,
                 onCancelButtonPressed: () => controller.onCancelButtonPressed(),
                 headerContent: const Center(
                     child: Text(
@@ -26,6 +28,10 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                         titleText: Strings.maritalState,
                         controller: controller.maritalStateController,
                         readOnly: controller.readOnly.value,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(Strings.maritalStateSingle),
+                          FilteringTextInputFormatter.allow(Strings.maritalStateMarried),
+                        ],
                         prefixIcon: controller.getMaritalList(),
                         validator: (val) => controller.validateIsNotEmpty(
                           value: val,
@@ -39,6 +45,7 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                         titleText: Strings.numberOfChildren,
                         controller: controller.numberOfChildrenController,
                         readOnly: controller.readOnly.value,
+                        enabled: controller.isEnableNumberOfChildrenFiled.value,
                         keyboardType: TextInputType.number,
                         // validator: (val) =>
                         //     controller.validateNumberOfChildren(val),
@@ -79,6 +86,7 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                           titleText: Strings.dateOfMarriage,
                           controller: controller.dateOfMarriageController,
                           readOnly: controller.readOnly.value,
+                          enabled: controller.isEnableDateOfMarriageFiled.value,
                           prefixIcon: IconButton(
                               icon: const Icon(
                                 EvaIcons.calendar,

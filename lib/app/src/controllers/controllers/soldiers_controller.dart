@@ -13,10 +13,10 @@ class SoldiersController extends GetxController {
     bridgeController = Get.find<BridgeController>();
     _personalInfoService = Get.find<PersonalInfoService>();
     dataGridController = DataGridController();
-    loadAllPersons();
+    loadAll();
   }
 
-  void loadAllPersons() async {
+  void loadAll() async {
     final persons = await _personalInfoService.findAll();
     if (persons != null) {
       personnelList.value.clear();

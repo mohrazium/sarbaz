@@ -32,3 +32,4 @@ part 'services/daily_absence_overtime_service.dart';
 part 'services/service_deficit_record_service.dart';
 part 'services/operational_service_deficit_service.dart';
 part 'services/case_service.dart';
+part 'services/relative_contact_info_service.dart';

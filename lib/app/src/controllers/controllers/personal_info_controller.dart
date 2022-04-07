@@ -6,7 +6,7 @@ class PersonalInfoController extends GetxController
 
   late RxBool readOnly = false.obs;
 
-  late final PersonalInfoService personalInfoService;
+  late final PersonalInfoService service;
   late final Rx<PersonalInfoModel> model = Rx(PersonalInfoModel.init());
 
   late final BridgeController bridgeController;
@@ -31,7 +31,7 @@ class PersonalInfoController extends GetxController
     dateOfBirthController = TextEditingController();
     placeOfBirthController = TextEditingController();
     placeOfIssueController = TextEditingController();
-    personalInfoService = Get.find<PersonalInfoService>();
+    service = Get.find<PersonalInfoService>();
     bridgeController = Get.find<BridgeController>();
     logger.log(message: "$runtimeType has been initialized.");
     initForm(bridgeController.personalInfoId.value);
@@ -145,7 +145,7 @@ class PersonalInfoController extends GetxController
 
   Future<bool> _checkPersonalInfoDuplication(String nationalIdentity) async {
     bool checked = false;
-    await personalInfoService
+    await service
         .findByNationalCode(nationalIdentity)
         .then((value) {
       if (value != null) {
@@ -163,7 +163,7 @@ class PersonalInfoController extends GetxController
   void _save(int id) async {
     if (id == 0) {
       _catchFormData();
-      await personalInfoService.save(model.value).then((value) {
+      await service.save(model.value).then((value) {
         logger.log(message: "personal info data was saved.");
         initForm(value);
         bridgeController.personalInfoId(value);
@@ -177,7 +177,7 @@ class PersonalInfoController extends GetxController
       });
     } else {
       _catchFormData(personalInfoId: id);
-      await personalInfoService.update(model.value).then((value) {
+      await service.update(model.value).then((value) {
         initForm(id);
         showToast(
           Strings.successfullyUpdatingInfo,
@@ -193,7 +193,7 @@ class PersonalInfoController extends GetxController
   }
 
   Future<void> _loadPersonalInfo(int personalInfoId) async {
-    var founded = await personalInfoService.findById(personalInfoId);
+    var founded = await service.findById(personalInfoId);
     if (founded != null) {
       model.value = founded;
       nationalCodeController.text = model.value.nationalCode;

@@ -3,7 +3,7 @@
 part of mixins;
 
 /// use this mixin for all form field
-mixin ValidatorMixin implements DateConverterMixin {
+mixin ValidatorMixin {
   String? validateNationalIdentity(
       {required String? value, required String errorMessage}) {
     if (value!.isEmpty) {
@@ -13,17 +13,18 @@ mixin ValidatorMixin implements DateConverterMixin {
     }
   }
 
-  String? validateIsNotEmpty(
-      {required String? value, required String errorMessage}) {
+  String? validateRequiredField({
+    required String? value,
+  }) {
     if (value!.isEmpty) {
-      return errorMessage;
+      return Strings.fieldCantBeEmpty;
     }
   }
 
   String? validateBeforeToday(
       {required String? value, required String errorMessage}) {
     try {
-      DateTime? date = toDateTimeFromString(value);
+      DateTime? date = _DateConverter.toDateTimeFromString(value);
       if (date != null && date.isAfter(DateTime.now())) {
         return errorMessage;
       }
@@ -33,8 +34,8 @@ mixin ValidatorMixin implements DateConverterMixin {
   }
 
   String? validateMobileNumber(
-      {required String value, required String errorMessage}) {
-    if (value.isEmpty) {
+      {required String? value, required String errorMessage}) {
+    if (value!.isEmpty) {
       return Strings.fieldCantBeEmpty;
     } else {
       if (!persianTools.phoneNumberValidator(value)) {

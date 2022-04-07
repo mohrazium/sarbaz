@@ -84,6 +84,8 @@ class Strings {
   static const String mobileNumber = "شماره موبایل";
   static const String telephoneNumber = "شماره تلفن ثابت";
   static const String address = "آدرس";
+  static const String homeAddress = "آدرس منزل";
+  static const String workAddress = "آدرس محل کار";
   static const String distance = "فاصله";
   static const String save = "ذخیر";
   static const String edit = "ویرایش";
@@ -161,6 +163,22 @@ class Strings {
   static const String dayNotValid = "روز وارد شده نامعتبر است";
   static const String fieldCantBeEmpty = "این فیلد نمی تواند خالی باشد*";
   static const String personalInfoIsnotSavedPleaseSave = "اطلاعات فردی ذخیره نشده اند, لطفا ابتدا اقدام به ذخیره ی اطلاعات فردی نمایید";
-
   static const String error="خطایی رخ داده است";
+  static const String newRelativeContact="ثبت مشخصات بستگان";
+  static const String livingProvince ="استان محل سکونت";
+  static const String postalCode="کد پستی";
+  static const String phoneNumber="شماره تلفن ثابت";
+  static const String livingCity="شهر محل سکونت";
+  static const String nameAndFamily="نام و نام خانوادگی";
+  static const String  description="توضیحات";
+  static const String keepOpenForm="فرم باز بماند";
+  static const String alreadyExistsPhoneNumberInList="شماره تماس وارد شده قبلا ثبت شده است";
+
+  static const String newContactAdded = "مشخصات جدید افزوده شد";
+
+  static const String deleteInfo="حذف اطلاعات";
+
+  static const String deleteInfoMessage="آیا از حذف اطلاعات اطمینان دارید؟";
+
+  static const String atFirstEnableEditing="ابتدا دکمه ویرایش را فعال کنید";
 }

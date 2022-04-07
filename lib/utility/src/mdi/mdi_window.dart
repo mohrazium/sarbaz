@@ -57,7 +57,7 @@ class _MdiWindowState extends State<MdiWindow> {
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
         child: Container(
-          color: Theme.of(context).primaryColor,
+         color: Theme.of(context).primaryColor,
           child: Column(
             children: [_getHeader(), _getBody()],
           ),
@@ -88,14 +88,10 @@ class _MdiWindowState extends State<MdiWindow> {
   }
 
   _getBody() {
-    return Padding(
-      padding: const EdgeInsets.all(3.0),
-      child: Container(
-        width: widget.currentWidth,
-        height: widget.currentHeight - _headerSize,
-        color: Theme.of(context).scaffoldBackgroundColor,
-        child: widget.body,
-      ),
+    return SizedBox(
+      width: widget.currentWidth,
+      height: widget.currentHeight - _headerSize,
+      child: widget.body,
     );
   }
 
@@ -109,7 +105,7 @@ class _MdiWindowState extends State<MdiWindow> {
         onPressed: () {
           widget.onCloseButtonClicked();
         },
-        child: Container(
+        child: SizedBox(
             width: _headerSize - 5,
             height: _headerSize - 5,
             child: const Icon(Icons.close)),

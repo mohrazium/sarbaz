@@ -273,6 +273,7 @@ class FurtherInfoController extends GetxController
           .then((value) {
         if (value != 0) {
           model(model.value.copyWith(id: value));
+          _loadInfo();
           showToast(Strings.successfullySavingInfo);
         } else {
           showToast(Strings.unsuccessfullySavingInfo);

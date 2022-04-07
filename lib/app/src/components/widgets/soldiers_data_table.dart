@@ -391,6 +391,7 @@ class PersonalInfoDataSource extends DataGridSource {
 
   void buildPaginatedDataGridRows() {
     dataGridRows = _paginatedPersonalInfo.map<DataGridRow>((dataGridRow) {
+      print(dataGridRow.contactInfo.toString());
       return DataGridRow(cells: [
         DataGridCell(
             columnName: Strings.personnelCode,

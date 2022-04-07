@@ -29,13 +29,10 @@ class PersonalInfoDAO extends DatabaseAccessor<SoldierDatabase>
         entryData.copyWith(updatedAt: DateTime.now()).toCompanion(true));
   }
 
-  Future<bool> doDelete(Map<String, dynamic> entry) async {
+  Future<int> doDelete(Map<String, dynamic> entry) async {
     return await (delete(personalInfoTable)
                   ..where((tbl) => tbl.id.equals(entry["id"].value as int)))
-                .go() ==
-            1
-        ? Future.value(true)
-        : Future.value(false);
+                .go();
   }
 
   Future<PersonalInfoTableData?> findById(int id) async {

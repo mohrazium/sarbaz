@@ -53,6 +53,8 @@ class BridgeController extends GetxController
     personalInfoId(pId);
     Get.find<PersonalInfoController>().initForm(personalInfoId.value);
     Get.find<FurtherInfoController>().initForm();
+    Get.find<ContactInfoController>().initForm();
+    Get.find<RelativeContactsInfoController>().initForm();
   }
 
   Future<bool> isPersonalInfoSaved() async {

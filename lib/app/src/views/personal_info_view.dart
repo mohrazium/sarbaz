@@ -8,19 +8,21 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
     return GetX(
         init: controller,
         builder: (_) => FormCard(
-                globalFormKey: controller.personalInfoFormGlobalKey,
-                readyOnly: controller.readOnly.value,
-                onConfirmButtonPressed: () =>
-                    controller.onConfirmButtonPressed(),
-                onCancelButtonPressed: () => controller.onCancelButtonPressed(),
-                createdAt: controller.model.value.createdAt,
-                updatedAt: controller.model.value.updatedAt,
-                headerContent: const Center(
-                    child: Text(
-                  Strings.personalInfo,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-                columns: [
+            globalFormKey: controller.personalInfoFormGlobalKey,
+            readyOnly: controller.readOnly.value,
+            onConfirmButtonPressed: () => controller.onConfirmButtonPressed(),
+            onCancelButtonPressed: () => controller.onCancelButtonPressed(),
+            createdAt: controller.model.value.createdAt,
+            updatedAt: controller.model.value.updatedAt,
+            headerContent: const Center(
+                child: Text(
+              Strings.personalInfo,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            )),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Column(
                     children: [
                       //! National code field
@@ -42,10 +44,8 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                         titleText: Strings.firstName,
                         controller: controller.firstNameController,
                         readOnly: controller.readOnly.value,
-                        validator: (val) => controller.validateIsNotEmpty(
-                          value: val,
-                          errorMessage: Strings.requiredField,
-                        ),
+                        validator: (val) =>
+                            controller.validateRequiredField(value: val),
                         onChanged: (val) =>
                             controller.onChangedFirstAndLastNameField(val),
                       ),
@@ -55,10 +55,8 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                         titleText: Strings.fatherName,
                         controller: controller.fatherNameController,
                         readOnly: controller.readOnly.value,
-                        validator: (val) => controller.validateIsNotEmpty(
-                          value: val,
-                          errorMessage: Strings.requiredField,
-                        ),
+                        validator: (val) =>
+                            controller.validateRequiredField(value: val),
                       ),
                       //! Place of birth field
                       TextFieldCustom(
@@ -84,35 +82,32 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                         titleText: Strings.lastName,
                         controller: controller.lastNameController,
                         readOnly: controller.readOnly.value,
-                        validator: (val) => controller.validateIsNotEmpty(
-                          value: val,
-                          errorMessage: Strings.requiredField,
-                        ),
+                        validator: (val) =>
+                            controller.validateRequiredField(value: val),
                         onChanged: (val) =>
                             controller.onChangedFirstAndLastNameField(val),
                       ),
 
                       //! Date of birth field
                       TextFieldCustom(
-                        titleText: Strings.dateOfBirth,
-                        controller: controller.dateOfBirthController,
-                        readOnly: controller.readOnly.value,
-                        inputFormatters: [
-                          MaskedInputFormatter(
-                            "0000/00/00",
-                            allowedCharMatcher: RegExp('[0-9]'),
-                          ),
-                        ],
-                        prefixIcon: IconButton(
-                            icon: const Icon(
-                              EvaIcons.calendar,
-                              color: Colorize.primaryColorShade300,
+                          titleText: Strings.dateOfBirth,
+                          controller: controller.dateOfBirthController,
+                          readOnly: controller.readOnly.value,
+                          inputFormatters: [
+                            MaskedInputFormatter(
+                              "0000/00/00",
+                              allowedCharMatcher: RegExp('[0-9]'),
                             ),
-                            onPressed: () =>
-                                controller.onCalenderPressed(context)),
+                          ],
+                          prefixIcon: IconButton(
+                              icon: const Icon(
+                                EvaIcons.calendar,
+                                color: Colorize.primaryColorShade300,
+                              ),
+                              onPressed: () =>
+                                  controller.onCalenderPressed(context)),
                           validator: (val) =>
-                              controller.validateDate(value: val)
-                      ),
+                              controller.validateDate(value: val)),
 
                       //! Place of birth name field
                       TextFieldCustom(
@@ -122,6 +117,6 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                       ),
                     ],
                   ),
-                ]));
+                ])));
   }
 }

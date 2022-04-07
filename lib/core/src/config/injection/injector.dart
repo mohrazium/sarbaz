@@ -68,5 +68,8 @@ Future<void> _setup(String environment) async {
     Get.lazyPut<ViolationsOvertimeService>(() =>
         ViolationsOvertimeServiceImpl(soldierDatabase.violationsOvertimeDAO));
     Get.lazyPut<CaseService>(() => CaseServiceImpl(soldierDatabase.caseDAO));
+    Get.lazyPut<RelativeContactsInfoService>(() =>
+        RelativeContactsInfoServiceImpl(
+            soldierDatabase.relativeContactsInfoDAO));
   }
 }

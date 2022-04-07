@@ -8,19 +8,21 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
     return GetX(
         init: controller,
         builder: (_) => FormCard(
-                globalFormKey: controller.furtherInfoFormGlobalKey,
-                readyOnly: controller.readOnly.value,
-                onConfirmButtonPressed: () =>
-                    controller.onConfirmButtonPressed(),
-                createdAt: controller.model.value.createdAt,
-                updatedAt: controller.model.value.updatedAt,
-                onCancelButtonPressed: () => controller.onCancelButtonPressed(),
-                headerContent: const Center(
-                    child: Text(
-                  Strings.furtherInfo,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-                columns: [
+            globalFormKey: controller.furtherInfoFormGlobalKey,
+            readyOnly: controller.readOnly.value,
+            onConfirmButtonPressed: () => controller.onConfirmButtonPressed(),
+            createdAt: controller.model.value.createdAt,
+            updatedAt: controller.model.value.updatedAt,
+            onCancelButtonPressed: () => controller.onCancelButtonPressed(),
+            headerContent: const Center(
+                child: Text(
+              Strings.furtherInfo,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            )),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Column(
                     children: [
                       //! Marital state field
@@ -29,14 +31,14 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                         controller: controller.maritalStateController,
                         readOnly: controller.readOnly.value,
                         inputFormatters: [
-                          FilteringTextInputFormatter.allow(Strings.maritalStateSingle),
-                          FilteringTextInputFormatter.allow(Strings.maritalStateMarried),
+                          FilteringTextInputFormatter.allow(
+                              Strings.maritalStateSingle),
+                          FilteringTextInputFormatter.allow(
+                              Strings.maritalStateMarried),
                         ],
                         prefixIcon: controller.getMaritalList(),
-                        validator: (val) => controller.validateIsNotEmpty(
-                          value: val,
-                          errorMessage: Strings.requiredField,
-                        ),
+                        validator: (val) =>
+                            controller.validateRequiredField(value: val),
                       ),
 
                       //! Number of children field
@@ -139,6 +141,6 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                       ),
                     ],
                   ),
-                ]));
+                ])));
   }
 }

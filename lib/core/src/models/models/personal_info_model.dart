@@ -104,4 +104,45 @@ class PersonalInfoModel {
   String toString() {
     return 'PersonalInfoModel(id: $id, nationalCode: $nationalCode, nationalIdentity: $nationalIdentity, firstName: $firstName, lastName: $lastName, fatherName: $fatherName, dateOfBirth: $dateOfBirth, placeOfBirth: $placeOfBirth, placeOfIssue: $placeOfIssue, furtherInfo: $furtherInfo, contactInfo: $contactInfo, educationalInfo: $educationalInfo, soldier: $soldier, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+  
+    return other is PersonalInfoModel &&
+      other.id == id &&
+      other.nationalCode == nationalCode &&
+      other.nationalIdentity == nationalIdentity &&
+      other.firstName == firstName &&
+      other.lastName == lastName &&
+      other.fatherName == fatherName &&
+      other.dateOfBirth == dateOfBirth &&
+      other.placeOfBirth == placeOfBirth &&
+      other.placeOfIssue == placeOfIssue &&
+      other.furtherInfo == furtherInfo &&
+      other.contactInfo == contactInfo &&
+      other.educationalInfo == educationalInfo &&
+      other.soldier == soldier &&
+      other.createdAt == createdAt &&
+      other.updatedAt == updatedAt;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+      nationalCode.hashCode ^
+      nationalIdentity.hashCode ^
+      firstName.hashCode ^
+      lastName.hashCode ^
+      fatherName.hashCode ^
+      dateOfBirth.hashCode ^
+      placeOfBirth.hashCode ^
+      placeOfIssue.hashCode ^
+      furtherInfo.hashCode ^
+      contactInfo.hashCode ^
+      educationalInfo.hashCode ^
+      soldier.hashCode ^
+      createdAt.hashCode ^
+      updatedAt.hashCode;
+  }
 }

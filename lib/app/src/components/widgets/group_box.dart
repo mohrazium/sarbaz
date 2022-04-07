@@ -23,7 +23,7 @@ class GroupBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding ?? const EdgeInsets.all(kSpacing),
+      padding: padding ?? const EdgeInsets.all(0),
       child: ClipRRect(
         borderRadius: borderRadius ??
             const BorderRadius.all(Radius.circular(kBorderRadius)),
@@ -31,10 +31,8 @@ class GroupBox extends StatelessWidget {
             width: width,
             height: height,
             color: color ?? Colorize.backgroundColorShade600,
-            child: margin == null
-                ? child
-                : Padding(
-                    padding: margin!,
+            child: Padding(
+                    padding: margin?? const EdgeInsets.all(0),
                     child: child,
                   )),
       ),

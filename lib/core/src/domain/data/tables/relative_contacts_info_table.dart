@@ -6,6 +6,7 @@ class RelativeContactsInfoTable extends Table {
   TextColumn get phoneNumber => text()();
   TextColumn get workAddress => text().nullable()();
   TextColumn get homeAddress => text().nullable()();
+  TextColumn get description => text().nullable()();
   IntColumn get contactInfo =>
       integer().references(ContactInfoTable, #id).nullable()();
   DateTimeColumn get createdAt => dateTime().nullable()();

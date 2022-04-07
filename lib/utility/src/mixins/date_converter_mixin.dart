@@ -1,7 +1,24 @@
 part of mixins;
 
 mixin DateConverterMixin {
-  String toShamsi(DateTime? dateTime) {
+  String toShamsi(DateTime? dateTime) => _DateConverter.toShamsi(dateTime);
+
+  DateTime toDateTime({
+    required int year,
+    required int month,
+    required int day,
+    int hour = 0,
+    int minute = 0,
+    int second = 0,
+  }) =>
+      _DateConverter.toDateTime(year: year, month: month, day: day);
+
+  DateTime? toDateTimeFromString(String? str) =>
+      _DateConverter.toDateTimeFromString(str);
+}
+
+class _DateConverter {
+  static String toShamsi(DateTime? dateTime) {
     if (dateTime != null) {
       shamsiDate.Jalali jalali = dateTime.toJalali();
       return persianTools
@@ -10,7 +27,7 @@ mixin DateConverterMixin {
     return "";
   }
 
-  DateTime toDateTime({
+  static DateTime toDateTime({
     required int year,
     required int month,
     required int day,
@@ -21,7 +38,7 @@ mixin DateConverterMixin {
     return Jalali(year, month, day, hour, minute, second).toDateTime();
   }
 
-  DateTime? toDateTimeFromString(String? str) {
+  static DateTime? toDateTimeFromString(String? str) {
     if (str != null && str.isNotEmpty) {
       str = persianTools.convertFaToEn(str);
       var splitDate = (str.split("/"));

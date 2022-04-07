@@ -10,7 +10,7 @@ class FormCard extends StatelessWidget with DateConverterMixin {
   final Color? color;
   final Color? headerColor;
   final Widget headerContent;
-  final List<Column> columns;
+  final Widget child;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   const FormCard({
@@ -24,7 +24,7 @@ class FormCard extends StatelessWidget with DateConverterMixin {
     this.color,
     this.headerColor,
     required this.headerContent,
-    required this.columns,
+    required this.child,
     this.createdAt,
     this.updatedAt,
   }) : super(key: key);
@@ -60,11 +60,7 @@ class FormCard extends StatelessWidget with DateConverterMixin {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(kPadding),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: columns,
-                            ),
+                            child: child
                           ),
                         ],
                       ),

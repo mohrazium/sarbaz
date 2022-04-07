@@ -10967,6 +10967,7 @@ class RelativeContactsInfoTableData extends DataClass
   final String phoneNumber;
   final String? workAddress;
   final String? homeAddress;
+  final String? description;
   final int? contactInfo;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -10976,6 +10977,7 @@ class RelativeContactsInfoTableData extends DataClass
       required this.phoneNumber,
       this.workAddress,
       this.homeAddress,
+      this.description,
       this.contactInfo,
       this.createdAt,
       this.updatedAt});
@@ -10992,6 +10994,8 @@ class RelativeContactsInfoTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}work_address']),
       homeAddress: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}home_address']),
+      description: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
       contactInfo: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}contact_info']),
       createdAt: const DateTimeType()
@@ -11013,6 +11017,9 @@ class RelativeContactsInfoTableData extends DataClass
     }
     if (!nullToAbsent || homeAddress != null) {
       map['home_address'] = Variable<String?>(homeAddress);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String?>(description);
     }
     if (!nullToAbsent || contactInfo != null) {
       map['contact_info'] = Variable<int?>(contactInfo);
@@ -11037,6 +11044,9 @@ class RelativeContactsInfoTableData extends DataClass
       homeAddress: homeAddress == null && nullToAbsent
           ? const Value.absent()
           : Value(homeAddress),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
       contactInfo: contactInfo == null && nullToAbsent
           ? const Value.absent()
           : Value(contactInfo),
@@ -11058,6 +11068,7 @@ class RelativeContactsInfoTableData extends DataClass
       phoneNumber: serializer.fromJson<String>(json['phoneNumber']),
       workAddress: serializer.fromJson<String?>(json['workAddress']),
       homeAddress: serializer.fromJson<String?>(json['homeAddress']),
+      description: serializer.fromJson<String?>(json['description']),
       contactInfo: serializer.fromJson<int?>(json['contactInfo']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
@@ -11072,6 +11083,7 @@ class RelativeContactsInfoTableData extends DataClass
       'phoneNumber': serializer.toJson<String>(phoneNumber),
       'workAddress': serializer.toJson<String?>(workAddress),
       'homeAddress': serializer.toJson<String?>(homeAddress),
+      'description': serializer.toJson<String?>(description),
       'contactInfo': serializer.toJson<int?>(contactInfo),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
@@ -11084,6 +11096,7 @@ class RelativeContactsInfoTableData extends DataClass
           String? phoneNumber,
           String? workAddress,
           String? homeAddress,
+          String? description,
           int? contactInfo,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
@@ -11093,6 +11106,7 @@ class RelativeContactsInfoTableData extends DataClass
         phoneNumber: phoneNumber ?? this.phoneNumber,
         workAddress: workAddress ?? this.workAddress,
         homeAddress: homeAddress ?? this.homeAddress,
+        description: description ?? this.description,
         contactInfo: contactInfo ?? this.contactInfo,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
@@ -11105,6 +11119,7 @@ class RelativeContactsInfoTableData extends DataClass
           ..write('phoneNumber: $phoneNumber, ')
           ..write('workAddress: $workAddress, ')
           ..write('homeAddress: $homeAddress, ')
+          ..write('description: $description, ')
           ..write('contactInfo: $contactInfo, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
@@ -11114,7 +11129,7 @@ class RelativeContactsInfoTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(id, nameAndFamily, phoneNumber, workAddress,
-      homeAddress, contactInfo, createdAt, updatedAt);
+      homeAddress, description, contactInfo, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -11124,6 +11139,7 @@ class RelativeContactsInfoTableData extends DataClass
           other.phoneNumber == this.phoneNumber &&
           other.workAddress == this.workAddress &&
           other.homeAddress == this.homeAddress &&
+          other.description == this.description &&
           other.contactInfo == this.contactInfo &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
@@ -11136,6 +11152,7 @@ class RelativeContactsInfoTableCompanion
   final Value<String> phoneNumber;
   final Value<String?> workAddress;
   final Value<String?> homeAddress;
+  final Value<String?> description;
   final Value<int?> contactInfo;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
@@ -11145,6 +11162,7 @@ class RelativeContactsInfoTableCompanion
     this.phoneNumber = const Value.absent(),
     this.workAddress = const Value.absent(),
     this.homeAddress = const Value.absent(),
+    this.description = const Value.absent(),
     this.contactInfo = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
@@ -11155,6 +11173,7 @@ class RelativeContactsInfoTableCompanion
     required String phoneNumber,
     this.workAddress = const Value.absent(),
     this.homeAddress = const Value.absent(),
+    this.description = const Value.absent(),
     this.contactInfo = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
@@ -11166,6 +11185,7 @@ class RelativeContactsInfoTableCompanion
     Expression<String>? phoneNumber,
     Expression<String?>? workAddress,
     Expression<String?>? homeAddress,
+    Expression<String?>? description,
     Expression<int?>? contactInfo,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
@@ -11176,6 +11196,7 @@ class RelativeContactsInfoTableCompanion
       if (phoneNumber != null) 'phone_number': phoneNumber,
       if (workAddress != null) 'work_address': workAddress,
       if (homeAddress != null) 'home_address': homeAddress,
+      if (description != null) 'description': description,
       if (contactInfo != null) 'contact_info': contactInfo,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
@@ -11188,6 +11209,7 @@ class RelativeContactsInfoTableCompanion
       Value<String>? phoneNumber,
       Value<String?>? workAddress,
       Value<String?>? homeAddress,
+      Value<String?>? description,
       Value<int?>? contactInfo,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
@@ -11197,6 +11219,7 @@ class RelativeContactsInfoTableCompanion
       phoneNumber: phoneNumber ?? this.phoneNumber,
       workAddress: workAddress ?? this.workAddress,
       homeAddress: homeAddress ?? this.homeAddress,
+      description: description ?? this.description,
       contactInfo: contactInfo ?? this.contactInfo,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -11221,6 +11244,9 @@ class RelativeContactsInfoTableCompanion
     if (homeAddress.present) {
       map['home_address'] = Variable<String?>(homeAddress.value);
     }
+    if (description.present) {
+      map['description'] = Variable<String?>(description.value);
+    }
     if (contactInfo.present) {
       map['contact_info'] = Variable<int?>(contactInfo.value);
     }
@@ -11241,6 +11267,7 @@ class RelativeContactsInfoTableCompanion
           ..write('phoneNumber: $phoneNumber, ')
           ..write('workAddress: $workAddress, ')
           ..write('homeAddress: $homeAddress, ')
+          ..write('description: $description, ')
           ..write('contactInfo: $contactInfo, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
@@ -11288,6 +11315,12 @@ class $RelativeContactsInfoTableTable extends RelativeContactsInfoTable
   late final GeneratedColumn<String?> homeAddress = GeneratedColumn<String?>(
       'home_address', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'description', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _contactInfoMeta =
       const VerificationMeta('contactInfo');
   @override
@@ -11313,6 +11346,7 @@ class $RelativeContactsInfoTableTable extends RelativeContactsInfoTable
         phoneNumber,
         workAddress,
         homeAddress,
+        description,
         contactInfo,
         createdAt,
         updatedAt
@@ -11357,6 +11391,12 @@ class $RelativeContactsInfoTableTable extends RelativeContactsInfoTable
           _homeAddressMeta,
           homeAddress.isAcceptableOrUnknown(
               data['home_address']!, _homeAddressMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
     }
     if (data.containsKey('contact_info')) {
       context.handle(
@@ -11529,8 +11569,45 @@ mixin _$CaseDAOMixin on DatabaseAccessor<SoldierDatabase> {
 mixin _$ContactInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $ContactInfoTableTable get contactInfoTable =>
       attachedDatabase.contactInfoTable;
-  $RelativeContactsInfoTableTable get relativeContactsInfoTable =>
-      attachedDatabase.relativeContactsInfoTable;
+  $FurtherInfoTableTable get furtherInfoTable =>
+      attachedDatabase.furtherInfoTable;
+  $EducationalInfoTableTable get educationalInfoTable =>
+      attachedDatabase.educationalInfoTable;
+  $UnitPropertiesTableTable get unitPropertiesTable =>
+      attachedDatabase.unitPropertiesTable;
+  $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
+  $TrainingStatusTableTable get trainingStatusTable =>
+      attachedDatabase.trainingStatusTable;
+  $HealthStatusTableTable get healthStatusTable =>
+      attachedDatabase.healthStatusTable;
+  $CaseTableTable get caseTable => attachedDatabase.caseTable;
+  $ViolationsOvertimeTableTable get violationsOvertimeTable =>
+      attachedDatabase.violationsOvertimeTable;
+  $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
+      attachedDatabase.dailyAbsenceOvertimeTable;
+  $DisciplinaryOvertimeTableTable get disciplinaryOvertimeTable =>
+      attachedDatabase.disciplinaryOvertimeTable;
+  $AnnualOvertimeTableTable get annualOvertimeTable =>
+      attachedDatabase.annualOvertimeTable;
+  $OvertimeTableTable get overtimeTable => attachedDatabase.overtimeTable;
+  $DailyVacationTableTable get dailyVacationTable =>
+      attachedDatabase.dailyVacationTable;
+  $HourlyVacationTableTable get hourlyVacationTable =>
+      attachedDatabase.hourlyVacationTable;
+  $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
+  $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
+      attachedDatabase.serviceDeficitRecordTable;
+  $OperationalServiceDeficitRecordTableTable
+      get operationalServiceDeficitRecordTable =>
+          attachedDatabase.operationalServiceDeficitRecordTable;
+  $ServiceDeficitTableTable get serviceDeficitTable =>
+      attachedDatabase.serviceDeficitTable;
+  $RankTableTable get rankTable => attachedDatabase.rankTable;
+  $SoldierCaseTableTable get soldierCaseTable =>
+      attachedDatabase.soldierCaseTable;
+  $SoldierTableTable get soldierTable => attachedDatabase.soldierTable;
+  $PersonalInfoTableTable get personalInfoTable =>
+      attachedDatabase.personalInfoTable;
 }
 mixin _$DailyAbsenceOvertimeDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>

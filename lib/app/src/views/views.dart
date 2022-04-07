@@ -17,3 +17,4 @@ part 'soldiers_view.dart';
 part 'personal_info_view.dart';
 part 'contact_info_view.dart';
 part 'further_info_view.dart';
+part 'relative_contact_info_view.dart';

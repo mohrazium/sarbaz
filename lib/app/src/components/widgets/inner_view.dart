@@ -16,7 +16,6 @@ class InnerView extends GetWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<SoldierCaseEditorController>();
     controller.soldierCaseEditorContentLen.value = children.length;
-    //return Scaffold(body: SafeArea(child: _buildScaffoldBody()));
     return Scaffold(
         body: NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {

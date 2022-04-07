@@ -3,9 +3,9 @@ part of services;
 abstract class OvertimeService extends Service<int, OvertimeModel> {}
 
 class OvertimeServiceImpl implements OvertimeService {
-   final OvertimeDAO overtimeDAO;
+   final OvertimeDAO dao;
 
-  OvertimeServiceImpl(this.overtimeDAO);
+  OvertimeServiceImpl(this.dao);
 
   @override
   Future<bool> delete(OvertimeModel model) {

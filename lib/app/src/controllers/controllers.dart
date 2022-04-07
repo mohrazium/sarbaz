@@ -8,6 +8,7 @@ import 'package:logging/logging.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 // ignore: library_prefixes
 import 'package:persian_tools/persian_tools.dart' as persianTools;
+import 'package:sarbaz/app/src/themes/themes.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'package:sarbaz/core/core.dart';
@@ -44,3 +45,4 @@ part 'controllers/training_status_controller.dart';
 part 'controllers/unit_properties_controller.dart';
 part 'controllers/vacations_controller.dart';
 part 'controllers/violations_overtime_controller.dart';
+part 'controllers/relative_contacts_info_controller.dart';

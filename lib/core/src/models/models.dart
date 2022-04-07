@@ -25,5 +25,5 @@ part 'models/daily_absence_overtime_model.dart';
 part 'models/service_deficit_record_model.dart';
 part 'models/operational_service_deficit_model.dart';
 part 'models/case_model.dart';
-part 'models/relative_contacts_info_table.dart';
+part 'models/relative_contacts_info_model.dart';
 part 'models.g.dart';

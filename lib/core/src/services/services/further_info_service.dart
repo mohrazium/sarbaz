@@ -7,11 +7,11 @@ abstract class FurtherInfoService extends Service<int, FurtherInfoModel> {
 }
 
 class FurtherInfoServiceImpl implements FurtherInfoService {
-  final FurtherInfoDAO furtherInfoDAO;
+  final FurtherInfoDAO dao;
   final PersonalInfoService personalInfoService =
       Get.find<PersonalInfoService>();
 
-  FurtherInfoServiceImpl(this.furtherInfoDAO);
+  FurtherInfoServiceImpl(this.dao);
 
   @override
   Future<bool> delete(FurtherInfoModel model) {
@@ -27,7 +27,7 @@ class FurtherInfoServiceImpl implements FurtherInfoService {
 
   @override
   Future<FurtherInfoModel?> findById(int id) async {
-    return await furtherInfoDAO.findById(id).then((value) {
+    return await dao.findById(id).then((value) {
       return value != null ? FurtherInfoModel.fromJson(value.toJson()) : null;
     }).onError((error, stackTrace) => throw FailureException(
         "An error happened in finding further info by id with error: $stackTrace"));
@@ -37,7 +37,7 @@ class FurtherInfoServiceImpl implements FurtherInfoService {
   Future<int> saveWithParentId(FurtherInfoModel model,
       {required int personalInfoId}) async {
     int res = 0;
-    await furtherInfoDAO.doInsert(model.toJson(), personalInfoId).then((value) {
+    await dao.doInsert(model.toJson(), personalInfoId).then((value) {
       logger.log(message: "Further info was saved.");
       res = value.id ?? 0;
     }).onError((error, stackTrace) => throw FailureException(
@@ -47,7 +47,7 @@ class FurtherInfoServiceImpl implements FurtherInfoService {
 
   @override
   Future<bool> update(FurtherInfoModel model) async {
-    return await furtherInfoDAO
+    return await dao
         .doUpdate(model.toJson())
         .then((value) => value)
         .onError((error, stackTrace) => throw FailureException(
@@ -62,7 +62,7 @@ class FurtherInfoServiceImpl implements FurtherInfoService {
 
   @override
   Future<FurtherInfoModel?> findByPersonalInfoId(int personalInfoId) async {
-    return await furtherInfoDAO
+    return await dao
         .findById(
             await personalInfoService.findFurtherInfoIdById(personalInfoId))
         .then((value) {

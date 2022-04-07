@@ -28,13 +28,25 @@ class SoldierCaseEditorView extends GetView<SoldierCaseEditorController> {
             children: const [
               Center(child: PersonalInfoView()),
               Center(child: FurtherInfoView()),
+              Center(child: ContactInfoView()),
             ]),
       ],
     );
   }
 
-  int getStaggeredAxis(context) {
-    final currentWidth = MediaQuery.of(context).size.width;
-    return currentWidth ~/ 610;
-  }
+//  int getStaggeredAxis(context) {
+//     final currentWidth = MediaQuery.of(context).size.width;
+
+//     if (currentWidth <= 1220) {
+//       return 1;
+//     } else if (currentWidth > 1220 &&
+//         currentWidth >= 1280 &&
+//         currentWidth < 1810) {
+//       return 2;
+//     } else if (currentWidth > 1810) {
+//       return 3;
+//     }
+//     return 1;
+//   }
+  int getStaggeredAxis(context) => MediaQuery.of(context).size.width ~/ 610;
 }

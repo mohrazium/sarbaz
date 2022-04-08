@@ -31,10 +31,12 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
   Future<List<PersonalInfoModel>> findAll() async {
     List<PersonalInfoModel> models = List.empty(growable: true);
     PersonalInfoModel personalInfoModel = PersonalInfoModel.init();
-    return await dao.findAll().then((personsList) {
-      for (var person in personsList) {
+    ContactInfoModel? contactInfoModel = ContactInfoModel.init();
+    await dao.findAll().then((dataList) async {
+      models.clear();
+      for (var data in dataList) {
         personalInfoModel = PersonalInfoModel.fromJson(
-          person.toJson(),
+          data.toJson(),
         );
 
         // if (person.furtherInfo != null) {
@@ -46,18 +48,20 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
         //   print(personalInfoModel.furtherInfo);
         // }
 
-        if (person.contactInfo != null) {
-          Get.find<ContactInfoService>()
-              .findById(person.contactInfo!)
-              .then((value) {
-            personalInfoModel = personalInfoModel.copyWith(contactInfo: value);
-          });
+        if (data.contactInfo != null) {
+          contactInfoModel = await Get.find<ContactInfoService>()
+              .findById(data.contactInfo!)
+              .then((value) => value);
+
+          personalInfoModel =
+              personalInfoModel.copyWith(contactInfo: contactInfoModel);
         }
+
         models.add(personalInfoModel);
       }
-      return models;
     }).onError((error, stackTrace) => throw FailureException(
         "loading all personal infos, failed with error $stackTrace"));
+    return models;
   }
 
   @override
@@ -78,7 +82,7 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
 
   @override
   Future<bool> delete(PersonalInfoModel e) async {
-    return await dao.doDelete(e.toJson()).then((value) => value>=1).onError(
+    return await dao.doDelete(e.toJson()).then((value) => value >= 1).onError(
         (error, stackTrace) => throw FailureException(
             "deleting personal info failed, with error $stackTrace"));
   }
@@ -86,9 +90,7 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
   @override
   Future<PersonalInfoModel?> findByNationalCode(String nationalCode) async {
     return await dao.findByNationalCode(nationalCode).then((value) {
-      return value != null
-          ? PersonalInfoModel.fromJson(value.toJson())
-          : throw FailureException("Personal info not found by $nationalCode");
+      return value != null ? PersonalInfoModel.fromJson(value.toJson()) : null;
     }).onError((error, stackTrace) => throw FailureException(
         'An error happened on find by national code with error :  $stackTrace.',
         exception: ExceptionType.NOT_FOUND));

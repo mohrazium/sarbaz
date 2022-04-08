@@ -203,7 +203,10 @@ class RelativeContactsInfoController extends GetxController
   }
 
   Future<void> saveRelativeContacts() async {
-    for (var item in models.value) {
+    List<RelativeContactsInfoModel> contacts = List.empty(growable: true);
+    contacts.clear();
+    contacts.addAll(models.value);
+    for (var item in contacts) {
       if (item.id == null) {
         item = item.copyWith(contactInfo: contactController.model.value);
         await service.save(item).then((value) {
@@ -213,6 +216,8 @@ class RelativeContactsInfoController extends GetxController
         });
       }
     }
+
+    _loadInfo();
   }
 
   void onCheckBoxChange(bool? val) {

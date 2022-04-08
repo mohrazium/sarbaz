@@ -17,6 +17,7 @@ class SoldiersView extends GetView<SoldiersController> {
             ),
           ),
           GroupBox(
+            padding: const EdgeInsets.all(kPadding),
             height: kSpacing * 4,
             margin: const EdgeInsets.all(kPadding / 3),
             child: Row(
@@ -54,13 +55,13 @@ class SoldiersView extends GetView<SoldiersController> {
           ),
           Expanded(
             child: GroupBox(
+              padding: const EdgeInsets.all(kPadding),
               child: GetX(
                   init: controller,
                   builder: (_) {
                     return SoldiersDataTable(
-                      data: controller.personnelList.value,
-                      onCellTap: ((details) =>
-                          controller.onCellTap(details)),
+                      personalInfos: controller.personalInfoList.value,
+                      onCellTap: ((details) => controller.onCellTap(details)),
                       onCellDoubleTap: (details) =>
                           controller.onCellDoubleTap(details),
                     );

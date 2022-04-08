@@ -107,7 +107,7 @@ class ContactInfoController extends GetxController with ValidatorMixin {
           .then((value) {
         if (value != 0) {
           _loadInfo();
-          model(model.value.copyWith(id:value));
+          model(model.value.copyWith(id: value));
           Get.find<RelativeContactsInfoController>().saveRelativeContacts();
           Get.find<RelativeContactsInfoController>().initForm();
           showToast(Strings.successfullySavingInfo);
@@ -115,7 +115,6 @@ class ContactInfoController extends GetxController with ValidatorMixin {
           showToast(Strings.unsuccessfullySavingInfo);
         }
       }).catchError((onError) {
-        print(onError.toString());
         showToast(Strings.error);
       });
     } else {
@@ -131,6 +130,7 @@ class ContactInfoController extends GetxController with ValidatorMixin {
         showToast(Strings.error);
       });
     }
+    Get.find<SoldiersController>().loadAll();
   }
 
   Future<void> _loadInfo() async {

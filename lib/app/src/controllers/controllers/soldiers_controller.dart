@@ -1,9 +1,9 @@
 part of controllers;
 
 class SoldiersController extends GetxController {
-  late final PersonalInfoService _personalInfoService;
+  late final PersonalInfoService personalInfoService;
 
-  Rx<List<PersonalInfoModel>> personnelList = Rx(<PersonalInfoModel>[]);
+  Rx<List<PersonalInfoModel>> personalInfoList = Rx(List.empty(growable: true));
   late final DataGridController dataGridController;
   late final BridgeController bridgeController;
   late DataGridCellTapDetails cellTapDetails;
@@ -11,20 +11,23 @@ class SoldiersController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     bridgeController = Get.find<BridgeController>();
-    _personalInfoService = Get.find<PersonalInfoService>();
+    personalInfoService = Get.find<PersonalInfoService>();
     dataGridController = DataGridController();
     loadAll();
   }
 
   void loadAll() async {
-    final persons = await _personalInfoService.findAll();
-    if (persons != null) {
-      personnelList.value.clear();
-      personnelList.value.addAll(persons);
-    }
+    await personalInfoService.findAll().then((value) {
+      if (value != null) {
+        personalInfoList.value.clear();
+        personalInfoList.value.addAll(value);
+      }
+    }).catchError((onError) {
+      showToast(Strings.error);
+    });
   }
 
-  onCellDoubleTap(DataGridCellDoubleTapDetails details) {
+  void onCellDoubleTap(DataGridCellDoubleTapDetails details) {
     int id = int.parse(bridgeController.personalInfoDataSource.value
         .effectiveRows[details.rowColumnIndex.rowIndex - 1]
         .getCells()
@@ -41,7 +44,7 @@ class SoldiersController extends GetxController {
     bridgeController.initSoldierEditorForms(0);
   }
 
-  onEditSoldierPressed() {
+  void onEditSoldierPressed() {
     int id = int.parse(bridgeController.personalInfoDataSource.value
         .effectiveRows[cellTapDetails.rowColumnIndex.rowIndex - 1]
         .getCells()
@@ -52,9 +55,9 @@ class SoldiersController extends GetxController {
         .setDashboardTab(bridgeController.dashboardTabSoldiersEditor);
   }
 
-  onDeleteSoldierPressed() {}
+  void onDeleteSoldierPressed() {}
 
-  onCellTap(DataGridCellTapDetails details) {
+  void onCellTap(DataGridCellTapDetails details) {
     cellTapDetails = details;
   }
 }

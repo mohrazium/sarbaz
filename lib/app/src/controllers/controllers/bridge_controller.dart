@@ -46,7 +46,7 @@ class BridgeController extends GetxController
   }
 
   void setPersonalInfoDataSource(data) {
-    personalInfoDataSource.value = PersonalInfoDataSource(personalInfo: data);
+    personalInfoDataSource(PersonalInfoDataSource(personalInfo: data));
   }
 
   void initSoldierEditorForms(int pId) {

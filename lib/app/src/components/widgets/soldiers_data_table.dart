@@ -2,10 +2,11 @@ part of components;
 
 const int _rowsPerPage = 15;
 const double _dataPagerHeight = 60;
-List<PersonalInfoModel> personalInfo = <PersonalInfoModel>[];
-List<PersonalInfoModel> _paginatedPersonalInfo = <PersonalInfoModel>[];
+List<PersonalInfoModel> personalInfoList = List.empty(growable: true);
+List<PersonalInfoModel> _paginatedPersonalInfo = List.empty(growable: true);
 
-class SoldiersModelDataCell {
+class SoldiersDataCell {
+  final String? caseNo;
   final String? personnelCode;
   final String? firstName;
   final String? lastName;
@@ -14,20 +15,21 @@ class SoldiersModelDataCell {
   final String? mobileNumber;
   final String? soldierStatus;
   bool isSelected;
-  SoldiersModelDataCell({
-    this.personnelCode = "",
-    this.firstName = "",
-    this.lastName = "",
-    this.fatherName = "",
-    this.nationalCode = "",
-    this.mobileNumber = "",
-    this.soldierStatus = "",
-    this.isSelected = false,
+  SoldiersDataCell({
+    this.caseNo,
+    this.personnelCode,
+    this.firstName,
+    this.lastName,
+    this.fatherName,
+    this.nationalCode,
+    this.mobileNumber,
+    this.soldierStatus,
+    required this.isSelected,
   });
 }
 
 class SoldiersDataTable extends StatefulWidget {
-  final List<PersonalInfoModel> data;
+  final List<PersonalInfoModel> personalInfos;
   final DataGridController? controller;
   final DataGridCellTapCallback? onCellTap;
   final DataGridCellDoubleTapCallback? onCellDoubleTap;
@@ -37,7 +39,7 @@ class SoldiersDataTable extends StatefulWidget {
 
   const SoldiersDataTable({
     Key? key,
-    required this.data,
+    required this.personalInfos,
     this.controller,
     this.onCellTap,
     this.onCellSecondaryTap,
@@ -55,8 +57,8 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
   void initState() {
     super.initState();
     bridgeController = Get.find<BridgeController>();
-    personalInfo = widget.data;
-    bridgeController.setPersonalInfoDataSource(personalInfo);
+    personalInfoList = widget.personalInfos;
+    bridgeController.setPersonalInfoDataSource(personalInfoList);
   }
 
   @override
@@ -75,8 +77,8 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
                 height: _dataPagerHeight,
                 child: SfDataPager(
                   delegate: bridgeController.personalInfoDataSource.value,
-                  pageCount: personalInfo.length >= 20
-                      ? personalInfo.length / _rowsPerPage
+                  pageCount: personalInfoList.length >= 20
+                      ? personalInfoList.length / _rowsPerPage
                       : 1,
                   direction: Axis.horizontal,
                 ))
@@ -107,6 +109,23 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
         onCellSecondaryTap: widget.onCellSecondaryTap,
         selectionManager: CustomSelectionManager(),
         columns: <GridColumn>[
+          GridColumn(
+              columnName: 'caseNo',
+              label: Container(
+                  decoration: const BoxDecoration(
+                      color: Colorize.primaryColor,
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(kBorderRadius))),
+                  padding: const EdgeInsets.all(kPadding),
+                  alignment: Alignment.center,
+                  child: const Text(Strings.caseNo,
+                      style: TextStyle(
+                        color: Colorize.backgroundColor,
+                        fontFamily: Fonts.sahelFontFamily,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: .8,
+                        fontSize: 15,
+                      )))),
           GridColumn(
               columnName: 'personnelCode',
               label: Container(
@@ -257,7 +276,21 @@ class PersonalInfoDataSource extends DataGridSource {
     return DataGridRowAdapter(
         color: getRowBackgroundColor(),
         cells: row.getCells().map<Widget>((dataGridCell) {
-          if (dataGridCell.columnName == Strings.personnelCode) {
+          if (dataGridCell.columnName == Strings.caseNo) {
+            return Container(
+                padding: const EdgeInsets.all(8.0),
+                alignment: Alignment.center,
+                child: Center(
+                  child: Text(convertEnToFa(dataGridCell.value),
+                      style: const TextStyle(
+                        color: Colorize.foregroundColor,
+                        fontFamily: Fonts.sahelFontFamily,
+                        fontWeight: FontWeight.normal,
+                        letterSpacing: .8,
+                        fontSize: 15,
+                      )),
+                ));
+          } else if (dataGridCell.columnName == Strings.personnelCode) {
             return Container(
                 padding: const EdgeInsets.all(8.0),
                 alignment: Alignment.center,
@@ -377,9 +410,9 @@ class PersonalInfoDataSource extends DataGridSource {
   Future<bool> handlePageChange(int oldPageIndex, int newPageIndex) async {
     int startIndex = newPageIndex * _rowsPerPage;
     int endIndex = startIndex + _rowsPerPage;
-    if (startIndex < personalInfo.length && endIndex <= personalInfo.length) {
+    if (startIndex < personalInfoList.length && endIndex <= personalInfoList.length) {
       _paginatedPersonalInfo =
-          personalInfo.getRange(startIndex, endIndex).toList(growable: false);
+          personalInfoList.getRange(startIndex, endIndex).toList(growable: false);
       buildPaginatedDataGridRows();
       notifyListeners();
     } else {
@@ -391,8 +424,12 @@ class PersonalInfoDataSource extends DataGridSource {
 
   void buildPaginatedDataGridRows() {
     dataGridRows = _paginatedPersonalInfo.map<DataGridRow>((dataGridRow) {
-      print(dataGridRow.contactInfo.toString());
       return DataGridRow(cells: [
+        DataGridCell(
+            columnName: Strings.caseNo,
+            value: dataGridRow.soldier != null
+                ? dataGridRow.soldier!.soldierCase!.caseNo
+                : "-"),
         DataGridCell(
             columnName: Strings.personnelCode,
             value: dataGridRow.soldier != null

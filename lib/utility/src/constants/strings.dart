@@ -181,4 +181,6 @@ class Strings {
   static const String deleteInfoMessage="آیا از حذف اطلاعات اطمینان دارید؟";
 
   static const String atFirstEnableEditing="ابتدا دکمه ویرایش را فعال کنید";
+
+  static const String caseNo = "شماره پرونده";
 }

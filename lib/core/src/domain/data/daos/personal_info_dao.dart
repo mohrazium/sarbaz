@@ -31,8 +31,8 @@ class PersonalInfoDAO extends DatabaseAccessor<SoldierDatabase>
 
   Future<int> doDelete(Map<String, dynamic> entry) async {
     return await (delete(personalInfoTable)
-                  ..where((tbl) => tbl.id.equals(entry["id"].value as int)))
-                .go();
+          ..where((tbl) => tbl.id.equals(entry["id"].value as int)))
+        .go();
   }
 
   Future<PersonalInfoTableData?> findById(int id) async {
@@ -43,7 +43,6 @@ class PersonalInfoDAO extends DatabaseAccessor<SoldierDatabase>
   Future<PersonalInfoTableData?> findByNationalCode(String code) async {
     return (select(personalInfoTable)
           ..where((tbl) => tbl.nationalCode.equals(code)))
-        .watchSingleOrNull()
-        .first;
+        .getSingleOrNull();
   }
 }

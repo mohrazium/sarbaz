@@ -37,7 +37,7 @@ class RelativeContactsInfoServiceImpl implements RelativeContactsInfoService {
           .then((value) {
         logger.log(
             message:
-                "Relative contact saved by contact id, ${model.phoneNumber} and result is $value");
+                "Relative contact saved by contact id, ${model.phoneNumber}");
         return value.id ?? 0;
       }).onError((error, stackTrace) => throw FailureException(
               "Relative contact can not save by contact id. $stackTrace"));

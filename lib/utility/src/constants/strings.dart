@@ -86,7 +86,7 @@ class Strings {
   static const String address = "آدرس";
   static const String homeAddress = "آدرس منزل";
   static const String workAddress = "آدرس محل کار";
-  static const String distance = "فاصله";
+  static const String distance = "فاصله تا یگان,به کیلومتر";
   static const String save = "ذخیر";
   static const String edit = "ویرایش";
   static const String delete = "حذف";
@@ -162,25 +162,31 @@ class Strings {
   static const String monthNotValid = "ماه وارد شده نامعتبر است";
   static const String dayNotValid = "روز وارد شده نامعتبر است";
   static const String fieldCantBeEmpty = "این فیلد نمی تواند خالی باشد*";
-  static const String personalInfoIsnotSavedPleaseSave = "اطلاعات فردی ذخیره نشده اند, لطفا ابتدا اقدام به ذخیره ی اطلاعات فردی نمایید";
-  static const String error="خطایی رخ داده است";
-  static const String newRelativeContact="ثبت مشخصات بستگان";
-  static const String livingProvince ="استان محل سکونت";
-  static const String postalCode="کد پستی";
-  static const String phoneNumber="شماره تلفن ثابت";
-  static const String livingCity="شهر محل سکونت";
-  static const String nameAndFamily="نام و نام خانوادگی";
-  static const String  description="توضیحات";
-  static const String keepOpenForm="فرم باز بماند";
-  static const String alreadyExistsPhoneNumberInList="شماره تماس وارد شده قبلا ثبت شده است";
-
+  static const String personalInfoIsnotSavedPleaseSave =
+      "اطلاعات فردی ذخیره نشده اند, لطفا ابتدا اقدام به ذخیره ی اطلاعات فردی نمایید";
+  static const String error = "خطایی رخ داده است";
+  static const String newRelativeContact = "ثبت مشخصات بستگان";
+  static const String livingProvince = "استان محل سکونت";
+  static const String postalCode = "کد پستی";
+  static const String phoneNumber = "شماره تلفن ثابت";
+  static const String livingCity = "شهر محل سکونت";
+  static const String nameAndFamily = "نام و نام خانوادگی";
+  static const String description = "توضیحات";
+  static const String keepOpenForm = "فرم باز بماند";
+  static const String alreadyExistsPhoneNumberInList =
+      "شماره تماس وارد شده قبلا ثبت شده است";
   static const String newContactAdded = "مشخصات جدید افزوده شد";
-
-  static const String deleteInfo="حذف اطلاعات";
-
-  static const String deleteInfoMessage="آیا از حذف اطلاعات اطمینان دارید؟";
-
-  static const String atFirstEnableEditing="ابتدا دکمه ویرایش را فعال کنید";
-
+  static const String deleteInfo = "حذف اطلاعات";
+  static const String deleteInfoMessage = "آیا از حذف اطلاعات اطمینان دارید؟";
+  static const String atFirstEnableEditing = "ابتدا دکمه ویرایش را فعال کنید";
   static const String caseNo = "شماره پرونده";
+  static const String yes = "بله";
+  static const String no = "خیر";
+  static const String grade = "معدل";
+  static const String educationalPlace = "محل تحصیل";
+  static const String skills = "مهارت ها";
+  static const String permissionToStudy = "مجاز به ادامه تحصیل";
+  static const String educationalInfo = "اطلاعات تحصیلی";
+
+  static const List<String> permissionsList=[no,yes];
 }

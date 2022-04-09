@@ -13,34 +13,34 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter 
-  get: ^4.6.1
-  intl: ^0.17.0
-  logging: ^1.0.1
-  drift: ^1.2.0
-  sqlite3_flutter_libs: ^0.5.0
-  path_provider: ^2.0.0
-  path: ^1.8.0
-  get_it: ^7.2.0
-  json_serializable: ^6.1.4
-  json_annotation: ^4.4.0
-  persian_tools: ^1.0.1
-  iconsax: ^0.0.8
-  percent_indicator: ^3.4.0
-  dotted_border: ^2.0.0+1
-  timeago: ^3.1.0
-  eva_icons_flutter: ^3.0.2
-  shamsi_date: ^1.0.1
-  fl_chart: ^0.41.0
-  flutter_svg: ^1.0.3
-  syncfusion_flutter_datagrid: ^19.4.48+1
-  cupertino_icons: ^1.0.2
-  syncfusion_localizations: ^19.4.53
-  syncfusion_flutter_datepicker: ^19.4.53
-  flutter_staggered_grid_view: ^0.6.1
-  persian_datetime_picker: ^2.4.0
-  flutter_styled_toast: ^2.0.0
-  flutter_multi_formatter: ^2.5.1
-  flutter_launcher_icons_maker: ^0.10.2
+  get: 
+  intl: 
+  logging: 
+  drift: 
+  sqlite3_flutter_libs: 
+  path_provider: 
+  path: 
+  get_it: 
+  json_serializable: ^6.1.5
+  json_annotation: 
+  persian_tools: 
+  iconsax: 
+  percent_indicator: 
+  dotted_border: 
+  timeago: 
+  eva_icons_flutter: 
+  shamsi_date: 
+  fl_chart: 
+  flutter_svg: 
+  syncfusion_flutter_datagrid: 
+  cupertino_icons: 
+  syncfusion_localizations:
+  syncfusion_flutter_datepicker: 
+  flutter_staggered_grid_view: 
+  persian_datetime_picker: 
+  flutter_styled_toast:
+  flutter_multi_formatter: 
+  flutter_launcher_icons_maker: 
 
 
 dev_dependencies:

@@ -29,7 +29,11 @@ class SoldierCaseEditorView extends GetView<SoldierCaseEditorController> {
               Center(child: PersonalInfoView()),
               Center(child: FurtherInfoView()),
               Center(child: ContactInfoView()),
+              Center(
+                child: EducationalInfoView(),
+              )
             ]),
+            
       ],
     );
   }

@@ -11,6 +11,6 @@ class ApplicationControllerBinding implements Bindings {
     Get.put(FurtherInfoController());
     Get.put(ContactInfoController());
     Get.put(RelativeContactsInfoController());
-
+    Get.put(EducationalInfoController());
   }
 }

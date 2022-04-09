@@ -71,5 +71,8 @@ Future<void> _setup(String environment) async {
     Get.lazyPut<RelativeContactsInfoService>(() =>
         RelativeContactsInfoServiceImpl(
             soldierDatabase.relativeContactsInfoDAO));
+    Get.lazyPut<EducationalInfoService>(() =>
+        EducationalInfoServiceImpl(
+            soldierDatabase.educationalInfoDAO));
   }
 }

@@ -29,11 +29,11 @@ class FurtherInfoController extends GetxController
     super.onInit();
     maritalStateController = TextEditingController();
     dateOfMarriageController = TextEditingController();
-    numberOfChildrenController = TextEditingController(text: "0");
+    numberOfChildrenController = TextEditingController();
     religionController = TextEditingController(text: Strings.religionList[0]);
     sectController = TextEditingController(text: Strings.sectList[0]);
-    heightController = TextEditingController(text: "0");
-    weightController = TextEditingController(text: "0.0");
+    heightController = TextEditingController();
+    weightController = TextEditingController();
     hairColorController = TextEditingController(text: Strings.hairColorList[0]);
     eyesColorController = TextEditingController(text: Strings.eyesColorList[0]);
     bloodTypeController = TextEditingController();
@@ -307,13 +307,13 @@ class FurtherInfoController extends GetxController
         dateOfMarriageController.text = toShamsi(model.value.dateOfMarriage);
         numberOfChildrenController.text = model.value.numberOfChildren != null
             ? model.value.numberOfChildren.toString()
-            : "0";
+            : "";
         religionController.text = model.value.religion ?? "";
         sectController.text = model.value.sect ?? "";
         heightController.text =
-            model.value.height != null ? model.value.height.toString() : "0";
+            model.value.height != null ? model.value.height.toString() : "";
         weightController.text =
-            model.value.weight != null ? model.value.weight.toString() : "0.0";
+            model.value.weight != null ? model.value.weight.toString() : "";
         hairColorController.text = model.value.hairColor ?? "";
         eyesColorController.text = model.value.eyesColor ?? "";
         bloodTypeController.text = model.value.bloodType ?? "";
@@ -330,23 +330,32 @@ class FurtherInfoController extends GetxController
     model(FurtherInfoModel(
         id: model.value.id,
         maritalState: maritalStateController.text.trim(),
-        dateOfMarriage:
-            toDateTimeFromString(dateOfMarriageController.text.trim()),
-        numberOfChildren: int.parse(
-            numberOfChildrenController.text.trim().isNotEmpty
-                ? numberOfChildrenController.text.trim()
-                : "0"),
-        religion: religionController.text.trim(),
-        sect: sectController.text.trim(),
-        height: int.parse(heightController.text.trim().isNotEmpty
-            ? heightController.text.trim()
-            : "0"),
-        weight: double.parse(weightController.text.trim().isNotEmpty
-            ? weightController.text.trim()
-            : "0"),
-        hairColor: hairColorController.text.trim(),
-        eyesColor: eyesColorController.text.trim(),
-        bloodType: bloodTypeController.text.trim()));
+        dateOfMarriage: dateOfMarriageController.text.isNotEmpty
+            ? toDateTimeFromString(dateOfMarriageController.text.trim())
+            : null,
+        numberOfChildren: numberOfChildrenController.text.trim().isNotEmpty
+            ? int.parse(numberOfChildrenController.text.trim())
+            : null,
+        religion: religionController.text.isNotEmpty
+            ? religionController.text.trim()
+            : null,
+        sect:
+            sectController.text.isNotEmpty ? sectController.text.trim() : null,
+        height: heightController.text.trim().isNotEmpty
+            ? int.parse(heightController.text.trim())
+            : null,
+        weight: weightController.text.trim().isNotEmpty
+            ? double.parse(weightController.text.trim())
+            : null,
+        hairColor: hairColorController.text.isNotEmpty
+            ? hairColorController.text.trim()
+            : null,
+        eyesColor: eyesColorController.text.isNotEmpty
+            ? eyesColorController.text.trim()
+            : null,
+        bloodType: bloodTypeController.text.isNotEmpty
+            ? bloodTypeController.text.trim()
+            : null));
   }
 
   void _clearEditor() {

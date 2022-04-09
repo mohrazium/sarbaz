@@ -22,6 +22,7 @@ class TextFieldCustom extends StatefulWidget {
   final VoidCallback? onEditingComplete;
   final TextInputAction? textInputAction;
   final List<TextInputFormatter>? inputFormatters;
+  final bool isRequired;
 
   const TextFieldCustom({
     Key? key,
@@ -46,6 +47,7 @@ class TextFieldCustom extends StatefulWidget {
     this.textInputAction,
     this.inputFormatters,
     this.enabled = true,
+    this.isRequired=false,
   }) : super(key: key);
 
   @override
@@ -85,8 +87,16 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
             ? Padding(
                 padding: const EdgeInsets.symmetric(
                     vertical: kPadding / 3, horizontal: kPadding / 2),
-                child: Text(
-                  widget.titleText ?? "",
+                child: Row(
+                  children: [
+                    Text(
+                      widget.titleText ?? "",
+                    ),
+                    const SizedBox(
+                      width: 1,
+                    ),
+                    Text(widget.isRequired? "*":"",style: const TextStyle(color: Colors.red),),
+                  ],
                 ),
               )
             : Container(),

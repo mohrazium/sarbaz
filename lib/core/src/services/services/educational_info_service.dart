@@ -1,12 +1,16 @@
 part of services;
 
 abstract class EducationalInfoService
-    extends Service<int, EducationalInfoModel> {}
+    extends Service<int, EducationalInfoModel> {
+  Future<int> saveByPersonalInfoId(EducationalInfoModel model,
+      {required int personalInfoId});
+  Future<EducationalInfoModel?> findByPersonalInfoId(int personalInfoId);
+}
 
 class EducationalInfoServiceImpl implements EducationalInfoService {
-   final EducationalInfoDAO educationalInfoDAO;
+  final EducationalInfoDAO dao;
 
-  EducationalInfoServiceImpl(this.educationalInfoDAO);
+  EducationalInfoServiceImpl(this.dao);
 
   @override
   Future<bool> delete(EducationalInfoModel model) {
@@ -21,9 +25,13 @@ class EducationalInfoServiceImpl implements EducationalInfoService {
   }
 
   @override
-  Future<EducationalInfoModel?> findById(int id) {
-    // TODO: implement findById
-    throw UnimplementedError();
+  Future<EducationalInfoModel?> findById(int id) async {
+    return await dao.findById(id).then((value) {
+      return value != null
+          ? EducationalInfoModel.fromJson(value.toJson())
+          : null;
+    }).onError((error, stackTrace) => throw FailureException(
+        "An error happened in finding edu info by id, with error: $stackTrace"));
   }
 
   @override
@@ -33,8 +41,31 @@ class EducationalInfoServiceImpl implements EducationalInfoService {
   }
 
   @override
-  Future<bool> update(EducationalInfoModel model) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<bool> update(EducationalInfoModel model) async {
+    return await dao.doUpdate(model.toJson()).then((value) => value).onError(
+        (error, stackTrace) => throw FailureException(
+            "Updating edu info failed, error $stackTrace"));
+  }
+
+  @override
+  Future<EducationalInfoModel?> findByPersonalInfoId(int personalInfoId) async {
+    return await dao
+        .findById(await Get.find<PersonalInfoService>()
+            .findEducationalInfoIdById(personalInfoId))
+        .then((value) {
+      return value != null
+          ? EducationalInfoModel.fromJson(value.toJson())
+          : null;
+    }).onError((error, stackTrace) => throw FailureException(
+            "An error happened in finding edu info by personal id with error: $stackTrace"));
+  }
+
+  @override
+  Future<int> saveByPersonalInfoId(EducationalInfoModel model,
+      {required int personalInfoId}) async {
+    return await dao.doInsert(model.toJson(), personalInfoId).then((value) {
+      return value.id ?? 0;
+    }).onError((error, stackTrace) =>
+        throw FailureException("Edu info can not save see error $stackTrace"));
   }
 }

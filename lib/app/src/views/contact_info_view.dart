@@ -35,6 +35,7 @@ class ContactInfoView extends GetView<ContactInfoController> {
                             controller: controller.mobileNumberController,
                             readOnly: controller.readOnly.value,
                             keyboardType: TextInputType.number,
+                            isRequired: true,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly
                             ],
@@ -85,6 +86,7 @@ class ContactInfoView extends GetView<ContactInfoController> {
                             controller: controller.distanceController,
                             readOnly: controller.readOnly.value,
                             keyboardType: TextInputType.number,
+                            isRequired: true,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly
                             ],
@@ -99,6 +101,7 @@ class ContactInfoView extends GetView<ContactInfoController> {
                   titleText: Strings.address,
                   controller: controller.addressController,
                   readOnly: controller.readOnly.value,
+                  isRequired: true,
                   validator: (val) =>
                       controller.validateRequiredField(value: val),
                 ),

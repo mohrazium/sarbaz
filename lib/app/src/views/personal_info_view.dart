@@ -32,6 +32,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                         maxLength: 10,
                         controller: controller.nationalCodeController,
                         readOnly: controller.readOnly.value,
+                        isRequired: true,
                         validator: (val) => controller.validateNationalIdentity(
                             value: val,
                             errorMessage: Strings.wrongNationalIdentity),
@@ -44,6 +45,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                         titleText: Strings.firstName,
                         controller: controller.firstNameController,
                         readOnly: controller.readOnly.value,
+                        isRequired: true,
                         validator: (val) =>
                             controller.validateRequiredField(value: val),
                         onChanged: (val) =>
@@ -55,6 +57,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                         titleText: Strings.fatherName,
                         controller: controller.fatherNameController,
                         readOnly: controller.readOnly.value,
+                        isRequired: true,
                         validator: (val) =>
                             controller.validateRequiredField(value: val),
                       ),
@@ -82,6 +85,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                         titleText: Strings.lastName,
                         controller: controller.lastNameController,
                         readOnly: controller.readOnly.value,
+                        isRequired: true,
                         validator: (val) =>
                             controller.validateRequiredField(value: val),
                         onChanged: (val) =>

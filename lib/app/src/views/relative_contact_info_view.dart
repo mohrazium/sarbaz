@@ -31,7 +31,7 @@ class RelativeContactInfoView extends GetView<RelativeContactsInfoController> {
             ),
             GroupBox(
                 padding: const EdgeInsets.all(0),
-                height: 130,
+                height: 150,
                 child: ListView(
                     shrinkWrap: true,
                     children: controller.contactsWidgetList.value)),
@@ -77,6 +77,7 @@ class RelativeContactInfoView extends GetView<RelativeContactsInfoController> {
                             controller: controller.nameAndFamilyController,
                             readOnly:
                                 controller.contactController.readOnly.value,
+                            isRequired: true,
                             validator: (val) =>
                                 controller.validateRequiredField(value: val),
                           ),
@@ -87,6 +88,7 @@ class RelativeContactInfoView extends GetView<RelativeContactsInfoController> {
                             maxLength: 11,
                             readOnly:
                                 controller.contactController.readOnly.value,
+                            isRequired: true,
                             keyboardType: TextInputType.number,
                             validator: (val) => controller.validateMobileNumber(
                                 value: val,

@@ -5,6 +5,7 @@ abstract class PersonalInfoService extends Service<int, PersonalInfoModel> {
   Future<PersonalInfoModel?> findByNationalCode(String nationalIdentity);
   Future<int> findFurtherInfoIdById(int personalId);
   Future<int> findContactInfoIdById(int personalId);
+  Future<int> findEducationalInfoIdById(int personalId);
 }
 
 class PersonalInfoServiceImpl implements PersonalInfoService {
@@ -111,6 +112,16 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
     return dao.findById(personalId).then((value) {
       return value != null && value.contactInfo != null
           ? value.contactInfo!
+          : 0;
+    }).onError((error, stackTrace) =>
+        throw FailureException("personal info not found by id. $stackTrace"));
+  }
+
+  @override
+  Future<int> findEducationalInfoIdById(int personalId) {
+     return dao.findById(personalId).then((value) {
+      return value != null && value.educationalInfo != null
+          ? value.educationalInfo!
           : 0;
     }).onError((error, stackTrace) =>
         throw FailureException("personal info not found by id. $stackTrace"));

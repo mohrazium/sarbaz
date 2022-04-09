@@ -11,7 +11,11 @@ class EducationalInfoModel {
   late final bool? permissionToStudy;
   late final DateTime? createdAt;
   late final DateTime? updatedAt;
-  EducationalInfoModel.empty();
+
+  factory EducationalInfoModel.init() {
+    return EducationalInfoModel(levelOfEducation: "");
+  }
+  
   EducationalInfoModel({
     this.id,
     required this.levelOfEducation,

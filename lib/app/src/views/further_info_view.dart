@@ -30,6 +30,7 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                         titleText: Strings.maritalState,
                         controller: controller.maritalStateController,
                         readOnly: controller.readOnly.value,
+                        isRequired: true,
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(
                               Strings.maritalStateSingle),

@@ -33,7 +33,7 @@ class EducationalInfoView extends GetView<EducationalInfoController> {
                           isRequired: true,
                           prefixIcon: controller.getLevelOfEducation(),
                           validator: (val) =>
-                              controller.validateRequiredField(value: val)),
+                              controller.requiredFieldValidator(value: val)),
 
                       //! Edu place field
                       TextFieldCustom(

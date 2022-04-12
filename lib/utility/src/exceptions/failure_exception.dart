@@ -23,15 +23,13 @@ class FailureException {
 
   void _handleException() {
     if (exception is Exception) {
-      logger.log(
-          level: Level.WARNING,
-          message:
-              "${exception.runtimeType} with an error => ${exception.toString()}");
+      logger.error(
+          "${exception.runtimeType} with an error => ${exception.toString()}");
     } else if (exception is ExceptionType) {
       if (exception == ExceptionType.NOT_FOUND) {
-        logger.log(message: message ?? "Your object is null or not found!");
+        logger.info(message ?? "Your object is null or not found!");
       } else if (exception == ExceptionType.IGNORE) {
-        logger.log(message: message ?? "Your object ignored.");
+        logger.info(message ?? "Your object ignored.");
       }
     }
   }

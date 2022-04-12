@@ -5,16 +5,12 @@ class SoldierCaseTable extends Table {
   TextColumn get membershipType => text()();
   TextColumn get dispatchField => text()();
   TextColumn get serviceCategory => text()();
-  TextColumn get archiveFileNo => text().nullable()();
-  TextColumn get status => text().nullable()();
   DateTimeColumn get startDateOfService => dateTime()();
   DateTimeColumn get endDateOfService => dateTime()();
   IntColumn get legalPeriodOfService => integer()();
   DateTimeColumn get introductionDate => dateTime()();
   IntColumn get lastPeriodOfService => integer().nullable()();
   IntColumn get amountOfService => integer().nullable()();
-  IntColumn get caseNo =>
-      integer().references(CaseTable, #id).nullable()();
   IntColumn get overtime =>
       integer().references(OvertimeTable, #id).nullable()();
   IntColumn get vacations =>

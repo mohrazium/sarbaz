@@ -58,13 +58,15 @@ class ApplicationEntryPoint extends StatelessWidget {
           supportedLocales: const [Locale("fa")],
           locale: kDefaultLocale,
           home: SplashPage.timer(
-            seconds: 1,
+            seconds: 2,
             navigateAfterSeconds: const DashboardPage(),
             title: const Text(
-              'Welcome In SplashScreen',
+              'مدیریت منابع انسانی سرباز',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
             ),
-            image: Image.asset(ImagesConstants.avatar),
+            image: Image.asset(ImagesConstants.sepahLogo,
+            ),
+            photoSize: 120,
             backgroundColor: Colors.white,
             loaderColor: Colors.red,
           ),

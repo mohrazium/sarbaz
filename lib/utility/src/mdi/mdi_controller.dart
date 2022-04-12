@@ -29,12 +29,11 @@ class MdiController {
       MdiWindow targetWindow;
       targetWindow = _windows.firstWhere(
           (element) => element.windowIdentifier == windowIdentifier);
+      // ignore: unnecessary_null_comparison
       if (targetWindow == null) {
         _newWindow(context, window, windowIdentifier);
       } else {
-        logger.log(
-            level: Level.INFO,
-            message: "$windowIdentifier window is already opened.");
+        logger.info("$windowIdentifier window is already opened.");
       }
     } else {
       _newWindow(context, window, windowIdentifier);
@@ -67,23 +66,20 @@ class MdiController {
     //Init onCloseButtonClicked
     window.onCloseButtonClicked = () {
       _windows.remove(window);
-      logger.log(
-          level: Level.INFO, message: "$windowIdentifier window is closed.");
+      logger.info("$windowIdentifier window is closed.");
 
       _onUpdate();
     };
 
     //Init onCloseButtonClicked
     window.onMaximizeButtonClicked = () {
-      logger.log(
-          level: Level.INFO, message: "$windowIdentifier window is maximized.");
+      logger.info("$windowIdentifier window is maximized.");
 
       _onUpdate();
     };
     //Init onCloseButtonClicked
     window.onMinimizeButtonClicked = () {
-      logger.log(
-          level: Level.INFO, message: "$windowIdentifier window is minimized.");
+      logger.info("$windowIdentifier window is minimized.");
 
       _onUpdate();
     };
@@ -92,9 +88,6 @@ class MdiController {
 
     // Update Widgets after adding the new App
     _onUpdate();
-    logger.log(
-        level: Level.INFO,
-        message:
-            "New window added to window manager with id:$windowIdentifier");
+    logger.info("New window added to window manager with id:$windowIdentifier");
   }
 }

@@ -79,7 +79,7 @@ class RelativeContactInfoView extends GetView<RelativeContactsInfoController> {
                                 controller.contactController.readOnly.value,
                             isRequired: true,
                             validator: (val) =>
-                                controller.validateRequiredField(value: val),
+                                controller.requiredFieldValidator(value: val),
                           ),
                           //! Mobile number field
                           TextFieldCustom(
@@ -90,7 +90,7 @@ class RelativeContactInfoView extends GetView<RelativeContactsInfoController> {
                                 controller.contactController.readOnly.value,
                             isRequired: true,
                             keyboardType: TextInputType.number,
-                            validator: (val) => controller.validateMobileNumber(
+                            validator: (val) => controller.mobileNumberValidator(
                                 value: val,
                                 errorMessage: Strings.wrongMobileNumber),
                           ),

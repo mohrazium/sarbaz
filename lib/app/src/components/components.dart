@@ -1,7 +1,6 @@
 library components;
 
 import 'dart:core';
-import 'dart:core';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -20,7 +19,7 @@ import 'package:sarbaz/utility/utility.dart';
 
 import '../themes/themes.dart';
 
-part 'dialogs/message_dialog.dart';
+part 'dialogs/dialog_helper.dart';
 part 'widgets/bottom_navbar.dart';
 part 'widgets/date_picker_widget.dart';
 part 'widgets/filled_button.dart';
@@ -38,7 +37,7 @@ part 'widgets/responsive_builder.dart';
 part 'widgets/search_field.dart';
 part 'widgets/simple_selection_button.dart';
 part 'widgets/simple_user_profile.dart';
-part 'widgets/soldiers_data_table.dart';
+part 'tables/soldiers_data_table.dart';
 part 'widgets/status_card.dart';
 part 'widgets/status_cards_overview.dart';
 part 'widgets/task_group.dart';
@@ -50,3 +49,5 @@ part 'widgets/inner_view.dart';
 part 'widgets/form_card.dart';
 part 'widgets/text_field_custom.dart';
 part 'widgets/contact_tile.dart';
+part 'widgets/image_view_personal_pic.dart';
+part 'widgets/case_no_tile.dart';

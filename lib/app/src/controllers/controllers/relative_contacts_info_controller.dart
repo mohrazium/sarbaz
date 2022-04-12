@@ -36,13 +36,13 @@ class RelativeContactsInfoController extends GetxController
     contactController = Get.find<ContactInfoController>();
     service = Get.find<RelativeContactsInfoService>();
     initForm();
-    logger.log(message: "$runtimeType has been initialized.");
+    logger.info("$runtimeType has been initialized.");
   }
 
   @override
   void onReady() {
     super.onReady();
-    logger.log(message: "$runtimeType has been ready.");
+    logger.info("$runtimeType has been ready.");
   }
 
   @override
@@ -53,7 +53,7 @@ class RelativeContactsInfoController extends GetxController
     workAddressController.dispose();
     homeAddressController.dispose();
     descriptionController.dispose();
-    logger.log(level: Level.INFO, message: "$runtimeType has been closed.");
+    logger.info("$runtimeType has been closed.");
     super.onClose();
   }
 
@@ -68,11 +68,11 @@ class RelativeContactsInfoController extends GetxController
         if (value) {
           if (relativeContactInfoFormGlobalKey.currentState!.validate()) {
             relativeContactInfoFormGlobalKey.currentState!.save();
-            logger.log(message: "Form is valid to save.");
-            MessageDialog.show(
+            logger.info("Form is valid to save.");
+            DialogHelper.showMessageBox(
                 title: Strings.saveInfoTitle,
-                messageDialogButtons: MessageDialogButtons.YES_NO,
-                messageDialogType: MessageDialogType.INFO,
+                dialogButtons: DialogButtons.YES_NO,
+                dialogType: DialogType.INFO,
                 message: Strings.saveInfoMessage,
                 onYesPressed: () {
                   _catchFormData();
@@ -181,10 +181,10 @@ class RelativeContactsInfoController extends GetxController
 
   void deleteRelativeContact(var item) {
     if (contactController.readOnly.isFalse) {
-      MessageDialog.show(
+      DialogHelper.showMessageBox(
           title: Strings.deleteInfo,
-          messageDialogButtons: MessageDialogButtons.YES_NO,
-          messageDialogType: MessageDialogType.INFO,
+          dialogButtons: DialogButtons.YES_NO,
+          dialogType: DialogType.INFO,
           message: Strings.deleteInfoMessage,
           onYesPressed: () async {
             if (item.id != null) {

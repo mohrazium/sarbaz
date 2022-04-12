@@ -227,7 +227,7 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
                           topLeft: Radius.circular(kBorderRadius))),
                   padding: const EdgeInsets.all(8.0),
                   alignment: Alignment.center,
-                  child: const Text(Strings.latestStatus,
+                  child: const Text(Strings.latestStatusOfSoldier,
                       style: TextStyle(
                         color: Colorize.backgroundColor,
                         fontFamily: Fonts.sahelFontFamily,
@@ -360,7 +360,7 @@ class PersonalInfoDataSource extends DataGridSource {
                         fontSize: 15,
                       )),
                 ));
-          } else if (dataGridCell.columnName == Strings.latestStatus) {
+          } else if (dataGridCell.columnName == Strings.latestStatusOfSoldier) {
             return Container(
                 padding: const EdgeInsets.all(8.0),
                 alignment: Alignment.center,
@@ -428,7 +428,7 @@ class PersonalInfoDataSource extends DataGridSource {
         DataGridCell(
             columnName: Strings.caseNo,
             value: dataGridRow.soldier != null
-                ? dataGridRow.soldier!.soldierCase!.caseNo
+                ? dataGridRow.soldier!.caseNo
                 : "-"),
         DataGridCell(
             columnName: Strings.personnelCode,
@@ -449,7 +449,7 @@ class PersonalInfoDataSource extends DataGridSource {
                 ? dataGridRow.contactInfo?.mobileNumber
                 : "-"),
         DataGridCell(
-            columnName: Strings.latestStatus,
+            columnName: Strings.latestStatusOfSoldier,
             value: dataGridRow.soldier != null
                 ? dataGridRow.soldier!.latestStatus
                 : "-"),

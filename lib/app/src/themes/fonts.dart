@@ -1,6 +1,7 @@
 part of themes;
 
 class Fonts {
+  static double fontScale = 1;//TODO:define scale for production
   Fonts._();
   static const String sahelFontFamily = "Sahel";
   static const String vazirFontFamily = "Vazir";
@@ -22,7 +23,7 @@ class Fonts {
   static TextStyle headline1() {
     return _fontStyle.copyWith(
       inherit: true,
-      fontSize: 96.0,
+      fontSize: 96.0 / fontScale,
       letterSpacing: -1.5,
       fontWeight: kFontLight,
     );
@@ -31,7 +32,7 @@ class Fonts {
   static TextStyle headline2() {
     return _fontStyle.copyWith(
       inherit: true,
-      fontSize: 60.0,
+      fontSize: 60.0 / fontScale,
       letterSpacing: -0.5,
       fontWeight: kFontLight,
     );
@@ -40,7 +41,7 @@ class Fonts {
   static TextStyle headline3() {
     return _fontStyle.copyWith(
       inherit: true,
-      fontSize: 48.0,
+      fontSize: 48.0 / fontScale,
       letterSpacing: 0.0,
       fontWeight: kFontRegular,
     );
@@ -49,7 +50,7 @@ class Fonts {
   static TextStyle headline4() {
     return _fontStyle.copyWith(
       inherit: true,
-      fontSize: 34.0,
+      fontSize: 34.0 / fontScale,
       letterSpacing: 0.25,
       fontWeight: kFontRegular,
     );
@@ -59,7 +60,7 @@ class Fonts {
     return _fontStyle.copyWith(
       inherit: true,
       letterSpacing: 0.0,
-      fontSize: 24.0,
+      fontSize: 24.0 / fontScale,
       fontWeight: kFontRegular,
     );
   }
@@ -67,7 +68,7 @@ class Fonts {
   static TextStyle headline6() {
     return _fontStyle.copyWith(
       inherit: true,
-      fontSize: 20.0,
+      fontSize: 20.0 / fontScale,
       letterSpacing: 0.15,
       fontWeight: kFontRegular,
     );
@@ -76,7 +77,7 @@ class Fonts {
   static TextStyle subtitle1() {
     return _fontStyle.copyWith(
       inherit: true,
-      fontSize: 16.0,
+      fontSize: 16.0 / fontScale,
       letterSpacing: 0.15,
       fontWeight: kFontRegular,
     );
@@ -85,7 +86,7 @@ class Fonts {
   static TextStyle subtitle2() {
     return _fontStyle.copyWith(
       inherit: true,
-      fontSize: 14.0,
+      fontSize: 14.0 / fontScale,
       letterSpacing: 0.1,
       fontWeight: kFontMedium,
     );
@@ -94,7 +95,7 @@ class Fonts {
   static TextStyle body1() {
     return _fontStyle.copyWith(
       inherit: true,
-      fontSize: 16.0,
+      fontSize: 16.0 / fontScale,
       letterSpacing: 0.5,
       fontWeight: kFontRegular,
     );
@@ -103,7 +104,7 @@ class Fonts {
   static TextStyle body2() {
     return _fontStyle.copyWith(
       inherit: true,
-      fontSize: 14.0,
+      fontSize: 14.0 / fontScale,
       letterSpacing: 0.25,
       fontWeight: kFontMedium,
     );
@@ -112,7 +113,7 @@ class Fonts {
   static TextStyle button() {
     return _fontStyle.copyWith(
       inherit: true,
-      fontSize: 14.0,
+      fontSize: 14.0 / fontScale,
       letterSpacing: 1.25,
       fontWeight: kFontMedium,
     );
@@ -121,7 +122,7 @@ class Fonts {
   static TextStyle caption() {
     return _fontStyle.copyWith(
       inherit: true,
-      fontSize: 12.0,
+      fontSize: 12.0 / fontScale,
       letterSpacing: 0.4,
       fontWeight: kFontRegular,
     );
@@ -130,7 +131,7 @@ class Fonts {
   static TextStyle overline() {
     return _fontStyle.copyWith(
       inherit: true,
-      fontSize: 12.0,
+      fontSize: 12.0 / fontScale,
       letterSpacing: 1.5,
       fontWeight: kFontRegular,
     );

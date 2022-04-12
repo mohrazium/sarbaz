@@ -4,16 +4,16 @@ part of mixins;
 
 /// use this mixin for all form field
 mixin ValidatorMixin {
-  String? validateNationalIdentity(
+  String? nationalIdentityValidator(
       {required String? value, required String errorMessage}) {
     if (value!.isEmpty) {
       return Strings.fieldCantBeEmpty;
-    } else if (!persianTools.verifyIranianNationalId(value)) {
+    } else if (!persian_tools.verifyIranianNationalId(value)) {
       return errorMessage;
     }
   }
 
-  String? validateRequiredField({
+  String? requiredFieldValidator({
     required String? value,
   }) {
     if (value!.isEmpty) {
@@ -21,7 +21,7 @@ mixin ValidatorMixin {
     }
   }
 
-  String? validateBeforeToday(
+  String? beforeTodayValidator(
       {required String? value, required String errorMessage}) {
     try {
       DateTime? date = _DateConverter.toDateTimeFromString(value);
@@ -33,18 +33,18 @@ mixin ValidatorMixin {
     }
   }
 
-  String? validateMobileNumber(
+  String? mobileNumberValidator(
       {required String? value, required String errorMessage}) {
     if (value!.isEmpty) {
       return Strings.fieldCantBeEmpty;
     } else {
-      if (!persianTools.phoneNumberValidator(value)) {
+      if (!persian_tools.phoneNumberValidator(value)) {
         return errorMessage;
       }
     }
   }
 
-  String? validateDate({required String? value, String? errorMessage}) {
+  String? dateValidator({required String? value, String? errorMessage}) {
     if (value!.isNotEmpty) {
       RegExp dateRegExp = RegExp(
         r"[0-9]{4}/[0-9]{2}/[0-9]{2}",

@@ -16,6 +16,9 @@ class ImageAnimationPath {
 class ImagesConstants {
   static const _folderPath = "assets/images";
   static const avatar = "$_folderPath/soldier.png";
+  static const sepahLogo = "$_folderPath/sepah_logo.png";
+  static const soldier = "$_folderPath/soldier.png";
+  
   static const Map<int, String> ranksMarkImage = {
     1: "$_folderPath/01.png",
     2: "$_folderPath/02.png",

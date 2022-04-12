@@ -261,24 +261,22 @@ class _SplashPageState extends State<SplashPage> {
               children: <Widget>[
                 Expanded(
                   flex: 2,
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          child: Hero(
-                            tag: 'splashscreenImage',
-                            child: Container(child: widget.image),
-                          ),
-                          radius: widget.photoSize,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        child: Hero(
+                          tag: 'splashScreenImage',
+                          child: Container(child: widget.image),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                        ),
-                        widget.title
-                      ],
-                    ),
+                        radius: widget.photoSize,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10.0),
+                      ),
+                      widget.title
+                    ],
                   ),
                 ),
                 Expanded(
@@ -293,8 +291,8 @@ class _SplashPageState extends State<SplashPage> {
                               ),
                             )
                           : Container(),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 20.0),
                       ),
                       Padding(
                         padding: widget.loadingTextPadding,

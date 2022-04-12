@@ -5546,6 +5546,374 @@ class $OvertimeTableTable extends OvertimeTable
   }
 }
 
+class CaseNoTableData extends DataClass implements Insertable<CaseNoTableData> {
+  final int? id;
+  final String caseName;
+  final String? caseCode;
+  final bool isFull;
+  final String? description;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  CaseNoTableData(
+      {this.id,
+      required this.caseName,
+      this.caseCode,
+      required this.isFull,
+      this.description,
+      this.createdAt,
+      this.updatedAt});
+  factory CaseNoTableData.fromData(Map<String, dynamic> data,
+      {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return CaseNoTableData(
+      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      caseName: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}case_name'])!,
+      caseCode: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}case_code']),
+      isFull: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_full'])!,
+      description: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
+      createdAt: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
+      updatedAt: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}updated_at']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int?>(id);
+    }
+    map['case_name'] = Variable<String>(caseName);
+    if (!nullToAbsent || caseCode != null) {
+      map['case_code'] = Variable<String?>(caseCode);
+    }
+    map['is_full'] = Variable<bool>(isFull);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String?>(description);
+    }
+    if (!nullToAbsent || createdAt != null) {
+      map['created_at'] = Variable<DateTime?>(createdAt);
+    }
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime?>(updatedAt);
+    }
+    return map;
+  }
+
+  CaseNoTableCompanion toCompanion(bool nullToAbsent) {
+    return CaseNoTableCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      caseName: Value(caseName),
+      caseCode: caseCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(caseCode),
+      isFull: Value(isFull),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      createdAt: createdAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+    );
+  }
+
+  factory CaseNoTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CaseNoTableData(
+      id: serializer.fromJson<int?>(json['id']),
+      caseName: serializer.fromJson<String>(json['caseName']),
+      caseCode: serializer.fromJson<String?>(json['caseCode']),
+      isFull: serializer.fromJson<bool>(json['isFull']),
+      description: serializer.fromJson<String?>(json['description']),
+      createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int?>(id),
+      'caseName': serializer.toJson<String>(caseName),
+      'caseCode': serializer.toJson<String?>(caseCode),
+      'isFull': serializer.toJson<bool>(isFull),
+      'description': serializer.toJson<String?>(description),
+      'createdAt': serializer.toJson<DateTime?>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+    };
+  }
+
+  CaseNoTableData copyWith(
+          {int? id,
+          String? caseName,
+          String? caseCode,
+          bool? isFull,
+          String? description,
+          DateTime? createdAt,
+          DateTime? updatedAt}) =>
+      CaseNoTableData(
+        id: id ?? this.id,
+        caseName: caseName ?? this.caseName,
+        caseCode: caseCode ?? this.caseCode,
+        isFull: isFull ?? this.isFull,
+        description: description ?? this.description,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('CaseNoTableData(')
+          ..write('id: $id, ')
+          ..write('caseName: $caseName, ')
+          ..write('caseCode: $caseCode, ')
+          ..write('isFull: $isFull, ')
+          ..write('description: $description, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id, caseName, caseCode, isFull, description, createdAt, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CaseNoTableData &&
+          other.id == this.id &&
+          other.caseName == this.caseName &&
+          other.caseCode == this.caseCode &&
+          other.isFull == this.isFull &&
+          other.description == this.description &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class CaseNoTableCompanion extends UpdateCompanion<CaseNoTableData> {
+  final Value<int?> id;
+  final Value<String> caseName;
+  final Value<String?> caseCode;
+  final Value<bool> isFull;
+  final Value<String?> description;
+  final Value<DateTime?> createdAt;
+  final Value<DateTime?> updatedAt;
+  const CaseNoTableCompanion({
+    this.id = const Value.absent(),
+    this.caseName = const Value.absent(),
+    this.caseCode = const Value.absent(),
+    this.isFull = const Value.absent(),
+    this.description = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  CaseNoTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String caseName,
+    this.caseCode = const Value.absent(),
+    required bool isFull,
+    this.description = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  })  : caseName = Value(caseName),
+        isFull = Value(isFull);
+  static Insertable<CaseNoTableData> custom({
+    Expression<int?>? id,
+    Expression<String>? caseName,
+    Expression<String?>? caseCode,
+    Expression<bool>? isFull,
+    Expression<String?>? description,
+    Expression<DateTime?>? createdAt,
+    Expression<DateTime?>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (caseName != null) 'case_name': caseName,
+      if (caseCode != null) 'case_code': caseCode,
+      if (isFull != null) 'is_full': isFull,
+      if (description != null) 'description': description,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  CaseNoTableCompanion copyWith(
+      {Value<int?>? id,
+      Value<String>? caseName,
+      Value<String?>? caseCode,
+      Value<bool>? isFull,
+      Value<String?>? description,
+      Value<DateTime?>? createdAt,
+      Value<DateTime?>? updatedAt}) {
+    return CaseNoTableCompanion(
+      id: id ?? this.id,
+      caseName: caseName ?? this.caseName,
+      caseCode: caseCode ?? this.caseCode,
+      isFull: isFull ?? this.isFull,
+      description: description ?? this.description,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int?>(id.value);
+    }
+    if (caseName.present) {
+      map['case_name'] = Variable<String>(caseName.value);
+    }
+    if (caseCode.present) {
+      map['case_code'] = Variable<String?>(caseCode.value);
+    }
+    if (isFull.present) {
+      map['is_full'] = Variable<bool>(isFull.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String?>(description.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime?>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime?>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CaseNoTableCompanion(')
+          ..write('id: $id, ')
+          ..write('caseName: $caseName, ')
+          ..write('caseCode: $caseCode, ')
+          ..write('isFull: $isFull, ')
+          ..write('description: $description, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $CaseNoTableTable extends CaseNoTable
+    with TableInfo<$CaseNoTableTable, CaseNoTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CaseNoTableTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, true,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _caseNameMeta = const VerificationMeta('caseName');
+  @override
+  late final GeneratedColumn<String?> caseName = GeneratedColumn<String?>(
+      'case_name', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _caseCodeMeta = const VerificationMeta('caseCode');
+  @override
+  late final GeneratedColumn<String?> caseCode = GeneratedColumn<String?>(
+      'case_code', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _isFullMeta = const VerificationMeta('isFull');
+  @override
+  late final GeneratedColumn<bool?> isFull = GeneratedColumn<bool?>(
+      'is_full', aliasedName, false,
+      type: const BoolType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'CHECK (is_full IN (0, 1))');
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'description', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
+      'created_at', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime?> updatedAt = GeneratedColumn<DateTime?>(
+      'updated_at', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, caseName, caseCode, isFull, description, createdAt, updatedAt];
+  @override
+  String get aliasedName => _alias ?? 'case_no_table';
+  @override
+  String get actualTableName => 'case_no_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<CaseNoTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('case_name')) {
+      context.handle(_caseNameMeta,
+          caseName.isAcceptableOrUnknown(data['case_name']!, _caseNameMeta));
+    } else if (isInserting) {
+      context.missing(_caseNameMeta);
+    }
+    if (data.containsKey('case_code')) {
+      context.handle(_caseCodeMeta,
+          caseCode.isAcceptableOrUnknown(data['case_code']!, _caseCodeMeta));
+    }
+    if (data.containsKey('is_full')) {
+      context.handle(_isFullMeta,
+          isFull.isAcceptableOrUnknown(data['is_full']!, _isFullMeta));
+    } else if (isInserting) {
+      context.missing(_isFullMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CaseNoTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return CaseNoTableData.fromData(data,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $CaseNoTableTable createAlias(String alias) {
+    return $CaseNoTableTable(attachedDatabase, alias);
+  }
+}
+
 class UnitPropertiesTableData extends DataClass
     implements Insertable<UnitPropertiesTableData> {
   final int? id;
@@ -6904,336 +7272,6 @@ class $TrainingStatusTableTable extends TrainingStatusTable
   @override
   $TrainingStatusTableTable createAlias(String alias) {
     return $TrainingStatusTableTable(attachedDatabase, alias);
-  }
-}
-
-class CaseTableData extends DataClass implements Insertable<CaseTableData> {
-  final int? id;
-  final String caseName;
-  final int? caseCode;
-  final String? description;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  CaseTableData(
-      {this.id,
-      required this.caseName,
-      this.caseCode,
-      this.description,
-      this.createdAt,
-      this.updatedAt});
-  factory CaseTableData.fromData(Map<String, dynamic> data, {String? prefix}) {
-    final effectivePrefix = prefix ?? '';
-    return CaseTableData(
-      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      caseName: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}case_name'])!,
-      caseCode: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}case_code']),
-      description: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
-      createdAt: const DateTimeType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
-      updatedAt: const DateTimeType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}updated_at']),
-    );
-  }
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (!nullToAbsent || id != null) {
-      map['id'] = Variable<int?>(id);
-    }
-    map['case_name'] = Variable<String>(caseName);
-    if (!nullToAbsent || caseCode != null) {
-      map['case_code'] = Variable<int?>(caseCode);
-    }
-    if (!nullToAbsent || description != null) {
-      map['description'] = Variable<String?>(description);
-    }
-    if (!nullToAbsent || createdAt != null) {
-      map['created_at'] = Variable<DateTime?>(createdAt);
-    }
-    if (!nullToAbsent || updatedAt != null) {
-      map['updated_at'] = Variable<DateTime?>(updatedAt);
-    }
-    return map;
-  }
-
-  CaseTableCompanion toCompanion(bool nullToAbsent) {
-    return CaseTableCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      caseName: Value(caseName),
-      caseCode: caseCode == null && nullToAbsent
-          ? const Value.absent()
-          : Value(caseCode),
-      description: description == null && nullToAbsent
-          ? const Value.absent()
-          : Value(description),
-      createdAt: createdAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createdAt),
-      updatedAt: updatedAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(updatedAt),
-    );
-  }
-
-  factory CaseTableData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return CaseTableData(
-      id: serializer.fromJson<int?>(json['id']),
-      caseName: serializer.fromJson<String>(json['caseName']),
-      caseCode: serializer.fromJson<int?>(json['caseCode']),
-      description: serializer.fromJson<String?>(json['description']),
-      createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
-      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int?>(id),
-      'caseName': serializer.toJson<String>(caseName),
-      'caseCode': serializer.toJson<int?>(caseCode),
-      'description': serializer.toJson<String?>(description),
-      'createdAt': serializer.toJson<DateTime?>(createdAt),
-      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
-    };
-  }
-
-  CaseTableData copyWith(
-          {int? id,
-          String? caseName,
-          int? caseCode,
-          String? description,
-          DateTime? createdAt,
-          DateTime? updatedAt}) =>
-      CaseTableData(
-        id: id ?? this.id,
-        caseName: caseName ?? this.caseName,
-        caseCode: caseCode ?? this.caseCode,
-        description: description ?? this.description,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
-  @override
-  String toString() {
-    return (StringBuffer('CaseTableData(')
-          ..write('id: $id, ')
-          ..write('caseName: $caseName, ')
-          ..write('caseCode: $caseCode, ')
-          ..write('description: $description, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(id, caseName, caseCode, description, createdAt, updatedAt);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is CaseTableData &&
-          other.id == this.id &&
-          other.caseName == this.caseName &&
-          other.caseCode == this.caseCode &&
-          other.description == this.description &&
-          other.createdAt == this.createdAt &&
-          other.updatedAt == this.updatedAt);
-}
-
-class CaseTableCompanion extends UpdateCompanion<CaseTableData> {
-  final Value<int?> id;
-  final Value<String> caseName;
-  final Value<int?> caseCode;
-  final Value<String?> description;
-  final Value<DateTime?> createdAt;
-  final Value<DateTime?> updatedAt;
-  const CaseTableCompanion({
-    this.id = const Value.absent(),
-    this.caseName = const Value.absent(),
-    this.caseCode = const Value.absent(),
-    this.description = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.updatedAt = const Value.absent(),
-  });
-  CaseTableCompanion.insert({
-    this.id = const Value.absent(),
-    required String caseName,
-    this.caseCode = const Value.absent(),
-    this.description = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.updatedAt = const Value.absent(),
-  }) : caseName = Value(caseName);
-  static Insertable<CaseTableData> custom({
-    Expression<int?>? id,
-    Expression<String>? caseName,
-    Expression<int?>? caseCode,
-    Expression<String?>? description,
-    Expression<DateTime?>? createdAt,
-    Expression<DateTime?>? updatedAt,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (caseName != null) 'case_name': caseName,
-      if (caseCode != null) 'case_code': caseCode,
-      if (description != null) 'description': description,
-      if (createdAt != null) 'created_at': createdAt,
-      if (updatedAt != null) 'updated_at': updatedAt,
-    });
-  }
-
-  CaseTableCompanion copyWith(
-      {Value<int?>? id,
-      Value<String>? caseName,
-      Value<int?>? caseCode,
-      Value<String?>? description,
-      Value<DateTime?>? createdAt,
-      Value<DateTime?>? updatedAt}) {
-    return CaseTableCompanion(
-      id: id ?? this.id,
-      caseName: caseName ?? this.caseName,
-      caseCode: caseCode ?? this.caseCode,
-      description: description ?? this.description,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int?>(id.value);
-    }
-    if (caseName.present) {
-      map['case_name'] = Variable<String>(caseName.value);
-    }
-    if (caseCode.present) {
-      map['case_code'] = Variable<int?>(caseCode.value);
-    }
-    if (description.present) {
-      map['description'] = Variable<String?>(description.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime?>(createdAt.value);
-    }
-    if (updatedAt.present) {
-      map['updated_at'] = Variable<DateTime?>(updatedAt.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('CaseTableCompanion(')
-          ..write('id: $id, ')
-          ..write('caseName: $caseName, ')
-          ..write('caseCode: $caseCode, ')
-          ..write('description: $description, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $CaseTableTable extends CaseTable
-    with TableInfo<$CaseTableTable, CaseTableData> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $CaseTableTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
-      'id', aliasedName, true,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _caseNameMeta = const VerificationMeta('caseName');
-  @override
-  late final GeneratedColumn<String?> caseName = GeneratedColumn<String?>(
-      'case_name', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
-  final VerificationMeta _caseCodeMeta = const VerificationMeta('caseCode');
-  @override
-  late final GeneratedColumn<int?> caseCode = GeneratedColumn<int?>(
-      'case_code', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
-  final VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
-  @override
-  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
-      'description', aliasedName, true,
-      type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
-  @override
-  late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
-      'created_at', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
-  final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
-  @override
-  late final GeneratedColumn<DateTime?> updatedAt = GeneratedColumn<DateTime?>(
-      'updated_at', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
-  @override
-  List<GeneratedColumn> get $columns =>
-      [id, caseName, caseCode, description, createdAt, updatedAt];
-  @override
-  String get aliasedName => _alias ?? 'case_table';
-  @override
-  String get actualTableName => 'case_table';
-  @override
-  VerificationContext validateIntegrity(Insertable<CaseTableData> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('case_name')) {
-      context.handle(_caseNameMeta,
-          caseName.isAcceptableOrUnknown(data['case_name']!, _caseNameMeta));
-    } else if (isInserting) {
-      context.missing(_caseNameMeta);
-    }
-    if (data.containsKey('case_code')) {
-      context.handle(_caseCodeMeta,
-          caseCode.isAcceptableOrUnknown(data['case_code']!, _caseCodeMeta));
-    }
-    if (data.containsKey('description')) {
-      context.handle(
-          _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
-    }
-    if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  CaseTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return CaseTableData.fromData(data,
-        prefix: tablePrefix != null ? '$tablePrefix.' : null);
-  }
-
-  @override
-  $CaseTableTable createAlias(String alias) {
-    return $CaseTableTable(attachedDatabase, alias);
   }
 }
 
@@ -8772,15 +8810,12 @@ class SoldierCaseTableData extends DataClass
   final String membershipType;
   final String dispatchField;
   final String serviceCategory;
-  final String? archiveFileNo;
-  final String? status;
   final DateTime startDateOfService;
   final DateTime endDateOfService;
   final int legalPeriodOfService;
   final DateTime introductionDate;
   final int? lastPeriodOfService;
   final int? amountOfService;
-  final int? caseNo;
   final int? overtime;
   final int? vacations;
   final int? serviceDeficit;
@@ -8793,15 +8828,12 @@ class SoldierCaseTableData extends DataClass
       required this.membershipType,
       required this.dispatchField,
       required this.serviceCategory,
-      this.archiveFileNo,
-      this.status,
       required this.startDateOfService,
       required this.endDateOfService,
       required this.legalPeriodOfService,
       required this.introductionDate,
       this.lastPeriodOfService,
       this.amountOfService,
-      this.caseNo,
       this.overtime,
       this.vacations,
       this.serviceDeficit,
@@ -8820,10 +8852,6 @@ class SoldierCaseTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}dispatch_field'])!,
       serviceCategory: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}service_category'])!,
-      archiveFileNo: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}archive_file_no']),
-      status: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}status']),
       startDateOfService: const DateTimeType().mapFromDatabaseResponse(
           data['${effectivePrefix}start_date_of_service'])!,
       endDateOfService: const DateTimeType().mapFromDatabaseResponse(
@@ -8836,8 +8864,6 @@ class SoldierCaseTableData extends DataClass
           data['${effectivePrefix}last_period_of_service']),
       amountOfService: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}amount_of_service']),
-      caseNo: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}case_no']),
       overtime: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}overtime']),
       vacations: const IntType()
@@ -8863,12 +8889,6 @@ class SoldierCaseTableData extends DataClass
     map['membership_type'] = Variable<String>(membershipType);
     map['dispatch_field'] = Variable<String>(dispatchField);
     map['service_category'] = Variable<String>(serviceCategory);
-    if (!nullToAbsent || archiveFileNo != null) {
-      map['archive_file_no'] = Variable<String?>(archiveFileNo);
-    }
-    if (!nullToAbsent || status != null) {
-      map['status'] = Variable<String?>(status);
-    }
     map['start_date_of_service'] = Variable<DateTime>(startDateOfService);
     map['end_date_of_service'] = Variable<DateTime>(endDateOfService);
     map['legal_period_of_service'] = Variable<int>(legalPeriodOfService);
@@ -8878,9 +8898,6 @@ class SoldierCaseTableData extends DataClass
     }
     if (!nullToAbsent || amountOfService != null) {
       map['amount_of_service'] = Variable<int?>(amountOfService);
-    }
-    if (!nullToAbsent || caseNo != null) {
-      map['case_no'] = Variable<int?>(caseNo);
     }
     if (!nullToAbsent || overtime != null) {
       map['overtime'] = Variable<int?>(overtime);
@@ -8912,11 +8929,6 @@ class SoldierCaseTableData extends DataClass
       membershipType: Value(membershipType),
       dispatchField: Value(dispatchField),
       serviceCategory: Value(serviceCategory),
-      archiveFileNo: archiveFileNo == null && nullToAbsent
-          ? const Value.absent()
-          : Value(archiveFileNo),
-      status:
-          status == null && nullToAbsent ? const Value.absent() : Value(status),
       startDateOfService: Value(startDateOfService),
       endDateOfService: Value(endDateOfService),
       legalPeriodOfService: Value(legalPeriodOfService),
@@ -8927,8 +8939,6 @@ class SoldierCaseTableData extends DataClass
       amountOfService: amountOfService == null && nullToAbsent
           ? const Value.absent()
           : Value(amountOfService),
-      caseNo:
-          caseNo == null && nullToAbsent ? const Value.absent() : Value(caseNo),
       overtime: overtime == null && nullToAbsent
           ? const Value.absent()
           : Value(overtime),
@@ -8957,8 +8967,6 @@ class SoldierCaseTableData extends DataClass
       membershipType: serializer.fromJson<String>(json['membershipType']),
       dispatchField: serializer.fromJson<String>(json['dispatchField']),
       serviceCategory: serializer.fromJson<String>(json['serviceCategory']),
-      archiveFileNo: serializer.fromJson<String?>(json['archiveFileNo']),
-      status: serializer.fromJson<String?>(json['status']),
       startDateOfService:
           serializer.fromJson<DateTime>(json['startDateOfService']),
       endDateOfService: serializer.fromJson<DateTime>(json['endDateOfService']),
@@ -8968,7 +8976,6 @@ class SoldierCaseTableData extends DataClass
       lastPeriodOfService:
           serializer.fromJson<int?>(json['lastPeriodOfService']),
       amountOfService: serializer.fromJson<int?>(json['amountOfService']),
-      caseNo: serializer.fromJson<int?>(json['caseNo']),
       overtime: serializer.fromJson<int?>(json['overtime']),
       vacations: serializer.fromJson<int?>(json['vacations']),
       serviceDeficit: serializer.fromJson<int?>(json['serviceDeficit']),
@@ -8986,15 +8993,12 @@ class SoldierCaseTableData extends DataClass
       'membershipType': serializer.toJson<String>(membershipType),
       'dispatchField': serializer.toJson<String>(dispatchField),
       'serviceCategory': serializer.toJson<String>(serviceCategory),
-      'archiveFileNo': serializer.toJson<String?>(archiveFileNo),
-      'status': serializer.toJson<String?>(status),
       'startDateOfService': serializer.toJson<DateTime>(startDateOfService),
       'endDateOfService': serializer.toJson<DateTime>(endDateOfService),
       'legalPeriodOfService': serializer.toJson<int>(legalPeriodOfService),
       'introductionDate': serializer.toJson<DateTime>(introductionDate),
       'lastPeriodOfService': serializer.toJson<int?>(lastPeriodOfService),
       'amountOfService': serializer.toJson<int?>(amountOfService),
-      'caseNo': serializer.toJson<int?>(caseNo),
       'overtime': serializer.toJson<int?>(overtime),
       'vacations': serializer.toJson<int?>(vacations),
       'serviceDeficit': serializer.toJson<int?>(serviceDeficit),
@@ -9010,15 +9014,12 @@ class SoldierCaseTableData extends DataClass
           String? membershipType,
           String? dispatchField,
           String? serviceCategory,
-          String? archiveFileNo,
-          String? status,
           DateTime? startDateOfService,
           DateTime? endDateOfService,
           int? legalPeriodOfService,
           DateTime? introductionDate,
           int? lastPeriodOfService,
           int? amountOfService,
-          int? caseNo,
           int? overtime,
           int? vacations,
           int? serviceDeficit,
@@ -9031,15 +9032,12 @@ class SoldierCaseTableData extends DataClass
         membershipType: membershipType ?? this.membershipType,
         dispatchField: dispatchField ?? this.dispatchField,
         serviceCategory: serviceCategory ?? this.serviceCategory,
-        archiveFileNo: archiveFileNo ?? this.archiveFileNo,
-        status: status ?? this.status,
         startDateOfService: startDateOfService ?? this.startDateOfService,
         endDateOfService: endDateOfService ?? this.endDateOfService,
         legalPeriodOfService: legalPeriodOfService ?? this.legalPeriodOfService,
         introductionDate: introductionDate ?? this.introductionDate,
         lastPeriodOfService: lastPeriodOfService ?? this.lastPeriodOfService,
         amountOfService: amountOfService ?? this.amountOfService,
-        caseNo: caseNo ?? this.caseNo,
         overtime: overtime ?? this.overtime,
         vacations: vacations ?? this.vacations,
         serviceDeficit: serviceDeficit ?? this.serviceDeficit,
@@ -9055,15 +9053,12 @@ class SoldierCaseTableData extends DataClass
           ..write('membershipType: $membershipType, ')
           ..write('dispatchField: $dispatchField, ')
           ..write('serviceCategory: $serviceCategory, ')
-          ..write('archiveFileNo: $archiveFileNo, ')
-          ..write('status: $status, ')
           ..write('startDateOfService: $startDateOfService, ')
           ..write('endDateOfService: $endDateOfService, ')
           ..write('legalPeriodOfService: $legalPeriodOfService, ')
           ..write('introductionDate: $introductionDate, ')
           ..write('lastPeriodOfService: $lastPeriodOfService, ')
           ..write('amountOfService: $amountOfService, ')
-          ..write('caseNo: $caseNo, ')
           ..write('overtime: $overtime, ')
           ..write('vacations: $vacations, ')
           ..write('serviceDeficit: $serviceDeficit, ')
@@ -9081,15 +9076,12 @@ class SoldierCaseTableData extends DataClass
       membershipType,
       dispatchField,
       serviceCategory,
-      archiveFileNo,
-      status,
       startDateOfService,
       endDateOfService,
       legalPeriodOfService,
       introductionDate,
       lastPeriodOfService,
       amountOfService,
-      caseNo,
       overtime,
       vacations,
       serviceDeficit,
@@ -9105,15 +9097,12 @@ class SoldierCaseTableData extends DataClass
           other.membershipType == this.membershipType &&
           other.dispatchField == this.dispatchField &&
           other.serviceCategory == this.serviceCategory &&
-          other.archiveFileNo == this.archiveFileNo &&
-          other.status == this.status &&
           other.startDateOfService == this.startDateOfService &&
           other.endDateOfService == this.endDateOfService &&
           other.legalPeriodOfService == this.legalPeriodOfService &&
           other.introductionDate == this.introductionDate &&
           other.lastPeriodOfService == this.lastPeriodOfService &&
           other.amountOfService == this.amountOfService &&
-          other.caseNo == this.caseNo &&
           other.overtime == this.overtime &&
           other.vacations == this.vacations &&
           other.serviceDeficit == this.serviceDeficit &&
@@ -9128,15 +9117,12 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
   final Value<String> membershipType;
   final Value<String> dispatchField;
   final Value<String> serviceCategory;
-  final Value<String?> archiveFileNo;
-  final Value<String?> status;
   final Value<DateTime> startDateOfService;
   final Value<DateTime> endDateOfService;
   final Value<int> legalPeriodOfService;
   final Value<DateTime> introductionDate;
   final Value<int?> lastPeriodOfService;
   final Value<int?> amountOfService;
-  final Value<int?> caseNo;
   final Value<int?> overtime;
   final Value<int?> vacations;
   final Value<int?> serviceDeficit;
@@ -9149,15 +9135,12 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     this.membershipType = const Value.absent(),
     this.dispatchField = const Value.absent(),
     this.serviceCategory = const Value.absent(),
-    this.archiveFileNo = const Value.absent(),
-    this.status = const Value.absent(),
     this.startDateOfService = const Value.absent(),
     this.endDateOfService = const Value.absent(),
     this.legalPeriodOfService = const Value.absent(),
     this.introductionDate = const Value.absent(),
     this.lastPeriodOfService = const Value.absent(),
     this.amountOfService = const Value.absent(),
-    this.caseNo = const Value.absent(),
     this.overtime = const Value.absent(),
     this.vacations = const Value.absent(),
     this.serviceDeficit = const Value.absent(),
@@ -9171,15 +9154,12 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     required String membershipType,
     required String dispatchField,
     required String serviceCategory,
-    this.archiveFileNo = const Value.absent(),
-    this.status = const Value.absent(),
     required DateTime startDateOfService,
     required DateTime endDateOfService,
     required int legalPeriodOfService,
     required DateTime introductionDate,
     this.lastPeriodOfService = const Value.absent(),
     this.amountOfService = const Value.absent(),
-    this.caseNo = const Value.absent(),
     this.overtime = const Value.absent(),
     this.vacations = const Value.absent(),
     this.serviceDeficit = const Value.absent(),
@@ -9199,15 +9179,12 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     Expression<String>? membershipType,
     Expression<String>? dispatchField,
     Expression<String>? serviceCategory,
-    Expression<String?>? archiveFileNo,
-    Expression<String?>? status,
     Expression<DateTime>? startDateOfService,
     Expression<DateTime>? endDateOfService,
     Expression<int>? legalPeriodOfService,
     Expression<DateTime>? introductionDate,
     Expression<int?>? lastPeriodOfService,
     Expression<int?>? amountOfService,
-    Expression<int?>? caseNo,
     Expression<int?>? overtime,
     Expression<int?>? vacations,
     Expression<int?>? serviceDeficit,
@@ -9221,8 +9198,6 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
       if (membershipType != null) 'membership_type': membershipType,
       if (dispatchField != null) 'dispatch_field': dispatchField,
       if (serviceCategory != null) 'service_category': serviceCategory,
-      if (archiveFileNo != null) 'archive_file_no': archiveFileNo,
-      if (status != null) 'status': status,
       if (startDateOfService != null)
         'start_date_of_service': startDateOfService,
       if (endDateOfService != null) 'end_date_of_service': endDateOfService,
@@ -9232,7 +9207,6 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
       if (lastPeriodOfService != null)
         'last_period_of_service': lastPeriodOfService,
       if (amountOfService != null) 'amount_of_service': amountOfService,
-      if (caseNo != null) 'case_no': caseNo,
       if (overtime != null) 'overtime': overtime,
       if (vacations != null) 'vacations': vacations,
       if (serviceDeficit != null) 'service_deficit': serviceDeficit,
@@ -9248,15 +9222,12 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
       Value<String>? membershipType,
       Value<String>? dispatchField,
       Value<String>? serviceCategory,
-      Value<String?>? archiveFileNo,
-      Value<String?>? status,
       Value<DateTime>? startDateOfService,
       Value<DateTime>? endDateOfService,
       Value<int>? legalPeriodOfService,
       Value<DateTime>? introductionDate,
       Value<int?>? lastPeriodOfService,
       Value<int?>? amountOfService,
-      Value<int?>? caseNo,
       Value<int?>? overtime,
       Value<int?>? vacations,
       Value<int?>? serviceDeficit,
@@ -9269,15 +9240,12 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
       membershipType: membershipType ?? this.membershipType,
       dispatchField: dispatchField ?? this.dispatchField,
       serviceCategory: serviceCategory ?? this.serviceCategory,
-      archiveFileNo: archiveFileNo ?? this.archiveFileNo,
-      status: status ?? this.status,
       startDateOfService: startDateOfService ?? this.startDateOfService,
       endDateOfService: endDateOfService ?? this.endDateOfService,
       legalPeriodOfService: legalPeriodOfService ?? this.legalPeriodOfService,
       introductionDate: introductionDate ?? this.introductionDate,
       lastPeriodOfService: lastPeriodOfService ?? this.lastPeriodOfService,
       amountOfService: amountOfService ?? this.amountOfService,
-      caseNo: caseNo ?? this.caseNo,
       overtime: overtime ?? this.overtime,
       vacations: vacations ?? this.vacations,
       serviceDeficit: serviceDeficit ?? this.serviceDeficit,
@@ -9303,12 +9271,6 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     if (serviceCategory.present) {
       map['service_category'] = Variable<String>(serviceCategory.value);
     }
-    if (archiveFileNo.present) {
-      map['archive_file_no'] = Variable<String?>(archiveFileNo.value);
-    }
-    if (status.present) {
-      map['status'] = Variable<String?>(status.value);
-    }
     if (startDateOfService.present) {
       map['start_date_of_service'] =
           Variable<DateTime>(startDateOfService.value);
@@ -9328,9 +9290,6 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     }
     if (amountOfService.present) {
       map['amount_of_service'] = Variable<int?>(amountOfService.value);
-    }
-    if (caseNo.present) {
-      map['case_no'] = Variable<int?>(caseNo.value);
     }
     if (overtime.present) {
       map['overtime'] = Variable<int?>(overtime.value);
@@ -9363,15 +9322,12 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
           ..write('membershipType: $membershipType, ')
           ..write('dispatchField: $dispatchField, ')
           ..write('serviceCategory: $serviceCategory, ')
-          ..write('archiveFileNo: $archiveFileNo, ')
-          ..write('status: $status, ')
           ..write('startDateOfService: $startDateOfService, ')
           ..write('endDateOfService: $endDateOfService, ')
           ..write('legalPeriodOfService: $legalPeriodOfService, ')
           ..write('introductionDate: $introductionDate, ')
           ..write('lastPeriodOfService: $lastPeriodOfService, ')
           ..write('amountOfService: $amountOfService, ')
-          ..write('caseNo: $caseNo, ')
           ..write('overtime: $overtime, ')
           ..write('vacations: $vacations, ')
           ..write('serviceDeficit: $serviceDeficit, ')
@@ -9415,17 +9371,6 @@ class $SoldierCaseTableTable extends SoldierCaseTable
   late final GeneratedColumn<String?> serviceCategory =
       GeneratedColumn<String?>('service_category', aliasedName, false,
           type: const StringType(), requiredDuringInsert: true);
-  final VerificationMeta _archiveFileNoMeta =
-      const VerificationMeta('archiveFileNo');
-  @override
-  late final GeneratedColumn<String?> archiveFileNo = GeneratedColumn<String?>(
-      'archive_file_no', aliasedName, true,
-      type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _statusMeta = const VerificationMeta('status');
-  @override
-  late final GeneratedColumn<String?> status = GeneratedColumn<String?>(
-      'status', aliasedName, true,
-      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _startDateOfServiceMeta =
       const VerificationMeta('startDateOfService');
   @override
@@ -9462,13 +9407,6 @@ class $SoldierCaseTableTable extends SoldierCaseTable
   late final GeneratedColumn<int?> amountOfService = GeneratedColumn<int?>(
       'amount_of_service', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
-  final VerificationMeta _caseNoMeta = const VerificationMeta('caseNo');
-  @override
-  late final GeneratedColumn<int?> caseNo = GeneratedColumn<int?>(
-      'case_no', aliasedName, true,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      defaultConstraints: 'REFERENCES case_table (id)');
   final VerificationMeta _overtimeMeta = const VerificationMeta('overtime');
   @override
   late final GeneratedColumn<int?> overtime = GeneratedColumn<int?>(
@@ -9521,15 +9459,12 @@ class $SoldierCaseTableTable extends SoldierCaseTable
         membershipType,
         dispatchField,
         serviceCategory,
-        archiveFileNo,
-        status,
         startDateOfService,
         endDateOfService,
         legalPeriodOfService,
         introductionDate,
         lastPeriodOfService,
         amountOfService,
-        caseNo,
         overtime,
         vacations,
         serviceDeficit,
@@ -9575,16 +9510,6 @@ class $SoldierCaseTableTable extends SoldierCaseTable
     } else if (isInserting) {
       context.missing(_serviceCategoryMeta);
     }
-    if (data.containsKey('archive_file_no')) {
-      context.handle(
-          _archiveFileNoMeta,
-          archiveFileNo.isAcceptableOrUnknown(
-              data['archive_file_no']!, _archiveFileNoMeta));
-    }
-    if (data.containsKey('status')) {
-      context.handle(_statusMeta,
-          status.isAcceptableOrUnknown(data['status']!, _statusMeta));
-    }
     if (data.containsKey('start_date_of_service')) {
       context.handle(
           _startDateOfServiceMeta,
@@ -9628,10 +9553,6 @@ class $SoldierCaseTableTable extends SoldierCaseTable
           _amountOfServiceMeta,
           amountOfService.isAcceptableOrUnknown(
               data['amount_of_service']!, _amountOfServiceMeta));
-    }
-    if (data.containsKey('case_no')) {
-      context.handle(_caseNoMeta,
-          caseNo.isAcceptableOrUnknown(data['case_no']!, _caseNoMeta));
     }
     if (data.containsKey('overtime')) {
       context.handle(_overtimeMeta,
@@ -9686,7 +9607,11 @@ class SoldierTableData extends DataClass
   final String? imagePath;
   final String? personnelCode;
   final String? latestStatus;
-  final bool? divisionStatus;
+  final String caseStatus;
+  final bool divisionStatus;
+  final bool isArchived;
+  final String? archiveCaseNo;
+  final int caseNo;
   final int? section;
   final int? trainingStatus;
   final int? healthStatus;
@@ -9698,7 +9623,11 @@ class SoldierTableData extends DataClass
       this.imagePath,
       this.personnelCode,
       this.latestStatus,
-      this.divisionStatus,
+      required this.caseStatus,
+      required this.divisionStatus,
+      required this.isArchived,
+      this.archiveCaseNo,
+      required this.caseNo,
       this.section,
       this.trainingStatus,
       this.healthStatus,
@@ -9716,8 +9645,16 @@ class SoldierTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}personnel_code']),
       latestStatus: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}latest_status']),
+      caseStatus: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}case_status'])!,
       divisionStatus: const BoolType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}division_status']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}division_status'])!,
+      isArchived: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_archived'])!,
+      archiveCaseNo: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}archive_case_no']),
+      caseNo: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}case_no'])!,
       section: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}section']),
       trainingStatus: const IntType()
@@ -9747,9 +9684,13 @@ class SoldierTableData extends DataClass
     if (!nullToAbsent || latestStatus != null) {
       map['latest_status'] = Variable<String?>(latestStatus);
     }
-    if (!nullToAbsent || divisionStatus != null) {
-      map['division_status'] = Variable<bool?>(divisionStatus);
+    map['case_status'] = Variable<String>(caseStatus);
+    map['division_status'] = Variable<bool>(divisionStatus);
+    map['is_archived'] = Variable<bool>(isArchived);
+    if (!nullToAbsent || archiveCaseNo != null) {
+      map['archive_case_no'] = Variable<String?>(archiveCaseNo);
     }
+    map['case_no'] = Variable<int>(caseNo);
     if (!nullToAbsent || section != null) {
       map['section'] = Variable<int?>(section);
     }
@@ -9783,9 +9724,13 @@ class SoldierTableData extends DataClass
       latestStatus: latestStatus == null && nullToAbsent
           ? const Value.absent()
           : Value(latestStatus),
-      divisionStatus: divisionStatus == null && nullToAbsent
+      caseStatus: Value(caseStatus),
+      divisionStatus: Value(divisionStatus),
+      isArchived: Value(isArchived),
+      archiveCaseNo: archiveCaseNo == null && nullToAbsent
           ? const Value.absent()
-          : Value(divisionStatus),
+          : Value(archiveCaseNo),
+      caseNo: Value(caseNo),
       section: section == null && nullToAbsent
           ? const Value.absent()
           : Value(section),
@@ -9815,7 +9760,11 @@ class SoldierTableData extends DataClass
       imagePath: serializer.fromJson<String?>(json['imagePath']),
       personnelCode: serializer.fromJson<String?>(json['personnelCode']),
       latestStatus: serializer.fromJson<String?>(json['latestStatus']),
-      divisionStatus: serializer.fromJson<bool?>(json['divisionStatus']),
+      caseStatus: serializer.fromJson<String>(json['caseStatus']),
+      divisionStatus: serializer.fromJson<bool>(json['divisionStatus']),
+      isArchived: serializer.fromJson<bool>(json['isArchived']),
+      archiveCaseNo: serializer.fromJson<String?>(json['archiveCaseNo']),
+      caseNo: serializer.fromJson<int>(json['caseNo']),
       section: serializer.fromJson<int?>(json['section']),
       trainingStatus: serializer.fromJson<int?>(json['trainingStatus']),
       healthStatus: serializer.fromJson<int?>(json['healthStatus']),
@@ -9832,7 +9781,11 @@ class SoldierTableData extends DataClass
       'imagePath': serializer.toJson<String?>(imagePath),
       'personnelCode': serializer.toJson<String?>(personnelCode),
       'latestStatus': serializer.toJson<String?>(latestStatus),
-      'divisionStatus': serializer.toJson<bool?>(divisionStatus),
+      'caseStatus': serializer.toJson<String>(caseStatus),
+      'divisionStatus': serializer.toJson<bool>(divisionStatus),
+      'isArchived': serializer.toJson<bool>(isArchived),
+      'archiveCaseNo': serializer.toJson<String?>(archiveCaseNo),
+      'caseNo': serializer.toJson<int>(caseNo),
       'section': serializer.toJson<int?>(section),
       'trainingStatus': serializer.toJson<int?>(trainingStatus),
       'healthStatus': serializer.toJson<int?>(healthStatus),
@@ -9847,7 +9800,11 @@ class SoldierTableData extends DataClass
           String? imagePath,
           String? personnelCode,
           String? latestStatus,
+          String? caseStatus,
           bool? divisionStatus,
+          bool? isArchived,
+          String? archiveCaseNo,
+          int? caseNo,
           int? section,
           int? trainingStatus,
           int? healthStatus,
@@ -9859,7 +9816,11 @@ class SoldierTableData extends DataClass
         imagePath: imagePath ?? this.imagePath,
         personnelCode: personnelCode ?? this.personnelCode,
         latestStatus: latestStatus ?? this.latestStatus,
+        caseStatus: caseStatus ?? this.caseStatus,
         divisionStatus: divisionStatus ?? this.divisionStatus,
+        isArchived: isArchived ?? this.isArchived,
+        archiveCaseNo: archiveCaseNo ?? this.archiveCaseNo,
+        caseNo: caseNo ?? this.caseNo,
         section: section ?? this.section,
         trainingStatus: trainingStatus ?? this.trainingStatus,
         healthStatus: healthStatus ?? this.healthStatus,
@@ -9874,7 +9835,11 @@ class SoldierTableData extends DataClass
           ..write('imagePath: $imagePath, ')
           ..write('personnelCode: $personnelCode, ')
           ..write('latestStatus: $latestStatus, ')
+          ..write('caseStatus: $caseStatus, ')
           ..write('divisionStatus: $divisionStatus, ')
+          ..write('isArchived: $isArchived, ')
+          ..write('archiveCaseNo: $archiveCaseNo, ')
+          ..write('caseNo: $caseNo, ')
           ..write('section: $section, ')
           ..write('trainingStatus: $trainingStatus, ')
           ..write('healthStatus: $healthStatus, ')
@@ -9891,7 +9856,11 @@ class SoldierTableData extends DataClass
       imagePath,
       personnelCode,
       latestStatus,
+      caseStatus,
       divisionStatus,
+      isArchived,
+      archiveCaseNo,
+      caseNo,
       section,
       trainingStatus,
       healthStatus,
@@ -9906,7 +9875,11 @@ class SoldierTableData extends DataClass
           other.imagePath == this.imagePath &&
           other.personnelCode == this.personnelCode &&
           other.latestStatus == this.latestStatus &&
+          other.caseStatus == this.caseStatus &&
           other.divisionStatus == this.divisionStatus &&
+          other.isArchived == this.isArchived &&
+          other.archiveCaseNo == this.archiveCaseNo &&
+          other.caseNo == this.caseNo &&
           other.section == this.section &&
           other.trainingStatus == this.trainingStatus &&
           other.healthStatus == this.healthStatus &&
@@ -9920,7 +9893,11 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
   final Value<String?> imagePath;
   final Value<String?> personnelCode;
   final Value<String?> latestStatus;
-  final Value<bool?> divisionStatus;
+  final Value<String> caseStatus;
+  final Value<bool> divisionStatus;
+  final Value<bool> isArchived;
+  final Value<String?> archiveCaseNo;
+  final Value<int> caseNo;
   final Value<int?> section;
   final Value<int?> trainingStatus;
   final Value<int?> healthStatus;
@@ -9932,7 +9909,11 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
     this.imagePath = const Value.absent(),
     this.personnelCode = const Value.absent(),
     this.latestStatus = const Value.absent(),
+    this.caseStatus = const Value.absent(),
     this.divisionStatus = const Value.absent(),
+    this.isArchived = const Value.absent(),
+    this.archiveCaseNo = const Value.absent(),
+    this.caseNo = const Value.absent(),
     this.section = const Value.absent(),
     this.trainingStatus = const Value.absent(),
     this.healthStatus = const Value.absent(),
@@ -9945,20 +9926,31 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
     this.imagePath = const Value.absent(),
     this.personnelCode = const Value.absent(),
     this.latestStatus = const Value.absent(),
-    this.divisionStatus = const Value.absent(),
+    required String caseStatus,
+    required bool divisionStatus,
+    required bool isArchived,
+    this.archiveCaseNo = const Value.absent(),
+    required int caseNo,
     this.section = const Value.absent(),
     this.trainingStatus = const Value.absent(),
     this.healthStatus = const Value.absent(),
     this.soldierCase = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
-  });
+  })  : caseStatus = Value(caseStatus),
+        divisionStatus = Value(divisionStatus),
+        isArchived = Value(isArchived),
+        caseNo = Value(caseNo);
   static Insertable<SoldierTableData> custom({
     Expression<int?>? id,
     Expression<String?>? imagePath,
     Expression<String?>? personnelCode,
     Expression<String?>? latestStatus,
-    Expression<bool?>? divisionStatus,
+    Expression<String>? caseStatus,
+    Expression<bool>? divisionStatus,
+    Expression<bool>? isArchived,
+    Expression<String?>? archiveCaseNo,
+    Expression<int>? caseNo,
     Expression<int?>? section,
     Expression<int?>? trainingStatus,
     Expression<int?>? healthStatus,
@@ -9971,7 +9963,11 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
       if (imagePath != null) 'image_path': imagePath,
       if (personnelCode != null) 'personnel_code': personnelCode,
       if (latestStatus != null) 'latest_status': latestStatus,
+      if (caseStatus != null) 'case_status': caseStatus,
       if (divisionStatus != null) 'division_status': divisionStatus,
+      if (isArchived != null) 'is_archived': isArchived,
+      if (archiveCaseNo != null) 'archive_case_no': archiveCaseNo,
+      if (caseNo != null) 'case_no': caseNo,
       if (section != null) 'section': section,
       if (trainingStatus != null) 'training_status': trainingStatus,
       if (healthStatus != null) 'health_status': healthStatus,
@@ -9986,7 +9982,11 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
       Value<String?>? imagePath,
       Value<String?>? personnelCode,
       Value<String?>? latestStatus,
-      Value<bool?>? divisionStatus,
+      Value<String>? caseStatus,
+      Value<bool>? divisionStatus,
+      Value<bool>? isArchived,
+      Value<String?>? archiveCaseNo,
+      Value<int>? caseNo,
       Value<int?>? section,
       Value<int?>? trainingStatus,
       Value<int?>? healthStatus,
@@ -9998,7 +9998,11 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
       imagePath: imagePath ?? this.imagePath,
       personnelCode: personnelCode ?? this.personnelCode,
       latestStatus: latestStatus ?? this.latestStatus,
+      caseStatus: caseStatus ?? this.caseStatus,
       divisionStatus: divisionStatus ?? this.divisionStatus,
+      isArchived: isArchived ?? this.isArchived,
+      archiveCaseNo: archiveCaseNo ?? this.archiveCaseNo,
+      caseNo: caseNo ?? this.caseNo,
       section: section ?? this.section,
       trainingStatus: trainingStatus ?? this.trainingStatus,
       healthStatus: healthStatus ?? this.healthStatus,
@@ -10023,8 +10027,20 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
     if (latestStatus.present) {
       map['latest_status'] = Variable<String?>(latestStatus.value);
     }
+    if (caseStatus.present) {
+      map['case_status'] = Variable<String>(caseStatus.value);
+    }
     if (divisionStatus.present) {
-      map['division_status'] = Variable<bool?>(divisionStatus.value);
+      map['division_status'] = Variable<bool>(divisionStatus.value);
+    }
+    if (isArchived.present) {
+      map['is_archived'] = Variable<bool>(isArchived.value);
+    }
+    if (archiveCaseNo.present) {
+      map['archive_case_no'] = Variable<String?>(archiveCaseNo.value);
+    }
+    if (caseNo.present) {
+      map['case_no'] = Variable<int>(caseNo.value);
     }
     if (section.present) {
       map['section'] = Variable<int?>(section.value);
@@ -10054,7 +10070,11 @@ class SoldierTableCompanion extends UpdateCompanion<SoldierTableData> {
           ..write('imagePath: $imagePath, ')
           ..write('personnelCode: $personnelCode, ')
           ..write('latestStatus: $latestStatus, ')
+          ..write('caseStatus: $caseStatus, ')
           ..write('divisionStatus: $divisionStatus, ')
+          ..write('isArchived: $isArchived, ')
+          ..write('archiveCaseNo: $archiveCaseNo, ')
+          ..write('caseNo: $caseNo, ')
           ..write('section: $section, ')
           ..write('trainingStatus: $trainingStatus, ')
           ..write('healthStatus: $healthStatus, ')
@@ -10096,14 +10116,39 @@ class $SoldierTableTable extends SoldierTable
   late final GeneratedColumn<String?> latestStatus = GeneratedColumn<String?>(
       'latest_status', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _caseStatusMeta = const VerificationMeta('caseStatus');
+  @override
+  late final GeneratedColumn<String?> caseStatus = GeneratedColumn<String?>(
+      'case_status', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _divisionStatusMeta =
       const VerificationMeta('divisionStatus');
   @override
   late final GeneratedColumn<bool?> divisionStatus = GeneratedColumn<bool?>(
-      'division_status', aliasedName, true,
+      'division_status', aliasedName, false,
       type: const BoolType(),
-      requiredDuringInsert: false,
+      requiredDuringInsert: true,
       defaultConstraints: 'CHECK (division_status IN (0, 1))');
+  final VerificationMeta _isArchivedMeta = const VerificationMeta('isArchived');
+  @override
+  late final GeneratedColumn<bool?> isArchived = GeneratedColumn<bool?>(
+      'is_archived', aliasedName, false,
+      type: const BoolType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'CHECK (is_archived IN (0, 1))');
+  final VerificationMeta _archiveCaseNoMeta =
+      const VerificationMeta('archiveCaseNo');
+  @override
+  late final GeneratedColumn<String?> archiveCaseNo = GeneratedColumn<String?>(
+      'archive_case_no', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _caseNoMeta = const VerificationMeta('caseNo');
+  @override
+  late final GeneratedColumn<int?> caseNo = GeneratedColumn<int?>(
+      'case_no', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'REFERENCES case_no_table (id)');
   final VerificationMeta _sectionMeta = const VerificationMeta('section');
   @override
   late final GeneratedColumn<int?> section = GeneratedColumn<int?>(
@@ -10151,7 +10196,11 @@ class $SoldierTableTable extends SoldierTable
         imagePath,
         personnelCode,
         latestStatus,
+        caseStatus,
         divisionStatus,
+        isArchived,
+        archiveCaseNo,
+        caseNo,
         section,
         trainingStatus,
         healthStatus,
@@ -10187,11 +10236,41 @@ class $SoldierTableTable extends SoldierTable
           latestStatus.isAcceptableOrUnknown(
               data['latest_status']!, _latestStatusMeta));
     }
+    if (data.containsKey('case_status')) {
+      context.handle(
+          _caseStatusMeta,
+          caseStatus.isAcceptableOrUnknown(
+              data['case_status']!, _caseStatusMeta));
+    } else if (isInserting) {
+      context.missing(_caseStatusMeta);
+    }
     if (data.containsKey('division_status')) {
       context.handle(
           _divisionStatusMeta,
           divisionStatus.isAcceptableOrUnknown(
               data['division_status']!, _divisionStatusMeta));
+    } else if (isInserting) {
+      context.missing(_divisionStatusMeta);
+    }
+    if (data.containsKey('is_archived')) {
+      context.handle(
+          _isArchivedMeta,
+          isArchived.isAcceptableOrUnknown(
+              data['is_archived']!, _isArchivedMeta));
+    } else if (isInserting) {
+      context.missing(_isArchivedMeta);
+    }
+    if (data.containsKey('archive_case_no')) {
+      context.handle(
+          _archiveCaseNoMeta,
+          archiveCaseNo.isAcceptableOrUnknown(
+              data['archive_case_no']!, _archiveCaseNoMeta));
+    }
+    if (data.containsKey('case_no')) {
+      context.handle(_caseNoMeta,
+          caseNo.isAcceptableOrUnknown(data['case_no']!, _caseNoMeta));
+    } else if (isInserting) {
+      context.missing(_caseNoMeta);
     }
     if (data.containsKey('section')) {
       context.handle(_sectionMeta,
@@ -11457,12 +11536,12 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
       operationalServiceDeficitRecordTable =
       $OperationalServiceDeficitRecordTableTable(this);
   late final $OvertimeTableTable overtimeTable = $OvertimeTableTable(this);
+  late final $CaseNoTableTable caseNoTable = $CaseNoTableTable(this);
   late final $UnitPropertiesTableTable unitPropertiesTable =
       $UnitPropertiesTableTable(this);
   late final $SectionTableTable sectionTable = $SectionTableTable(this);
   late final $TrainingStatusTableTable trainingStatusTable =
       $TrainingStatusTableTable(this);
-  late final $CaseTableTable caseTable = $CaseTableTable(this);
   late final $VacationsTableTable vacationsTable = $VacationsTableTable(this);
   late final $ServiceDeficitRecordTableTable serviceDeficitRecordTable =
       $ServiceDeficitRecordTableTable(this);
@@ -11519,7 +11598,7 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
   late final VacationsDAO vacationsDAO = VacationsDAO(this as SoldierDatabase);
   late final ViolationsOvertimeDAO violationsOvertimeDAO =
       ViolationsOvertimeDAO(this as SoldierDatabase);
-  late final CaseDAO caseDAO = CaseDAO(this as SoldierDatabase);
+  late final CaseNoDAO caseNoDAO = CaseNoDAO(this as SoldierDatabase);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -11537,10 +11616,10 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
         hourlyVacationTable,
         operationalServiceDeficitRecordTable,
         overtimeTable,
+        caseNoTable,
         unitPropertiesTable,
         sectionTable,
         trainingStatusTable,
-        caseTable,
         vacationsTable,
         serviceDeficitRecordTable,
         serviceDeficitTable,
@@ -11563,8 +11642,8 @@ mixin _$AnnualOvertimeDAOMixin on DatabaseAccessor<SoldierDatabase> {
 mixin _$AuditDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $AuditTableTable get auditTable => attachedDatabase.auditTable;
 }
-mixin _$CaseDAOMixin on DatabaseAccessor<SoldierDatabase> {
-  $AuditTableTable get auditTable => attachedDatabase.auditTable;
+mixin _$CaseNoDAOMixin on DatabaseAccessor<SoldierDatabase> {
+  $CaseNoTableTable get caseNoTable => attachedDatabase.caseNoTable;
 }
 mixin _$ContactInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $ContactInfoTableTable get contactInfoTable =>
@@ -11573,6 +11652,7 @@ mixin _$ContactInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.furtherInfoTable;
   $EducationalInfoTableTable get educationalInfoTable =>
       attachedDatabase.educationalInfoTable;
+  $CaseNoTableTable get caseNoTable => attachedDatabase.caseNoTable;
   $UnitPropertiesTableTable get unitPropertiesTable =>
       attachedDatabase.unitPropertiesTable;
   $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
@@ -11580,7 +11660,6 @@ mixin _$ContactInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.trainingStatusTable;
   $HealthStatusTableTable get healthStatusTable =>
       attachedDatabase.healthStatusTable;
-  $CaseTableTable get caseTable => attachedDatabase.caseTable;
   $ViolationsOvertimeTableTable get violationsOvertimeTable =>
       attachedDatabase.violationsOvertimeTable;
   $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
@@ -11632,6 +11711,7 @@ mixin _$EducationalInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.furtherInfoTable;
   $ContactInfoTableTable get contactInfoTable =>
       attachedDatabase.contactInfoTable;
+  $CaseNoTableTable get caseNoTable => attachedDatabase.caseNoTable;
   $UnitPropertiesTableTable get unitPropertiesTable =>
       attachedDatabase.unitPropertiesTable;
   $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
@@ -11639,7 +11719,6 @@ mixin _$EducationalInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.trainingStatusTable;
   $HealthStatusTableTable get healthStatusTable =>
       attachedDatabase.healthStatusTable;
-  $CaseTableTable get caseTable => attachedDatabase.caseTable;
   $ViolationsOvertimeTableTable get violationsOvertimeTable =>
       attachedDatabase.violationsOvertimeTable;
   $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
@@ -11675,6 +11754,7 @@ mixin _$FurtherInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.contactInfoTable;
   $EducationalInfoTableTable get educationalInfoTable =>
       attachedDatabase.educationalInfoTable;
+  $CaseNoTableTable get caseNoTable => attachedDatabase.caseNoTable;
   $UnitPropertiesTableTable get unitPropertiesTable =>
       attachedDatabase.unitPropertiesTable;
   $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
@@ -11682,7 +11762,6 @@ mixin _$FurtherInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.trainingStatusTable;
   $HealthStatusTableTable get healthStatusTable =>
       attachedDatabase.healthStatusTable;
-  $CaseTableTable get caseTable => attachedDatabase.caseTable;
   $ViolationsOvertimeTableTable get violationsOvertimeTable =>
       attachedDatabase.violationsOvertimeTable;
   $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
@@ -11737,6 +11816,7 @@ mixin _$PersonalInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.contactInfoTable;
   $EducationalInfoTableTable get educationalInfoTable =>
       attachedDatabase.educationalInfoTable;
+  $CaseNoTableTable get caseNoTable => attachedDatabase.caseNoTable;
   $UnitPropertiesTableTable get unitPropertiesTable =>
       attachedDatabase.unitPropertiesTable;
   $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
@@ -11744,7 +11824,6 @@ mixin _$PersonalInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.trainingStatusTable;
   $HealthStatusTableTable get healthStatusTable =>
       attachedDatabase.healthStatusTable;
-  $CaseTableTable get caseTable => attachedDatabase.caseTable;
   $ViolationsOvertimeTableTable get violationsOvertimeTable =>
       attachedDatabase.violationsOvertimeTable;
   $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
@@ -11795,7 +11874,6 @@ mixin _$ServiceDeficitDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.serviceDeficitTable;
 }
 mixin _$SoldierCaseDAOMixin on DatabaseAccessor<SoldierDatabase> {
-  $CaseTableTable get caseTable => attachedDatabase.caseTable;
   $ViolationsOvertimeTableTable get violationsOvertimeTable =>
       attachedDatabase.violationsOvertimeTable;
   $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
@@ -11824,6 +11902,7 @@ mixin _$SoldierCaseDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.soldierCaseTable;
 }
 mixin _$SoldierDAOMixin on DatabaseAccessor<SoldierDatabase> {
+  $CaseNoTableTable get caseNoTable => attachedDatabase.caseNoTable;
   $UnitPropertiesTableTable get unitPropertiesTable =>
       attachedDatabase.unitPropertiesTable;
   $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
@@ -11831,7 +11910,6 @@ mixin _$SoldierDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.trainingStatusTable;
   $HealthStatusTableTable get healthStatusTable =>
       attachedDatabase.healthStatusTable;
-  $CaseTableTable get caseTable => attachedDatabase.caseTable;
   $ViolationsOvertimeTableTable get violationsOvertimeTable =>
       attachedDatabase.violationsOvertimeTable;
   $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>

@@ -28,14 +28,14 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
     bridgeController = Get.find<BridgeController>();
     service = Get.find<EducationalInfoService>();
     initForm();
-    logger.log(message: "$runtimeType has been initialized.");
+    logger.info("$runtimeType has been initialized.");
   }
 
   @override
   void onReady() {
     super.onReady();
 
-    logger.log(message: "$runtimeType has been ready.");
+    logger.info("$runtimeType has been ready.");
   }
 
   @override
@@ -46,7 +46,7 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
     gradeController.dispose();
     skillsController.dispose();
     permissionToStudyController.dispose();
-    logger.log(level: Level.INFO, message: "$runtimeType has been closed.");
+    logger.info("$runtimeType has been closed.");
     super.onClose();
   }
 
@@ -61,15 +61,15 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
         if (value) {
           if (educationalInfoFormGlobalKey.currentState!.validate()) {
             educationalInfoFormGlobalKey.currentState!.save();
-            logger.log(message: "Further info form is valid to save.");
-            MessageDialog.show(
+            logger.info("Further info form is valid to save.");
+            DialogHelper.showMessageBox(
                 title: Strings.saveInfoTitle,
-                messageDialogButtons: MessageDialogButtons.YES_NO,
-                messageDialogType: MessageDialogType.INFO,
+                dialogButtons: DialogButtons.YES_NO,
+                dialogType: DialogType.INFO,
                 message: Strings.saveInfoMessage,
                 onYesPressed: () {
                   _save();
-                  logger.log(message: "saving edu info...");
+                  logger.info("saving edu info...");
 
                   Get.find<SoldiersController>().loadAll();
                   readOnly(true);
@@ -96,7 +96,7 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
   }
 
   void _save() async {
-     _catchFormData();
+    _catchFormData();
     if (model.value.id == null) {
       await service
           .saveByPersonalInfoId(model.value,
@@ -113,7 +113,7 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
         showToast(Strings.error);
       });
     } else {
-    await  service.update(model.value).then((value) {
+      await service.update(model.value).then((value) {
         if (value) {
           _loadInfo();
           showToast(Strings.successfullyUpdatingInfo);
@@ -134,7 +134,10 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
         _clearEditor();
         readOnly(true);
         model(value);
-        levelOfEducationController.text = model.value.levelOfEducation.isNotEmpty?model.value.levelOfEducation:Strings.levelOfEducationList[0];
+        levelOfEducationController.text =
+            model.value.levelOfEducation.isNotEmpty
+                ? model.value.levelOfEducation
+                : Strings.levelOfEducationList[0];
         fieldOfStudyController.text = model.value.fieldOfStudy ?? "";
         educationPlaceController.text = model.value.educationPlace ?? "";
         gradeController.text =
@@ -199,7 +202,8 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
         levelOfEducationController.text = value;
       },
       itemBuilder: (BuildContext context) {
-        return Strings.levelOfEducationList.map<PopupMenuItem<String>>((String value) {
+        return Strings.levelOfEducationList
+            .map<PopupMenuItem<String>>((String value) {
           return PopupMenuItem(
               child: SizedBox(width: kTextFieldWidth / 2, child: Text(value)),
               value: value);

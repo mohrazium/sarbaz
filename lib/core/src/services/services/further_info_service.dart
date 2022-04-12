@@ -38,7 +38,7 @@ class FurtherInfoServiceImpl implements FurtherInfoService {
       {required int personalInfoId}) async {
     int res = 0;
     await dao.doInsert(model.toJson(), personalInfoId).then((value) {
-      logger.log(message: "Further info was saved.");
+      logger.info( "Further info was saved.");
       res = value.id ?? 0;
     }).onError((error, stackTrace) => throw FailureException(
         "Further info can not save see error $stackTrace"));

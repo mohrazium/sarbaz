@@ -128,7 +128,7 @@ class Strings {
   static const String soldierStatus = "وضعیت سرباز";
   static const String personnelCode = "کد پرسنلی";
   static const String personalCodeTooltip = "کد پرسنلی,کدپاسداری,کد حقوقی";
-  static const String latestStatus = "آخرین وضعیت";
+  static const String latestStatusOfSoldier = "آخرین وضعیت نیرو";
   static const String recentActivities = "فعالیت های اخیر";
   static const String creation = "ایجاد";
   static const String archive = "بایگانی";
@@ -187,6 +187,19 @@ class Strings {
   static const String skills = "مهارت ها";
   static const String permissionToStudy = "مجاز به ادامه تحصیل";
   static const String educationalInfo = "اطلاعات تحصیلی";
+  static const List<String> permissionsList = [no, yes];
+  static const String serviceInfo = "اطلاعات خدمتی";
+  static const String divisionStatus="وضعیت تقسیم";
+  static const String archived="بایگانی شده";
+  static const String caseStatus="وضعیت پرونده";
+  static const String notArchived="جاری";
+  static const String archiveCaseNo="شماره پرونده بایگانی";
 
-  static const List<String> permissionsList=[no,yes];
+  static const String  availableCaseNumbers = "شماره پرونده های در دسترس";
+
+  static const String loading="درحال بارگذاری...";
+
+  static const String sureToProduceCaseNoTitle="ایجادخودکار شماره پرونده ها";
+  static const String sureToProduceCaseNo="آیا مایل به ایجادخودکار شماره پرونده ها هستید؟ ";
+  static const String sureToProduceCaseNoDescription="توجه:تعداد ۵۰ پرونده بایگانی سرباز و ۵۰ پرونده بایگانی امریه تولید خواهد شد";
 }

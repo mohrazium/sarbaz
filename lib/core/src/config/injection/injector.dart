@@ -67,12 +67,14 @@ Future<void> _setup(String environment) async {
         () => VacationsServiceImpl(soldierDatabase.vacationsDAO));
     Get.lazyPut<ViolationsOvertimeService>(() =>
         ViolationsOvertimeServiceImpl(soldierDatabase.violationsOvertimeDAO));
-    Get.lazyPut<CaseService>(() => CaseServiceImpl(soldierDatabase.caseDAO));
+    Get.lazyPut<CaseNoService>(
+        () => CaseNoServiceImpl(soldierDatabase.caseNoDAO));
     Get.lazyPut<RelativeContactsInfoService>(() =>
         RelativeContactsInfoServiceImpl(
             soldierDatabase.relativeContactsInfoDAO));
-    Get.lazyPut<EducationalInfoService>(() =>
-        EducationalInfoServiceImpl(
-            soldierDatabase.educationalInfoDAO));
+    Get.lazyPut<EducationalInfoService>(
+        () => EducationalInfoServiceImpl(soldierDatabase.educationalInfoDAO));
+    Get.lazyPut<CaseNoService>(
+        () => CaseNoServiceImpl(soldierDatabase.caseNoDAO));
   }
 }

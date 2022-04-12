@@ -138,6 +138,7 @@ class DashboardDesktopView extends GetView<DashboardController> {
                   ),
                 Expanded(
                   child: SearchField(
+                    controller: TextEditingController(),
                     onSearch: controller.search,
                   ),
                 ),
@@ -174,6 +175,7 @@ class DashboardDesktopView extends GetView<DashboardController> {
     );
   }
 
+  // ignore: unused_element
   Widget _buildLeftPanelContent() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kSpacing),

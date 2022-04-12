@@ -30,14 +30,14 @@ class ContactInfoController extends GetxController with ValidatorMixin {
     bridgeController = Get.find<BridgeController>();
     service = Get.find<ContactInfoService>();
     initForm();
-    logger.log(message: "$runtimeType has been initialized.");
+    logger.info("$runtimeType has been initialized.");
   }
 
   @override
   void onReady() {
     super.onReady();
 
-    logger.log(message: "$runtimeType has been ready.");
+    logger.info("$runtimeType has been ready.");
   }
 
   @override
@@ -49,7 +49,7 @@ class ContactInfoController extends GetxController with ValidatorMixin {
     addressController.dispose();
     postalCodeController.dispose();
     distanceController.dispose();
-    logger.log(level: Level.INFO, message: "$runtimeType has been closed.");
+    logger.info("$runtimeType has been closed.");
     super.onClose();
   }
 
@@ -64,15 +64,15 @@ class ContactInfoController extends GetxController with ValidatorMixin {
         if (value) {
           if (contactInfoFormGlobalKey.currentState!.validate()) {
             contactInfoFormGlobalKey.currentState!.save();
-            logger.log(message: "Contact info form is valid to save.");
-            MessageDialog.show(
+            logger.info("Contact info form is valid to save.");
+            DialogHelper.showMessageBox(
                 title: Strings.saveInfoTitle,
-                messageDialogButtons: MessageDialogButtons.YES_NO,
-                messageDialogType: MessageDialogType.INFO,
+                dialogButtons: DialogButtons.YES_NO,
+                dialogType: DialogType.INFO,
                 message: Strings.saveInfoMessage,
                 onYesPressed: () {
                   _save();
-                  logger.log(message: "saving contact info...");
+                  logger.info("saving contact info...");
 
                   Get.find<SoldiersController>().loadAll();
                   readOnly(true);

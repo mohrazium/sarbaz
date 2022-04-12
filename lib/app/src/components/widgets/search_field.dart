@@ -1,12 +1,13 @@
 part of components;
 
 class SearchField extends StatelessWidget {
-  SearchField({
+  const SearchField({
+     this.controller,
     this.onSearch,
-    Key? key,
+    Key? key, 
   }) : super(key: key);
 
-  final controller = TextEditingController();
+  final TextEditingController? controller;
   final Function(String value)? onSearch;
 
   @override
@@ -19,10 +20,7 @@ class SearchField extends StatelessWidget {
         controller: controller,
         prefixIcon: const Icon(EvaIcons.search),
         hintText: Strings.search,
-        onEditingComplete: () {
-          FocusScope.of(context).unfocus();
-          if (onSearch != null) onSearch!(controller.text);
-        },
+        onChanged:  onSearch,
         textInputAction: TextInputAction.search,
       ),
     );

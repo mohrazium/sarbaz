@@ -22,7 +22,7 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
   @override
   Future<int> save(PersonalInfoModel e) async {
     return await dao.doInsert(e.toJson()).then((value) {
-      logger.log(message: "person is saved");
+      logger.info( "person is saved");
       return value.id ?? 0;
     }).onError((error, stackTrace) => throw FailureException(
         "saving personal info failed with error $stackTrace"));

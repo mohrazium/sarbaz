@@ -39,7 +39,7 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                         ],
                         prefixIcon: controller.getMaritalList(),
                         validator: (val) =>
-                            controller.validateRequiredField(value: val),
+                            controller.requiredFieldValidator(value: val),
                       ),
 
                       //! Number of children field
@@ -104,7 +104,7 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                             ),
                           ],
                           validator: (val) =>
-                              controller.validateDate(value: val)
+                              controller.dateValidator(value: val)
                           //TODO: FIX marital date to be before today date and is single or not otherwise is not valid.
                           ),
 

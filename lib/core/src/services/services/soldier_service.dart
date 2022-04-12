@@ -1,9 +1,14 @@
 part of services;
 
-abstract class SoldierService extends Service<int, SoldierModel> {}
+abstract class SoldierService extends Service<int, SoldierModel> {
+  Future<int> saveByPersonalInfoId(SoldierModel model,
+      {required int personalInfoId});
+
+  Future<SoldierModel?> findByPersonalInfoId(int personalInfoId);
+}
 
 class SoldierServiceImpl implements SoldierService {
-   final SoldierDAO soldierDAO;
+  final SoldierDAO soldierDAO;
 
   SoldierServiceImpl(this.soldierDAO);
 
@@ -34,6 +39,19 @@ class SoldierServiceImpl implements SoldierService {
   @override
   Future<bool> update(SoldierModel model) {
     // TODO: implement update
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<int> saveByPersonalInfoId(SoldierModel model,
+      {required int personalInfoId}) {
+    // TODO: implement saveByPersonalInfoId
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<SoldierModel?> findByPersonalInfoId(int personalInfoId) {
+    // TODO: implement findByPersonalInfoId
     throw UnimplementedError();
   }
 }

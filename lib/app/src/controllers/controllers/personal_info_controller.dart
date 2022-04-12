@@ -33,7 +33,7 @@ class PersonalInfoController extends GetxController
     placeOfIssueController = TextEditingController();
     service = Get.find<PersonalInfoService>();
     bridgeController = Get.find<BridgeController>();
-    logger.log(message: "$runtimeType has been initialized.");
+    logger.info("$runtimeType has been initialized.");
     initForm(bridgeController.personalInfoId.value);
   }
 
@@ -41,7 +41,7 @@ class PersonalInfoController extends GetxController
   void onReady() {
     super.onReady();
 
-    logger.log(message: "$runtimeType has been ready.");
+    logger.info("$runtimeType has been ready.");
   }
 
   @override
@@ -54,21 +54,18 @@ class PersonalInfoController extends GetxController
     dateOfBirthController.dispose();
     placeOfBirthController.dispose();
     placeOfIssueController.dispose();
-    logger.log(level: Level.INFO, message: "$runtimeType has been closed.");
+    logger.info("$runtimeType has been closed.");
     super.onClose();
   }
 
   void initForm(int id) {
     if (id == 0) {
-      logger.log(
-          message: "$runtimeType has been initialized on new person mode.");
+      logger.info("$runtimeType has been initialized on new person mode.");
       bridgeController.soldierNameAndFamily("...");
       _clearEditor();
       readOnly(false);
     } else {
-      logger.log(
-          message:
-              "$runtimeType has been initialized on editable person mode.");
+      logger.info("$runtimeType has been initialized on editable person mode.");
       _loadPersonalInfo(id);
       readOnly(true);
     }
@@ -85,11 +82,11 @@ class PersonalInfoController extends GetxController
     if (val.length == 10) {
       await _checkPersonalInfoDuplication(val).then((value) {
         if (value) {
-          MessageDialog.show(
+          DialogHelper.showMessageBox(
               title: Strings.info,
               message: Strings.duplicationNationalCode,
-              messageDialogButtons: MessageDialogButtons.OK,
-              messageDialogType: MessageDialogType.ERROR,
+              dialogButtons: DialogButtons.OK,
+              dialogType: DialogType.ERROR,
               onOkPressed: () {
                 nationalCodeController.clear();
               });
@@ -107,11 +104,11 @@ class PersonalInfoController extends GetxController
     if (!readOnly.value) {
       if (personalInfoFormGlobalKey.currentState!.validate()) {
         personalInfoFormGlobalKey.currentState!.save();
-        logger.log(message: "personal info form is valid to save.");
-        MessageDialog.show(
+        logger.info("personal info form is valid to save.");
+        DialogHelper.showMessageBox(
             title: Strings.saveInfoTitle,
-            messageDialogButtons: MessageDialogButtons.YES_NO,
-            messageDialogType: MessageDialogType.INFO,
+            dialogButtons: DialogButtons.YES_NO,
+            dialogType: DialogType.INFO,
             message: Strings.saveInfoMessage,
             onYesPressed: () {
               _save(bridgeController.personalInfoId.value);
@@ -145,15 +142,11 @@ class PersonalInfoController extends GetxController
 
   Future<bool> _checkPersonalInfoDuplication(String nationalIdentity) async {
     bool checked = false;
-    await service
-        .findByNationalCode(nationalIdentity)
-        .then((value) {
+    await service.findByNationalCode(nationalIdentity).then((value) {
       if (value != null) {
         checked = true;
-        logger.log(
-            level: Level.WARNING,
-            message:
-                "Personal info is duplicated by nationalIdentity :$nationalIdentity.");
+        logger.info(
+            "Personal info is duplicated by nationalIdentity :$nationalIdentity.");
       }
     });
 
@@ -164,7 +157,7 @@ class PersonalInfoController extends GetxController
     if (id == 0) {
       _catchFormData();
       await service.save(model.value).then((value) {
-        logger.log(message: "personal info data was saved.");
+        logger.info("personal info data was saved.");
         initForm(value);
         bridgeController.personalInfoId(value);
         showToast(

@@ -26,7 +26,7 @@ part of data;
     UnitPropertiesTable,
     VacationsTable,
     ViolationsOvertimeTable,
-    CaseTable,
+    CaseNoTable,
   ],
   daos: [
     AnnualOvertimeDAO,
@@ -53,7 +53,7 @@ part of data;
     UnitPropertiesDAO,
     VacationsDAO,
     ViolationsOvertimeDAO,
-    CaseDAO,
+    CaseNoDAO,
   ],
 )
 class SoldierDatabase extends _$SoldierDatabase {
@@ -71,14 +71,7 @@ class SoldierDatabase extends _$SoldierDatabase {
         },
         onCreate: (Migrator m) async {
           await m.createAll();
-          for (int i = 0; i < Strings.gForcesOfRGuards.length; i++) {
-            await into(rankTable).insertOnConflictUpdate(
-                RankTableCompanion.insert(
-                    id: Value(i + 1),
-                    gradeCode: Value(i + 1),
-                    name: Value(Strings.gForcesOfRGuards[i]),
-                    createdAt: Value(DateTime.now())));
-          }
+          await insertRanksToTable();
         },
         onUpgrade: (Migrator m, int from, int to) async {
           await customStatement(
@@ -97,7 +90,15 @@ class SoldierDatabase extends _$SoldierDatabase {
           }
         },
       );
+
+  Future<void> insertRanksToTable() async {
+    for (int i = 0; i < Strings.gForcesOfRGuards.length; i++) {
+      await into(rankTable).insertOnConflictUpdate(RankTableCompanion.insert(
+          id: Value(i + 1),
+          gradeCode: Value(i + 1),
+          name: Value(Strings.gForcesOfRGuards[i]),
+          createdAt: Value(DateTime.now())));
+    }
+  }
+
 }
-
-
-

@@ -40,14 +40,14 @@ class FurtherInfoController extends GetxController
     furtherInfoService = Get.find<FurtherInfoService>();
     bridgeController = Get.find<BridgeController>();
     initForm();
-    logger.log(message: "$runtimeType has been initialized.");
+    logger.info("$runtimeType has been initialized.");
   }
 
   @override
   void onReady() {
     super.onReady();
 
-    logger.log(message: "$runtimeType has been ready.");
+    logger.info( "$runtimeType has been ready.");
   }
 
   @override
@@ -62,7 +62,7 @@ class FurtherInfoController extends GetxController
     hairColorController.dispose();
     eyesColorController.dispose();
     bloodTypeController.dispose();
-    logger.log(level: Level.INFO, message: "$runtimeType has been closed.");
+    logger.info("$runtimeType has been closed.");
     super.onClose();
   }
 
@@ -77,15 +77,15 @@ class FurtherInfoController extends GetxController
         if (value) {
           if (furtherInfoFormGlobalKey.currentState!.validate()) {
             furtherInfoFormGlobalKey.currentState!.save();
-            logger.log(message: "Further info form is valid to save.");
-            MessageDialog.show(
+            logger.info( "Further info form is valid to save.");
+            DialogHelper.showMessageBox(
                 title: Strings.saveInfoTitle,
-                messageDialogButtons: MessageDialogButtons.YES_NO,
-                messageDialogType: MessageDialogType.INFO,
+                dialogButtons: DialogButtons.YES_NO,
+                dialogType: DialogType.INFO,
                 message: Strings.saveInfoMessage,
                 onYesPressed: () {
                   _save();
-                  logger.log(message: "saving further info...");
+                  logger.info( "saving further info...");
 
                   Get.find<SoldiersController>().loadAll();
                   readOnly(true);
@@ -127,7 +127,7 @@ class FurtherInfoController extends GetxController
 
   String? validateDateOfMarriage(String? val) {
     return selectedMaritalState.value == Strings.maritalStateMarried
-        ? validateBeforeToday(
+        ? beforeTodayValidator(
             value: val,
             errorMessage: Strings.dateOfMarriageIsNotBeforeTody,
           )

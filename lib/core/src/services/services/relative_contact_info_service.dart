@@ -35,8 +35,8 @@ class RelativeContactsInfoServiceImpl implements RelativeContactsInfoService {
       return await dao
           .doInsert(model.toJson(), model.contactInfo!.id!)
           .then((value) {
-        logger.log(
-            message:
+        logger.info(
+            
                 "Relative contact saved by contact id, ${model.phoneNumber}");
         return value.id ?? 0;
       }).onError((error, stackTrace) => throw FailureException(

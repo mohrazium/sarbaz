@@ -29,7 +29,7 @@ class BridgeController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    logger.log(message: "Bridge controller has been initialized.");
+    logger.info("Bridge controller has been initialized.");
   }
 
   @override
@@ -37,7 +37,7 @@ class BridgeController extends GetxController
 
   @override
   void onClose() {
-    logger.log(level: Level.INFO, message: "${this} has been closed.");
+    logger.info("${this} has been closed.");
   }
 
   void setDashboardTab(int index) {

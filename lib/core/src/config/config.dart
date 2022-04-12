@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sarbaz/core/core.dart';
-export 'io/io.dart';
 
 part 'injection/injector.dart';
 part 'logger/logger_service.dart';

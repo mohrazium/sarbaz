@@ -2,24 +2,35 @@ part of models;
 
 @JsonSerializable()
 class SoldierModel {
-  late final int? id;
-  late final String? imagePath;
-  late final String? personnelCode;
-  late final String? latestStatus;
-  late final bool? divisionStatus;
-  late final SectionModel? section;
-  late final TrainingStatusModel? trainingStatus;
-  late final HealthStatusModel? healthStatus;
-  late final SoldierCaseModel? soldierCase;
-  late final DateTime? createdAt;
-  late final DateTime? updatedAt;
-  SoldierModel.empty();
+  final int? id;
+  final String? imagePath;
+  final String? personnelCode;
+  final String? latestStatus;
+  final String caseStatus;
+  final bool divisionStatus;
+  final bool isArchived;
+  final String? archiveCaseNo;
+  final CaseNoModel caseNo;
+  @JsonKey(ignore: true)
+  final SectionModel? section;
+  @JsonKey(ignore: true)
+  final TrainingStatusModel? trainingStatus;
+  @JsonKey(ignore: true)
+  final HealthStatusModel? healthStatus;
+  @JsonKey(ignore: true)
+  final SoldierCaseModel? soldierCase;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   SoldierModel({
     this.id,
     this.imagePath,
     this.personnelCode,
     this.latestStatus,
-    this.divisionStatus,
+    required this.caseStatus,
+    required this.divisionStatus,
+    required this.isArchived,
+    this.archiveCaseNo,
+    required this.caseNo,
     this.section,
     this.trainingStatus,
     this.healthStatus,
@@ -27,6 +38,12 @@ class SoldierModel {
     this.createdAt,
     this.updatedAt,
   });
+
+  factory SoldierModel.init() => SoldierModel(
+      caseStatus: "",
+      divisionStatus: false,
+      isArchived: false,
+      caseNo: CaseNoModel.init());
 
   factory SoldierModel.fromJson(Map<String, dynamic> json) =>
       _$SoldierModelFromJson(json);
@@ -37,7 +54,11 @@ class SoldierModel {
     String? imagePath,
     String? personnelCode,
     String? latestStatus,
+    String? caseStatus,
     bool? divisionStatus,
+    bool? isArchived,
+    String? archiveCaseNo,
+    CaseNoModel? caseNo,
     SectionModel? section,
     TrainingStatusModel? trainingStatus,
     HealthStatusModel? healthStatus,
@@ -50,7 +71,11 @@ class SoldierModel {
       imagePath: imagePath ?? this.imagePath,
       personnelCode: personnelCode ?? this.personnelCode,
       latestStatus: latestStatus ?? this.latestStatus,
+      caseStatus: caseStatus ?? this.caseStatus,
       divisionStatus: divisionStatus ?? this.divisionStatus,
+      isArchived: isArchived ?? this.isArchived,
+      archiveCaseNo: archiveCaseNo ?? this.archiveCaseNo,
+      caseNo: caseNo ?? this.caseNo,
       section: section ?? this.section,
       trainingStatus: trainingStatus ?? this.trainingStatus,
       healthStatus: healthStatus ?? this.healthStatus,
@@ -58,5 +83,51 @@ class SoldierModel {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
+  }
+
+  @override
+  String toString() {
+    return 'SoldierModel(id: $id, imagePath: $imagePath, personnelCode: $personnelCode, latestStatus: $latestStatus, caseStatus: $caseStatus, divisionStatus: $divisionStatus, isArchived: $isArchived, archiveCaseNo: $archiveCaseNo, caseNo: $caseNo, section: $section, trainingStatus: $trainingStatus, healthStatus: $healthStatus, soldierCase: $soldierCase, createdAt: $createdAt, updatedAt: $updatedAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is SoldierModel &&
+        other.id == id &&
+        other.imagePath == imagePath &&
+        other.personnelCode == personnelCode &&
+        other.latestStatus == latestStatus &&
+        other.caseStatus == caseStatus &&
+        other.divisionStatus == divisionStatus &&
+        other.isArchived == isArchived &&
+        other.archiveCaseNo == archiveCaseNo &&
+        other.caseNo == caseNo &&
+        other.section == section &&
+        other.trainingStatus == trainingStatus &&
+        other.healthStatus == healthStatus &&
+        other.soldierCase == soldierCase &&
+        other.createdAt == createdAt &&
+        other.updatedAt == updatedAt;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        imagePath.hashCode ^
+        personnelCode.hashCode ^
+        latestStatus.hashCode ^
+        caseStatus.hashCode ^
+        divisionStatus.hashCode ^
+        isArchived.hashCode ^
+        archiveCaseNo.hashCode ^
+        caseNo.hashCode ^
+        section.hashCode ^
+        trainingStatus.hashCode ^
+        healthStatus.hashCode ^
+        soldierCase.hashCode ^
+        createdAt.hashCode ^
+        updatedAt.hashCode;
   }
 }

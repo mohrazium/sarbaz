@@ -16,7 +16,7 @@ part 'db/soldier_database.dart';
 /// TABLES
 part 'tables/annual_overtime_table.dart';
 part 'tables/audit_table.dart';
-part 'tables/case_table.dart';
+part 'tables/case_no_table.dart';
 part 'tables/contact_info_table.dart';
 part 'tables/daily_absence_overtime_table.dart';
 part 'tables/daily_vacation_table.dart';
@@ -43,7 +43,7 @@ part 'tables/relative_contacts_info_table.dart';
 /// DAOs
 part 'daos/annual_overtime_dao.dart';
 part 'daos/audit_dao.dart';
-part 'daos/case_dao.dart';
+part 'daos/case_no_dao.dart';
 part 'daos/contact_info_dao.dart';
 part 'daos/daily_absence_overtime_dao.dart';
 part 'daos/daily_vacation_dao.dart';

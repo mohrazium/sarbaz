@@ -11,10 +11,10 @@ class SoldierCaseEditorView extends GetView<SoldierCaseEditorController> {
           icon: EvaIcons.peopleOutline,
           label: Strings.personalInfo,
         ),
-        // TabMenu(
-        //   icon: EvaIcons.peopleOutline,
-        //   label: Strings.soldiersSection,
-        // ),
+        TabMenu(
+          icon: Iconsax.activity,
+          label: Strings.serviceInfo,
+        ),
       ],
       viewHeader: Center(
           child: Obx(() => HeaderText(
@@ -32,6 +32,13 @@ class SoldierCaseEditorView extends GetView<SoldierCaseEditorController> {
               Center(
                 child: EducationalInfoView(),
               )
+            ]),
+            StaggeredGrid.count(
+            crossAxisCount: getStaggeredAxis(context),
+            mainAxisSpacing: 3,
+            crossAxisSpacing: 4,
+            children: const [
+              Center(child: SoldierView()),
             ]),
             
       ],

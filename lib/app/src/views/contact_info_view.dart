@@ -39,7 +39,7 @@ class ContactInfoView extends GetView<ContactInfoController> {
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly
                             ],
-                            validator: (val) => controller.validateMobileNumber(
+                            validator: (val) => controller.mobileNumberValidator(
                               value: val,
                               errorMessage: Strings.wrongMobileNumber,
                             ),
@@ -91,7 +91,7 @@ class ContactInfoView extends GetView<ContactInfoController> {
                               FilteringTextInputFormatter.digitsOnly
                             ],
                             validator: (val) =>
-                                controller.validateRequiredField(value: val),
+                                controller.requiredFieldValidator(value: val),
                           ),
                         ],
                       ),
@@ -103,7 +103,7 @@ class ContactInfoView extends GetView<ContactInfoController> {
                   readOnly: controller.readOnly.value,
                   isRequired: true,
                   validator: (val) =>
-                      controller.validateRequiredField(value: val),
+                      controller.requiredFieldValidator(value: val),
                 ),
                 const RelativeContactInfoView()
               ],

@@ -45,7 +45,9 @@ class SoldiersView extends GetView<SoldiersController> {
                     label: Strings.delete,
                   ),
                   const SizedBox(width: kSpacing),
-                  Expanded(child: SearchField()),
+                  Expanded(child: SearchField(
+                    controller: TextEditingController(),
+                  )),
                   const SizedBox(width: kSpacing),
                   FilledButton(
                       onPressed: () {},

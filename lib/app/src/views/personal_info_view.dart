@@ -33,7 +33,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                         controller: controller.nationalCodeController,
                         readOnly: controller.readOnly.value,
                         isRequired: true,
-                        validator: (val) => controller.validateNationalIdentity(
+                        validator: (val) => controller.nationalIdentityValidator(
                             value: val,
                             errorMessage: Strings.wrongNationalIdentity),
                         onChanged: (val) =>
@@ -47,7 +47,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                         readOnly: controller.readOnly.value,
                         isRequired: true,
                         validator: (val) =>
-                            controller.validateRequiredField(value: val),
+                            controller.requiredFieldValidator(value: val),
                         onChanged: (val) =>
                             controller.onChangedFirstAndLastNameField(val),
                       ),
@@ -59,7 +59,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                         readOnly: controller.readOnly.value,
                         isRequired: true,
                         validator: (val) =>
-                            controller.validateRequiredField(value: val),
+                            controller.requiredFieldValidator(value: val),
                       ),
                       //! Place of birth field
                       TextFieldCustom(
@@ -87,7 +87,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                         readOnly: controller.readOnly.value,
                         isRequired: true,
                         validator: (val) =>
-                            controller.validateRequiredField(value: val),
+                            controller.requiredFieldValidator(value: val),
                         onChanged: (val) =>
                             controller.onChangedFirstAndLastNameField(val),
                       ),
@@ -111,7 +111,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                               onPressed: () =>
                                   controller.onCalenderPressed(context)),
                           validator: (val) =>
-                              controller.validateDate(value: val)),
+                              controller.dateValidator(value: val)),
 
                       //! Place of birth name field
                       TextFieldCustom(

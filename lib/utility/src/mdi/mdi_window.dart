@@ -113,6 +113,7 @@ class _MdiWindowState extends State<MdiWindow> {
     ]);
   }
 
+  // ignore: unused_element
   _getMaximizeButton() {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
       const SizedBox(
@@ -123,7 +124,7 @@ class _MdiWindowState extends State<MdiWindow> {
         onPressed: () {
           widget.onMaximizeButtonClicked();
         },
-        child: Container(
+        child: SizedBox(
             width: _headerSize - 5,
             height: _headerSize - 5,
             child: const Icon(Icons.fullscreen)),
@@ -131,6 +132,7 @@ class _MdiWindowState extends State<MdiWindow> {
     ]);
   }
 
+  // ignore: unused_element
   _getMinimizeButton() {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
       const SizedBox(
@@ -141,7 +143,7 @@ class _MdiWindowState extends State<MdiWindow> {
         onPressed: () {
           widget.onMinimizeButtonClicked();
         },
-        child: Container(
+        child: SizedBox(
             width: _headerSize - 5,
             height: _headerSize - 5,
             child: const Icon(Icons.minimize)),

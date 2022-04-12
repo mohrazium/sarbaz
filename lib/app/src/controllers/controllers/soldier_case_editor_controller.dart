@@ -27,7 +27,7 @@ class SoldierCaseEditorController extends GetxController
   @override
   void onClose() {
     tabController.value.dispose();
-    logger.log(level: Level.INFO, message: "${this} has been closed.");
+    logger.info("${this} has been closed.");
   }
 
   String getHeaderText() {

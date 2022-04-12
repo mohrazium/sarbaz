@@ -8,6 +8,7 @@ class GroupBox extends StatelessWidget {
   final BorderRadius? borderRadius;
   final double? height;
   final double? width;
+  final void Function()? onTap;
 
   const GroupBox({
     Key? key,
@@ -18,6 +19,7 @@ class GroupBox extends StatelessWidget {
     this.borderRadius,
     this.height,
     this.width,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -27,14 +29,23 @@ class GroupBox extends StatelessWidget {
       child: ClipRRect(
         borderRadius: borderRadius ??
             const BorderRadius.all(Radius.circular(kBorderRadius)),
-        child: Container(
-            width: width,
-            height: height,
-            color: color ?? Colorize.backgroundColorShade600,
-            child: Padding(
-                    padding: margin?? const EdgeInsets.all(0),
-                    child: child,
-                  )),
+        child: InkWell(
+          borderRadius: borderRadius ??
+              const BorderRadius.all(Radius.circular(kBorderRadius)),
+          onTap: onTap,
+          child: Ink(
+              decoration: BoxDecoration(
+                borderRadius: borderRadius ??
+                    const BorderRadius.all(Radius.circular(kBorderRadius)),
+                color: color ?? Colorize.backgroundColorShade600,
+              ),
+              width: width,
+              height: height,
+              child: Padding(
+                padding: margin ?? const EdgeInsets.all(0),
+                child: child,
+              )),
+        ),
       ),
     );
   }

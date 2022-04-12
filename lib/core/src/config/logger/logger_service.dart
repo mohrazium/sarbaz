@@ -12,10 +12,29 @@ LoggerService _setLogger() {
 }
 
 class LoggerService {
-  static List<String> _logs = [];
+  static final List<String> _logs = [];
+
   Logger log({Level? level, required message}) {
-    final Logger logger = Logger('SarbazLog');
+    final Logger logger = Logger('Sarbaz');
     level == null ? logger.log(Level.ALL, message) : logger.log(level, message);
+    return logger;
+  }
+
+  Logger info(String message) {
+    final Logger logger = Logger('Sarbaz');
+    logger.log(Level.INFO, message);
+    return logger;
+  }
+
+  Logger warning(String message) {
+    final Logger logger = Logger('Sarbaz');
+    logger.log(Level.WARNING, message);
+    return logger;
+  }
+
+  Logger error(String message) {
+    final Logger logger = Logger('Sarbaz');
+    logger.log(Level.SEVERE, message);
     return logger;
   }
 

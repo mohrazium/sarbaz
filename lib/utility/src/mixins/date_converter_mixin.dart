@@ -20,9 +20,8 @@ mixin DateConverterMixin {
 class _DateConverter {
   static String toShamsi(DateTime? dateTime) {
     if (dateTime != null) {
-      shamsiDate.Jalali jalali = dateTime.toJalali();
-      return persianTools
-          .convertEnToFa("${jalali.year}/${jalali.month}/${jalali.day}");
+      shamsi_date.Jalali jalali = dateTime.toJalali();
+      return persian_tools.convertEnToFa("${jalali.year}/${jalali.month}/${jalali.day}");
     }
     return "";
   }
@@ -40,7 +39,7 @@ class _DateConverter {
 
   static DateTime? toDateTimeFromString(String? str) {
     if (str != null && str.isNotEmpty) {
-      str = persianTools.convertFaToEn(str);
+      str = persian_tools.convertFaToEn(str);
       var splitDate = (str.split("/"));
       final y = int.parse(splitDate[0]);
       final m = int.parse(splitDate[1]);

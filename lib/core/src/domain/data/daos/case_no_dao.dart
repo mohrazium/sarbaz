@@ -9,6 +9,11 @@ class CaseNoDAO extends DatabaseAccessor<SoldierDatabase>
     return (select(caseNoTable)).get();
   }
 
+  Future<CaseNoTableData?> findById(int id) async {
+    return (select(caseNoTable)..where((tbl) => tbl.id.equals(id)))
+        .getSingleOrNull();
+  }
+
   Future<void> doInsertAll(int count) async {
     var divided = count ~/ 2;
     for (int i = 1; i <= divided; i++) {

@@ -5,8 +5,8 @@ class SoldierController extends GetxController with ValidatorMixin {
 
   late RxBool readOnly = false.obs;
 
-  late final SoldierService service;
-  late final CaseNoService caseNoService;
+  late final SoldierService _service;
+  late final CaseNoService _caseNoService;
   late final Rx<SoldierModel> model = Rx(SoldierModel.init());
 
   late List<CaseNoModel> _allCaseNumbers = List.empty(growable: true);
@@ -36,9 +36,9 @@ class SoldierController extends GetxController with ValidatorMixin {
     archiveCaseNoController = TextEditingController();
     caseNoController = TextEditingController();
     searchController = TextEditingController();
-    service = Get.find<SoldierService>();
+    _service = Get.find<SoldierService>();
     bridgeController = Get.find<BridgeController>();
-    caseNoService = Get.find<CaseNoService>();
+    _caseNoService = Get.find<CaseNoService>();
     logger.info("$runtimeType has been initialized.");
     initForm();
   }
@@ -61,7 +61,7 @@ class SoldierController extends GetxController with ValidatorMixin {
         if (value) {
           if (soldierFormGlobalKey.currentState!.validate()) {
             soldierFormGlobalKey.currentState!.save();
-            logger.info("Further info form is valid to save.");
+            logger.info("Soldier form is valid to save.");
             DialogHelper.showMessageBox(
                 title: Strings.saveInfoTitle,
                 dialogButtons: DialogButtons.YES_NO,
@@ -69,7 +69,7 @@ class SoldierController extends GetxController with ValidatorMixin {
                 message: Strings.saveInfoMessage,
                 onYesPressed: () {
                   _save();
-                  logger.info("saving further info...");
+                  logger.info("saving soldier...");
 
                   Get.find<SoldiersController>().loadAll();
                   readOnly(true);
@@ -79,7 +79,7 @@ class SoldierController extends GetxController with ValidatorMixin {
           showToast(Strings.personalInfoIsnotSavedPleaseSave);
         }
       }).catchError((onError) {
-        showToast(Strings.error);
+        DialogHelper.showCrashReport(onError.toString());
       });
     } else {
       readOnly(false);
@@ -98,7 +98,7 @@ class SoldierController extends GetxController with ValidatorMixin {
   void _save() async {
     _catchFormData();
     if (model.value.id == null) {
-      await service
+      await _service
           .saveByPersonalInfoId(model.value,
               personalInfoId: bridgeController.personalInfoId.value)
           .then((value) {
@@ -110,10 +110,10 @@ class SoldierController extends GetxController with ValidatorMixin {
           showToast(Strings.unsuccessfullySavingInfo);
         }
       }).catchError((onError) {
-        showToast(Strings.error);
+        DialogHelper.showCrashReport(onError.toString());
       });
     } else {
-      service.update(model.value).then((value) {
+      _service.update(model.value).then((value) {
         if (value) {
           _loadInfo();
           showToast(Strings.successfullyUpdatingInfo);
@@ -121,34 +121,54 @@ class SoldierController extends GetxController with ValidatorMixin {
           showToast(Strings.unsuccessfullyUpdatingInfo);
         }
       }).catchError((onError) {
-        showToast(Strings.error);
+        DialogHelper.showCrashReport(onError.toString());
       });
     }
   }
 
   Future<void> _loadInfo() async {
-    await service
+    await _service
         .findByPersonalInfoId(bridgeController.personalInfoId.value)
         .then((value) {
       if (value?.id != null) {
         _clearEditor();
         readOnly(true);
         model(value);
+        personnelCodeController.text = model.value.personnelCode ?? "";
+        latestStatusController.text = model.value.latestStatus ?? "";
+        caseStatusController.text = model.value.caseStatus.isNotEmpty
+            ? model.value.caseStatus.trim()
+            : "";
+        divisionStatusController.text =
+            model.value.divisionStatus ? Strings.yes : Strings.no;
+        archiveCaseNoController.text = model.value.archiveCaseNo ?? "";
+        selectedCaseNoModel(model.value.caseNo);
+        sendSelectedCaseNoModelToTextEditing();
       } else {
         _clearEditor();
         readOnly(false);
       }
     }).catchError((onError) {
-      showToast(Strings.error);
+      DialogHelper.showCrashReport(onError.toString());
     });
   }
 
   void _catchFormData() {
     model(SoldierModel(
-        caseStatus: "",
-        divisionStatus: false,
-        isArchived: false,
-        caseNo: selectedCaseNoModel.value));
+      id: model.value.id,
+      caseStatus: caseStatusController.text.isNotEmpty
+          ? caseStatusController.text.trim()
+          : Strings.caseStatusAvailable,
+      latestStatus: latestStatusController.text.isNotEmpty
+          ? latestStatusController.text.trim()
+          : Strings.soldierStatusPresent,
+      personnelCode: personnelCodeController.text.isNotEmpty
+          ? personnelCodeController.text.trim()
+          : null,
+      divisionStatus: false,
+      isArchived: false,
+      caseNo: selectedCaseNoModel.value,
+    ));
   }
 
   void _clearEditor() {
@@ -172,15 +192,14 @@ class SoldierController extends GetxController with ValidatorMixin {
   Future<void> loadAllCaseNo() async {
     foundedCaseNoList.value.clear();
     _allCaseNumbers.clear();
-    _allCaseNumbers = await caseNoService.findAll().then((models) {
+    _allCaseNumbers = await _caseNoService.findAll().then((models) {
           if (models != null && models.isNotEmpty) {
             return models;
           } else {
-            showToast(
-                "لیست شماره پرونده های بایگانی در دسترس نمی باشد, لطفا آن را ایجاد نمایید");
+            showToast(Strings.caseNosNotAvailablePleaseAddIt);
           }
         }).catchError((onError) {
-          showToast(Strings.error);
+          DialogHelper.showCrashReport(onError.toString());
         }) ??
         List.empty(growable: true);
     foundedCaseNoList(_allCaseNumbers);
@@ -207,8 +226,9 @@ class SoldierController extends GetxController with ValidatorMixin {
   }
 
   Future<void> onGenerateCaseNoListPressed() async {
-    await caseNoService
+    await _caseNoService
         .saveAll(100)
-        .catchError((err) => showToast(Strings.error));
+        .catchError((err) => showToast(Strings.error))
+        .whenComplete(() => loadAllCaseNo());
   }
 }

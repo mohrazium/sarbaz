@@ -1,6 +1,6 @@
 part of controllers;
 
-class SoldierCaseEditorController extends GetxController
+class SoldierEditorController extends GetxController
     with GetSingleTickerProviderStateMixin {
   final soldierCaseEditorScaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -12,6 +12,8 @@ class SoldierCaseEditorController extends GetxController
 
   late Rx<int> soldierCaseEditorShownContentIndex = 0.obs;
   late Rx<int> soldierCaseEditorContentLen = 0.obs;
+
+  late Rx<int> gridColumns = Rx(0);
 
   late final BridgeController bridgeController;
 
@@ -34,10 +36,6 @@ class SoldierCaseEditorController extends GetxController
     return bridgeController.soldierNameAndFamily.value;
   }
 
-  
-
-  
-
   // void keepSelectedLevelOfEducation() {
   //   if (levelOfEducationController.text.length > 0)
   //     selectedLevelOfEducation.value = levelOfEducationController.text;
@@ -45,5 +43,9 @@ class SoldierCaseEditorController extends GetxController
 
   onSelectedMainMenu(int index, TabMenu value) {
     tabController.value.index = index;
+  }
+
+  void getStaggeredAxis(BuildContext context) {
+    gridColumns(MediaQuery.of(context).size.width ~/ 610);
   }
 }

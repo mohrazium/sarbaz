@@ -31,7 +31,7 @@ class EducationalInfoServiceImpl implements EducationalInfoService {
           ? EducationalInfoModel.fromJson(value.toJson())
           : null;
     }).onError((error, stackTrace) => throw FailureException(
-        "An error happened in finding edu info by id, with error: $stackTrace"));
+        "An error happened in finding edu info by id, see the error :\n $error \n $stackTrace"));
   }
 
   @override
@@ -57,7 +57,7 @@ class EducationalInfoServiceImpl implements EducationalInfoService {
           ? EducationalInfoModel.fromJson(value.toJson())
           : null;
     }).onError((error, stackTrace) => throw FailureException(
-            "An error happened in finding edu info by personal id with error: $stackTrace"));
+            "An error happened in finding edu info by personal id, see the error :\n $error \n $stackTrace"));
   }
 
   @override
@@ -66,6 +66,6 @@ class EducationalInfoServiceImpl implements EducationalInfoService {
     return await dao.doInsert(model.toJson(), personalInfoId).then((value) {
       return value.id ?? 0;
     }).onError((error, stackTrace) =>
-        throw FailureException("Edu info can not save see error $stackTrace"));
+        throw FailureException("Edu info can not save, see the error :\n $error \n $stackTrace"));
   }
 }

@@ -189,17 +189,41 @@ class Strings {
   static const String educationalInfo = "اطلاعات تحصیلی";
   static const List<String> permissionsList = [no, yes];
   static const String serviceInfo = "اطلاعات خدمتی";
-  static const String divisionStatus="وضعیت تقسیم";
-  static const String archived="بایگانی شده";
-  static const String caseStatus="وضعیت پرونده";
-  static const String notArchived="جاری";
-  static const String archiveCaseNo="شماره پرونده بایگانی";
-
-  static const String  availableCaseNumbers = "شماره پرونده های در دسترس";
-
-  static const String loading="درحال بارگذاری...";
-
-  static const String sureToProduceCaseNoTitle="ایجادخودکار شماره پرونده ها";
-  static const String sureToProduceCaseNo="آیا مایل به ایجادخودکار شماره پرونده ها هستید؟ ";
-  static const String sureToProduceCaseNoDescription="توجه:تعداد ۵۰ پرونده بایگانی سرباز و ۵۰ پرونده بایگانی امریه تولید خواهد شد";
+  static const String divisionStatus = "وضعیت تقسیم";
+  static const String caseStatus = "وضعیت پرونده";
+  static const String archiveCaseNo = "شماره پرونده بایگانی";
+  static const String availableCaseNumbers = "شماره پرونده های در دسترس";
+  static const String loading = "درحال بارگذاری...";
+  static const String sureToProduceCaseNoTitle = "ایجادخودکار شماره پرونده ها";
+  static const String sureToProduceCaseNo =
+      "آیا مایل به ایجادخودکار شماره پرونده ها هستید؟ ";
+  static const String sureToProduceCaseNoDescription =
+      "توجه:تعداد ۵۰ شماره پرونده ی سرباز و ۵۰ پرونده ی امریه تولید خواهد شد";
+  static String? caseNosNotAvailablePleaseAddIt =
+      "شماره پرونده ای در دسترس نمی باشد, لطفا آن را ایجاد نمایید";
+  static const String caseStatusAvailable = "در دسترس";
+  static const String caseStatusArchived = "بایگانی شده";
+  static const String caseStatusWipedOut = "امحا شده";
+  static List<String> caseStatusList = [
+    caseStatusAvailable,
+    caseStatusArchived,
+    caseStatusWipedOut
+  ];
+  static const String soldierStatusPresent = "آماده به خدمت";
+  static const String soldierStatusInVacaation = "مرخصی";
+  static const String soldierStatusInSeekVacaation = "استعلاجی";
+  static const String soldierStatusAbsent = "غایب";
+  static const String soldierStatusSkip = "فرار از خدمت";
+  static const String soldierStatusIntroductionToCommission =
+      "معرفی به کمیسیون";
+  static const String soldierStatusStop = "ایست خدمتی";
+  static const List<String> soldierStatusList = [
+    soldierStatusPresent,
+    soldierStatusInVacaation,
+    soldierStatusInSeekVacaation,
+    soldierStatusAbsent,
+    soldierStatusSkip,
+    soldierStatusIntroductionToCommission,
+    soldierStatusStop,
+  ];
 }

@@ -87,7 +87,9 @@ class DialogHelper {
             onPressed: () {
               if (Get.isDialogOpen!) Get.back();
 
-              if (okPressed != null) okPressed();
+              if (okPressed != null) {
+                okPressed();
+              }
             },
             child: const Text("باشه"),
           ),
@@ -106,7 +108,7 @@ class DialogHelper {
                   onPressed: () {
                     if (Get.isDialogOpen!) Get.back();
 
-                    if (okPressed != null) okPressed();
+                    if (okPressed != null) {okPressed();}
                   },
                   child: const Text("تایید"),
                 ),
@@ -121,7 +123,9 @@ class DialogHelper {
                   onPressed: () {
                     if (Get.isDialogOpen!) Get.back();
 
-                    if (cancelPressed != null) cancelPressed();
+                    if (cancelPressed != null) {
+                      cancelPressed();
+                    }
                   },
                   child: const Text("لغو"),
                 ),
@@ -137,7 +141,9 @@ class DialogHelper {
                 onPressed: () {
                   if (Get.isDialogOpen!) Get.back();
 
-                  if (yesPressed != null) yesPressed();
+                  if (yesPressed != null) {
+                    yesPressed();
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colorize.accentColor,
@@ -154,7 +160,7 @@ class DialogHelper {
                 onPressed: () {
                   if (Get.isDialogOpen!) Get.back();
 
-                  if (noPressed != null) noPressed();
+                  if (noPressed != null) {noPressed();}
                 },
                 child: const Text("خیر"),
               ),
@@ -189,8 +195,25 @@ class DialogHelper {
     double? width,
     double? height,
     bool alwaysOpen = false,
+    bool isScrollable = false,
     required String title,
   }) {
+    final header = AppBar(
+      automaticallyImplyLeading: false,
+      iconTheme: const IconThemeData(color: Colorize.foregroundColor),
+      leading: IconButton(
+        onPressed: () {
+          if (Get.isDialogOpen!) Get.back();
+        },
+        icon: const Icon(EvaIcons.close),
+      ),
+      centerTitle: true,
+      title: Text(
+        title,
+        style: Fonts.headline6(),
+      ),
+      elevation: 0.0,
+    );
     Get.dialog(
       Dialog(
         backgroundColor: Colors.transparent,
@@ -201,78 +224,73 @@ class DialogHelper {
               borderRadius:
                   const BorderRadius.all(Radius.circular(kBorderRadius)),
               child: Scaffold(
-                appBar: AppBar(
-                  iconTheme:
-                      const IconThemeData(color: Colorize.foregroundColor),
-                  leading: IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: const Icon(EvaIcons.close),
-                  ),
-                  centerTitle: true,
-                  title: Text(
-                    title,
-                    style: Fonts.headline5(),
-                  ),
-                  elevation: 0.0,
-                ),
-                body: Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      kPadding, 0, kPadding, kPadding),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      child ?? Container(),
-                      const SizedBox(height: kSpacing / 3),
-                      onOkPressed != null && onCancelPressed != null
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(kPadding),
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Colorize.accentColor,
+                  appBar: header,
+                  body: Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                        kPadding, 0, kPadding, kPadding),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        child != null
+                            ? Expanded(
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  controller: ScrollController(),
+                                  children: [
+                                    Container(
+                                        color: Colors.transparent, child: child)
+                                  ],
+                                ),
+                              )
+                            : Container(),
+                        const SizedBox(height: kSpacing / 3),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              onOkPressed != null
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(kPadding),
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Colorize.accentColor,
+                                        ),
+                                        onPressed: () {
+                                          onOkPressed();
+                                          if (Get.isDialogOpen!) {
+                                            Get.back();
+                                          }
+                                        },
+                                        child: const Text("تایید"),
                                       ),
-                                      onPressed: () {
-                                        onOkPressed();
-
-                                        if (Get.isDialogOpen!) {
-                                          Get.back();
-                                        }
-                                      },
-                                      child: const Text("تایید"),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(kPadding / 3),
-                                    child: ElevatedButton(
-                                      // textStyle: Themizer.textStyle,
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Colorize.errorColor,
-                                      ),
-                                      onPressed: () {
-                                        if (onCancelPressed != null) {
+                                    )
+                                  : Container(),
+                              onCancelPressed != null
+                                  ? Padding(
+                                      padding:
+                                          const EdgeInsets.all(kPadding / 3),
+                                      child: ElevatedButton(
+                                        // textStyle: Themizer.textStyle,
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Colorize.errorColor,
+                                        ),
+                                        onPressed: () {
                                           onCancelPressed();
-                                        }
 
-                                        if (Get.isDialogOpen!) {
-                                          Get.back();
-                                        }
-                                      },
-                                      child: const Text("لغو"),
-                                    ),
-                                  ),
-                                ])
-                          : Container()
-                    ],
-                  ),
-                ),
-              ),
+                                          if (Get.isDialogOpen!) {
+                                            Get.back();
+                                          }
+                                        },
+                                        child: const Text("لغو"),
+                                      ),
+                                    )
+                                  : Container(),
+                            ])
+                      ],
+                    ),
+                  )),
             )),
       ),
       barrierDismissible: !alwaysOpen,
@@ -315,5 +333,20 @@ class DialogHelper {
       Future.delayed(const Duration(milliseconds: 250))
           .whenComplete(() => Get.back());
     }
+  }
+
+  static void showCrashReport([String? error]) {
+    logger.error(error ?? "");
+    DialogHelper.show(
+      isScrollable: true,
+      title: Strings.error,
+      onOkPressed: () {},
+      child: Text(
+        error ?? "",
+        textAlign: TextAlign.left,
+        maxLines: 1000,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
   }
 }

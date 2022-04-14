@@ -82,7 +82,7 @@ class ContactInfoController extends GetxController with ValidatorMixin {
           showToast(Strings.personalInfoIsnotSavedPleaseSave);
         }
       }).catchError((onError) {
-        showToast(Strings.error);
+        DialogHelper.showCrashReport(onError.toString());
       });
     } else {
       readOnly(false);
@@ -115,7 +115,7 @@ class ContactInfoController extends GetxController with ValidatorMixin {
           showToast(Strings.unsuccessfullySavingInfo);
         }
       }).catchError((onError) {
-        showToast(Strings.error);
+        DialogHelper.showCrashReport(onError.toString());
       });
     } else {
       service.update(model.value).then((value) {
@@ -127,7 +127,7 @@ class ContactInfoController extends GetxController with ValidatorMixin {
           showToast(Strings.unsuccessfullyUpdatingInfo);
         }
       }).catchError((onError) {
-        showToast(Strings.error);
+        DialogHelper.showCrashReport(onError.toString());
       });
     }
     Get.find<SoldiersController>().loadAll();
@@ -153,7 +153,7 @@ class ContactInfoController extends GetxController with ValidatorMixin {
         readOnly(false);
       }
     }).catchError((onError) {
-      showToast(Strings.error);
+      DialogHelper.showCrashReport(onError.toString());
     });
   }
 

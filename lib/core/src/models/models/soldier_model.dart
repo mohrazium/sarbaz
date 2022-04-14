@@ -1,5 +1,7 @@
 part of models;
 
+enum CaseStatus { available, archived, trashed }
+
 @JsonSerializable()
 class SoldierModel {
   final int? id;
@@ -10,7 +12,8 @@ class SoldierModel {
   final bool divisionStatus;
   final bool isArchived;
   final String? archiveCaseNo;
-  final CaseNoModel caseNo;
+  @JsonKey(ignore: true)
+  final CaseNoModel? caseNo;
   @JsonKey(ignore: true)
   final SectionModel? section;
   @JsonKey(ignore: true)
@@ -30,7 +33,7 @@ class SoldierModel {
     required this.divisionStatus,
     required this.isArchived,
     this.archiveCaseNo,
-    required this.caseNo,
+    this.caseNo,
     this.section,
     this.trainingStatus,
     this.healthStatus,
@@ -45,9 +48,13 @@ class SoldierModel {
       isArchived: false,
       caseNo: CaseNoModel.init());
 
-  factory SoldierModel.fromJson(Map<String, dynamic> json) =>
-      _$SoldierModelFromJson(json);
-  Map<String, dynamic> toJson() => _$SoldierModelToJson(this);
+  factory SoldierModel.fromJson(json) => _$SoldierModelFromJson(json);
+
+  Map<String, dynamic> toJson() {
+    var mappedModel = _$SoldierModelToJson(this);
+    mappedModel['caseNo'] = caseNo!.id;
+    return mappedModel;
+  }
 
   SoldierModel copyWith({
     int? id,

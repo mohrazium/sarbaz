@@ -1,7 +1,9 @@
 part of config;
 
 class Injector {
-  static void setup(String environment) => _setup(environment);
+  static void setup(String environment) {
+    _setupServices(environment);
+  }
 }
 
 class Env {
@@ -12,69 +14,99 @@ class Env {
 
 String _environmentMode = "";
 
-Future<void> _setup(String environment) async {
+Future<void> _setupServices(String environment) async {
   if (environment == Env.dev) {
     _environmentMode = environment;
     // final soldierDatabase = kIsWeb ? soldierWebDb() : soldierNativeDb();
-    final soldierDatabase = SoldierDatabaseHelper().dbInstance;
-    soldierDatabase.auditDAO.setup();
+    final _soldierDatabase = SoldierDatabaseHelper().dbInstance;
+    _soldierDatabase.auditDAO.setup();
+
     Get.lazyPut<LoggerService>(() => LoggerService());
+
     // _setupDb();
     Get.lazyPut<AnnualOvertimeService>(
-        () => AnnualOvertimeServiceImpl(soldierDatabase.annualOvertimeDAO));
+        () => AnnualOvertimeServiceImpl(_soldierDatabase.annualOvertimeDAO));
+
     Get.lazyPut<ContactInfoService>(
-        () => ContactInfoServiceImpl(soldierDatabase.contactInfoDAO));
+        () => ContactInfoServiceImpl(_soldierDatabase.contactInfoDAO));
+
     Get.lazyPut<DailyAbsenceOvertimeService>(() =>
         DailyAbsenceOvertimeServiceImpl(
-            soldierDatabase.dailyAbsenceOvertimeDAO));
+            _soldierDatabase.dailyAbsenceOvertimeDAO));
+
     Get.lazyPut<DailyVacationService>(
-        () => DailyVacationServiceImpl(soldierDatabase.dailyVacationDAO));
+        () => DailyVacationServiceImpl(_soldierDatabase.dailyVacationDAO));
+
     Get.lazyPut<DisciplinaryOvertimeService>(() =>
         DisciplinaryOvertimeServiceImpl(
-            soldierDatabase.disciplinaryOvertimeDAO));
+            _soldierDatabase.disciplinaryOvertimeDAO));
+
     Get.lazyPut<EducationalInfoService>(
-        () => EducationalInfoServiceImpl(soldierDatabase.educationalInfoDAO));
-    Get.lazyPut<FurtherInfoService>(
-        () => FurtherInfoServiceImpl(soldierDatabase.furtherInfoDAO));
+        () => EducationalInfoServiceImpl(_soldierDatabase.educationalInfoDAO));
+
+    Get.lazyPut<FurtherInfoService>(() => FurtherInfoServiceImpl(
+        _soldierDatabase.furtherInfoDAO,
+        PersonalInfoServiceImpl(_soldierDatabase.personalInfoDAO)));
+
     Get.lazyPut<HealthStatusService>(
-        () => HealthStatusServiceImpl(soldierDatabase.healthStatusDAO));
+        () => HealthStatusServiceImpl(_soldierDatabase.healthStatusDAO));
+
     Get.lazyPut<HourlyVacationService>(
-        () => HourlyVacationServiceImpl(soldierDatabase.hourlyVacationDAO));
+        () => HourlyVacationServiceImpl(_soldierDatabase.hourlyVacationDAO));
+
     Get.lazyPut<OperationalServiceDeficitRecordService>(() =>
         OperationalServiceDeficitRecordServiceImpl(
-            soldierDatabase.operationalServiceDeficitRecordDAO));
+            _soldierDatabase.operationalServiceDeficitRecordDAO));
+
     Get.lazyPut<OvertimeService>(
-        () => OvertimeServiceImpl(soldierDatabase.overtimeDAO));
+        () => OvertimeServiceImpl(_soldierDatabase.overtimeDAO));
+
     Get.lazyPut<PersonalInfoService>(
-        () => PersonalInfoServiceImpl(soldierDatabase.personalInfoDAO));
-    Get.lazyPut<RankService>(() => RankServiceImpl(soldierDatabase.rankDAO));
+        () => PersonalInfoServiceImpl(_soldierDatabase.personalInfoDAO));
+
+    Get.lazyPut<RankService>(() => RankServiceImpl(_soldierDatabase.rankDAO));
+
     Get.lazyPut<SectionService>(
-        () => SectionServiceImpl(soldierDatabase.sectionDAO));
+        () => SectionServiceImpl(_soldierDatabase.sectionDAO));
+
     Get.lazyPut<ServiceDeficitRecordService>(() =>
         ServiceDeficitRecordServiceImpl(
-            soldierDatabase.serviceDeficitRecordDAO));
+            _soldierDatabase.serviceDeficitRecordDAO));
+
     Get.lazyPut<ServiceDeficitService>(
-        () => ServiceDeficitServiceImpl(soldierDatabase.serviceDeficitDAO));
+        () => ServiceDeficitServiceImpl(_soldierDatabase.serviceDeficitDAO));
+
     Get.lazyPut<SoldierCaseService>(
-        () => SoldierCaseServiceImpl(soldierDatabase.soldierCaseDAO));
-    Get.lazyPut<SoldierService>(
-        () => SoldierServiceImpl(soldierDatabase.soldierDAO));
+        () => SoldierCaseServiceImpl(_soldierDatabase.soldierCaseDAO));
+
+    Get.lazyPut<SoldierService>(() => SoldierServiceImpl(
+        _soldierDatabase.soldierDAO,
+        PersonalInfoServiceImpl(_soldierDatabase.personalInfoDAO),
+        CaseNoServiceImpl(_soldierDatabase.caseNoDAO)));
+
     Get.lazyPut<TrainingStatusService>(
-        () => TrainingStatusServiceImpl(soldierDatabase.trainingStatusDAO));
+        () => TrainingStatusServiceImpl(_soldierDatabase.trainingStatusDAO));
+
     Get.lazyPut<UnitPropertiesService>(
-        () => UnitPropertiesServiceImpl(soldierDatabase.unitPropertiesDAO));
+        () => UnitPropertiesServiceImpl(_soldierDatabase.unitPropertiesDAO));
+
     Get.lazyPut<VacationsService>(
-        () => VacationsServiceImpl(soldierDatabase.vacationsDAO));
+        () => VacationsServiceImpl(_soldierDatabase.vacationsDAO));
+
     Get.lazyPut<ViolationsOvertimeService>(() =>
-        ViolationsOvertimeServiceImpl(soldierDatabase.violationsOvertimeDAO));
+        ViolationsOvertimeServiceImpl(_soldierDatabase.violationsOvertimeDAO));
+
     Get.lazyPut<CaseNoService>(
-        () => CaseNoServiceImpl(soldierDatabase.caseNoDAO));
+        () => CaseNoServiceImpl(_soldierDatabase.caseNoDAO));
+
     Get.lazyPut<RelativeContactsInfoService>(() =>
         RelativeContactsInfoServiceImpl(
-            soldierDatabase.relativeContactsInfoDAO));
+            _soldierDatabase.relativeContactsInfoDAO));
+
     Get.lazyPut<EducationalInfoService>(
-        () => EducationalInfoServiceImpl(soldierDatabase.educationalInfoDAO));
+        () => EducationalInfoServiceImpl(_soldierDatabase.educationalInfoDAO));
+
     Get.lazyPut<CaseNoService>(
-        () => CaseNoServiceImpl(soldierDatabase.caseNoDAO));
+        () => CaseNoServiceImpl(_soldierDatabase.caseNoDAO));
   }
 }

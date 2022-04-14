@@ -164,7 +164,7 @@ class DashboardController extends GetxController
       height: 600,
       context: Get.context!,
       title: "مدیریت سربازان",
-      body: const SoldierCaseEditorView(),
+      body: const SoldierEditorView(),
     );
   }
 

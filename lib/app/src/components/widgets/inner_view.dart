@@ -1,6 +1,6 @@
 part of components;
 
-class InnerView extends GetWidget {
+class InnerView extends StatelessWidget {
   final Widget viewHeader;
   final List<Widget> children;
   final List<TabMenu> tabMenus;
@@ -14,7 +14,7 @@ class InnerView extends GetWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<SoldierCaseEditorController>();
+    final controller = Get.find<SoldierEditorController>();
     controller.soldierCaseEditorContentLen.value = children.length;
     return Scaffold(
         body: NestedScrollView(
@@ -52,6 +52,7 @@ class InnerView extends GetWidget {
         ];
       },
       body: GroupBox(
+        inMaterial: true,
           padding: const EdgeInsets.fromLTRB(kSpacing, 0, kSpacing, kSpacing),
           borderRadius: const BorderRadius.all(
             Radius.circular(kBorderRadius),

@@ -2,6 +2,7 @@ library controllers;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
@@ -37,7 +38,7 @@ part 'controllers/section_controller.dart';
 part 'controllers/service_deficit_controller.dart';
 part 'controllers/service_deficit_record_controller.dart';
 part 'controllers/soldier_case_controller.dart';
-part 'controllers/soldier_case_editor_controller.dart';
+part 'controllers/soldier_editor_controller.dart';
 part 'controllers/soldier_controller.dart';
 part 'controllers/soldiers_controller.dart';
 part 'controllers/training_status_controller.dart';

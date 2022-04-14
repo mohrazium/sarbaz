@@ -13,7 +13,7 @@ import 'package:sarbaz/app/app.dart';
 import 'package:sarbaz/utility/utility.dart';
 
 part 'dashboard_view.dart';
-part 'soldier_case_editor_view.dart';
+part 'soldier_editor_view.dart';
 part 'soldiers_view.dart';
 part 'personal_info_view.dart';
 part 'contact_info_view.dart';

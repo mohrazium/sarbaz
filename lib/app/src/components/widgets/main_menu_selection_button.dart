@@ -14,7 +14,7 @@ class MainMenuSelectionButtonData {
   });
 }
 
-class MainMenuSelectionButton extends GetWidget {
+class MainMenuSelectionButton extends StatelessWidget {
   final int initialSelected;
   final List<MainMenuSelectionButtonData> data;
   final Function({required int index, MainMenuSelectionButtonData? value})

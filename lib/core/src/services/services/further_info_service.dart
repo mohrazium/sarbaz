@@ -8,10 +8,9 @@ abstract class FurtherInfoService extends Service<int, FurtherInfoModel> {
 
 class FurtherInfoServiceImpl implements FurtherInfoService {
   final FurtherInfoDAO dao;
-  final PersonalInfoService personalInfoService =
-      Get.find<PersonalInfoService>();
+  final PersonalInfoService personalInfoService;
 
-  FurtherInfoServiceImpl(this.dao);
+  FurtherInfoServiceImpl(this.dao, this.personalInfoService);
 
   @override
   Future<bool> delete(FurtherInfoModel model) {
@@ -30,7 +29,7 @@ class FurtherInfoServiceImpl implements FurtherInfoService {
     return await dao.findById(id).then((value) {
       return value != null ? FurtherInfoModel.fromJson(value.toJson()) : null;
     }).onError((error, stackTrace) => throw FailureException(
-        "An error happened in finding further info by id with error: $stackTrace"));
+        "An error happened in finding further info by id, see the error :\n $error \n $stackTrace"));
   }
 
   @override
@@ -38,20 +37,18 @@ class FurtherInfoServiceImpl implements FurtherInfoService {
       {required int personalInfoId}) async {
     int res = 0;
     await dao.doInsert(model.toJson(), personalInfoId).then((value) {
-      logger.info( "Further info was saved.");
+      logger.info("Further info was saved.");
       res = value.id ?? 0;
     }).onError((error, stackTrace) => throw FailureException(
-        "Further info can not save see error $stackTrace"));
+        "Further info can not save, see the error :\n $error \n $stackTrace"));
     return res;
   }
 
   @override
   Future<bool> update(FurtherInfoModel model) async {
-    return await dao
-        .doUpdate(model.toJson())
-        .then((value) => value)
-        .onError((error, stackTrace) => throw FailureException(
-            "Updating further info failed, error $stackTrace"));
+    return await dao.doUpdate(model.toJson()).then((value) => value).onError(
+        (error, stackTrace) => throw FailureException(
+            "Updating further info failed, see the error :\n $error \n $stackTrace"));
   }
 
   @override
@@ -68,6 +65,6 @@ class FurtherInfoServiceImpl implements FurtherInfoService {
         .then((value) {
       return value != null ? FurtherInfoModel.fromJson(value.toJson()) : null;
     }).onError((error, stackTrace) => throw FailureException(
-            "An error happened in finding further info by personal id with error: ${error.runtimeType}"));
+            "An error happened in finding further info by personal id, see the error :\n $error \n $stackTrace"));
   }
 }

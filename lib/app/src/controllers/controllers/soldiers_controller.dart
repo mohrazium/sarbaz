@@ -1,9 +1,9 @@
 part of controllers;
 
 class SoldiersController extends GetxController {
-  late final PersonalInfoService personalInfoService;
+  late final PersonalInfoService _personalInfoService;
 
-  Rx<List<PersonalInfoModel>> personalInfoList = Rx(List.empty(growable: true));
+  Rx<List<SoldiersDataCellModel>> soldiersList = Rx(List.empty(growable: true));
   late final DataGridController dataGridController;
   late final BridgeController bridgeController;
   late DataGridCellTapDetails cellTapDetails;
@@ -11,24 +11,41 @@ class SoldiersController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     bridgeController = Get.find<BridgeController>();
-    personalInfoService = Get.find<PersonalInfoService>();
+    _personalInfoService = Get.find<PersonalInfoService>();
     dataGridController = DataGridController();
     loadAll();
   }
 
   void loadAll() async {
-    await personalInfoService.findAll().then((value) {
-      if (value != null) {
-        personalInfoList.value.clear();
-        personalInfoList.value.addAll(value);
+    await _personalInfoService.findAll().then((values) {
+      if (values != null) {
+        List<SoldiersDataCellModel> soldiers = List.empty(growable: true);
+
+        soldiersList.value.clear();
+
+        for (var person in values) {
+          soldiers.add(SoldiersDataCellModel(
+              id: person.id,
+              caseNo: "${person.soldier?.caseNo?.caseName}-${person.soldier?.caseNo?.caseCode}",
+              firstName: person.firstName,
+              lastName: person.lastName,
+              fatherName: person.fatherName,
+              mobileNumber: person.contactInfo?.mobileNumber,
+              nationalCode: person.nationalCode,
+              personnelCode: person.soldier?.personnelCode,
+              soldierStatus: person.soldier?.latestStatus,
+              isSelected: false));
+        }
+
+        soldiersList.value.addAll(soldiers);
       }
     }).catchError((onError) {
-      showToast(Strings.error);
+      DialogHelper.showCrashReport(onError.toString());
     });
   }
 
   void onCellDoubleTap(DataGridCellDoubleTapDetails details) {
-    int id = int.parse(bridgeController.personalInfoDataSource.value
+    int id = int.parse(bridgeController.soldiersDataSource.value
         .effectiveRows[details.rowColumnIndex.rowIndex - 1]
         .getCells()
         .last
@@ -45,7 +62,7 @@ class SoldiersController extends GetxController {
   }
 
   void onEditSoldierPressed() {
-    int id = int.parse(bridgeController.personalInfoDataSource.value
+    int id = int.parse(bridgeController.soldiersDataSource.value
         .effectiveRows[cellTapDetails.rowColumnIndex.rowIndex - 1]
         .getCells()
         .last
@@ -55,7 +72,9 @@ class SoldiersController extends GetxController {
         .setDashboardTab(bridgeController.dashboardTabSoldiersEditor);
   }
 
-  void onDeleteSoldierPressed() {}
+  void onDeleteSoldierPressed() {
+    loadAll();
+  }
 
   void onCellTap(DataGridCellTapDetails details) {
     cellTapDetails = details;

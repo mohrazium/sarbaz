@@ -2,34 +2,13 @@ part of components;
 
 const int _rowsPerPage = 15;
 const double _dataPagerHeight = 60;
-List<PersonalInfoModel> personalInfoList = List.empty(growable: true);
-List<PersonalInfoModel> _paginatedPersonalInfo = List.empty(growable: true);
+List<SoldiersDataCellModel> soldiersList = List.empty(growable: true);
+List<SoldiersDataCellModel> _paginatedSoldiers = List.empty(growable: true);
 
-class SoldiersDataCell {
-  final String? caseNo;
-  final String? personnelCode;
-  final String? firstName;
-  final String? lastName;
-  final String? fatherName;
-  final String? nationalCode;
-  final String? mobileNumber;
-  final String? soldierStatus;
-  bool isSelected;
-  SoldiersDataCell({
-    this.caseNo,
-    this.personnelCode,
-    this.firstName,
-    this.lastName,
-    this.fatherName,
-    this.nationalCode,
-    this.mobileNumber,
-    this.soldierStatus,
-    required this.isSelected,
-  });
-}
+
 
 class SoldiersDataTable extends StatefulWidget {
-  final List<PersonalInfoModel> personalInfos;
+  final List<SoldiersDataCellModel> soldiers;
   final DataGridController? controller;
   final DataGridCellTapCallback? onCellTap;
   final DataGridCellDoubleTapCallback? onCellDoubleTap;
@@ -39,7 +18,7 @@ class SoldiersDataTable extends StatefulWidget {
 
   const SoldiersDataTable({
     Key? key,
-    required this.personalInfos,
+    required this.soldiers,
     this.controller,
     this.onCellTap,
     this.onCellSecondaryTap,
@@ -57,8 +36,8 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
   void initState() {
     super.initState();
     bridgeController = Get.find<BridgeController>();
-    personalInfoList = widget.personalInfos;
-    bridgeController.setPersonalInfoDataSource(personalInfoList);
+    soldiersList = widget.soldiers;
+    bridgeController.setSoldiersDataSource(soldiersList);
   }
 
   @override
@@ -72,13 +51,13 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
                 width: constraint.maxWidth,
                 child: _buildDataGrid(
                     constraint: constraint,
-                    dataSource: bridgeController.personalInfoDataSource.value)),
+                    dataSource: bridgeController.soldiersDataSource.value)),
             SizedBox(
                 height: _dataPagerHeight,
                 child: SfDataPager(
-                  delegate: bridgeController.personalInfoDataSource.value,
-                  pageCount: personalInfoList.length >= 20
-                      ? personalInfoList.length / _rowsPerPage
+                  delegate: bridgeController.soldiersDataSource.value,
+                  pageCount: soldiersList.length >= 20
+                      ? soldiersList.length / _rowsPerPage
                       : 1,
                   direction: Axis.horizontal,
                 ))
@@ -88,7 +67,7 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
 
   _buildDataGrid(
       {required BoxConstraints constraint,
-      required PersonalInfoDataSource dataSource}) {
+      required SoldiersDataSource dataSource}) {
     return SfDataGridTheme(
       data: SfDataGridThemeData(
         rowHoverColor: Colorize.primaryColor.shade200,
@@ -248,12 +227,12 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
   }
 }
 
-class PersonalInfoDataSource extends DataGridSource {
+class SoldiersDataSource extends DataGridSource {
   /// Creates the employee data source class with required details.
-  PersonalInfoDataSource({required List<PersonalInfoModel> personalInfo}) {
-    var len = personalInfo.length;
-    _paginatedPersonalInfo =
-        personalInfo.getRange(0, len >= 19 ? 19 : len).toList(growable: false);
+  SoldiersDataSource({required List<SoldiersDataCellModel> soldierDataList}) {
+    var len = soldierDataList.length;
+    _paginatedSoldiers =
+        soldiersList.getRange(0, len >= 19 ? 19 : len).toList(growable: false);
     buildPaginatedDataGridRows();
   }
 
@@ -410,50 +389,41 @@ class PersonalInfoDataSource extends DataGridSource {
   Future<bool> handlePageChange(int oldPageIndex, int newPageIndex) async {
     int startIndex = newPageIndex * _rowsPerPage;
     int endIndex = startIndex + _rowsPerPage;
-    if (startIndex < personalInfoList.length && endIndex <= personalInfoList.length) {
-      _paginatedPersonalInfo =
-          personalInfoList.getRange(startIndex, endIndex).toList(growable: false);
+    if (startIndex < soldiersList.length && endIndex <= soldiersList.length) {
+      _paginatedSoldiers =
+          soldiersList.getRange(startIndex, endIndex).toList(growable: false);
       buildPaginatedDataGridRows();
       notifyListeners();
     } else {
-      _paginatedPersonalInfo = [];
+      _paginatedSoldiers = [];
     }
 
     return true;
   }
 
   void buildPaginatedDataGridRows() {
-    dataGridRows = _paginatedPersonalInfo.map<DataGridRow>((dataGridRow) {
+    dataGridRows = _paginatedSoldiers.map<DataGridRow>((dataGridRow) {
       return DataGridRow(cells: [
         DataGridCell(
-            columnName: Strings.caseNo,
-            value: dataGridRow.soldier != null
-                ? dataGridRow.soldier!.caseNo
-                : "-"),
+            columnName: Strings.caseNo, value: dataGridRow.caseNo ?? "-"),
         DataGridCell(
             columnName: Strings.personnelCode,
-            value: dataGridRow.soldier != null
-                ? dataGridRow.soldier!.personnelCode
-                : "-"),
+            value: dataGridRow.personnelCode ?? "-"),
         DataGridCell(
-            columnName: Strings.nationalCode, value: dataGridRow.nationalCode),
+            columnName: Strings.nationalCode, value: dataGridRow.nationalCode??"-"),
         DataGridCell(
-            columnName: Strings.firstName, value: dataGridRow.firstName),
+            columnName: Strings.firstName, value: dataGridRow.firstName??"-"),
         DataGridCell(columnName: Strings.lastName, value: dataGridRow.lastName),
         DataGridCell(
             columnName: Strings.fatherName,
             value: dataGridRow.fatherName ?? "-"),
         DataGridCell(
             columnName: Strings.mobileNumber,
-            value: dataGridRow.contactInfo != null
-                ? dataGridRow.contactInfo?.mobileNumber
-                : "-"),
+            value: dataGridRow.mobileNumber ?? "-"),
         DataGridCell(
             columnName: Strings.latestStatusOfSoldier,
-            value: dataGridRow.soldier != null
-                ? dataGridRow.soldier!.latestStatus
-                : "-"),
-        DataGridCell(columnName: "id", value: dataGridRow.id.toString()),
+            value: dataGridRow.soldierStatus ?? "-"),
+        DataGridCell(columnName: "id", value: "${dataGridRow.id ?? 0}"),
       ]);
     }).toList(growable: false);
   }

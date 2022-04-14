@@ -1,6 +1,6 @@
 part of components;
 
-class ContactTile extends GetWidget {
+class ContactTile extends StatelessWidget {
   const ContactTile({
     Key? key,
     required this.fullName,

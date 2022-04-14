@@ -1,6 +1,6 @@
 part of components;
 
-class ImageViewPersonalPic extends GetWidget {
+class ImageViewPersonalPic extends StatelessWidget {
   final Image image;
   final void Function()? onNewPressed;
   final void Function()? onRemovePressed;

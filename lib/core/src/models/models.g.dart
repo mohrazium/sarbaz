@@ -358,7 +358,7 @@ Map<String, dynamic> _$OvertimeModelToJson(OvertimeModel instance) =>
     };
 
 PersonalInfoModel _$PersonalInfoModelFromJson(Map<String, dynamic> json) =>
-    PersonalInfoModel(
+  PersonalInfoModel(
       id: json['id'] as int?,
       nationalCode: json['nationalCode'] as String,
       nationalIdentity: json['nationalIdentity'] as String?,
@@ -450,7 +450,7 @@ SectionModel _$SectionModelFromJson(Map<String, dynamic> json) => SectionModel(
       sectionName: json['sectionName'] as String?,
       sectionNameAbbr: json['sectionNameAbbr'] as String?,
       soldiers: (json['soldiers'] as List<dynamic>?)
-          ?.map((e) => SoldierModel.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => SoldierModel.fromJson(e))
           .toList(),
       createdAt: json['createdAt'] == null
           ? null
@@ -589,7 +589,6 @@ SoldierModel _$SoldierModelFromJson(Map<String, dynamic> json) => SoldierModel(
       divisionStatus: json['divisionStatus'] as bool,
       isArchived: json['isArchived'] as bool,
       archiveCaseNo: json['archiveCaseNo'] as String?,
-      caseNo: CaseNoModel.fromJson(json['caseNo'] as Map<String, dynamic>),
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -608,7 +607,6 @@ Map<String, dynamic> _$SoldierModelToJson(SoldierModel instance) =>
       'divisionStatus': instance.divisionStatus,
       'isArchived': instance.isArchived,
       'archiveCaseNo': instance.archiveCaseNo,
-      'caseNo': instance.caseNo,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };

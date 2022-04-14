@@ -95,7 +95,7 @@ class FurtherInfoController extends GetxController
           showToast(Strings.personalInfoIsnotSavedPleaseSave);
         }
       }).catchError((onError) {
-        showToast(Strings.error);
+        DialogHelper.showCrashReport(onError.toString());
       });
     } else {
       readOnly(false);
@@ -279,7 +279,7 @@ class FurtherInfoController extends GetxController
           showToast(Strings.unsuccessfullySavingInfo);
         }
       }).catchError((onError) {
-        showToast(Strings.error);
+        DialogHelper.showCrashReport(onError.toString());
       });
     } else {
       furtherInfoService.update(model.value).then((value) {
@@ -290,7 +290,7 @@ class FurtherInfoController extends GetxController
           showToast(Strings.unsuccessfullyUpdatingInfo);
         }
       }).catchError((onError) {
-        showToast(Strings.error);
+        DialogHelper.showCrashReport(onError.toString());
       });
     }
   }
@@ -322,7 +322,7 @@ class FurtherInfoController extends GetxController
         readOnly(false);
       }
     }).catchError((onError) {
-      showToast(Strings.error);
+      DialogHelper.showCrashReport(onError.toString());
     });
   }
 

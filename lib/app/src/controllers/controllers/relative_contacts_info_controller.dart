@@ -97,7 +97,7 @@ class RelativeContactsInfoController extends GetxController
           showToast(Strings.personalInfoIsnotSavedPleaseSave);
         }
       }).catchError((onError) {
-        showToast(Strings.error);
+        DialogHelper.showCrashReport(onError.toString());
       });
     }
   }
@@ -121,7 +121,7 @@ class RelativeContactsInfoController extends GetxController
           models.value.addAll(values);
         }
       }).catchError((onError) {
-        showToast(Strings.error);
+        DialogHelper.showCrashReport(onError.toString());
       });
     }
     _refreshListView();
@@ -212,7 +212,7 @@ class RelativeContactsInfoController extends GetxController
         await service.save(item).then((value) {
           return value;
         }).catchError((onError) {
-          showToast(Strings.error);
+          DialogHelper.showCrashReport(onError.toString());
         });
       }
     }

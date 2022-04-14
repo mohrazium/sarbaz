@@ -13,7 +13,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.soldiers,
-      page: () => const SoldierCaseEditorView(),
+      page: () => const SoldierEditorView(),
      // binding: ApplicationControllerBinding(),
     ),
     GetPage(

@@ -11935,6 +11935,14 @@ mixin _$SoldierDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $SoldierCaseTableTable get soldierCaseTable =>
       attachedDatabase.soldierCaseTable;
   $SoldierTableTable get soldierTable => attachedDatabase.soldierTable;
+  $FurtherInfoTableTable get furtherInfoTable =>
+      attachedDatabase.furtherInfoTable;
+  $ContactInfoTableTable get contactInfoTable =>
+      attachedDatabase.contactInfoTable;
+  $EducationalInfoTableTable get educationalInfoTable =>
+      attachedDatabase.educationalInfoTable;
+  $PersonalInfoTableTable get personalInfoTable =>
+      attachedDatabase.personalInfoTable;
 }
 mixin _$TrainingStatusDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $TrainingStatusTableTable get trainingStatusTable =>

@@ -9,6 +9,7 @@ class GroupBox extends StatelessWidget {
   final double? height;
   final double? width;
   final void Function()? onTap;
+  final bool inMaterial;
 
   const GroupBox({
     Key? key,
@@ -20,11 +21,12 @@ class GroupBox extends StatelessWidget {
     this.height,
     this.width,
     this.onTap,
+    this.inMaterial = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    final content = Padding(
       padding: padding ?? const EdgeInsets.all(0),
       child: ClipRRect(
         borderRadius: borderRadius ??
@@ -48,5 +50,12 @@ class GroupBox extends StatelessWidget {
         ),
       ),
     );
+
+    return inMaterial
+        ? Container(
+            color: color,
+            child: content,
+          )
+        : content;
   }
 }

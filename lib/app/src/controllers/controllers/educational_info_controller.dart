@@ -79,7 +79,7 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
           showToast(Strings.personalInfoIsnotSavedPleaseSave);
         }
       }).catchError((onError) {
-        showToast(Strings.error);
+        DialogHelper.showCrashReport(onError.toString());
       });
     } else {
       readOnly(false);
@@ -110,7 +110,7 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
           showToast(Strings.unsuccessfullySavingInfo);
         }
       }).catchError((onError) {
-        showToast(Strings.error);
+        DialogHelper.showCrashReport(onError.toString());
       });
     } else {
       await service.update(model.value).then((value) {
@@ -121,7 +121,7 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
           showToast(Strings.unsuccessfullyUpdatingInfo);
         }
       }).catchError((onError) {
-        showToast(Strings.error);
+        DialogHelper.showCrashReport(onError.toString());
       });
     }
   }
@@ -153,7 +153,7 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
         readOnly(false);
       }
     }).catchError((onError) {
-      showToast(Strings.error);
+      DialogHelper.showCrashReport(onError.toString());
     });
   }
 

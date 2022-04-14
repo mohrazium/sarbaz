@@ -5,9 +5,9 @@ abstract class CaseNoService extends Service<int, CaseNoModel> {
 }
 
 class CaseNoServiceImpl implements CaseNoService {
-  final CaseNoDAO dao;
+  final CaseNoDAO _dao;
 
-  CaseNoServiceImpl(this.dao);
+  CaseNoServiceImpl(this._dao);
 
   @override
   Future<bool> delete(CaseNoModel model) {
@@ -18,19 +18,21 @@ class CaseNoServiceImpl implements CaseNoService {
   @override
   Future<List<CaseNoModel>?> findAll() async {
     List<CaseNoModel> caseNoList = List.empty(growable: true);
-    return await dao.findAll().then((values) {
+    return await _dao.findAll().then((values) {
       for (var item in values) {
         caseNoList.add(CaseNoModel.fromJson(item.toJson()));
       }
       return caseNoList;
     }).onError((error, stackTrace) =>
-        throw FailureException("Can load all case no, $stackTrace"));
+        throw FailureException("Can load all case no, see the error :\n $error \n $stackTrace"));
   }
 
   @override
-  Future<CaseNoModel?> findById(int id) {
-    // TODO: implement findById
-    throw UnimplementedError();
+  Future<CaseNoModel?> findById(int id) async {
+    return await _dao.findById(id).then((value) {
+      return value != null ? CaseNoModel.fromJson(value.toJson()) : null;
+    }).onError((error, stackTrace) => throw FailureException(
+        "Finding case no by id field, see the error :\n $error \n $stackTrace"));
   }
 
   @override
@@ -47,8 +49,8 @@ class CaseNoServiceImpl implements CaseNoService {
 
   @override
   Future<void> saveAll(int count) async {
-    await dao.doInsertAll(count).onError((error, stackTrace) =>
+    await _dao.doInsertAll(count).onError((error, stackTrace) =>
         throw FailureException(
-            "Cant insert all case nos, something goes wrong! $stackTrace "));
+            "Cant insert all case nos, something goes wrong!, see the error :\n $error \n $stackTrace"));
   }
 }

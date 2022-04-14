@@ -1,5 +1,7 @@
 part of views;
 
+late BuildContext globalContext;
+
 class DashboardDesktopView extends GetView<DashboardController> {
   const DashboardDesktopView({Key? key}) : super(key: key);
 
@@ -8,12 +10,16 @@ class DashboardDesktopView extends GetView<DashboardController> {
     return SafeArea(
       child: ResponsiveBuilder(
         mobileBuilder: (context, constraints) {
+          globalContext = context;
           return const NotFoundPage();
         },
         tabletBuilder: (context, constraints) {
+          globalContext = context;
+
           return const NotFoundPage();
         },
         desktopBuilder: (context, constraints) {
+          globalContext = context;
           return Flex(
             direction: Axis.horizontal,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +111,7 @@ class DashboardDesktopView extends GetView<DashboardController> {
               children: [
                 _buildMainSection(onPressedMenu),
                 const SoldiersView(),
-                const SoldierCaseEditorView(),
+                const SoldierEditorView(),
                 Container(
                   color: Colors.red,
                 ),

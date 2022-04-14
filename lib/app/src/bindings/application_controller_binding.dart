@@ -5,7 +5,7 @@ class ApplicationControllerBinding implements Bindings {
   Future<void> dependencies() async {
     Get.put(BridgeController());
     Get.put(DashboardController());
-    Get.put(SoldierCaseEditorController());
+    Get.put(SoldierEditorController());
     Get.put(SoldiersController());
     Get.put(PersonalInfoController());
     Get.put(FurtherInfoController());

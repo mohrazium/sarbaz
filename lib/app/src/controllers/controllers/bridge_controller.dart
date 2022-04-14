@@ -23,8 +23,8 @@ class BridgeController extends GetxController
           dashboardShownContentIndex.value = dashboardTabController.value.index;
         }));
 
-  late final Rx<PersonalInfoDataSource> personalInfoDataSource =
-      Rx(PersonalInfoDataSource(personalInfo: []));
+  late final Rx<SoldiersDataSource> soldiersDataSource =
+      Rx(SoldiersDataSource(soldierDataList: []));
 
   @override
   void onInit() {
@@ -45,8 +45,8 @@ class BridgeController extends GetxController
     selectedDashboardMainMenuIndex(index);
   }
 
-  void setPersonalInfoDataSource(data) {
-    personalInfoDataSource(PersonalInfoDataSource(personalInfo: data));
+  void setSoldiersDataSource(data) {
+    soldiersDataSource(SoldiersDataSource(soldierDataList: data));
   }
 
   void initSoldierEditorForms(int pId) {
@@ -56,6 +56,7 @@ class BridgeController extends GetxController
     Get.find<ContactInfoController>().initForm();
     Get.find<RelativeContactsInfoController>().initForm();
     Get.find<EducationalInfoController>().initForm();
+    Get.find<SoldierController>().initForm();
   }
 
   Future<bool> isPersonalInfoSaved() async {
@@ -63,6 +64,8 @@ class BridgeController extends GetxController
         .findById(personalInfoId.value)
         .then((value) {
       return value != null ? true : false;
-    }).catchError((onError) {});
+    }).catchError((onError) {
+      DialogHelper.showCrashReport(onError.toString());
+    });
   }
 }

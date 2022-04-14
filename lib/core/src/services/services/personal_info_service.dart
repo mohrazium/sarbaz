@@ -6,6 +6,7 @@ abstract class PersonalInfoService extends Service<int, PersonalInfoModel> {
   Future<int> findFurtherInfoIdById(int personalId);
   Future<int> findContactInfoIdById(int personalId);
   Future<int> findEducationalInfoIdById(int personalId);
+  Future<int> findSoldierIdById(int personalId);
 }
 
 class PersonalInfoServiceImpl implements PersonalInfoService {
@@ -22,7 +23,7 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
   @override
   Future<int> save(PersonalInfoModel e) async {
     return await dao.doInsert(e.toJson()).then((value) {
-      logger.info( "person is saved");
+      logger.info("person is saved");
       return value.id ?? 0;
     }).onError((error, stackTrace) => throw FailureException(
         "saving personal info failed with error $stackTrace"));
@@ -33,6 +34,7 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
     List<PersonalInfoModel> models = List.empty(growable: true);
     PersonalInfoModel personalInfoModel = PersonalInfoModel.init();
     ContactInfoModel? contactInfoModel = ContactInfoModel.init();
+    SoldierModel? soldierModel = SoldierModel.init();
     await dao.findAll().then((dataList) async {
       models.clear();
       for (var data in dataList) {
@@ -40,24 +42,18 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
           data.toJson(),
         );
 
-        // if (person.furtherInfo != null) {
-        //   Get.find<FurtherInfoService>()
-        //       .findById(person.furtherInfo!)
-        //       .then((value) {
-        //     personalInfoModel = personalInfoModel.copyWith(furtherInfo: value);
-        //   });
-        //   print(personalInfoModel.furtherInfo);
-        // }
-
         if (data.contactInfo != null) {
-          contactInfoModel = await Get.find<ContactInfoService>()
-              .findById(data.contactInfo!)
-              .then((value) => value);
-
+          contactInfoModel =
+              await Get.find<ContactInfoService>().findById(data.contactInfo!);
           personalInfoModel =
               personalInfoModel.copyWith(contactInfo: contactInfoModel);
         }
 
+        if (data.soldier != null) {
+          soldierModel =
+              await Get.find<SoldierService>().findById(data.soldier!);
+          personalInfoModel = personalInfoModel.copyWith(soldier: soldierModel);
+        }
         models.add(personalInfoModel);
       }
     }).onError((error, stackTrace) => throw FailureException(
@@ -93,7 +89,7 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
     return await dao.findByNationalCode(nationalCode).then((value) {
       return value != null ? PersonalInfoModel.fromJson(value.toJson()) : null;
     }).onError((error, stackTrace) => throw FailureException(
-        'An error happened on find by national code with error :  $stackTrace.',
+        'An error happened on find by national code, see the error :\n $error \n $stackTrace',
         exception: ExceptionType.NOT_FOUND));
   }
 
@@ -103,8 +99,8 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
       return value != null && value.furtherInfo != null
           ? value.furtherInfo!
           : 0;
-    }).onError((error, stackTrace) =>
-        throw FailureException("personal info not found by id. $stackTrace"));
+    }).onError((error, stackTrace) => throw FailureException(
+        "personal info not found by id, see the error :\n $error \n $stackTrace"));
   }
 
   @override
@@ -113,17 +109,25 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
       return value != null && value.contactInfo != null
           ? value.contactInfo!
           : 0;
-    }).onError((error, stackTrace) =>
-        throw FailureException("personal info not found by id. $stackTrace"));
+    }).onError((error, stackTrace) => throw FailureException(
+        "personal info not found by id, see the error :\n $error \n $stackTrace"));
   }
 
   @override
   Future<int> findEducationalInfoIdById(int personalId) {
-     return dao.findById(personalId).then((value) {
+    return dao.findById(personalId).then((value) {
       return value != null && value.educationalInfo != null
           ? value.educationalInfo!
           : 0;
-    }).onError((error, stackTrace) =>
-        throw FailureException("personal info not found by id. $stackTrace"));
+    }).onError((error, stackTrace) => throw FailureException(
+        "personal info not found by id, see the error :\n $error \n $stackTrace"));
+  }
+
+  @override
+  Future<int> findSoldierIdById(int personalId) {
+    return dao.findById(personalId).then((value) {
+      return value != null && value.soldier != null ? value.soldier! : 0;
+    }).onError((error, stackTrace) => throw FailureException(
+        "personal info not found by id, see the error :\n $error \n $stackTrace"));
   }
 }

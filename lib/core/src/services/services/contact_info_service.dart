@@ -27,7 +27,7 @@ class ContactInfoServiceImpl implements ContactInfoService {
     return await dao.findById(id).then((value) {
       return value != null ? ContactInfoModel.fromJson(value.toJson()) : null;
     }).onError((error, stackTrace) => throw FailureException(
-        "An error happened in finding further info by id with error: $stackTrace"));
+        "An error happened in finding further info by id, see the error :\n $error \n $stackTrace"));
   }
 
   @override
@@ -40,7 +40,7 @@ class ContactInfoServiceImpl implements ContactInfoService {
   Future<bool> update(ContactInfoModel model) async {
     return await dao.doUpdate(model.toJson()).then((value) => value).onError(
         (error, stackTrace) => throw FailureException(
-            "Updating contact info failed, error $stackTrace"));
+            "Updating contact info failed, see the error :\n $error \n $stackTrace"));
   }
 
   @override
@@ -51,7 +51,7 @@ class ContactInfoServiceImpl implements ContactInfoService {
         .then((value) {
       return value != null ? ContactInfoModel.fromJson(value.toJson()) : null;
     }).onError((error, stackTrace) => throw FailureException(
-            "An error happened in finding contact info by personal id with error: ${stackTrace.toString()}"));
+            "An error happened in finding contact info by personal id, see the error :\n $error \n $stackTrace"));
   }
 
   @override
@@ -61,7 +61,7 @@ class ContactInfoServiceImpl implements ContactInfoService {
     await dao.doInsert(model.toJson(), personalInfoId).then((value) {
       res = value.id ?? 0;
     }).onError((error, stackTrace) => throw FailureException(
-        "Contact info can not save see error $stackTrace"));
+        "Contact info can not save, see the error :\n $error \n $stackTrace"));
     return res;
   }
 }

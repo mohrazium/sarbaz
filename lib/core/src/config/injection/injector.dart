@@ -84,8 +84,10 @@ Future<void> _setupServices(String environment) async {
         PersonalInfoServiceImpl(_soldierDatabase.personalInfoDAO),
         CaseNoServiceImpl(_soldierDatabase.caseNoDAO)));
 
-    Get.lazyPut<TrainingStatusService>(
-        () => TrainingStatusServiceImpl(_soldierDatabase.trainingStatusDAO));
+    Get.lazyPut<TrainingStatusService>(() => TrainingStatusServiceImpl(
+        _soldierDatabase.trainingStatusDAO,
+        _soldierDatabase.personalInfoDAO,
+        _soldierDatabase.soldierDAO));
 
     Get.lazyPut<UnitPropertiesService>(
         () => UnitPropertiesServiceImpl(_soldierDatabase.unitPropertiesDAO));

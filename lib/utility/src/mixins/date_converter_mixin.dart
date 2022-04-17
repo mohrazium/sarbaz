@@ -13,15 +13,28 @@ mixin DateConverterMixin {
   }) =>
       _DateConverter.toDateTime(year: year, month: month, day: day);
 
-  DateTime? toDateTimeFromString(String? str) =>
-      _DateConverter.toDateTimeFromString(str);
+  DateTime? toDateTimeFromShamsiString(String? str) =>
+      _DateConverter.toDateTimeFromShamsiString(str);
+
+  int daysDifferenceBetween(String startDate, String endDate) {
+    return _DateConverter.differenceBetweenDays(
+        _DateConverter.toDateTimeFromShamsiString(startDate)!,
+        _DateConverter.toDateTimeFromShamsiString(endDate)!);
+  }
+
+  int hoursDifferenceBetween(String startDate, String endDate) {
+    return _DateConverter.differenceBetweenHours(
+        _DateConverter.toDateTimeFromShamsiString(startDate)!,
+        _DateConverter.toDateTimeFromShamsiString(endDate)!);
+  }
 }
 
 class _DateConverter {
   static String toShamsi(DateTime? dateTime) {
     if (dateTime != null) {
       shamsi_date.Jalali jalali = dateTime.toJalali();
-      return persian_tools.convertEnToFa("${jalali.year}/${jalali.month}/${jalali.day}");
+      return persian_tools
+          .convertEnToFa("${jalali.year}/${jalali.month}/${jalali.day}");
     }
     return "";
   }
@@ -37,7 +50,7 @@ class _DateConverter {
     return Jalali(year, month, day, hour, minute, second).toDateTime();
   }
 
-  static DateTime? toDateTimeFromString(String? str) {
+  static DateTime? toDateTimeFromShamsiString(String? str) {
     if (str != null && str.isNotEmpty) {
       str = persian_tools.convertFaToEn(str);
       var splitDate = (str.split("/"));
@@ -54,5 +67,13 @@ class _DateConverter {
     } else {
       return null;
     }
+  }
+
+  static int differenceBetweenDays(DateTime start, DateTime end) {
+    return end.difference(start).inDays + const Duration(days: 1).inDays;
+  }
+
+  static int differenceBetweenHours(DateTime start, DateTime end) {
+    return end.difference(start).inHours;
   }
 }

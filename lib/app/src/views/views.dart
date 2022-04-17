@@ -21,3 +21,4 @@ part 'further_info_view.dart';
 part 'relative_contact_info_view.dart';
 part 'educational_info_view.dart';
 part 'soldier_view.dart';
+part 'training_status_view.dart';

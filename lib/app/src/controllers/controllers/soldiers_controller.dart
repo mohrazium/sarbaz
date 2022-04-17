@@ -20,13 +20,11 @@ class SoldiersController extends GetxController {
     await _personalInfoService.findAll().then((values) {
       if (values != null) {
         List<SoldiersDataCellModel> soldiers = List.empty(growable: true);
-
         soldiersList.value.clear();
-
         for (var person in values) {
           soldiers.add(SoldiersDataCellModel(
               id: person.id,
-              caseNo: "${person.soldier?.caseNo?.caseName}-${person.soldier?.caseNo?.caseCode}",
+              caseNo:(person.soldier?.caseNo?.caseName ?? "") + "-" + (person.soldier?.caseNo?.caseCode ?? ""),
               firstName: person.firstName,
               lastName: person.lastName,
               fatherName: person.fatherName,
@@ -36,7 +34,6 @@ class SoldiersController extends GetxController {
               soldierStatus: person.soldier?.latestStatus,
               isSelected: false));
         }
-
         soldiersList.value.addAll(soldiers);
       }
     }).catchError((onError) {

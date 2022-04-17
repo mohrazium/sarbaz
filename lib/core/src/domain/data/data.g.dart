@@ -11947,6 +11947,37 @@ mixin _$SoldierDAOMixin on DatabaseAccessor<SoldierDatabase> {
 mixin _$TrainingStatusDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $TrainingStatusTableTable get trainingStatusTable =>
       attachedDatabase.trainingStatusTable;
+  $CaseNoTableTable get caseNoTable => attachedDatabase.caseNoTable;
+  $UnitPropertiesTableTable get unitPropertiesTable =>
+      attachedDatabase.unitPropertiesTable;
+  $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
+  $HealthStatusTableTable get healthStatusTable =>
+      attachedDatabase.healthStatusTable;
+  $ViolationsOvertimeTableTable get violationsOvertimeTable =>
+      attachedDatabase.violationsOvertimeTable;
+  $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
+      attachedDatabase.dailyAbsenceOvertimeTable;
+  $DisciplinaryOvertimeTableTable get disciplinaryOvertimeTable =>
+      attachedDatabase.disciplinaryOvertimeTable;
+  $AnnualOvertimeTableTable get annualOvertimeTable =>
+      attachedDatabase.annualOvertimeTable;
+  $OvertimeTableTable get overtimeTable => attachedDatabase.overtimeTable;
+  $DailyVacationTableTable get dailyVacationTable =>
+      attachedDatabase.dailyVacationTable;
+  $HourlyVacationTableTable get hourlyVacationTable =>
+      attachedDatabase.hourlyVacationTable;
+  $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
+  $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
+      attachedDatabase.serviceDeficitRecordTable;
+  $OperationalServiceDeficitRecordTableTable
+      get operationalServiceDeficitRecordTable =>
+          attachedDatabase.operationalServiceDeficitRecordTable;
+  $ServiceDeficitTableTable get serviceDeficitTable =>
+      attachedDatabase.serviceDeficitTable;
+  $RankTableTable get rankTable => attachedDatabase.rankTable;
+  $SoldierCaseTableTable get soldierCaseTable =>
+      attachedDatabase.soldierCaseTable;
+  $SoldierTableTable get soldierTable => attachedDatabase.soldierTable;
 }
 mixin _$UnitPropertiesDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $UnitPropertiesTableTable get unitPropertiesTable =>

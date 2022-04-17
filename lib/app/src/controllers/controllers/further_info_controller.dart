@@ -331,7 +331,7 @@ class FurtherInfoController extends GetxController
         id: model.value.id,
         maritalState: maritalStateController.text.trim(),
         dateOfMarriage: dateOfMarriageController.text.isNotEmpty
-            ? toDateTimeFromString(dateOfMarriageController.text.trim())
+            ? toDateTimeFromShamsiString(dateOfMarriageController.text.trim())
             : null,
         numberOfChildren: numberOfChildrenController.text.trim().isNotEmpty
             ? int.parse(numberOfChildrenController.text.trim())

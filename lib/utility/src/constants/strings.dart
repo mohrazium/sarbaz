@@ -226,4 +226,14 @@ class Strings {
     soldierStatusIntroductionToCommission,
     soldierStatusStop,
   ];
+
+  static const String trainingStatus = "وضعیت آموزشی";
+  static const String placeOfTraining = "نام مرکز آموزشی";
+  static const String typeOfTraining = "نوع آموزش";
+  static const String startDate = "تاریخ شروع";
+  static const String endDate = "تاریخ پایان";
+  static const String trainingPeriod = "مدت دوره";
+
+  static const String soldierIsnotSavedPleaseSave =
+      "اطلاعات خدمتی ثبت نشده اند, لطفا ابتدا اقدام به ثبت اطلاعات خدمتی نمایید";
 }

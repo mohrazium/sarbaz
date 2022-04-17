@@ -209,7 +209,7 @@ class PersonalInfoController extends GetxController
       firstName: firstNameController.text.trim(),
       lastName: lastNameController.text.trim(),
       fatherName: fatherNameController.text.trim(),
-      dateOfBirth: toDateTimeFromString(dateOfBirthController.text.trim()),
+      dateOfBirth: toDateTimeFromShamsiString(dateOfBirthController.text.trim()),
       placeOfBirth: placeOfBirthController.text.trim(),
       placeOfIssue: placeOfIssueController.text.trim(),
     );

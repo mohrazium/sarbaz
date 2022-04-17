@@ -358,7 +358,7 @@ Map<String, dynamic> _$OvertimeModelToJson(OvertimeModel instance) =>
     };
 
 PersonalInfoModel _$PersonalInfoModelFromJson(Map<String, dynamic> json) =>
-  PersonalInfoModel(
+    PersonalInfoModel(
       id: json['id'] as int?,
       nationalCode: json['nationalCode'] as String,
       nationalIdentity: json['nationalIdentity'] as String?,
@@ -624,6 +624,7 @@ TrainingStatusModel _$TrainingStatusModelFromJson(Map<String, dynamic> json) =>
       endDate: json['endDate'] == null
           ? null
           : DateTime.parse(json['endDate'] as String),
+      description: json['description'] as String?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -642,6 +643,7 @@ Map<String, dynamic> _$TrainingStatusModelToJson(
       'status': instance.status,
       'type': instance.type,
       'endDate': instance.endDate?.toIso8601String(),
+      'description': instance.description,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };

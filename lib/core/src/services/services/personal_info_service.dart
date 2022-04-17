@@ -10,9 +10,9 @@ abstract class PersonalInfoService extends Service<int, PersonalInfoModel> {
 }
 
 class PersonalInfoServiceImpl implements PersonalInfoService {
-  final PersonalInfoDAO dao;
+  final PersonalInfoDAO _dao;
 
-  PersonalInfoServiceImpl(this.dao);
+  PersonalInfoServiceImpl(this._dao);
 
   @override
   Future<List<PersonalInfoModel>?> findByKeyword(keyword) {
@@ -22,7 +22,7 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
 
   @override
   Future<int> save(PersonalInfoModel e) async {
-    return await dao.doInsert(e.toJson()).then((value) {
+    return await _dao.doInsert(e.toJson()).then((value) {
       logger.info("person is saved");
       return value.id ?? 0;
     }).onError((error, stackTrace) => throw FailureException(
@@ -35,7 +35,7 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
     PersonalInfoModel personalInfoModel = PersonalInfoModel.init();
     ContactInfoModel? contactInfoModel = ContactInfoModel.init();
     SoldierModel? soldierModel = SoldierModel.init();
-    await dao.findAll().then((dataList) async {
+    await _dao.findAll().then((dataList) async {
       models.clear();
       for (var data in dataList) {
         personalInfoModel = PersonalInfoModel.fromJson(
@@ -63,7 +63,7 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
 
   @override
   Future<PersonalInfoModel?> findById(int id) async {
-    return await dao.findById(id).then((value) {
+    return await _dao.findById(id).then((value) {
       return value != null ? PersonalInfoModel.fromJson(value.toJson()) : null;
     }).onError((error, stackTrace) => throw FailureException(
         'An error happened on find by id in $stackTrace.',
@@ -72,21 +72,21 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
 
   @override
   Future<bool> update(PersonalInfoModel e) async {
-    return await dao.doUpdate(e.toJson()).then((value) => value).onError(
+    return await _dao.doUpdate(e.toJson()).then((value) => value).onError(
         (error, stackTrace) => throw FailureException(
             "updating personal info failed, with error $stackTrace"));
   }
 
   @override
   Future<bool> delete(PersonalInfoModel e) async {
-    return await dao.doDelete(e.toJson()).then((value) => value >= 1).onError(
+    return await _dao.doDelete(e.toJson()).then((value) => value >= 1).onError(
         (error, stackTrace) => throw FailureException(
             "deleting personal info failed, with error $stackTrace"));
   }
 
   @override
   Future<PersonalInfoModel?> findByNationalCode(String nationalCode) async {
-    return await dao.findByNationalCode(nationalCode).then((value) {
+    return await _dao.findByNationalCode(nationalCode).then((value) {
       return value != null ? PersonalInfoModel.fromJson(value.toJson()) : null;
     }).onError((error, stackTrace) => throw FailureException(
         'An error happened on find by national code, see the error :\n $error \n $stackTrace',
@@ -95,7 +95,7 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
 
   @override
   Future<int> findFurtherInfoIdById(int personalId) {
-    return dao.findById(personalId).then((value) {
+    return _dao.findById(personalId).then((value) {
       return value != null && value.furtherInfo != null
           ? value.furtherInfo!
           : 0;
@@ -105,7 +105,7 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
 
   @override
   Future<int> findContactInfoIdById(int personalId) {
-    return dao.findById(personalId).then((value) {
+    return _dao.findById(personalId).then((value) {
       return value != null && value.contactInfo != null
           ? value.contactInfo!
           : 0;
@@ -115,7 +115,7 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
 
   @override
   Future<int> findEducationalInfoIdById(int personalId) {
-    return dao.findById(personalId).then((value) {
+    return _dao.findById(personalId).then((value) {
       return value != null && value.educationalInfo != null
           ? value.educationalInfo!
           : 0;
@@ -125,7 +125,7 @@ class PersonalInfoServiceImpl implements PersonalInfoService {
 
   @override
   Future<int> findSoldierIdById(int personalId) {
-    return dao.findById(personalId).then((value) {
+    return _dao.findById(personalId).then((value) {
       return value != null && value.soldier != null ? value.soldier! : 0;
     }).onError((error, stackTrace) => throw FailureException(
         "personal info not found by id, see the error :\n $error \n $stackTrace"));

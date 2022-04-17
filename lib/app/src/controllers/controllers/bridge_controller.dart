@@ -57,11 +57,22 @@ class BridgeController extends GetxController
     Get.find<RelativeContactsInfoController>().initForm();
     Get.find<EducationalInfoController>().initForm();
     Get.find<SoldierController>().initForm();
+    Get.find<TrainingStatusController>().initForm();
   }
 
   Future<bool> isPersonalInfoSaved() async {
     return await Get.find<PersonalInfoService>()
         .findById(personalInfoId.value)
+        .then((value) {
+      return value != null ? true : false;
+    }).catchError((onError) {
+      DialogHelper.showCrashReport(onError.toString());
+    });
+  }
+
+    Future<bool> isSoldierSaved() async {
+    return await Get.find<SoldierService>()
+        .findByPersonalInfoId(personalInfoId.value)
         .then((value) {
       return value != null ? true : false;
     }).catchError((onError) {

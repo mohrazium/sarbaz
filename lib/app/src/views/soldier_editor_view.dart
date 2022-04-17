@@ -42,6 +42,7 @@ class SoldierEditorView extends GetView<SoldierEditorController> {
                     crossAxisSpacing: 4,
                     children: const [
                       Center(child: SoldierView()),
+                      Center(child: TrainingStatusView()),
                     ]),
               ],
             ));

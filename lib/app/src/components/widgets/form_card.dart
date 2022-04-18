@@ -13,21 +13,23 @@ class FormCard extends StatelessWidget with DateConverterMixin {
   final Widget child;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  const FormCard({
-    Key? key,
-    this.globalFormKey,
-    required this.readyOnly,
-    required this.onConfirmButtonPressed,
-    required this.onCancelButtonPressed,
-    this.maxWidth,
-    this.minWidth,
-    this.color,
-    this.headerColor,
-    required this.headerContent,
-    required this.child,
-    this.createdAt,
-    this.updatedAt,
-  }) : super(key: key);
+
+  const FormCard(
+      {Key? key,
+      this.globalFormKey,
+      required this.readyOnly,
+      required this.onConfirmButtonPressed,
+      required this.onCancelButtonPressed,
+      this.maxWidth,
+      this.minWidth,
+      this.color,
+      this.headerColor,
+      required this.headerContent,
+      required this.child,
+      this.createdAt,
+      this.updatedAt,
+      })
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,7 @@ class FormCard extends StatelessWidget with DateConverterMixin {
             constraints: BoxConstraints(
                 minWidth: minWidth ?? 200, maxWidth: maxWidth ?? 500),
             child: GroupBox(
+              haveShadow:true,
               color: color ?? Colorize.backgroundColorShade200,
               padding: const EdgeInsets.all(kPadding / 2),
               child: Column(
@@ -59,9 +62,8 @@ class FormCard extends StatelessWidget with DateConverterMixin {
                                 child: headerContent),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(kPadding),
-                            child: child
-                          ),
+                              padding: const EdgeInsets.all(kPadding),
+                              child: child),
                         ],
                       ),
                       _buildFooter(),
@@ -128,7 +130,7 @@ class FormCard extends StatelessWidget with DateConverterMixin {
             children: [
               _buildConfirmButton(),
               const SizedBox(
-                width: kSpacing/2,
+                width: kSpacing / 2,
               ),
               _buildCancelButton()
             ],

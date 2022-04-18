@@ -37,7 +37,7 @@ class SoldierView extends GetView<SoldierController> {
                       Column(
                         children: [
                           //! Case no field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.caseNo,
                             controller: controller.caseNoController,
                             readOnly: controller.readOnly.value,
@@ -47,14 +47,14 @@ class SoldierView extends GetView<SoldierController> {
                                 controller.requiredFieldValidator(value: val),
                           ),
                           //! Personnel code field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.personnelCode,
                             controller: controller.personnelCodeController,
                             readOnly: controller.readOnly.value,
                           ),
 
                           //! Case status field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.caseStatus,
                             controller: controller.caseStatusController,
                             readOnly: true,
@@ -64,20 +64,20 @@ class SoldierView extends GetView<SoldierController> {
                       Column(
                         children: [
                           //! Latest status field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.latestStatusOfSoldier,
                             controller: controller.latestStatusController,
                             readOnly: true,
                           ),
                           //! Division status field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.divisionStatus,
                             controller: controller.divisionStatusController,
                             readOnly: true,
                           ),
 
                           //! Archive case no field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.archiveCaseNo,
                             controller: controller.archiveCaseNoController,
                             readOnly: true,

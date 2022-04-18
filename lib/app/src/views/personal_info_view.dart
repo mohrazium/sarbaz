@@ -26,7 +26,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                   Column(
                     children: [
                       //! National code field
-                      TextFieldCustom(
+                      TextBox(
                         keyboardType: TextInputType.number,
                         titleText: Strings.nationalCode,
                         maxLength: 10,
@@ -41,7 +41,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                       ),
 
                       //! First name field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.firstName,
                         controller: controller.firstNameController,
                         readOnly: controller.readOnly.value,
@@ -53,7 +53,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                       ),
 
                       //! Father name field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.fatherName,
                         controller: controller.fatherNameController,
                         readOnly: controller.readOnly.value,
@@ -62,7 +62,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                             controller.requiredFieldValidator(value: val),
                       ),
                       //! Place of birth field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.placeOfBirth,
                         controller: controller.placeOfBirthController,
                         readOnly: controller.readOnly.value,
@@ -72,7 +72,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                   Column(
                     children: [
                       //! National id field
-                      TextFieldCustom(
+                      TextBox(
                         keyboardType: TextInputType.number,
                         titleText: Strings.nationalIdentity,
                         maxLength: 10,
@@ -81,7 +81,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                       ),
 
                       //! Last name field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.lastName,
                         controller: controller.lastNameController,
                         readOnly: controller.readOnly.value,
@@ -93,7 +93,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                       ),
 
                       //! Date of birth field
-                      TextFieldCustom(
+                      TextBox(
                           titleText: Strings.dateOfBirth,
                           controller: controller.dateOfBirthController,
                           readOnly: controller.readOnly.value,
@@ -114,7 +114,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                               controller.dateValidator(value: val)),
 
                       //! Place of birth name field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.placeOfIssue,
                         controller: controller.placeOfIssueController,
                         readOnly: controller.readOnly.value,

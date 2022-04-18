@@ -26,7 +26,7 @@ class EducationalInfoView extends GetView<EducationalInfoController> {
                   Column(
                     children: [
                       //! Filed Of Study field
-                      TextFieldCustom(
+                      TextBox(
                           titleText: Strings.levelOfEducation,
                           controller: controller.levelOfEducationController,
                           readOnly: controller.readOnly.value,
@@ -36,14 +36,14 @@ class EducationalInfoView extends GetView<EducationalInfoController> {
                               controller.requiredFieldValidator(value: val)),
 
                       //! Edu place field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.educationalPlace,
                         controller: controller.educationPlaceController,
                         readOnly: controller.readOnly.value,
                       ),
 
                       //! Skills code field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.skills,
                         controller: controller.skillsController,
                         readOnly: controller.readOnly.value,
@@ -53,21 +53,21 @@ class EducationalInfoView extends GetView<EducationalInfoController> {
                   Column(
                     children: [
                       //! Filed of study field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.filedOfStudy,
                         controller: controller.fieldOfStudyController,
                         readOnly: controller.readOnly.value,
                       ),
 
                       //! Grade field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.grade,
                         controller: controller.gradeController,
                         readOnly: controller.readOnly.value,
                       ),
 
                       //! Permission to study field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.permissionToStudy,
                         controller: controller.permissionToStudyController,
                         readOnly: controller.readOnly.value,

@@ -72,7 +72,7 @@ class RelativeContactInfoView extends GetView<RelativeContactsInfoController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           //! Name and family field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.nameAndFamily,
                             controller: controller.nameAndFamilyController,
                             readOnly:
@@ -82,7 +82,7 @@ class RelativeContactInfoView extends GetView<RelativeContactsInfoController> {
                                 controller.requiredFieldValidator(value: val),
                           ),
                           //! Mobile number field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.mobileNumber,
                             controller: controller.mobileNumberController,
                             maxLength: 11,
@@ -96,21 +96,21 @@ class RelativeContactInfoView extends GetView<RelativeContactsInfoController> {
                           ),
                         ]),
                     //! Home address field
-                    TextFieldCustom(
+                    TextBox(
                       width: 500,
                       titleText: Strings.homeAddress,
                       controller: controller.homeAddressController,
                       readOnly: controller.contactController.readOnly.value,
                     ),
                     //! Work address field
-                    TextFieldCustom(
+                    TextBox(
                       width: 500,
                       titleText: Strings.workAddress,
                       controller: controller.workAddressController,
                       readOnly: controller.contactController.readOnly.value,
                     ),
                     //! Description field
-                    TextFieldCustom(
+                    TextBox(
                       width: 500,
                       titleText: Strings.description,
                       controller: controller.descriptionController,

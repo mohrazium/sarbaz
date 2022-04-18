@@ -14,7 +14,7 @@ class SearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: kPadding-5),
-      child: TextFieldCustom(
+      child: TextBox(
         width: double.maxFinite,
         height: 55,
         controller: controller,

@@ -1,6 +1,6 @@
 part of components;
 
-class TextFieldCustom extends StatefulWidget {
+class TextBox extends StatefulWidget {
   final String? titleText;
   final String? hintText;
   final Icon? icon;
@@ -24,7 +24,7 @@ class TextFieldCustom extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final bool isRequired;
 
-  const TextFieldCustom({
+  const TextBox({
     Key? key,
     this.titleText,
     this.hintText,
@@ -51,10 +51,10 @@ class TextFieldCustom extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TextFieldCustomState createState() => _TextFieldCustomState();
+  _TextBoxState createState() => _TextBoxState();
 }
 
-class _TextFieldCustomState extends State<TextFieldCustom> {
+class _TextBoxState extends State<TextBox> {
   late Icon _textFieldIcon = const Icon(Icons.circle);
   bool _isShowPassword = false;
 

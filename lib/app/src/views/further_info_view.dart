@@ -26,7 +26,7 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                   Column(
                     children: [
                       //! Marital state field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.maritalState,
                         controller: controller.maritalStateController,
                         readOnly: controller.readOnly.value,
@@ -43,7 +43,7 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                       ),
 
                       //! Number of children field
-                      TextFieldCustom(
+                      TextBox(
                         maxLength: 2,
                         titleText: Strings.numberOfChildren,
                         controller: controller.numberOfChildrenController,
@@ -56,7 +56,7 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                       ),
 
                       //! Sect field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.sect,
                         controller: controller.sectController,
                         readOnly: controller.readOnly.value,
@@ -64,7 +64,7 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                       ),
 
                       //! Weight field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.weight,
                         controller: controller.weightController,
                         readOnly: controller.readOnly.value,
@@ -74,7 +74,7 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                       ),
 
                       //! Eye color field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.eyesColor,
                         controller: controller.eyesColorController,
                         readOnly: controller.readOnly.value,
@@ -85,7 +85,7 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                   Column(
                     children: [
                       //! Date of marriage field
-                      TextFieldCustom(
+                      TextBox(
                           titleText: Strings.dateOfMarriage,
                           controller: controller.dateOfMarriageController,
                           readOnly: controller.readOnly.value,
@@ -109,7 +109,7 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                           ),
 
                       //! Religion field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.religion,
                         controller: controller.religionController,
                         readOnly: controller.readOnly.value,
@@ -117,7 +117,7 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                       ),
 
                       //! Height field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.height,
                         controller: controller.heightController,
                         readOnly: controller.readOnly.value,
@@ -126,7 +126,7 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                       ),
 
                       //! Hair color field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.hairColor,
                         controller: controller.hairColorController,
                         readOnly: controller.readOnly.value,
@@ -134,7 +134,7 @@ class FurtherInfoView extends GetView<FurtherInfoController> {
                       ),
 
                       //! Blood color field
-                      TextFieldCustom(
+                      TextBox(
                         titleText: Strings.bloodType,
                         controller: controller.bloodTypeController,
                         readOnly: controller.readOnly.value,

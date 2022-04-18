@@ -10,6 +10,7 @@ class GroupBox extends StatelessWidget {
   final double? width;
   final void Function()? onTap;
   final bool inMaterial;
+  final bool haveShadow;
 
   const GroupBox({
     Key? key,
@@ -22,6 +23,7 @@ class GroupBox extends StatelessWidget {
     this.width,
     this.onTap,
     this.inMaterial = false,
+    this.haveShadow = false,
   }) : super(key: key);
 
   @override
@@ -37,9 +39,18 @@ class GroupBox extends StatelessWidget {
           onTap: onTap,
           child: Ink(
               decoration: BoxDecoration(
+                boxShadow: haveShadow
+                    ? const [
+                        BoxShadow(
+                          blurRadius: kPadding,
+                          blurStyle: BlurStyle.normal,
+                          color: Colorize.foregroundColorShade900,
+                        ),
+                      ]
+                    : null,
                 borderRadius: borderRadius ??
                     const BorderRadius.all(Radius.circular(kBorderRadius)),
-                color: color ?? Colorize.backgroundColorShade600,
+                color: color ?? Colorize.backgroundColorShade700,
               ),
               width: width,
               height: height,

@@ -47,7 +47,7 @@ part 'widgets/user_profile.dart';
 part 'widgets/tab_menu.dart';
 part 'widgets/inner_view.dart';
 part 'widgets/form_card.dart';
-part 'widgets/text_field_custom.dart';
+part 'widgets/text_box.dart';
 part 'widgets/contact_tile.dart';
 part 'widgets/image_view_personal_pic.dart';
 part 'widgets/case_no_tile.dart';

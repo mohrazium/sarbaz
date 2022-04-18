@@ -29,7 +29,7 @@ class TrainingStatusView extends GetView<TrainingStatusController> {
                       Column(
                         children: [
                           //! Place field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.placeOfTraining,
                             controller: controller.placeNameController,
                             readOnly: controller.readOnly.value,
@@ -39,7 +39,7 @@ class TrainingStatusView extends GetView<TrainingStatusController> {
                           ),
 
                           //! Start date field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.startDate,
                             controller: controller.startDateController,
                             readOnly: controller.readOnly.value,
@@ -50,7 +50,7 @@ class TrainingStatusView extends GetView<TrainingStatusController> {
                           ),
 
                           //! Training status field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.trainingStatus,
                             controller: controller.statusController,
                             readOnly: controller.readOnly.value,
@@ -60,13 +60,13 @@ class TrainingStatusView extends GetView<TrainingStatusController> {
                       Column(
                         children: [
                           //! Type of training field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.typeOfTraining,
                             controller: controller.typeController,
                             readOnly: controller.readOnly.value,
                           ),
                           //! End date field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.endDate,
                             controller: controller.endDateController,
                             readOnly: controller.readOnly.value,
@@ -76,7 +76,7 @@ class TrainingStatusView extends GetView<TrainingStatusController> {
                                 icon: const Icon(EvaIcons.calendar)),
                           ),
                           //! Period field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.trainingPeriod,
                             controller: controller.periodController,
                             keyboardType: TextInputType.number,
@@ -86,7 +86,7 @@ class TrainingStatusView extends GetView<TrainingStatusController> {
                       ),
                     ]),
                 //! Descriptions field
-                TextFieldCustom(
+                TextBox(
                   width: 600,
                   titleText: Strings.description,
                   controller: controller.descriptionController,

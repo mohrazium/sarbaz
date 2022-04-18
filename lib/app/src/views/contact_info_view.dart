@@ -29,7 +29,7 @@ class ContactInfoView extends GetView<ContactInfoController> {
                       Column(
                         children: [
                           //! Mobile number field
-                          TextFieldCustom(
+                          TextBox(
                             maxLength: 11,
                             titleText: Strings.mobileNumber,
                             controller: controller.mobileNumberController,
@@ -46,14 +46,14 @@ class ContactInfoView extends GetView<ContactInfoController> {
                           ),
 
                           //! Province field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.livingProvince,
                             controller: controller.provinceController,
                             readOnly: controller.readOnly.value,
                           ),
 
                           //! Postal code field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.postalCode,
                             controller: controller.postalCodeController,
                             readOnly: controller.readOnly.value,
@@ -63,7 +63,7 @@ class ContactInfoView extends GetView<ContactInfoController> {
                       Column(
                         children: [
                           //! Phone number field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.phoneNumber,
                             controller: controller.phoneNumberController,
                             readOnly: controller.readOnly.value,
@@ -74,14 +74,14 @@ class ContactInfoView extends GetView<ContactInfoController> {
                           ),
 
                           //! City field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.livingCity,
                             controller: controller.cityController,
                             readOnly: controller.readOnly.value,
                           ),
 
                           //! Distance field
-                          TextFieldCustom(
+                          TextBox(
                             titleText: Strings.distance,
                             controller: controller.distanceController,
                             readOnly: controller.readOnly.value,
@@ -96,7 +96,7 @@ class ContactInfoView extends GetView<ContactInfoController> {
                         ],
                       ),
                     ]),
-                TextFieldCustom(
+                TextBox(
                   width: 600,
                   titleText: Strings.address,
                   controller: controller.addressController,

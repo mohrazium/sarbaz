@@ -8,6 +8,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
     return GetX(
         init: controller,
         builder: (_) => FormCard(
+            haveShadow: true,
             globalFormKey: controller.personalInfoFormGlobalKey,
             readyOnly: controller.readOnly.value,
             onConfirmButtonPressed: () => controller.onConfirmButtonPressed(),
@@ -33,9 +34,10 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                         controller: controller.nationalCodeController,
                         readOnly: controller.readOnly.value,
                         isRequired: true,
-                        validator: (val) => controller.nationalIdentityValidator(
-                            value: val,
-                            errorMessage: Strings.wrongNationalIdentity),
+                        validator: (val) =>
+                            controller.nationalIdentityValidator(
+                                value: val,
+                                errorMessage: Strings.wrongNationalIdentity),
                         onChanged: (val) =>
                             controller.onChangedNationalCodeField(val),
                       ),

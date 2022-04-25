@@ -4,10 +4,11 @@ class TrainingStatusController extends GetxController
     with ValidatorMixin, DateConverterMixin {
   final GlobalKey<FormState> trainingStatusFormGlobalKey =
       GlobalKey<FormState>();
-  late final BridgeController bridgeController;
+  final TrainingStatusService _trainingStatusService;
+  final BridgeController _bridgeController;
+
   late RxBool readOnly = false.obs;
 
-  late final TrainingStatusService _service;
   late final Rx<TrainingStatusModel> model = Rx(TrainingStatusModel.init());
 
   late TextEditingController startDateController;
@@ -17,6 +18,8 @@ class TrainingStatusController extends GetxController
   late TextEditingController typeController;
   late TextEditingController endDateController;
   late TextEditingController descriptionController;
+
+  TrainingStatusController(this._trainingStatusService, this._bridgeController);
 
   @override
   void onInit() {
@@ -28,8 +31,6 @@ class TrainingStatusController extends GetxController
     typeController = TextEditingController(text: Strings.sectList[0]);
     endDateController = TextEditingController();
     descriptionController = TextEditingController();
-    _service = Get.find<TrainingStatusService>();
-    bridgeController = Get.find<BridgeController>();
     initForm();
     logger.info("$runtimeType has been initialized.");
   }
@@ -61,7 +62,7 @@ class TrainingStatusController extends GetxController
 
   Future<void> onConfirmButtonPressed() async {
     if (!readOnly.value) {
-      await bridgeController.isSoldierSaved().then((value) {
+      await _bridgeController.isSoldierSaved().then((value) {
         if (value) {
           if (trainingStatusFormGlobalKey.currentState!.validate()) {
             trainingStatusFormGlobalKey.currentState!.save();
@@ -117,7 +118,7 @@ class TrainingStatusController extends GetxController
       }
       if (startDateController.text.isNotEmpty &&
           endDateController.text.isNotEmpty) {
-        periodController.text = daysDifferenceBetween(
+        periodController.text = differenceInDays(
                 startDateController.text.trim(), endDateController.text.trim())
             .toString();
       }
@@ -127,9 +128,9 @@ class TrainingStatusController extends GetxController
   void _save() async {
     _catchFormData();
     if (model.value.id == null) {
-      await _service
+      await _trainingStatusService
           .saveByPersonalInfoId(model.value,
-              personalInfoId: bridgeController.personalInfoId.value)
+              personalInfoId: _bridgeController.personalInfoId.value)
           .then((value) {
         if (value != 0) {
           model(model.value.copyWith(id: value));
@@ -142,7 +143,7 @@ class TrainingStatusController extends GetxController
         DialogHelper.showCrashReport(onError.toString());
       });
     } else {
-      _service.update(model.value).then((value) {
+      _trainingStatusService.update(model.value).then((value) {
         if (value) {
           _loadInfo();
           showToast(Strings.successfullyUpdatingInfo);
@@ -156,8 +157,8 @@ class TrainingStatusController extends GetxController
   }
 
   Future<void> _loadInfo() async {
-    await _service
-        .findByPersonalInfoId(bridgeController.personalInfoId.value)
+    await _trainingStatusService
+        .findByPersonalInfoId(_bridgeController.personalInfoId.value)
         .then((value) {
       if (value?.id != null) {
         _clearEditor();
@@ -191,10 +192,10 @@ class TrainingStatusController extends GetxController
           ? startDateController.text.trim()
           : null,
       startDate: startDateController.text.isNotEmpty
-          ? toDateTimeFromShamsiString(startDateController.text.trim())
+          ? toDateTime(shamsiDate: startDateController.text.trim())
           : null,
       endDate: endDateController.text.isNotEmpty
-          ? toDateTimeFromShamsiString(endDateController.text.trim())
+          ? toDateTime(shamsiDate: endDateController.text.trim())
           : null,
       period: periodController.text.isNotEmpty
           ? int.parse(periodController.text.trim())

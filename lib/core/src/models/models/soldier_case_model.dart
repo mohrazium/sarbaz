@@ -4,7 +4,8 @@ part of models;
 class SoldierCaseModel {
   final int? id;
   final String membershipType;
-  final String dispatchField;
+  final DateTime dispatchField;
+  final String dispatcher;
   final String serviceCategory;
   final DateTime startDateOfService;
   final DateTime endDateOfService;
@@ -23,6 +24,7 @@ class SoldierCaseModel {
     this.id,
     required this.membershipType,
     required this.dispatchField,
+    required this.dispatcher,
     required this.serviceCategory,
     required this.startDateOfService,
     required this.endDateOfService,
@@ -40,7 +42,8 @@ class SoldierCaseModel {
 
   factory SoldierCaseModel.init() => SoldierCaseModel(
         membershipType: "",
-        dispatchField: "",
+        dispatchField: DateTime.now(),
+        dispatcher: "",
         serviceCategory: "",
         startDateOfService: DateTime.now(),
         endDateOfService: DateTime.now(),
@@ -55,7 +58,8 @@ class SoldierCaseModel {
   SoldierCaseModel copyWith({
     int? id,
     String? membershipType,
-    String? dispatchField,
+    DateTime? dispatchField,
+    String? dispatcher,
     String? serviceCategory,
     DateTime? startDateOfService,
     DateTime? endDateOfService,
@@ -74,6 +78,7 @@ class SoldierCaseModel {
       id: id ?? this.id,
       membershipType: membershipType ?? this.membershipType,
       dispatchField: dispatchField ?? this.dispatchField,
+      dispatcher: dispatcher ?? this.dispatcher,
       serviceCategory: serviceCategory ?? this.serviceCategory,
       startDateOfService: startDateOfService ?? this.startDateOfService,
       endDateOfService: endDateOfService ?? this.endDateOfService,
@@ -92,49 +97,51 @@ class SoldierCaseModel {
 
   @override
   String toString() {
-    return 'SoldierCaseModel(id: $id, membershipType: $membershipType, dispatchField: $dispatchField, serviceCategory: $serviceCategory, startDateOfService: $startDateOfService, endDateOfService: $endDateOfService, legalPeriodOfService: $legalPeriodOfService, introductionDate: $introductionDate, lastPeriodOfService: $lastPeriodOfService, amountOfService: $amountOfService, overtime: $overtime, vacations: $vacations, serviceDeficit: $serviceDeficit, rank: $rank, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'SoldierCaseModel(id: $id, membershipType: $membershipType, dispatchField: $dispatchField, dispatcher: $dispatcher, serviceCategory: $serviceCategory, startDateOfService: $startDateOfService, endDateOfService: $endDateOfService, legalPeriodOfService: $legalPeriodOfService, introductionDate: $introductionDate, lastPeriodOfService: $lastPeriodOfService, amountOfService: $amountOfService, overtime: $overtime, vacations: $vacations, serviceDeficit: $serviceDeficit, rank: $rank, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
+  
     return other is SoldierCaseModel &&
-        other.id == id &&
-        other.membershipType == membershipType &&
-        other.dispatchField == dispatchField &&
-        other.serviceCategory == serviceCategory &&
-        other.startDateOfService == startDateOfService &&
-        other.endDateOfService == endDateOfService &&
-        other.legalPeriodOfService == legalPeriodOfService &&
-        other.introductionDate == introductionDate &&
-        other.lastPeriodOfService == lastPeriodOfService &&
-        other.amountOfService == amountOfService &&
-        other.overtime == overtime &&
-        other.vacations == vacations &&
-        other.serviceDeficit == serviceDeficit &&
-        other.rank == rank &&
-        other.createdAt == createdAt &&
-        other.updatedAt == updatedAt;
+      other.id == id &&
+      other.membershipType == membershipType &&
+      other.dispatchField == dispatchField &&
+      other.dispatcher == dispatcher &&
+      other.serviceCategory == serviceCategory &&
+      other.startDateOfService == startDateOfService &&
+      other.endDateOfService == endDateOfService &&
+      other.legalPeriodOfService == legalPeriodOfService &&
+      other.introductionDate == introductionDate &&
+      other.lastPeriodOfService == lastPeriodOfService &&
+      other.amountOfService == amountOfService &&
+      other.overtime == overtime &&
+      other.vacations == vacations &&
+      other.serviceDeficit == serviceDeficit &&
+      other.rank == rank &&
+      other.createdAt == createdAt &&
+      other.updatedAt == updatedAt;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-        membershipType.hashCode ^
-        dispatchField.hashCode ^
-        serviceCategory.hashCode ^
-        startDateOfService.hashCode ^
-        endDateOfService.hashCode ^
-        legalPeriodOfService.hashCode ^
-        introductionDate.hashCode ^
-        lastPeriodOfService.hashCode ^
-        amountOfService.hashCode ^
-        overtime.hashCode ^
-        vacations.hashCode ^
-        serviceDeficit.hashCode ^
-        rank.hashCode ^
-        createdAt.hashCode ^
-        updatedAt.hashCode;
+      membershipType.hashCode ^
+      dispatchField.hashCode ^
+      dispatcher.hashCode ^
+      serviceCategory.hashCode ^
+      startDateOfService.hashCode ^
+      endDateOfService.hashCode ^
+      legalPeriodOfService.hashCode ^
+      introductionDate.hashCode ^
+      lastPeriodOfService.hashCode ^
+      amountOfService.hashCode ^
+      overtime.hashCode ^
+      vacations.hashCode ^
+      serviceDeficit.hashCode ^
+      rank.hashCode ^
+      createdAt.hashCode ^
+      updatedAt.hashCode;
   }
 }

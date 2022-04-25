@@ -12,6 +12,7 @@ class CaseNoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GroupBox(
+        inMaterial: true,
         onTap: () {
           onTap();
           if (Get.isDialogOpen!) {

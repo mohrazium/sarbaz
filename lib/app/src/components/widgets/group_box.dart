@@ -28,45 +28,56 @@ class GroupBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final content = Padding(
-      padding: padding ?? const EdgeInsets.all(0),
-      child: ClipRRect(
-        borderRadius: borderRadius ??
-            const BorderRadius.all(Radius.circular(kBorderRadius)),
-        child: InkWell(
-          borderRadius: borderRadius ??
-              const BorderRadius.all(Radius.circular(kBorderRadius)),
-          onTap: onTap,
-          child: Ink(
-              decoration: BoxDecoration(
-                boxShadow: haveShadow
-                    ? const [
-                        BoxShadow(
-                          blurRadius: kPadding,
-                          blurStyle: BlurStyle.normal,
-                          color: Colorize.foregroundColorShade900,
-                        ),
-                      ]
-                    : null,
+    return inMaterial || onTap!=null
+        ? Padding(
+            padding: padding ?? const EdgeInsets.all(0),
+            child: ClipRRect(
                 borderRadius: borderRadius ??
                     const BorderRadius.all(Radius.circular(kBorderRadius)),
-                color: color ?? Colorize.backgroundColorShade700,
-              ),
+                child: InkWell(
+                    borderRadius: borderRadius ??
+                        const BorderRadius.all(Radius.circular(kBorderRadius)),
+                    onTap: onTap,
+                    child: Ink(
+                        decoration: _getDecoration(),
+                        width: width,
+                        height: height,
+                        child: Padding(
+                          padding: margin ?? const EdgeInsets.all(0),
+                          child: child,
+                        )))))
+        : Padding(
+            padding: haveShadow && padding == null
+                ? const EdgeInsets.all(kPadding)
+                : padding ?? const EdgeInsets.all(0),
+            child: Container(
               width: width,
               height: height,
-              child: Padding(
-                padding: margin ?? const EdgeInsets.all(0),
-                child: child,
-              )),
-        ),
-      ),
-    );
+              decoration: _getDecoration(),
+              child: ClipRRect(
+                borderRadius: borderRadius ??
+                    const BorderRadius.all(Radius.circular(kBorderRadius)),
+                child: Padding(
+                    padding: margin ?? const EdgeInsets.all(0), child: child),
+              ),
+            ),
+          );
+  }
 
-    return inMaterial
-        ? Container(
-            color: color,
-            child: content,
-          )
-        : content;
+  _getDecoration() {
+    return BoxDecoration(
+      boxShadow: haveShadow
+          ? const [
+              BoxShadow(
+                blurRadius: kPadding,
+                blurStyle: BlurStyle.normal,
+                color: Colorize.foregroundColorShade900,
+              ),
+            ]
+          : null,
+      borderRadius: borderRadius ??
+          const BorderRadius.all(Radius.circular(kBorderRadius)),
+      color: color ?? Colorize.backgroundColorShade700,
+    );
   }
 }

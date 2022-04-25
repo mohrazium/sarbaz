@@ -2,10 +2,6 @@ part of data;
 
 @DriftAccessor(tables: [
   PersonalInfoTable,
-  FurtherInfoTable,
-  ContactInfoTable,
-  EducationalInfoTable,
-  SoldierTable,
 ])
 class PersonalInfoDAO extends DatabaseAccessor<SoldierDatabase>
     with _$PersonalInfoDAOMixin {

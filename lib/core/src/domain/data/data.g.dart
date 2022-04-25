@@ -8808,7 +8808,8 @@ class SoldierCaseTableData extends DataClass
     implements Insertable<SoldierCaseTableData> {
   final int? id;
   final String membershipType;
-  final String dispatchField;
+  final DateTime dispatchField;
+  final String dispatcher;
   final String serviceCategory;
   final DateTime startDateOfService;
   final DateTime endDateOfService;
@@ -8827,6 +8828,7 @@ class SoldierCaseTableData extends DataClass
       {this.id,
       required this.membershipType,
       required this.dispatchField,
+      required this.dispatcher,
       required this.serviceCategory,
       required this.startDateOfService,
       required this.endDateOfService,
@@ -8848,8 +8850,10 @@ class SoldierCaseTableData extends DataClass
       id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
       membershipType: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}membership_type'])!,
-      dispatchField: const StringType()
+      dispatchField: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}dispatch_field'])!,
+      dispatcher: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}dispatcher'])!,
       serviceCategory: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}service_category'])!,
       startDateOfService: const DateTimeType().mapFromDatabaseResponse(
@@ -8887,7 +8891,8 @@ class SoldierCaseTableData extends DataClass
       map['id'] = Variable<int?>(id);
     }
     map['membership_type'] = Variable<String>(membershipType);
-    map['dispatch_field'] = Variable<String>(dispatchField);
+    map['dispatch_field'] = Variable<DateTime>(dispatchField);
+    map['dispatcher'] = Variable<String>(dispatcher);
     map['service_category'] = Variable<String>(serviceCategory);
     map['start_date_of_service'] = Variable<DateTime>(startDateOfService);
     map['end_date_of_service'] = Variable<DateTime>(endDateOfService);
@@ -8928,6 +8933,7 @@ class SoldierCaseTableData extends DataClass
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       membershipType: Value(membershipType),
       dispatchField: Value(dispatchField),
+      dispatcher: Value(dispatcher),
       serviceCategory: Value(serviceCategory),
       startDateOfService: Value(startDateOfService),
       endDateOfService: Value(endDateOfService),
@@ -8965,7 +8971,8 @@ class SoldierCaseTableData extends DataClass
     return SoldierCaseTableData(
       id: serializer.fromJson<int?>(json['id']),
       membershipType: serializer.fromJson<String>(json['membershipType']),
-      dispatchField: serializer.fromJson<String>(json['dispatchField']),
+      dispatchField: serializer.fromJson<DateTime>(json['dispatchField']),
+      dispatcher: serializer.fromJson<String>(json['dispatcher']),
       serviceCategory: serializer.fromJson<String>(json['serviceCategory']),
       startDateOfService:
           serializer.fromJson<DateTime>(json['startDateOfService']),
@@ -8991,7 +8998,8 @@ class SoldierCaseTableData extends DataClass
     return <String, dynamic>{
       'id': serializer.toJson<int?>(id),
       'membershipType': serializer.toJson<String>(membershipType),
-      'dispatchField': serializer.toJson<String>(dispatchField),
+      'dispatchField': serializer.toJson<DateTime>(dispatchField),
+      'dispatcher': serializer.toJson<String>(dispatcher),
       'serviceCategory': serializer.toJson<String>(serviceCategory),
       'startDateOfService': serializer.toJson<DateTime>(startDateOfService),
       'endDateOfService': serializer.toJson<DateTime>(endDateOfService),
@@ -9012,7 +9020,8 @@ class SoldierCaseTableData extends DataClass
   SoldierCaseTableData copyWith(
           {int? id,
           String? membershipType,
-          String? dispatchField,
+          DateTime? dispatchField,
+          String? dispatcher,
           String? serviceCategory,
           DateTime? startDateOfService,
           DateTime? endDateOfService,
@@ -9031,6 +9040,7 @@ class SoldierCaseTableData extends DataClass
         id: id ?? this.id,
         membershipType: membershipType ?? this.membershipType,
         dispatchField: dispatchField ?? this.dispatchField,
+        dispatcher: dispatcher ?? this.dispatcher,
         serviceCategory: serviceCategory ?? this.serviceCategory,
         startDateOfService: startDateOfService ?? this.startDateOfService,
         endDateOfService: endDateOfService ?? this.endDateOfService,
@@ -9052,6 +9062,7 @@ class SoldierCaseTableData extends DataClass
           ..write('id: $id, ')
           ..write('membershipType: $membershipType, ')
           ..write('dispatchField: $dispatchField, ')
+          ..write('dispatcher: $dispatcher, ')
           ..write('serviceCategory: $serviceCategory, ')
           ..write('startDateOfService: $startDateOfService, ')
           ..write('endDateOfService: $endDateOfService, ')
@@ -9075,6 +9086,7 @@ class SoldierCaseTableData extends DataClass
       id,
       membershipType,
       dispatchField,
+      dispatcher,
       serviceCategory,
       startDateOfService,
       endDateOfService,
@@ -9096,6 +9108,7 @@ class SoldierCaseTableData extends DataClass
           other.id == this.id &&
           other.membershipType == this.membershipType &&
           other.dispatchField == this.dispatchField &&
+          other.dispatcher == this.dispatcher &&
           other.serviceCategory == this.serviceCategory &&
           other.startDateOfService == this.startDateOfService &&
           other.endDateOfService == this.endDateOfService &&
@@ -9115,7 +9128,8 @@ class SoldierCaseTableData extends DataClass
 class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
   final Value<int?> id;
   final Value<String> membershipType;
-  final Value<String> dispatchField;
+  final Value<DateTime> dispatchField;
+  final Value<String> dispatcher;
   final Value<String> serviceCategory;
   final Value<DateTime> startDateOfService;
   final Value<DateTime> endDateOfService;
@@ -9134,6 +9148,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     this.id = const Value.absent(),
     this.membershipType = const Value.absent(),
     this.dispatchField = const Value.absent(),
+    this.dispatcher = const Value.absent(),
     this.serviceCategory = const Value.absent(),
     this.startDateOfService = const Value.absent(),
     this.endDateOfService = const Value.absent(),
@@ -9152,7 +9167,8 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
   SoldierCaseTableCompanion.insert({
     this.id = const Value.absent(),
     required String membershipType,
-    required String dispatchField,
+    required DateTime dispatchField,
+    required String dispatcher,
     required String serviceCategory,
     required DateTime startDateOfService,
     required DateTime endDateOfService,
@@ -9169,6 +9185,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     this.updatedAt = const Value.absent(),
   })  : membershipType = Value(membershipType),
         dispatchField = Value(dispatchField),
+        dispatcher = Value(dispatcher),
         serviceCategory = Value(serviceCategory),
         startDateOfService = Value(startDateOfService),
         endDateOfService = Value(endDateOfService),
@@ -9177,7 +9194,8 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
   static Insertable<SoldierCaseTableData> custom({
     Expression<int?>? id,
     Expression<String>? membershipType,
-    Expression<String>? dispatchField,
+    Expression<DateTime>? dispatchField,
+    Expression<String>? dispatcher,
     Expression<String>? serviceCategory,
     Expression<DateTime>? startDateOfService,
     Expression<DateTime>? endDateOfService,
@@ -9197,6 +9215,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
       if (id != null) 'id': id,
       if (membershipType != null) 'membership_type': membershipType,
       if (dispatchField != null) 'dispatch_field': dispatchField,
+      if (dispatcher != null) 'dispatcher': dispatcher,
       if (serviceCategory != null) 'service_category': serviceCategory,
       if (startDateOfService != null)
         'start_date_of_service': startDateOfService,
@@ -9220,7 +9239,8 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
   SoldierCaseTableCompanion copyWith(
       {Value<int?>? id,
       Value<String>? membershipType,
-      Value<String>? dispatchField,
+      Value<DateTime>? dispatchField,
+      Value<String>? dispatcher,
       Value<String>? serviceCategory,
       Value<DateTime>? startDateOfService,
       Value<DateTime>? endDateOfService,
@@ -9239,6 +9259,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
       id: id ?? this.id,
       membershipType: membershipType ?? this.membershipType,
       dispatchField: dispatchField ?? this.dispatchField,
+      dispatcher: dispatcher ?? this.dispatcher,
       serviceCategory: serviceCategory ?? this.serviceCategory,
       startDateOfService: startDateOfService ?? this.startDateOfService,
       endDateOfService: endDateOfService ?? this.endDateOfService,
@@ -9266,7 +9287,10 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
       map['membership_type'] = Variable<String>(membershipType.value);
     }
     if (dispatchField.present) {
-      map['dispatch_field'] = Variable<String>(dispatchField.value);
+      map['dispatch_field'] = Variable<DateTime>(dispatchField.value);
+    }
+    if (dispatcher.present) {
+      map['dispatcher'] = Variable<String>(dispatcher.value);
     }
     if (serviceCategory.present) {
       map['service_category'] = Variable<String>(serviceCategory.value);
@@ -9321,6 +9345,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
           ..write('id: $id, ')
           ..write('membershipType: $membershipType, ')
           ..write('dispatchField: $dispatchField, ')
+          ..write('dispatcher: $dispatcher, ')
           ..write('serviceCategory: $serviceCategory, ')
           ..write('startDateOfService: $startDateOfService, ')
           ..write('endDateOfService: $endDateOfService, ')
@@ -9362,8 +9387,13 @@ class $SoldierCaseTableTable extends SoldierCaseTable
   final VerificationMeta _dispatchFieldMeta =
       const VerificationMeta('dispatchField');
   @override
-  late final GeneratedColumn<String?> dispatchField = GeneratedColumn<String?>(
-      'dispatch_field', aliasedName, false,
+  late final GeneratedColumn<DateTime?> dispatchField =
+      GeneratedColumn<DateTime?>('dispatch_field', aliasedName, false,
+          type: const IntType(), requiredDuringInsert: true);
+  final VerificationMeta _dispatcherMeta = const VerificationMeta('dispatcher');
+  @override
+  late final GeneratedColumn<String?> dispatcher = GeneratedColumn<String?>(
+      'dispatcher', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _serviceCategoryMeta =
       const VerificationMeta('serviceCategory');
@@ -9458,6 +9488,7 @@ class $SoldierCaseTableTable extends SoldierCaseTable
         id,
         membershipType,
         dispatchField,
+        dispatcher,
         serviceCategory,
         startDateOfService,
         endDateOfService,
@@ -9501,6 +9532,14 @@ class $SoldierCaseTableTable extends SoldierCaseTable
               data['dispatch_field']!, _dispatchFieldMeta));
     } else if (isInserting) {
       context.missing(_dispatchFieldMeta);
+    }
+    if (data.containsKey('dispatcher')) {
+      context.handle(
+          _dispatcherMeta,
+          dispatcher.isAcceptableOrUnknown(
+              data['dispatcher']!, _dispatcherMeta));
+    } else if (isInserting) {
+      context.missing(_dispatcherMeta);
     }
     if (data.containsKey('service_category')) {
       context.handle(
@@ -11874,6 +11913,14 @@ mixin _$ServiceDeficitDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.serviceDeficitTable;
 }
 mixin _$SoldierCaseDAOMixin on DatabaseAccessor<SoldierDatabase> {
+  $CaseNoTableTable get caseNoTable => attachedDatabase.caseNoTable;
+  $UnitPropertiesTableTable get unitPropertiesTable =>
+      attachedDatabase.unitPropertiesTable;
+  $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
+  $TrainingStatusTableTable get trainingStatusTable =>
+      attachedDatabase.trainingStatusTable;
+  $HealthStatusTableTable get healthStatusTable =>
+      attachedDatabase.healthStatusTable;
   $ViolationsOvertimeTableTable get violationsOvertimeTable =>
       attachedDatabase.violationsOvertimeTable;
   $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
@@ -11896,10 +11943,9 @@ mixin _$SoldierCaseDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $ServiceDeficitTableTable get serviceDeficitTable =>
       attachedDatabase.serviceDeficitTable;
   $RankTableTable get rankTable => attachedDatabase.rankTable;
-  $UnitPropertiesTableTable get unitPropertiesTable =>
-      attachedDatabase.unitPropertiesTable;
   $SoldierCaseTableTable get soldierCaseTable =>
       attachedDatabase.soldierCaseTable;
+  $SoldierTableTable get soldierTable => attachedDatabase.soldierTable;
 }
 mixin _$SoldierDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $CaseNoTableTable get caseNoTable => attachedDatabase.caseNoTable;

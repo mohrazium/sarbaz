@@ -3,7 +3,8 @@ part of data;
 class SoldierCaseTable extends Table {
   IntColumn get id => integer().autoIncrement().nullable()();
   TextColumn get membershipType => text()();
-  TextColumn get dispatchField => text()();
+  DateTimeColumn get dispatchField => dateTime()();
+  TextColumn get dispatcher => text()();
   TextColumn get serviceCategory => text()();
   DateTimeColumn get startDateOfService => dateTime()();
   DateTimeColumn get endDateOfService => dateTime()();
@@ -19,7 +20,7 @@ class SoldierCaseTable extends Table {
       integer().references(ServiceDeficitTable, #id).nullable()();
   IntColumn get rank => integer().references(RankTable, #id).nullable()();
   IntColumn get unit =>
-      integer().references(UnitPropertiesTable,#id).nullable()();
+      integer().references(UnitPropertiesTable, #id).nullable()();
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
 }

@@ -46,6 +46,6 @@ class SoldierEditorController extends GetxController
   }
 
   void getStaggeredAxis(BuildContext context) {
-    gridColumns(MediaQuery.of(context).size.width ~/ 610);
+    gridColumns(MediaQuery.of(context).size.width ~/ 625);
   }
 }

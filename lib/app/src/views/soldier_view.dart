@@ -8,6 +8,7 @@ class SoldierView extends GetView<SoldierController> {
     return GetX(
         init: controller,
         builder: (_) => FormCard(
+            haveShadow: true,
             globalFormKey: controller.soldierFormGlobalKey,
             readyOnly: controller.readOnly.value,
             onConfirmButtonPressed: () => controller.onConfirmButtonPressed(),
@@ -125,7 +126,8 @@ class SoldierView extends GetView<SoldierController> {
                                     ),
                                     onTap: () {
                                       DialogHelper.showMessageBox(
-                                          title: Strings.sureToProduceCaseNoTitle,
+                                          title:
+                                              Strings.sureToProduceCaseNoTitle,
                                           message:
                                               "${Strings.sureToProduceCaseNo}\n${Strings.sureToProduceCaseNoDescription}",
                                           dialogType: DialogType.INFO,
@@ -172,7 +174,7 @@ class SoldierView extends GetView<SoldierController> {
                                   },
                                 );
                               } else {
-                                return GroupBox(child: Container());
+                                return Container();
                               }
                             }).toList())),
                           ]),

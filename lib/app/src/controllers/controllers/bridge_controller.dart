@@ -58,6 +58,7 @@ class BridgeController extends GetxController
     Get.find<EducationalInfoController>().initForm();
     Get.find<SoldierController>().initForm();
     Get.find<TrainingStatusController>().initForm();
+    Get.find<SoldierCaseController>().initForm();
   }
 
   Future<bool> isPersonalInfoSaved() async {
@@ -70,7 +71,7 @@ class BridgeController extends GetxController
     });
   }
 
-    Future<bool> isSoldierSaved() async {
+  Future<bool> isSoldierSaved() async {
     return await Get.find<SoldierService>()
         .findByPersonalInfoId(personalInfoId.value)
         .then((value) {

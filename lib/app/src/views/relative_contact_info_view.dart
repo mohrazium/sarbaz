@@ -30,11 +30,12 @@ class RelativeContactInfoView extends GetView<RelativeContactsInfoController> {
               height: kSpacing,
             ),
             GroupBox(
-                padding: const EdgeInsets.all(0),
                 height: 150,
-                child: ListView(
-                    shrinkWrap: true,
-                    children: controller.contactsWidgetList.value)),
+                child: CustomScrollView(slivers: [
+                  SliverList(
+                      delegate: SliverChildListDelegate(
+                          controller.contactsWidgetList.value))
+                ])),
           ]);
         });
   }
@@ -90,9 +91,10 @@ class RelativeContactInfoView extends GetView<RelativeContactsInfoController> {
                                 controller.contactController.readOnly.value,
                             isRequired: true,
                             keyboardType: TextInputType.number,
-                            validator: (val) => controller.mobileNumberValidator(
-                                value: val,
-                                errorMessage: Strings.wrongMobileNumber),
+                            validator: (val) =>
+                                controller.mobileNumberValidator(
+                                    value: val,
+                                    errorMessage: Strings.wrongMobileNumber),
                           ),
                         ]),
                     //! Home address field

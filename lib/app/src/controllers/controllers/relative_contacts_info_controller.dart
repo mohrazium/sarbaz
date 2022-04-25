@@ -2,14 +2,16 @@ part of controllers;
 
 class RelativeContactsInfoController extends GetxController
     with ValidatorMixin {
+
   final GlobalKey<FormState> relativeContactInfoFormGlobalKey =
       GlobalKey<FormState>();
-  late final BridgeController bridgeController;
-  late final ContactInfoController contactController;
+
+   final BridgeController _bridgeController;
+   final ContactInfoController contactController;
+   final RelativeContactsInfoService _relativeContactsService;
 
   final String mdiEditorId = "relativeContactsEditor";
 
-  late final RelativeContactsInfoService service;
   late final Rx<RelativeContactsInfoModel> model =
       Rx(RelativeContactsInfoModel.init());
 
@@ -24,6 +26,8 @@ class RelativeContactsInfoController extends GetxController
   late TextEditingController homeAddressController;
   late TextEditingController descriptionController;
 
+  RelativeContactsInfoController(this._bridgeController, this.contactController, this._relativeContactsService);
+
   @override
   void onInit() {
     super.onInit();
@@ -32,9 +36,6 @@ class RelativeContactsInfoController extends GetxController
     workAddressController = TextEditingController();
     homeAddressController = TextEditingController();
     descriptionController = TextEditingController();
-    bridgeController = Get.find<BridgeController>();
-    contactController = Get.find<ContactInfoController>();
-    service = Get.find<RelativeContactsInfoService>();
     initForm();
     logger.info("$runtimeType has been initialized.");
   }
@@ -64,7 +65,7 @@ class RelativeContactsInfoController extends GetxController
 
   Future<void> onConfirmButtonPressed() async {
     if (!contactController.readOnly.value) {
-      await bridgeController.isPersonalInfoSaved().then((value) {
+      await _bridgeController.isPersonalInfoSaved().then((value) {
         if (value) {
           if (relativeContactInfoFormGlobalKey.currentState!.validate()) {
             relativeContactInfoFormGlobalKey.currentState!.save();
@@ -113,7 +114,7 @@ class RelativeContactsInfoController extends GetxController
   Future<void> _loadInfo() async {
     models.value.clear();
     if (contactController.model.value.id != null) {
-      await service
+      await _relativeContactsService
           .findAllByContactId(contactController.model.value.id!)
           .then((values) {
         if (values != null) {
@@ -130,11 +131,7 @@ class RelativeContactsInfoController extends GetxController
   void _refreshListView() {
     contactsWidgetList.value.clear();
     contactsWidgetList(models.value
-        .map((item) => GroupBox(
-            padding: const EdgeInsets.all(kPadding / 2.5),
-            margin: const EdgeInsets.all(kPadding),
-            color: Colorize.backgroundColorShade400,
-            child: ContactTile(
+        .map((item) =>  ContactTile(
               fullName: item.nameAndFamily,
               mobileNumber: item.phoneNumber,
               homeAddress: item.homeAddress,
@@ -142,7 +139,7 @@ class RelativeContactsInfoController extends GetxController
               description: item.description,
               editContact: () => editRelativeContact(item),
               deleteContact: () => deleteRelativeContact(item),
-            )))
+            ))
         .toList());
   }
 
@@ -188,7 +185,7 @@ class RelativeContactsInfoController extends GetxController
           message: Strings.deleteInfoMessage,
           onYesPressed: () async {
             if (item.id != null) {
-              await service.delete(item).then((value) {
+              await _relativeContactsService.delete(item).then((value) {
                 _loadInfo();
               }).onError((error, stackTrace) => throw FailureException(
                   "Can not delete relative contact with error :$error $stackTrace"));
@@ -209,7 +206,7 @@ class RelativeContactsInfoController extends GetxController
     for (var item in contacts) {
       if (item.id == null) {
         item = item.copyWith(contactInfo: contactController.model.value);
-        await service.save(item).then((value) {
+        await _relativeContactsService.save(item).then((value) {
           return value;
         }).catchError((onError) {
           DialogHelper.showCrashReport(onError.toString());

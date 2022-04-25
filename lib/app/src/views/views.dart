@@ -10,6 +10,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:persian_tools/persian_tools.dart';
 import 'package:sarbaz/app/app.dart';
+import 'package:sarbaz/core/src/models/models.dart';
 import 'package:sarbaz/utility/utility.dart';
 
 part 'dashboard_view.dart';
@@ -22,3 +23,4 @@ part 'relative_contact_info_view.dart';
 part 'educational_info_view.dart';
 part 'soldier_view.dart';
 part 'training_status_view.dart';
+part 'soldier_case_view.dart';

@@ -3,12 +3,12 @@ part of controllers;
 class FurtherInfoController extends GetxController
     with ValidatorMixin, DateConverterMixin {
   final GlobalKey<FormState> furtherInfoFormGlobalKey = GlobalKey<FormState>();
-  late final BridgeController bridgeController;
-  late RxBool readOnly = false.obs;
+  final BridgeController _bridgeController;
+  final FurtherInfoService _furtherInfoService;
 
-  late final FurtherInfoService furtherInfoService;
   late final Rx<FurtherInfoModel> model = Rx(FurtherInfoModel.init());
   late final Rx<String> selectedMaritalState = Rx("");
+  late RxBool readOnly = false.obs;
 
   late final Rx<bool> isEnableNumberOfChildrenFiled = true.obs;
   late final Rx<bool> isEnableDateOfMarriageFiled = true.obs;
@@ -24,6 +24,8 @@ class FurtherInfoController extends GetxController
   late TextEditingController eyesColorController;
   late TextEditingController bloodTypeController;
 
+  FurtherInfoController(this._bridgeController, this._furtherInfoService);
+
   @override
   void onInit() {
     super.onInit();
@@ -37,8 +39,6 @@ class FurtherInfoController extends GetxController
     hairColorController = TextEditingController(text: Strings.hairColorList[0]);
     eyesColorController = TextEditingController(text: Strings.eyesColorList[0]);
     bloodTypeController = TextEditingController();
-    furtherInfoService = Get.find<FurtherInfoService>();
-    bridgeController = Get.find<BridgeController>();
     initForm();
     logger.info("$runtimeType has been initialized.");
   }
@@ -47,7 +47,7 @@ class FurtherInfoController extends GetxController
   void onReady() {
     super.onReady();
 
-    logger.info( "$runtimeType has been ready.");
+    logger.info("$runtimeType has been ready.");
   }
 
   @override
@@ -73,11 +73,11 @@ class FurtherInfoController extends GetxController
 
   Future<void> onConfirmButtonPressed() async {
     if (!readOnly.value) {
-      await bridgeController.isPersonalInfoSaved().then((value) {
+      await _bridgeController.isPersonalInfoSaved().then((value) {
         if (value) {
           if (furtherInfoFormGlobalKey.currentState!.validate()) {
             furtherInfoFormGlobalKey.currentState!.save();
-            logger.info( "Further info form is valid to save.");
+            logger.info("Further info form is valid to save.");
             DialogHelper.showMessageBox(
                 title: Strings.saveInfoTitle,
                 dialogButtons: DialogButtons.YES_NO,
@@ -85,7 +85,7 @@ class FurtherInfoController extends GetxController
                 message: Strings.saveInfoMessage,
                 onYesPressed: () {
                   _save();
-                  logger.info( "saving further info...");
+                  logger.info("saving further info...");
 
                   Get.find<SoldiersController>().loadAll();
                   readOnly(true);
@@ -267,9 +267,9 @@ class FurtherInfoController extends GetxController
   void _save() async {
     _catchFormData();
     if (model.value.id == null) {
-      await furtherInfoService
+      await _furtherInfoService
           .saveWithParentId(model.value,
-              personalInfoId: bridgeController.personalInfoId.value)
+              personalInfoId: _bridgeController.personalInfoId.value)
           .then((value) {
         if (value != 0) {
           model(model.value.copyWith(id: value));
@@ -282,7 +282,7 @@ class FurtherInfoController extends GetxController
         DialogHelper.showCrashReport(onError.toString());
       });
     } else {
-      furtherInfoService.update(model.value).then((value) {
+      _furtherInfoService.update(model.value).then((value) {
         if (value) {
           _loadInfo();
           showToast(Strings.successfullyUpdatingInfo);
@@ -296,8 +296,8 @@ class FurtherInfoController extends GetxController
   }
 
   Future<void> _loadInfo() async {
-    await furtherInfoService
-        .findByPersonalInfoId(bridgeController.personalInfoId.value)
+    await _furtherInfoService
+        .findByPersonalInfoId(_bridgeController.personalInfoId.value)
         .then((value) {
       if (value?.id != null) {
         _clearEditor();
@@ -331,7 +331,7 @@ class FurtherInfoController extends GetxController
         id: model.value.id,
         maritalState: maritalStateController.text.trim(),
         dateOfMarriage: dateOfMarriageController.text.isNotEmpty
-            ? toDateTimeFromShamsiString(dateOfMarriageController.text.trim())
+            ? toDateTime(shamsiDate: dateOfMarriageController.text.trim())
             : null,
         numberOfChildren: numberOfChildrenController.text.trim().isNotEmpty
             ? int.parse(numberOfChildrenController.text.trim())

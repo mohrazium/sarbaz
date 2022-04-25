@@ -6,13 +6,44 @@ class ApplicationControllerBinding implements Bindings {
     Get.put(BridgeController());
     Get.put(DashboardController());
     Get.put(SoldierEditorController());
-    Get.put(SoldiersController());
-    Get.put(PersonalInfoController());
-    Get.put(FurtherInfoController());
-    Get.put(ContactInfoController());
-    Get.put(RelativeContactsInfoController());
-    Get.put(EducationalInfoController());
-    Get.put(SoldierController());
-    Get.put(TrainingStatusController());
+    Get.put(SoldiersController(
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(PersonalInfoController(
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(FurtherInfoController(
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(ContactInfoController(
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(RelativeContactsInfoController(
+      Get.find(),
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(EducationalInfoController(
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(SoldierController(
+      Get.find(),
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(TrainingStatusController(
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(SoldierCaseController(
+      Get.find(),
+      Get.find(),
+      Get.find(),
+    ));
   }
 }

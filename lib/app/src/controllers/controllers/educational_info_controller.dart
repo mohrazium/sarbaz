@@ -3,10 +3,12 @@ part of controllers;
 class EducationalInfoController extends GetxController with ValidatorMixin {
   final GlobalKey<FormState> educationalInfoFormGlobalKey =
       GlobalKey<FormState>();
-  late final BridgeController bridgeController;
+
+  final EducationalInfoService _educationalInfoService;
+  final BridgeController _bridgeController;
+
   late RxBool readOnly = false.obs;
 
-  late final EducationalInfoService service;
   late final Rx<EducationalInfoModel> model = Rx(EducationalInfoModel.init());
 
   late TextEditingController levelOfEducationController; //req
@@ -15,7 +17,8 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
   late TextEditingController gradeController;
   late TextEditingController skillsController;
   late TextEditingController permissionToStudyController;
-
+  
+  EducationalInfoController(this._educationalInfoService, this._bridgeController);
   @override
   void onInit() {
     super.onInit();
@@ -25,8 +28,6 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
     gradeController = TextEditingController();
     skillsController = TextEditingController();
     permissionToStudyController = TextEditingController();
-    bridgeController = Get.find<BridgeController>();
-    service = Get.find<EducationalInfoService>();
     initForm();
     logger.info("$runtimeType has been initialized.");
   }
@@ -57,7 +58,7 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
 
   Future<void> onConfirmButtonPressed() async {
     if (!readOnly.value) {
-      await bridgeController.isPersonalInfoSaved().then((value) {
+      await _bridgeController.isPersonalInfoSaved().then((value) {
         if (value) {
           if (educationalInfoFormGlobalKey.currentState!.validate()) {
             educationalInfoFormGlobalKey.currentState!.save();
@@ -98,9 +99,9 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
   void _save() async {
     _catchFormData();
     if (model.value.id == null) {
-      await service
+      await _educationalInfoService
           .saveByPersonalInfoId(model.value,
-              personalInfoId: bridgeController.personalInfoId.value)
+              personalInfoId: _bridgeController.personalInfoId.value)
           .then((value) {
         if (value != 0) {
           model(model.value.copyWith(id: value));
@@ -113,7 +114,7 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
         DialogHelper.showCrashReport(onError.toString());
       });
     } else {
-      await service.update(model.value).then((value) {
+      await _educationalInfoService.update(model.value).then((value) {
         if (value) {
           _loadInfo();
           showToast(Strings.successfullyUpdatingInfo);
@@ -127,8 +128,8 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
   }
 
   Future<void> _loadInfo() async {
-    await service
-        .findByPersonalInfoId(bridgeController.personalInfoId.value)
+    await _educationalInfoService
+        .findByPersonalInfoId(_bridgeController.personalInfoId.value)
         .then((value) {
       if (value?.id != null) {
         _clearEditor();

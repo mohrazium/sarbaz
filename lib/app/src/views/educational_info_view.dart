@@ -8,6 +8,7 @@ class EducationalInfoView extends GetView<EducationalInfoController> {
     return GetX(
         init: controller,
         builder: (_) => FormCard(
+            haveShadow: true,
             globalFormKey: controller.educationalInfoFormGlobalKey,
             readyOnly: controller.readOnly.value,
             onConfirmButtonPressed: () => controller.onConfirmButtonPressed(),

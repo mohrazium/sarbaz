@@ -43,6 +43,7 @@ class SoldierEditorView extends GetView<SoldierEditorController> {
                     children: const [
                       Center(child: SoldierView()),
                       Center(child: TrainingStatusView()),
+                      Center(child: SoldierCaseView()),
                     ]),
               ],
             ));

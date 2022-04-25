@@ -2,11 +2,12 @@ part of controllers;
 
 class SoldierController extends GetxController with ValidatorMixin {
   final GlobalKey<FormState> soldierFormGlobalKey = GlobalKey<FormState>();
+  final SoldierService _soldierService;
+  final CaseNoService _caseNoService;
+  final BridgeController _bridgeController;
 
   late RxBool readOnly = false.obs;
 
-  late final SoldierService _service;
-  late final CaseNoService _caseNoService;
   late final Rx<SoldierModel> model = Rx(SoldierModel.init());
 
   late List<CaseNoModel> _allCaseNumbers = List.empty(growable: true);
@@ -14,8 +15,6 @@ class SoldierController extends GetxController with ValidatorMixin {
       Rx(List.empty(growable: true));
   late final Rx<CaseNoModel> selectedCaseNoModel = Rx(CaseNoModel.init());
   late final Rx<String> selectedCaseNoTitleText = Rx("");
-
-  late final BridgeController bridgeController;
 
   final Rx<String> imagePath = "".obs;
   late TextEditingController personnelCodeController;
@@ -25,6 +24,9 @@ class SoldierController extends GetxController with ValidatorMixin {
   late TextEditingController archiveCaseNoController;
   late TextEditingController caseNoController;
   late TextEditingController searchController;
+
+  SoldierController(
+      this._soldierService, this._caseNoService, this._bridgeController);
 
   @override
   void onInit() {
@@ -36,9 +38,6 @@ class SoldierController extends GetxController with ValidatorMixin {
     archiveCaseNoController = TextEditingController();
     caseNoController = TextEditingController();
     searchController = TextEditingController();
-    _service = Get.find<SoldierService>();
-    bridgeController = Get.find<BridgeController>();
-    _caseNoService = Get.find<CaseNoService>();
     logger.info("$runtimeType has been initialized.");
     initForm();
   }
@@ -57,7 +56,7 @@ class SoldierController extends GetxController with ValidatorMixin {
 
   Future<void> onConfirmButtonPressed() async {
     if (!readOnly.value) {
-      await bridgeController.isPersonalInfoSaved().then((value) {
+      await _bridgeController.isPersonalInfoSaved().then((value) {
         if (value) {
           if (soldierFormGlobalKey.currentState!.validate()) {
             soldierFormGlobalKey.currentState!.save();
@@ -98,9 +97,9 @@ class SoldierController extends GetxController with ValidatorMixin {
   void _save() async {
     _catchFormData();
     if (model.value.id == null) {
-      await _service
+      await _soldierService
           .saveByPersonalInfoId(model.value,
-              personalInfoId: bridgeController.personalInfoId.value)
+              personalInfoId: _bridgeController.personalInfoId.value)
           .then((value) {
         if (value != 0) {
           model(model.value.copyWith(id: value));
@@ -113,7 +112,7 @@ class SoldierController extends GetxController with ValidatorMixin {
         DialogHelper.showCrashReport(onError.toString());
       });
     } else {
-      _service.update(model.value).then((value) {
+      _soldierService.update(model.value).then((value) {
         if (value) {
           _loadInfo();
           showToast(Strings.successfullyUpdatingInfo);
@@ -127,8 +126,8 @@ class SoldierController extends GetxController with ValidatorMixin {
   }
 
   Future<void> _loadInfo() async {
-    await _service
-        .findByPersonalInfoId(bridgeController.personalInfoId.value)
+    await _soldierService
+        .findByPersonalInfoId(_bridgeController.personalInfoId.value)
         .then((value) {
       if (value?.id != null) {
         _clearEditor();

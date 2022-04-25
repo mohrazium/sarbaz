@@ -1,14 +1,6 @@
 part of data;
 
-@DriftAccessor(tables: [
-  SoldierTable,
-  SectionTable,
-  TrainingStatusTable,
-  HealthStatusTable,
-  SoldierCaseTable,
-  PersonalInfoTable,
-  CaseNoTable
-])
+@DriftAccessor(tables: [SoldierTable, PersonalInfoTable, CaseNoTable])
 class SoldierDAO extends DatabaseAccessor<SoldierDatabase>
     with _$SoldierDAOMixin {
   SoldierDAO(SoldierDatabase db) : super(db);
@@ -35,12 +27,8 @@ class SoldierDAO extends DatabaseAccessor<SoldierDatabase>
   }
 
   Future<SoldierTableData?> findById(int id) async {
-    var res = await (select(soldierTable)..where((tbl) => tbl.id.equals(id)))
-        .getSingleOrNull()
-        .then((value) => value)
-        .onError((error, stackTrace) =>
-            throw FailureException("$error $stackTrace"));
-    return res;
+    return await (select(soldierTable)..where((tbl) => tbl.id.equals(id)))
+        .getSingleOrNull();
   }
 
   Future<bool> doUpdate(Map<String, dynamic> entry) async {

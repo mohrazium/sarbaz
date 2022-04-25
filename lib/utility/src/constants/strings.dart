@@ -226,14 +226,23 @@ class Strings {
     soldierStatusIntroductionToCommission,
     soldierStatusStop,
   ];
-
   static const String trainingStatus = "وضعیت آموزشی";
   static const String placeOfTraining = "نام مرکز آموزشی";
   static const String typeOfTraining = "نوع آموزش";
   static const String startDate = "تاریخ شروع";
   static const String endDate = "تاریخ پایان";
   static const String trainingPeriod = "مدت دوره";
-
   static const String soldierIsnotSavedPleaseSave =
       "اطلاعات خدمتی ثبت نشده اند, لطفا ابتدا اقدام به ثبت اطلاعات خدمتی نمایید";
+  static const String dispatcher="اعزام کننده";
+  static const String dispatchDate="تاریخ اعزام";
+  static const String serviceCategory="رسته خدمتی";
+  static const String startDateOfService="تاریخ شروع به خدمت";
+  static const String endDateOfService="تاریخ پایان خدمت";
+  static const String legalPeriod="مدت قانونی (به ماه)";
+  static const String introDate="تاریخ معرفی به این یگان";
+  static const String lastPeriodOfService="مدت خدمت قبلی(به روز)";
+  static const String amountOfService = "مانده مدت خدمت (به روز)";
+
+  static const String introAndDispatchForm="اعزام به خدمت";
 }

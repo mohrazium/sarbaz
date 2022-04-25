@@ -8,6 +8,7 @@ class TrainingStatusView extends GetView<TrainingStatusController> {
     return GetX(
         init: controller,
         builder: (_) => FormCard(
+            haveShadow: true,
             globalFormKey: controller.trainingStatusFormGlobalKey,
             readyOnly: controller.readOnly.value,
             onConfirmButtonPressed: () => controller.onConfirmButtonPressed(),
@@ -89,6 +90,7 @@ class TrainingStatusView extends GetView<TrainingStatusController> {
                 TextBox(
                   width: 600,
                   titleText: Strings.description,
+                  maxLines: 3,
                   controller: controller.descriptionController,
                   readOnly: controller.readOnly.value,
                 ),

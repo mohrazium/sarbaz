@@ -17,7 +17,7 @@ String _environmentMode = "";
 Future<void> _setupServices(String environment) async {
   if (environment == Env.dev) {
     _environmentMode = environment;
-    // final soldierDatabase = kIsWeb ? soldierWebDb() : soldierNativeDb();
+
     final _soldierDatabase = SoldierDatabaseHelper().dbInstance;
     _soldierDatabase.auditDAO.setup();
 
@@ -76,39 +76,43 @@ Future<void> _setupServices(String environment) async {
     Get.lazyPut<ServiceDeficitService>(
         () => ServiceDeficitServiceImpl(_soldierDatabase.serviceDeficitDAO));
 
-    Get.lazyPut<SoldierCaseService>(
-        () => SoldierCaseServiceImpl(_soldierDatabase.soldierCaseDAO));
+    Get.lazyPut<SoldierCaseService>(() => SoldierCaseServiceImpl(
+          _soldierDatabase.soldierCaseDAO,
+          _soldierDatabase.personalInfoDAO,
+          _soldierDatabase.soldierDAO,
+          _soldierDatabase.rankDAO,
+        ));
 
     Get.lazyPut<SoldierService>(() => SoldierServiceImpl(
         _soldierDatabase.soldierDAO,
         PersonalInfoServiceImpl(_soldierDatabase.personalInfoDAO),
-        CaseNoServiceImpl(_soldierDatabase.caseNoDAO)));
+        CaseNoServiceImpl(_soldierDatabase.caseNoDAO,)));
 
     Get.lazyPut<TrainingStatusService>(() => TrainingStatusServiceImpl(
         _soldierDatabase.trainingStatusDAO,
         _soldierDatabase.personalInfoDAO,
-        _soldierDatabase.soldierDAO));
+        _soldierDatabase.soldierDAO,));
 
     Get.lazyPut<UnitPropertiesService>(
-        () => UnitPropertiesServiceImpl(_soldierDatabase.unitPropertiesDAO));
+        () => UnitPropertiesServiceImpl(_soldierDatabase.unitPropertiesDAO,));
 
     Get.lazyPut<VacationsService>(
-        () => VacationsServiceImpl(_soldierDatabase.vacationsDAO));
+        () => VacationsServiceImpl(_soldierDatabase.vacationsDAO,));
 
     Get.lazyPut<ViolationsOvertimeService>(() =>
-        ViolationsOvertimeServiceImpl(_soldierDatabase.violationsOvertimeDAO));
+        ViolationsOvertimeServiceImpl(_soldierDatabase.violationsOvertimeDAO,));
 
     Get.lazyPut<CaseNoService>(
-        () => CaseNoServiceImpl(_soldierDatabase.caseNoDAO));
+        () => CaseNoServiceImpl(_soldierDatabase.caseNoDAO,));
 
     Get.lazyPut<RelativeContactsInfoService>(() =>
         RelativeContactsInfoServiceImpl(
-            _soldierDatabase.relativeContactsInfoDAO));
+            _soldierDatabase.relativeContactsInfoDAO,));
 
     Get.lazyPut<EducationalInfoService>(
-        () => EducationalInfoServiceImpl(_soldierDatabase.educationalInfoDAO));
+        () => EducationalInfoServiceImpl(_soldierDatabase.educationalInfoDAO,));
 
     Get.lazyPut<CaseNoService>(
-        () => CaseNoServiceImpl(_soldierDatabase.caseNoDAO));
+        () => CaseNoServiceImpl(_soldierDatabase.caseNoDAO,));
   }
 }

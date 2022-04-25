@@ -24,8 +24,8 @@ mixin ValidatorMixin {
   String? beforeTodayValidator(
       {required String? value, required String errorMessage}) {
     try {
-      DateTime? date = _DateConverter.toDateTimeFromShamsiString(value);
-      if (date != null && date.isAfter(DateTime.now())) {
+      DateTime date = _Date.toDateTime(shamsiDate:value);
+      if (date.isAfter(DateTime.now())) {
         return errorMessage;
       }
     } catch (ignore) {

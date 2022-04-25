@@ -47,7 +47,7 @@ class TextBox extends StatefulWidget {
     this.textInputAction,
     this.inputFormatters,
     this.enabled = true,
-    this.isRequired=false,
+    this.isRequired = false,
   }) : super(key: key);
 
   @override
@@ -70,12 +70,16 @@ class _TextBoxState extends State<TextBox> {
 
   @override
   Widget build(BuildContext context) {
-    List<TextInputFormatter> formatter = [
-      widget.keyboardType == TextInputType.number
-          ? FilteringTextInputFormatter.digitsOnly
-          : FilteringTextInputFormatter.singleLineFormatter,
+    List<TextInputFormatter>? formatter = [
       LengthLimitingTextInputFormatter(widget.maxLength),
     ];
+
+    if (widget.keyboardType != null) {
+      formatter.add(widget.keyboardType == TextInputType.number
+          ? FilteringTextInputFormatter.digitsOnly
+          : FilteringTextInputFormatter.singleLineFormatter);
+    }
+
     formatter.addAll(widget.inputFormatters ?? []);
     getPasswordIconState();
     return Column(
@@ -95,7 +99,10 @@ class _TextBoxState extends State<TextBox> {
                     const SizedBox(
                       width: 1,
                     ),
-                    Text(widget.isRequired? "*":"",style: const TextStyle(color: Colors.red),),
+                    Text(
+                      widget.isRequired ? "*" : "",
+                      style: const TextStyle(color: Colors.red),
+                    ),
                   ],
                 ),
               )
@@ -103,7 +110,7 @@ class _TextBoxState extends State<TextBox> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: kPadding / 3),
           child: SizedBox(
-            height: widget.height,
+            height: widget.maxLines == null ? widget.height : null,
             width: widget.width,
             child: TextFormField(
               textInputAction: widget.textInputAction,
@@ -112,14 +119,18 @@ class _TextBoxState extends State<TextBox> {
               onSaved: widget.onSaved,
               onEditingComplete: widget.onEditingComplete,
               autovalidateMode: AutovalidateMode.onUserInteraction,
+              cursorRadius: const Radius.circular(kBorderRadius * 10),
               maxLength: widget.maxLength,
-              keyboardType: widget.keyboardType ?? TextInputType.text,
+              keyboardType: widget.keyboardType,
               inputFormatters: formatter,
               obscureText: widget.isSecure ? !_isShowPassword : false,
               controller: widget.controller,
               validator: widget.validator,
               onChanged: widget.onChanged,
               decoration: _getInputDecoration(),
+              maxLines: widget.maxLines,
+              textAlignVertical: TextAlignVertical.center,
+              textAlign: TextAlign.start,
             ),
           ),
         ),

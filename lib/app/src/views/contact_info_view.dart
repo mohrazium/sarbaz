@@ -8,6 +8,7 @@ class ContactInfoView extends GetView<ContactInfoController> {
     return GetX(
         init: controller,
         builder: (_) => FormCard(
+            haveShadow: true,
             globalFormKey: controller.contactInfoFormGlobalKey,
             readyOnly: controller.readOnly.value,
             onConfirmButtonPressed: () => controller.onConfirmButtonPressed(),
@@ -39,7 +40,8 @@ class ContactInfoView extends GetView<ContactInfoController> {
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly
                             ],
-                            validator: (val) => controller.mobileNumberValidator(
+                            validator: (val) =>
+                                controller.mobileNumberValidator(
                               value: val,
                               errorMessage: Strings.wrongMobileNumber,
                             ),

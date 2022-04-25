@@ -79,15 +79,24 @@ class SoldierDatabase extends _$SoldierDatabase {
 
           await transaction(() async {
             // put your migration logic here
+            // if (true) {
+            //   final wrongForeignKeys =
+            //       await customSelect('PRAGMA foreign_key_check').get();
+            //   assert(wrongForeignKeys.isEmpty,
+            //       "${wrongForeignKeys.map((e) => e.data)}");
+            // }
+
+            // if (from < 2) {
+            //   m.addColumn(soldierCaseTable, soldierCaseTable.dispatcher);
+            // } else if (from < 3) {
+            //   m.alterTable(
+            //       TableMigration(soldierCaseTable, columnTransformer: {
+            //         soldierCaseTable.dispatchField : soldierCaseTable.dispatchField.cast(),
+            //       }));
+            // }
           });
 
           // Assert that the schema is valid after migrations
-          if (true) {
-            final wrongForeignKeys =
-                await customSelect('PRAGMA foreign_key_check').get();
-            assert(wrongForeignKeys.isEmpty,
-                "${wrongForeignKeys.map((e) => e.data)}");
-          }
         },
       );
 
@@ -100,5 +109,4 @@ class SoldierDatabase extends _$SoldierDatabase {
           createdAt: Value(DateTime.now())));
     }
   }
-
 }

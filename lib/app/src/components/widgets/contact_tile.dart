@@ -22,7 +22,11 @@ class ContactTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [_buildTile(), _buildMoreButton()]);
+    return GroupBox(
+        padding: const EdgeInsets.all(kPadding/3),
+        margin: const EdgeInsets.all(kPadding),
+        color: Colorize.backgroundColorShade200,
+        child: Stack(children: [_buildTile(), _buildMoreButton()]));
   }
 
   _buildTile() {

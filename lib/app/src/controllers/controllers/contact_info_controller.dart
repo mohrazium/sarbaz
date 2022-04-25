@@ -2,12 +2,12 @@ part of controllers;
 
 class ContactInfoController extends GetxController with ValidatorMixin {
   final GlobalKey<FormState> contactInfoFormGlobalKey = GlobalKey<FormState>();
-  late final BridgeController bridgeController;
-  late RxBool readOnly = false.obs;
+  final BridgeController _bridgeController;
+  final ContactInfoService _contactInfoService;
 
-  late final ContactInfoService service;
   late final Rx<ContactInfoModel> model = Rx(ContactInfoModel.init());
   late final Rx<List<RelativeContactsInfoModel>> relativeContactsList = Rx([]);
+  late RxBool readOnly = false.obs;
 
   late TextEditingController phoneNumberController;
   late TextEditingController mobileNumberController;
@@ -16,6 +16,8 @@ class ContactInfoController extends GetxController with ValidatorMixin {
   late TextEditingController addressController;
   late TextEditingController postalCodeController;
   late TextEditingController distanceController;
+
+  ContactInfoController(this._bridgeController, this._contactInfoService);
 
   @override
   void onInit() {
@@ -27,8 +29,6 @@ class ContactInfoController extends GetxController with ValidatorMixin {
     addressController = TextEditingController();
     postalCodeController = TextEditingController();
     distanceController = TextEditingController();
-    bridgeController = Get.find<BridgeController>();
-    service = Get.find<ContactInfoService>();
     initForm();
     logger.info("$runtimeType has been initialized.");
   }
@@ -60,7 +60,7 @@ class ContactInfoController extends GetxController with ValidatorMixin {
 
   Future<void> onConfirmButtonPressed() async {
     if (!readOnly.value) {
-      await bridgeController.isPersonalInfoSaved().then((value) {
+      await _bridgeController.isPersonalInfoSaved().then((value) {
         if (value) {
           if (contactInfoFormGlobalKey.currentState!.validate()) {
             contactInfoFormGlobalKey.currentState!.save();
@@ -101,9 +101,9 @@ class ContactInfoController extends GetxController with ValidatorMixin {
   void _save() async {
     _catchFormData();
     if (model.value.id == null) {
-      await service
+      await _contactInfoService
           .saveWithParentId(model.value,
-              personalInfoId: bridgeController.personalInfoId.value)
+              personalInfoId: _bridgeController.personalInfoId.value)
           .then((value) {
         if (value != 0) {
           _loadInfo();
@@ -118,7 +118,7 @@ class ContactInfoController extends GetxController with ValidatorMixin {
         DialogHelper.showCrashReport(onError.toString());
       });
     } else {
-      service.update(model.value).then((value) {
+      _contactInfoService.update(model.value).then((value) {
         if (value) {
           _loadInfo();
           Get.find<RelativeContactsInfoController>().saveRelativeContacts();
@@ -134,8 +134,8 @@ class ContactInfoController extends GetxController with ValidatorMixin {
   }
 
   Future<void> _loadInfo() async {
-    await service
-        .findByPersonalInfoId(bridgeController.personalInfoId.value)
+    await _contactInfoService
+        .findByPersonalInfoId(_bridgeController.personalInfoId.value)
         .then((value) {
       if (value?.id != null) {
         _clearEditor();
@@ -155,6 +155,10 @@ class ContactInfoController extends GetxController with ValidatorMixin {
     }).catchError((onError) {
       DialogHelper.showCrashReport(onError.toString());
     });
+
+    if (model.value.id != null) {
+      Get.find<RelativeContactsInfoController>().initForm();
+    }
   }
 
   void _catchFormData() {

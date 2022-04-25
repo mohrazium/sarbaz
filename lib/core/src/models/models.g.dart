@@ -531,7 +531,8 @@ SoldierCaseModel _$SoldierCaseModelFromJson(Map<String, dynamic> json) =>
     SoldierCaseModel(
       id: json['id'] as int?,
       membershipType: json['membershipType'] as String,
-      dispatchField: json['dispatchField'] as String,
+      dispatchField: DateTime.parse(json['dispatchField'] as String),
+      dispatcher: json['dispatcher'] as String,
       serviceCategory: json['serviceCategory'] as String,
       startDateOfService: DateTime.parse(json['startDateOfService'] as String),
       endDateOfService: DateTime.parse(json['endDateOfService'] as String),
@@ -564,7 +565,8 @@ Map<String, dynamic> _$SoldierCaseModelToJson(SoldierCaseModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'membershipType': instance.membershipType,
-      'dispatchField': instance.dispatchField,
+      'dispatchField': instance.dispatchField.toIso8601String(),
+      'dispatcher': instance.dispatcher,
       'serviceCategory': instance.serviceCategory,
       'startDateOfService': instance.startDateOfService.toIso8601String(),
       'endDateOfService': instance.endDateOfService.toIso8601String(),

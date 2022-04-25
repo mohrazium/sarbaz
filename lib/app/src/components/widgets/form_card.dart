@@ -13,23 +13,24 @@ class FormCard extends StatelessWidget with DateConverterMixin {
   final Widget child;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final bool haveShadow;
 
-  const FormCard(
-      {Key? key,
-      this.globalFormKey,
-      required this.readyOnly,
-      required this.onConfirmButtonPressed,
-      required this.onCancelButtonPressed,
-      this.maxWidth,
-      this.minWidth,
-      this.color,
-      this.headerColor,
-      required this.headerContent,
-      required this.child,
-      this.createdAt,
-      this.updatedAt,
-      })
-      : super(key: key);
+  const FormCard({
+    Key? key,
+    this.globalFormKey,
+    required this.readyOnly,
+    required this.onConfirmButtonPressed,
+    required this.onCancelButtonPressed,
+    this.maxWidth,
+    this.minWidth,
+    this.color,
+    this.headerColor,
+    required this.headerContent,
+    required this.child,
+    this.haveShadow = false,
+    this.createdAt,
+    this.updatedAt,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +43,10 @@ class FormCard extends StatelessWidget with DateConverterMixin {
         children: [
           ConstrainedBox(
             constraints: BoxConstraints(
-                minWidth: minWidth ?? 200, maxWidth: maxWidth ?? 500),
+                minWidth: minWidth ?? 200, maxWidth: maxWidth ?? 520),
             child: GroupBox(
-              haveShadow:true,
+              haveShadow: haveShadow,
               color: color ?? Colorize.backgroundColorShade200,
-              padding: const EdgeInsets.all(kPadding / 2),
               child: Column(
                 children: [
                   Column(
@@ -102,7 +102,7 @@ class FormCard extends StatelessWidget with DateConverterMixin {
     }
 
     return Padding(
-      padding: const EdgeInsets.all(kPadding),
+      padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, kPadding),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

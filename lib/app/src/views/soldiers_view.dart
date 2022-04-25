@@ -24,7 +24,7 @@ class SoldiersView extends GetView<SoldiersController> {
                 ),
                 GroupBox(
                   padding: const EdgeInsets.all(kPadding),
-                  height: kSpacing * 4,
+                  height: kSpacing * 5,
                   margin: const EdgeInsets.all(kPadding / 3),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

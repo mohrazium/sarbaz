@@ -1,17 +1,19 @@
 part of controllers;
 
 class SoldiersController extends GetxController {
-  late final PersonalInfoService _personalInfoService;
+  final PersonalInfoService _personalInfoService;
+  final BridgeController _bridgeController;
 
   Rx<List<SoldiersDataCellModel>> soldiersList = Rx(List.empty(growable: true));
   late final DataGridController dataGridController;
-  late final BridgeController bridgeController;
+
   late DataGridCellTapDetails cellTapDetails;
+
+  SoldiersController(this._personalInfoService, this._bridgeController);
+
   @override
   Future<void> onInit() async {
     super.onInit();
-    bridgeController = Get.find<BridgeController>();
-    _personalInfoService = Get.find<PersonalInfoService>();
     dataGridController = DataGridController();
     loadAll();
   }
@@ -24,7 +26,9 @@ class SoldiersController extends GetxController {
         for (var person in values) {
           soldiers.add(SoldiersDataCellModel(
               id: person.id,
-              caseNo:(person.soldier?.caseNo?.caseName ?? "") + "-" + (person.soldier?.caseNo?.caseCode ?? ""),
+              caseNo: (person.soldier?.caseNo?.caseName ?? "") +
+                  "-" +
+                  (person.soldier?.caseNo?.caseCode ?? ""),
               firstName: person.firstName,
               lastName: person.lastName,
               fatherName: person.fatherName,
@@ -42,31 +46,31 @@ class SoldiersController extends GetxController {
   }
 
   void onCellDoubleTap(DataGridCellDoubleTapDetails details) {
-    int id = int.parse(bridgeController.soldiersDataSource.value
+    int id = int.parse(_bridgeController.soldiersDataSource.value
         .effectiveRows[details.rowColumnIndex.rowIndex - 1]
         .getCells()
         .last
         .value);
-    bridgeController.initSoldierEditorForms(id);
-    bridgeController
-        .setDashboardTab(bridgeController.dashboardTabSoldiersEditor);
+    _bridgeController.initSoldierEditorForms(id);
+    _bridgeController
+        .setDashboardTab(_bridgeController.dashboardTabSoldiersEditor);
   }
 
   void onNewSoldierPressed() {
-    bridgeController
-        .setDashboardTab(bridgeController.dashboardTabSoldiersEditor);
-    bridgeController.initSoldierEditorForms(0);
+    _bridgeController
+        .setDashboardTab(_bridgeController.dashboardTabSoldiersEditor);
+    _bridgeController.initSoldierEditorForms(0);
   }
 
   void onEditSoldierPressed() {
-    int id = int.parse(bridgeController.soldiersDataSource.value
+    int id = int.parse(_bridgeController.soldiersDataSource.value
         .effectiveRows[cellTapDetails.rowColumnIndex.rowIndex - 1]
         .getCells()
         .last
         .value);
-    bridgeController.initSoldierEditorForms(id);
-    bridgeController
-        .setDashboardTab(bridgeController.dashboardTabSoldiersEditor);
+    _bridgeController.initSoldierEditorForms(id);
+    _bridgeController
+        .setDashboardTab(_bridgeController.dashboardTabSoldiersEditor);
   }
 
   void onDeleteSoldierPressed() {

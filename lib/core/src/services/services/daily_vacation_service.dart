@@ -5,10 +5,10 @@ abstract class DailyVacationService extends Service<int, DailyVacationModel> {
 }
 
 class DailyVacationServiceImpl implements DailyVacationService {
-   final DailyVacationDAO dailyVacationDAO;
+   final DailyVacationDAO _dailyVacationDAO;
 
   DailyVacationServiceImpl(
-    this.dailyVacationDAO
+    this._dailyVacationDAO
   );
 
   @override

@@ -53,9 +53,9 @@ class ContactInfoController extends GetxController with ValidatorMixin {
     super.onClose();
   }
 
-  void initForm() {
+  Future<void> initForm() async {
     _clearEditor();
-    _loadInfo();
+    await _loadData();
   }
 
   Future<void> onConfirmButtonPressed() async {
@@ -74,7 +74,7 @@ class ContactInfoController extends GetxController with ValidatorMixin {
                   _save();
                   logger.info("saving contact info...");
 
-                  Get.find<SoldiersController>().loadAll();
+                  Get.find<SoldiersController>().loadAllSoldiers();
                   readOnly(true);
                 });
           }
@@ -93,7 +93,7 @@ class ContactInfoController extends GetxController with ValidatorMixin {
     if (model.value.id == null) {
       _clearEditor();
     } else {
-      _loadInfo();
+      _loadData();
       readOnly(true);
     }
   }
@@ -106,7 +106,7 @@ class ContactInfoController extends GetxController with ValidatorMixin {
               personalInfoId: _bridgeController.personalInfoId.value)
           .then((value) {
         if (value != 0) {
-          _loadInfo();
+          _loadData();
           model(model.value.copyWith(id: value));
           Get.find<RelativeContactsInfoController>().saveRelativeContacts();
           Get.find<RelativeContactsInfoController>().initForm();
@@ -120,7 +120,7 @@ class ContactInfoController extends GetxController with ValidatorMixin {
     } else {
       _contactInfoService.update(model.value).then((value) {
         if (value) {
-          _loadInfo();
+          _loadData();
           Get.find<RelativeContactsInfoController>().saveRelativeContacts();
           showToast(Strings.successfullyUpdatingInfo);
         } else {
@@ -130,10 +130,10 @@ class ContactInfoController extends GetxController with ValidatorMixin {
         DialogHelper.showCrashReport(onError.toString());
       });
     }
-    Get.find<SoldiersController>().loadAll();
+    Get.find<SoldiersController>().loadAllSoldiers();
   }
 
-  Future<void> _loadInfo() async {
+  Future<void> _loadData() async {
     await _contactInfoService
         .findByPersonalInfoId(_bridgeController.personalInfoId.value)
         .then((value) {

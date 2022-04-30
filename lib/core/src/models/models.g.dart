@@ -127,6 +127,7 @@ DailyVacationModel _$DailyVacationModelFromJson(Map<String, dynamic> json) =>
       endDate: DateTime.parse(json['endDate'] as String),
       amount: json['amount'] as int,
       vacationType: json['vacationType'] as String,
+      description: json['description'] as String?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -142,6 +143,7 @@ Map<String, dynamic> _$DailyVacationModelToJson(DailyVacationModel instance) =>
       'endDate': instance.endDate.toIso8601String(),
       'amount': instance.amount,
       'vacationType': instance.vacationType,
+      'description': instance.description,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };
@@ -531,7 +533,7 @@ SoldierCaseModel _$SoldierCaseModelFromJson(Map<String, dynamic> json) =>
     SoldierCaseModel(
       id: json['id'] as int?,
       membershipType: json['membershipType'] as String,
-      dispatchField: DateTime.parse(json['dispatchField'] as String),
+      dispatchDate: DateTime.parse(json['dispatchDate'] as String),
       dispatcher: json['dispatcher'] as String,
       serviceCategory: json['serviceCategory'] as String,
       startDateOfService: DateTime.parse(json['startDateOfService'] as String),
@@ -540,19 +542,7 @@ SoldierCaseModel _$SoldierCaseModelFromJson(Map<String, dynamic> json) =>
       introductionDate: DateTime.parse(json['introductionDate'] as String),
       lastPeriodOfService: json['lastPeriodOfService'] as int?,
       amountOfService: json['amountOfService'] as int?,
-      overtime: json['overtime'] == null
-          ? null
-          : OvertimeModel.fromJson(json['overtime'] as Map<String, dynamic>),
-      vacations: json['vacations'] == null
-          ? null
-          : VacationsModel.fromJson(json['vacations'] as Map<String, dynamic>),
-      serviceDeficit: json['serviceDeficit'] == null
-          ? null
-          : ServiceDeficitModel.fromJson(
-              json['serviceDeficit'] as Map<String, dynamic>),
-      rank: json['rank'] == null
-          ? null
-          : RankModel.fromJson(json['rank'] as Map<String, dynamic>),
+      description: json['description'] as String?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -565,7 +555,7 @@ Map<String, dynamic> _$SoldierCaseModelToJson(SoldierCaseModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'membershipType': instance.membershipType,
-      'dispatchField': instance.dispatchField.toIso8601String(),
+      'dispatchDate': instance.dispatchDate.toIso8601String(),
       'dispatcher': instance.dispatcher,
       'serviceCategory': instance.serviceCategory,
       'startDateOfService': instance.startDateOfService.toIso8601String(),
@@ -574,10 +564,7 @@ Map<String, dynamic> _$SoldierCaseModelToJson(SoldierCaseModel instance) =>
       'introductionDate': instance.introductionDate.toIso8601String(),
       'lastPeriodOfService': instance.lastPeriodOfService,
       'amountOfService': instance.amountOfService,
-      'overtime': instance.overtime,
-      'vacations': instance.vacations,
-      'serviceDeficit': instance.serviceDeficit,
-      'rank': instance.rank,
+      'description': instance.description,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };
@@ -684,18 +671,19 @@ Map<String, dynamic> _$UnitPropertiesModelToJson(
 VacationsModel _$VacationsModelFromJson(Map<String, dynamic> json) =>
     VacationsModel(
       id: json['id'] as int?,
-      amountOfEligible: json['amountOfEligible'] as int?,
-      amountOfSick: json['amountOfSick'] as int?,
-      amountOfIncentive: json['amountOfIncentive'] as int?,
-      eligibleUsed: json['eligibleUsed'] as int?,
-      sickUsed: json['sickUsed'] as int?,
-      incentiveUsed: json['incentiveUsed'] as int?,
-      daily: (json['daily'] as List<dynamic>?)
-          ?.map((e) => DailyVacationModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      hourly: (json['hourly'] as List<dynamic>?)
-          ?.map((e) => HourlyVacationModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      eligibleTotal: (json['eligibleTotal'] as num?)?.toDouble(),
+      eligibleBalance: (json['eligibleBalance'] as num).toDouble(),
+      eligibleUsed: (json['eligibleUsed'] as num).toDouble(),
+      eligibleValuePerMonth:
+          (json['eligibleValuePerMonth'] as num?)?.toDouble(),
+      sickTotal: (json['sickTotal'] as num?)?.toDouble(),
+      sickBalance: (json['sickBalance'] as num).toDouble(),
+      sickUsed: (json['sickUsed'] as num).toDouble(),
+      sickValuePerMonth: (json['sickValuePerMonth'] as num?)?.toDouble(),
+      incentiveTotal: (json['incentiveTotal'] as num?)?.toDouble(),
+      incentiveBalance: (json['incentiveBalance'] as num?)?.toDouble(),
+      incentiveUsed: (json['incentiveUsed'] as num?)?.toDouble(),
+      incentiveValueLimit: (json['incentiveValueLimit'] as num?)?.toDouble(),
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -707,14 +695,18 @@ VacationsModel _$VacationsModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$VacationsModelToJson(VacationsModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'amountOfEligible': instance.amountOfEligible,
-      'amountOfSick': instance.amountOfSick,
-      'amountOfIncentive': instance.amountOfIncentive,
+      'eligibleTotal': instance.eligibleTotal,
+      'eligibleBalance': instance.eligibleBalance,
       'eligibleUsed': instance.eligibleUsed,
+      'eligibleValuePerMonth': instance.eligibleValuePerMonth,
+      'sickTotal': instance.sickTotal,
+      'sickBalance': instance.sickBalance,
       'sickUsed': instance.sickUsed,
+      'sickValuePerMonth': instance.sickValuePerMonth,
+      'incentiveTotal': instance.incentiveTotal,
+      'incentiveBalance': instance.incentiveBalance,
       'incentiveUsed': instance.incentiveUsed,
-      'daily': instance.daily,
-      'hourly': instance.hourly,
+      'incentiveValueLimit': instance.incentiveValueLimit,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };

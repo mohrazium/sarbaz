@@ -52,7 +52,11 @@ class SoldierModel {
 
   Map<String, dynamic> toJson() {
     var mappedModel = _$SoldierModelToJson(this);
-    mappedModel['caseNo'] = caseNo!.id;
+    mappedModel['caseNo'] = caseNo?.id;
+    mappedModel['section'] = section?.id;
+    mappedModel['trainingStatus'] = trainingStatus?.id;
+    mappedModel['healthStatus'] = healthStatus?.id;
+    mappedModel['soldierCase'] = soldierCase?.id;
     return mappedModel;
   }
 

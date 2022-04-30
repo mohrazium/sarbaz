@@ -2,6 +2,7 @@ part of config;
 
 class Injector {
   static void setup(String environment) {
+    _setupDefaultPrefStorage(environment);
     _setupServices(environment);
   }
 }
@@ -13,6 +14,21 @@ class Env {
 }
 
 String _environmentMode = "";
+
+Future<void> _setupDefaultPrefStorage(String environment) async {
+  if (environment == Env.dev) {
+    _environmentMode = environment;
+
+    PrefStorage.setup();
+    Get.lazyPut(() {
+      var _storage = PrefStorage();
+      _storage.saveEligibleVacationPerMonth(2.5);
+      _storage.saveSickVacationPerMonth(2.5);
+      _storage.saveIncentiveLimit(2.5);
+      return _storage;
+    });
+  }
+}
 
 Future<void> _setupServices(String environment) async {
   if (environment == Env.dev) {
@@ -81,38 +97,55 @@ Future<void> _setupServices(String environment) async {
           _soldierDatabase.personalInfoDAO,
           _soldierDatabase.soldierDAO,
           _soldierDatabase.rankDAO,
+          Get.find(),
         ));
 
     Get.lazyPut<SoldierService>(() => SoldierServiceImpl(
         _soldierDatabase.soldierDAO,
         PersonalInfoServiceImpl(_soldierDatabase.personalInfoDAO),
-        CaseNoServiceImpl(_soldierDatabase.caseNoDAO,)));
+        CaseNoServiceImpl(
+          _soldierDatabase.caseNoDAO,
+        )));
 
     Get.lazyPut<TrainingStatusService>(() => TrainingStatusServiceImpl(
-        _soldierDatabase.trainingStatusDAO,
-        _soldierDatabase.personalInfoDAO,
-        _soldierDatabase.soldierDAO,));
+          _soldierDatabase.trainingStatusDAO,
+          _soldierDatabase.personalInfoDAO,
+          _soldierDatabase.soldierDAO,
+        ));
 
-    Get.lazyPut<UnitPropertiesService>(
-        () => UnitPropertiesServiceImpl(_soldierDatabase.unitPropertiesDAO,));
+    Get.lazyPut<UnitPropertiesService>(() => UnitPropertiesServiceImpl(
+          _soldierDatabase.unitPropertiesDAO,
+        ));
 
-    Get.lazyPut<VacationsService>(
-        () => VacationsServiceImpl(_soldierDatabase.vacationsDAO,));
+    Get.lazyPut<VacationsService>(() => VacationsServiceImpl(
+          _soldierDatabase.vacationsDAO,
+          _soldierDatabase.personalInfoDAO,
+          _soldierDatabase.soldierDAO,
+          _soldierDatabase.soldierCaseDAO,
+          Get.find(),
+        ));
+    Get.lazyPut<DailyVacationService>(() => DailyVacationServiceImpl(
+          _soldierDatabase.dailyVacationDAO,
+        ));
+    Get.lazyPut<ViolationsOvertimeService>(() => ViolationsOvertimeServiceImpl(
+          _soldierDatabase.violationsOvertimeDAO,
+        ));
 
-    Get.lazyPut<ViolationsOvertimeService>(() =>
-        ViolationsOvertimeServiceImpl(_soldierDatabase.violationsOvertimeDAO,));
+    Get.lazyPut<CaseNoService>(() => CaseNoServiceImpl(
+          _soldierDatabase.caseNoDAO,
+        ));
 
-    Get.lazyPut<CaseNoService>(
-        () => CaseNoServiceImpl(_soldierDatabase.caseNoDAO,));
+    Get.lazyPut<RelativeContactsInfoService>(
+        () => RelativeContactsInfoServiceImpl(
+              _soldierDatabase.relativeContactsInfoDAO,
+            ));
 
-    Get.lazyPut<RelativeContactsInfoService>(() =>
-        RelativeContactsInfoServiceImpl(
-            _soldierDatabase.relativeContactsInfoDAO,));
+    Get.lazyPut<EducationalInfoService>(() => EducationalInfoServiceImpl(
+          _soldierDatabase.educationalInfoDAO,
+        ));
 
-    Get.lazyPut<EducationalInfoService>(
-        () => EducationalInfoServiceImpl(_soldierDatabase.educationalInfoDAO,));
-
-    Get.lazyPut<CaseNoService>(
-        () => CaseNoServiceImpl(_soldierDatabase.caseNoDAO,));
+    Get.lazyPut<CaseNoService>(() => CaseNoServiceImpl(
+          _soldierDatabase.caseNoDAO,
+        ));
   }
 }

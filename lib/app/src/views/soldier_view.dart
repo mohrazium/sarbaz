@@ -43,9 +43,9 @@ class SoldierView extends GetView<SoldierController> {
                             controller: controller.caseNoController,
                             readOnly: controller.readOnly.value,
                             isRequired: true,
+                            inputFormatters: [FilteringTextInputFormatter.allow("")],
                             prefixIcon: _getCaseNoListDialog(),
-                            validator: (val) =>
-                                controller.requiredFieldValidator(value: val),
+                            validator: (val) => controller.requiredFieldValidator(value: val),
                           ),
                           //! Personnel code field
                           TextBox(
@@ -115,8 +115,7 @@ class SoldierView extends GetView<SoldierController> {
                               Row(
                                 children: [
                                   InkWell(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(kBorderRadius)),
+                                    borderRadius: const BorderRadius.all(Radius.circular(kBorderRadius)),
                                     child: const Padding(
                                       padding: EdgeInsets.all(kPadding / 3),
                                       child: Icon(
@@ -126,8 +125,7 @@ class SoldierView extends GetView<SoldierController> {
                                     ),
                                     onTap: () {
                                       DialogHelper.showMessageBox(
-                                          title:
-                                              Strings.sureToProduceCaseNoTitle,
+                                          title: Strings.sureToProduceCaseNoTitle,
                                           message:
                                               "${Strings.sureToProduceCaseNo}\n${Strings.sureToProduceCaseNoDescription}",
                                           dialogType: DialogType.INFO,
@@ -136,8 +134,7 @@ class SoldierView extends GetView<SoldierController> {
                                             DialogHelper.showLoading();
                                             await controller
                                                 .onGenerateCaseNoListPressed()
-                                                .whenComplete(() =>
-                                                    DialogHelper.hideLoading());
+                                                .whenComplete(() => DialogHelper.hideLoading());
                                           });
                                     },
                                   ),
@@ -145,8 +142,7 @@ class SoldierView extends GetView<SoldierController> {
                               ),
                               SearchField(
                                 controller: controller.searchController,
-                                onSearch: (value) =>
-                                    controller.onSearchCaseNo(value),
+                                onSearch: (value) => controller.onSearchCaseNo(value),
                               ),
                               const SizedBox(
                                 height: kSpacing / 2.5,
@@ -159,18 +155,14 @@ class SoldierView extends GetView<SoldierController> {
                           height: height - 185,
                           child: CustomScrollView(slivers: [
                             SliverList(
-                                delegate: SliverChildListDelegate(controller
-                                    .foundedCaseNoList.value
-                                    .asMap()
-                                    .entries
-                                    .map((item) {
+                                delegate: SliverChildListDelegate(
+                                    controller.foundedCaseNoList.value.asMap().entries.map((item) {
                               if (!item.value.isFull) {
                                 return CaseNoTile(
                                   model: item.value,
                                   onTap: () {
                                     controller.selectedCaseNoModel(item.value);
-                                    controller
-                                        .sendSelectedCaseNoModelToTextEditing();
+                                    controller.sendSelectedCaseNoModelToTextEditing();
                                   },
                                 );
                               } else {

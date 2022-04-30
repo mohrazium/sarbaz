@@ -11,8 +11,7 @@ class SoldierController extends GetxController with ValidatorMixin {
   late final Rx<SoldierModel> model = Rx(SoldierModel.init());
 
   late List<CaseNoModel> _allCaseNumbers = List.empty(growable: true);
-  late final Rx<List<CaseNoModel>> foundedCaseNoList =
-      Rx(List.empty(growable: true));
+  late final Rx<List<CaseNoModel>> foundedCaseNoList = Rx(List.empty(growable: true));
   late final Rx<CaseNoModel> selectedCaseNoModel = Rx(CaseNoModel.init());
   late final Rx<String> selectedCaseNoTitleText = Rx("");
 
@@ -25,8 +24,7 @@ class SoldierController extends GetxController with ValidatorMixin {
   late TextEditingController caseNoController;
   late TextEditingController searchController;
 
-  SoldierController(
-      this._soldierService, this._caseNoService, this._bridgeController);
+  SoldierController(this._soldierService, this._caseNoService, this._bridgeController);
 
   @override
   void onInit() {
@@ -49,9 +47,9 @@ class SoldierController extends GetxController with ValidatorMixin {
     logger.info("$runtimeType has been ready.");
   }
 
-  void initForm() {
+  Future<void> initForm() async {
     _clearEditor();
-    _loadInfo();
+    await _loadData();
   }
 
   Future<void> onConfirmButtonPressed() async {
@@ -70,7 +68,7 @@ class SoldierController extends GetxController with ValidatorMixin {
                   _save();
                   logger.info("saving soldier...");
 
-                  Get.find<SoldiersController>().loadAll();
+                  Get.find<SoldiersController>().loadAllSoldiers();
                   readOnly(true);
                 });
           }
@@ -89,7 +87,7 @@ class SoldierController extends GetxController with ValidatorMixin {
     if (model.value.id == null) {
       _clearEditor();
     } else {
-      _loadInfo();
+      _loadData();
       readOnly(true);
     }
   }
@@ -98,12 +96,11 @@ class SoldierController extends GetxController with ValidatorMixin {
     _catchFormData();
     if (model.value.id == null) {
       await _soldierService
-          .saveByPersonalInfoId(model.value,
-              personalInfoId: _bridgeController.personalInfoId.value)
+          .saveByPersonalInfoId(model.value, personalInfoId: _bridgeController.personalInfoId.value)
           .then((value) {
         if (value != 0) {
           model(model.value.copyWith(id: value));
-          _loadInfo();
+          _loadData();
           showToast(Strings.successfullySavingInfo);
         } else {
           showToast(Strings.unsuccessfullySavingInfo);
@@ -114,7 +111,7 @@ class SoldierController extends GetxController with ValidatorMixin {
     } else {
       _soldierService.update(model.value).then((value) {
         if (value) {
-          _loadInfo();
+          _loadData();
           showToast(Strings.successfullyUpdatingInfo);
         } else {
           showToast(Strings.unsuccessfullyUpdatingInfo);
@@ -125,21 +122,16 @@ class SoldierController extends GetxController with ValidatorMixin {
     }
   }
 
-  Future<void> _loadInfo() async {
-    await _soldierService
-        .findByPersonalInfoId(_bridgeController.personalInfoId.value)
-        .then((value) {
+  Future<void> _loadData() async {
+    await _soldierService.findByPersonalInfoId(_bridgeController.personalInfoId.value).then((value) {
       if (value?.id != null) {
         _clearEditor();
         readOnly(true);
         model(value);
         personnelCodeController.text = model.value.personnelCode ?? "";
         latestStatusController.text = model.value.latestStatus ?? "";
-        caseStatusController.text = model.value.caseStatus.isNotEmpty
-            ? model.value.caseStatus.trim()
-            : "";
-        divisionStatusController.text =
-            model.value.divisionStatus ? Strings.yes : Strings.no;
+        caseStatusController.text = model.value.caseStatus.isNotEmpty ? model.value.caseStatus.trim() : "";
+        divisionStatusController.text = model.value.divisionStatus ? Strings.yes : Strings.no;
         archiveCaseNoController.text = model.value.archiveCaseNo ?? "";
         selectedCaseNoModel(model.value.caseNo);
         sendSelectedCaseNoModelToTextEditing();
@@ -155,15 +147,10 @@ class SoldierController extends GetxController with ValidatorMixin {
   void _catchFormData() {
     model(SoldierModel(
       id: model.value.id,
-      caseStatus: caseStatusController.text.isNotEmpty
-          ? caseStatusController.text.trim()
-          : Strings.caseStatusAvailable,
-      latestStatus: latestStatusController.text.isNotEmpty
-          ? latestStatusController.text.trim()
-          : Strings.soldierStatusPresent,
-      personnelCode: personnelCodeController.text.isNotEmpty
-          ? personnelCodeController.text.trim()
-          : null,
+      caseStatus: caseStatusController.text.isNotEmpty ? caseStatusController.text.trim() : Strings.caseStatusAvailable,
+      latestStatus:
+          latestStatusController.text.isNotEmpty ? latestStatusController.text.trim() : Strings.soldierStatusPresent,
+      personnelCode: personnelCodeController.text.isNotEmpty ? personnelCodeController.text.trim() : null,
       divisionStatus: false,
       isArchived: false,
       caseNo: selectedCaseNoModel.value,
@@ -205,8 +192,7 @@ class SoldierController extends GetxController with ValidatorMixin {
   }
 
   void sendSelectedCaseNoModelToTextEditing() {
-    caseNoController.text =
-        "${selectedCaseNoModel.value.caseName} - ${selectedCaseNoModel.value.caseCode}";
+    caseNoController.text = "${selectedCaseNoModel.value.caseName} - ${selectedCaseNoModel.value.caseCode}";
   }
 
   void onSearchCaseNo(String value) {
@@ -215,19 +201,15 @@ class SoldierController extends GetxController with ValidatorMixin {
       foundedCaseNoList(_allCaseNumbers);
     } else {
       foundedCaseNoList.value = _allCaseNumbers
-          .where((model) => model.caseName!.contains(value) ||
-                  model.caseCode.contains(value) ||
-                  model.description!.contains(value)
-              ? true
-              : false)
+          .where((model) =>
+              model.caseName!.contains(value) || model.caseCode.contains(value) || model.description!.contains(value)
+                  ? true
+                  : false)
           .toList();
     }
   }
 
   Future<void> onGenerateCaseNoListPressed() async {
-    await _caseNoService
-        .saveAll(100)
-        .catchError((err) => showToast(Strings.error))
-        .whenComplete(() => loadAllCaseNo());
+    await _caseNoService.saveAll(100).catchError((err) => showToast(Strings.error)).whenComplete(() => loadAllCaseNo());
   }
 }

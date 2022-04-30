@@ -9,6 +9,7 @@ import 'package:sarbaz/utility/utility.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
 import 'bindings/bindings.dart';
+import 'components/components.dart';
 import 'pages/pages.dart';
 import 'themes/themes.dart';
 

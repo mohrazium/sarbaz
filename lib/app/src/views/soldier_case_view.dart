@@ -32,8 +32,7 @@ class SoldierCaseView extends GetView<SoldierCaseController> {
                         controller: controller.dispatcherController,
                         readOnly: controller.readOnly.value,
                         isRequired: true,
-                        validator: (v) =>
-                            controller.requiredFieldValidator(value: v),
+                        validator: (v) => controller.requiredFieldValidator(value: v),
                       ),
 
                       //! Intro date field
@@ -42,11 +41,15 @@ class SoldierCaseView extends GetView<SoldierCaseController> {
                         controller: controller.introductionDateController,
                         readOnly: controller.readOnly.value,
                         isRequired: true,
-                        validator: (val) =>
-                            controller.requiredFieldValidator(value: val),
+                        inputFormatters: [
+                          MaskedInputFormatter(
+                            "0000/00/00",
+                            allowedCharMatcher: RegExp('[0-9]'),
+                          ),
+                        ],
+                        validator: (val) => controller.requiredFieldValidator(value: val),
                         prefixIcon: IconButton(
-                            onPressed: () =>
-                                controller.onIntroCalenderPressed(context),
+                            onPressed: () => controller.onIntroCalenderPressed(context),
                             icon: const Icon(EvaIcons.calendar)),
                       ),
 
@@ -56,14 +59,55 @@ class SoldierCaseView extends GetView<SoldierCaseController> {
                         controller: controller.startDateOfServiceController,
                         readOnly: controller.readOnly.value,
                         isRequired: true,
-                        validator: (val) =>
-                            controller.requiredFieldValidator(value: val),
+                        inputFormatters: [
+                          MaskedInputFormatter(
+                            "0000/00/00",
+                            allowedCharMatcher: RegExp('[0-9]'),
+                          ),
+                        ],
+                        validator: (val) => controller.requiredFieldValidator(value: val),
                         prefixIcon: IconButton(
-                            onPressed: () => controller
-                                .onStartServiceDateCalenderPressed(context),
+                            onPressed: () => controller.onStartServiceDateCalenderPressed(context),
                             icon: const Icon(EvaIcons.calendar)),
-                        onChanged: (val) =>
-                            controller.onChangeCalculateEndDate(val),
+                        onChanged: (val) => controller.onChangeCalculateEndDate(val),
+                      ),
+                      //! Last period field
+                      TextBox(
+                        titleText: Strings.lastPeriodOfService,
+                        controller: controller.lastPeriodOfServiceController,
+                        readOnly: controller.readOnly.value,
+                        onChanged: (val) => controller.onChangeCalculateEndDate(val),
+                        keyboardType: TextInputType.number,
+                      ),
+                      //! Membership type field
+                      TextBox(
+                        titleText: Strings.membershipType,
+                        controller: controller.membershipTypeController,
+                        readOnly: controller.readOnly.value,
+                        isRequired: true,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(""),
+                        ],
+                        validator: (v) => controller.requiredFieldValidator(value: v),
+                        prefixIcon: PopupMenuButton<String>(
+                          shape: const RoundedRectangleBorder(
+                            side: BorderSide(width: 1.0, style: BorderStyle.none),
+                            borderRadius: BorderRadius.all(Radius.circular(kBorderRadius)),
+                          ),
+                          icon: const Icon(Icons.arrow_drop_down),
+                          onSelected: (String value) {
+                            controller.membershipTypeController.text = value;
+                          },
+                          itemBuilder: (BuildContext context) {
+                            return Strings.membershipTypesList.map<PopupMenuItem<String>>((String value) {
+                              return PopupMenuItem(
+                                padding: const EdgeInsets.all(kPadding),
+                                child: Text(value),
+                                value: value,
+                              );
+                            }).toList();
+                          },
+                        ),
                       ),
                       //! Service category field
                       TextBox(
@@ -71,17 +115,7 @@ class SoldierCaseView extends GetView<SoldierCaseController> {
                         controller: controller.serviceCategoryController,
                         readOnly: controller.readOnly.value,
                         isRequired: true,
-                        validator: (v) =>
-                            controller.requiredFieldValidator(value: v),
-                      ),
-                      //! Last period field
-                      TextBox(
-                        titleText: Strings.lastPeriodOfService,
-                        controller: controller.lastPeriodOfServiceController,
-                        readOnly: controller.readOnly.value,
-                        onChanged: (val) =>
-                            controller.onChangeCalculateEndDate(val),
-                        keyboardType: TextInputType.number,
+                        validator: (v) => controller.requiredFieldValidator(value: v),
                       ),
                     ],
                   ),
@@ -93,11 +127,15 @@ class SoldierCaseView extends GetView<SoldierCaseController> {
                         controller: controller.dispatchController,
                         readOnly: controller.readOnly.value,
                         isRequired: true,
-                        validator: (val) =>
-                            controller.requiredFieldValidator(value: val),
+                        inputFormatters: [
+                          MaskedInputFormatter(
+                            "0000/00/00",
+                            allowedCharMatcher: RegExp('[0-9]'),
+                          ),
+                        ],
+                        validator: (val) => controller.requiredFieldValidator(value: val),
                         prefixIcon: IconButton(
-                            onPressed: () =>
-                                controller.onDispatchCalenderPressed(context),
+                            onPressed: () => controller.onDispatchCalenderPressed(context),
                             icon: const Icon(EvaIcons.calendar)),
                       ),
 
@@ -107,11 +145,9 @@ class SoldierCaseView extends GetView<SoldierCaseController> {
                         controller: controller.legalPeriodOfServiceController,
                         readOnly: controller.readOnly.value,
                         isRequired: true,
-                        validator: (val) =>
-                            controller.requiredFieldValidator(value: val),
+                        validator: (val) => controller.requiredFieldValidator(value: val),
                         keyboardType: TextInputType.number,
-                        onChanged: (val) =>
-                            controller.onChangeCalculateEndDate(val),
+                        onChanged: (val) => controller.onChangeCalculateEndDate(val),
                       ),
 
                       //! End date field
@@ -120,6 +156,18 @@ class SoldierCaseView extends GetView<SoldierCaseController> {
                         controller: controller.endDateOfServiceController,
                         readOnly: true,
                         isRequired: true,
+                        inputFormatters: [
+                          MaskedInputFormatter(
+                            "0000/00/00",
+                            allowedCharMatcher: RegExp('[0-9]'),
+                          ),
+                        ],
+                      ),
+                      //! Amount of service field
+                      TextBox(
+                        titleText: Strings.amountOfService,
+                        controller: controller.amountOfServiceController,
+                        readOnly: true,
                       ),
                       //! Rank field
                       TextBox(
@@ -127,33 +175,30 @@ class SoldierCaseView extends GetView<SoldierCaseController> {
                         controller: controller.rankController,
                         readOnly: controller.readOnly.value,
                         isRequired: true,
-                        validator: (val) =>
-                            controller.requiredFieldValidator(value: val),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(""),
+                        ],
+                        validator: (val) => controller.requiredFieldValidator(value: val),
                         onChanged: (val) => controller.onRankChanged(val),
                         prefixIcon: PopupMenuButton<String>(
                           shape: const RoundedRectangleBorder(
-                            side:
-                                BorderSide(width: 1.0, style: BorderStyle.none),
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(kBorderRadius)),
+                            side: BorderSide(width: 1.0, style: BorderStyle.none),
+                            borderRadius: BorderRadius.all(Radius.circular(kBorderRadius)),
                           ),
                           icon: const Icon(Icons.arrow_drop_down),
                           onSelected: (String value) {
                             controller.selectRank(value);
                           },
                           itemBuilder: (BuildContext context) {
-                            return controller.ranks.value
-                                .map<PopupMenuItem<String>>((RankModel value) {
+                            return controller.ranks.value.map<PopupMenuItem<String>>((RankModel value) {
                               return PopupMenuItem(
                                   padding: EdgeInsets.zero,
                                   child: GroupBox(
                                     padding: const EdgeInsets.all(kPadding / 6),
                                     margin: const EdgeInsets.all(kPadding / 4),
                                     child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         const SizedBox(
                                           width: kSpacing / 10,
@@ -161,8 +206,7 @@ class SoldierCaseView extends GetView<SoldierCaseController> {
                                         Text(value.gradeCode.toString()),
                                         Text(value.name),
                                         Image.asset(
-                                          ImagesConstants.ranksMarkImage.values
-                                              .elementAt(value.gradeCode - 1),
+                                          ImagesConstants.ranksMarkImage.values.elementAt(value.gradeCode - 1),
                                           height: 56,
                                           width: 56,
                                         ),
@@ -174,11 +218,12 @@ class SoldierCaseView extends GetView<SoldierCaseController> {
                           },
                         ),
                       ),
-                      //! Amount of service field
+                      //! Description field
                       TextBox(
-                        titleText: Strings.amountOfService,
-                        controller: controller.amountOfServiceController,
-                        readOnly: true,
+                        titleText: Strings.description,
+                        controller: controller.descriptionController,
+                        multiLine: true,
+                        readOnly: controller.readOnly.value,
                       ),
                     ],
                   ),

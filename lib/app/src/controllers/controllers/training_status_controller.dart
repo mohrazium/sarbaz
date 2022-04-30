@@ -1,9 +1,7 @@
 part of controllers;
 
-class TrainingStatusController extends GetxController
-    with ValidatorMixin, DateConverterMixin {
-  final GlobalKey<FormState> trainingStatusFormGlobalKey =
-      GlobalKey<FormState>();
+class TrainingStatusController extends GetxController with ValidatorMixin, DateConverterMixin {
+  final GlobalKey<FormState> trainingStatusFormGlobalKey = GlobalKey<FormState>();
   final TrainingStatusService _trainingStatusService;
   final BridgeController _bridgeController;
 
@@ -55,9 +53,9 @@ class TrainingStatusController extends GetxController
     super.onClose();
   }
 
-  void initForm() {
+  Future<void> initForm() async {
     _clearEditor();
-    _loadInfo();
+    await _loadData();
   }
 
   Future<void> onConfirmButtonPressed() async {
@@ -76,7 +74,7 @@ class TrainingStatusController extends GetxController
                   _save();
                   logger.info("saving further info...");
 
-                  Get.find<SoldiersController>().loadAll();
+                  Get.find<SoldiersController>().loadAllSoldiers();
                   readOnly(true);
                 });
           }
@@ -95,7 +93,7 @@ class TrainingStatusController extends GetxController
     if (model.value.id == null) {
       _clearEditor();
     } else {
-      _loadInfo();
+      _loadData();
       readOnly(true);
     }
   }
@@ -110,17 +108,13 @@ class TrainingStatusController extends GetxController
     );
     if (picked != null) {
       if (isStart) {
-        startDateController.text =
-            persianTools.convertEnToFa(picked.formatCompactDate());
+        startDateController.text = persianTools.convertEnToFa(picked.formatCompactDate());
       } else {
-        endDateController.text =
-            persianTools.convertEnToFa(picked.formatCompactDate());
+        endDateController.text = persianTools.convertEnToFa(picked.formatCompactDate());
       }
-      if (startDateController.text.isNotEmpty &&
-          endDateController.text.isNotEmpty) {
-        periodController.text = differenceInDays(
-                startDateController.text.trim(), endDateController.text.trim())
-            .toString();
+      if (startDateController.text.isNotEmpty && endDateController.text.isNotEmpty) {
+        periodController.text =
+            differenceInDays(startDateController.text.trim(), endDateController.text.trim()).toString();
       }
     }
   }
@@ -129,12 +123,11 @@ class TrainingStatusController extends GetxController
     _catchFormData();
     if (model.value.id == null) {
       await _trainingStatusService
-          .saveByPersonalInfoId(model.value,
-              personalInfoId: _bridgeController.personalInfoId.value)
+          .saveByPersonalInfoId(model.value, personalInfoId: _bridgeController.personalInfoId.value)
           .then((value) {
         if (value != 0) {
           model(model.value.copyWith(id: value));
-          _loadInfo();
+          _loadData();
           showToast(Strings.successfullySavingInfo);
         } else {
           showToast(Strings.unsuccessfullySavingInfo);
@@ -145,7 +138,7 @@ class TrainingStatusController extends GetxController
     } else {
       _trainingStatusService.update(model.value).then((value) {
         if (value) {
-          _loadInfo();
+          _loadData();
           showToast(Strings.successfullyUpdatingInfo);
         } else {
           showToast(Strings.unsuccessfullyUpdatingInfo);
@@ -156,24 +149,18 @@ class TrainingStatusController extends GetxController
     }
   }
 
-  Future<void> _loadInfo() async {
-    await _trainingStatusService
-        .findByPersonalInfoId(_bridgeController.personalInfoId.value)
-        .then((value) {
+  Future<void> _loadData() async {
+    await _trainingStatusService.findByPersonalInfoId(_bridgeController.personalInfoId.value).then((value) {
       if (value?.id != null) {
         _clearEditor();
         readOnly(true);
         model(value);
-        startDateController.text = model.value.startDate != null
-            ? toShamsi(model.value.startDate)
-            : "";
+        startDateController.text = model.value.startDate != null ? toShamsi(model.value.startDate) : "";
         placeNameController.text = model.value.placeName;
-        periodController.text =
-            model.value.period != null ? model.value.period.toString() : "";
+        periodController.text = model.value.period != null ? model.value.period.toString() : "";
         statusController.text = model.value.status ?? "";
         typeController.text = model.value.type ?? "";
-        endDateController.text =
-            model.value.endDate != null ? toShamsi(model.value.endDate) : "";
+        endDateController.text = model.value.endDate != null ? toShamsi(model.value.endDate) : "";
         descriptionController.text = model.value.description ?? "";
       } else {
         _clearEditor();
@@ -188,22 +175,12 @@ class TrainingStatusController extends GetxController
     model(TrainingStatusModel(
       id: model.value.id,
       placeName: placeNameController.text.trim(),
-      status: statusController.text.isNotEmpty
-          ? startDateController.text.trim()
-          : null,
-      startDate: startDateController.text.isNotEmpty
-          ? toDateTime(shamsiDate: startDateController.text.trim())
-          : null,
-      endDate: endDateController.text.isNotEmpty
-          ? toDateTime(shamsiDate: endDateController.text.trim())
-          : null,
-      period: periodController.text.isNotEmpty
-          ? int.parse(periodController.text.trim())
-          : null,
+      status: statusController.text.isNotEmpty ? startDateController.text.trim() : null,
+      startDate: startDateController.text.isNotEmpty ? toDateTime(shamsiDate: startDateController.text.trim()) : null,
+      endDate: endDateController.text.isNotEmpty ? toDateTime(shamsiDate: endDateController.text.trim()) : null,
+      period: periodController.text.isNotEmpty ? int.parse(periodController.text.trim()) : null,
       type: typeController.text.isNotEmpty ? typeController.text.trim() : null,
-      description: descriptionController.text.isNotEmpty
-          ? descriptionController.text.trim()
-          : null,
+      description: descriptionController.text.isNotEmpty ? descriptionController.text.trim() : null,
     ));
   }
 

@@ -7278,24 +7278,36 @@ class $TrainingStatusTableTable extends TrainingStatusTable
 class VacationsTableData extends DataClass
     implements Insertable<VacationsTableData> {
   final int? id;
-  final int? amountOfEligible;
-  final int? amountOfSick;
-  final int? amountOfIncentive;
-  final int? eligibleUsed;
-  final int? sickUsed;
-  final int? incentiveUsed;
+  final double? eligibleTotal;
+  final double eligibleBalance;
+  final double eligibleUsed;
+  final double? eligibleValuePerMonth;
+  final double? sickTotal;
+  final double sickBalance;
+  final double sickUsed;
+  final double? sickValuePerMonth;
+  final double? incentiveTotal;
+  final double? incentiveBalance;
+  final double? incentiveUsed;
+  final double? incentiveValueLimit;
   final int? daily;
   final int? hourly;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   VacationsTableData(
       {this.id,
-      this.amountOfEligible,
-      this.amountOfSick,
-      this.amountOfIncentive,
-      this.eligibleUsed,
-      this.sickUsed,
+      this.eligibleTotal,
+      required this.eligibleBalance,
+      required this.eligibleUsed,
+      this.eligibleValuePerMonth,
+      this.sickTotal,
+      required this.sickBalance,
+      required this.sickUsed,
+      this.sickValuePerMonth,
+      this.incentiveTotal,
+      this.incentiveBalance,
       this.incentiveUsed,
+      this.incentiveValueLimit,
       this.daily,
       this.hourly,
       this.createdAt,
@@ -7305,18 +7317,30 @@ class VacationsTableData extends DataClass
     final effectivePrefix = prefix ?? '';
     return VacationsTableData(
       id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      amountOfEligible: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}amount_of_eligible']),
-      amountOfSick: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}amount_of_sick']),
-      amountOfIncentive: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}amount_of_incentive']),
-      eligibleUsed: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}eligible_used']),
-      sickUsed: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}sick_used']),
-      incentiveUsed: const IntType()
+      eligibleTotal: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}eligible_total']),
+      eligibleBalance: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}eligible_balance'])!,
+      eligibleUsed: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}eligible_used'])!,
+      eligibleValuePerMonth: const RealType().mapFromDatabaseResponse(
+          data['${effectivePrefix}eligible_value_per_month']),
+      sickTotal: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}sick_total']),
+      sickBalance: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}sick_balance'])!,
+      sickUsed: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}sick_used'])!,
+      sickValuePerMonth: const RealType().mapFromDatabaseResponse(
+          data['${effectivePrefix}sick_value_per_month']),
+      incentiveTotal: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}incentive_total']),
+      incentiveBalance: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}incentive_balance']),
+      incentiveUsed: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}incentive_used']),
+      incentiveValueLimit: const RealType().mapFromDatabaseResponse(
+          data['${effectivePrefix}incentive_value_limit']),
       daily: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}daily']),
       hourly: const IntType()
@@ -7333,23 +7357,34 @@ class VacationsTableData extends DataClass
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int?>(id);
     }
-    if (!nullToAbsent || amountOfEligible != null) {
-      map['amount_of_eligible'] = Variable<int?>(amountOfEligible);
+    if (!nullToAbsent || eligibleTotal != null) {
+      map['eligible_total'] = Variable<double?>(eligibleTotal);
     }
-    if (!nullToAbsent || amountOfSick != null) {
-      map['amount_of_sick'] = Variable<int?>(amountOfSick);
+    map['eligible_balance'] = Variable<double>(eligibleBalance);
+    map['eligible_used'] = Variable<double>(eligibleUsed);
+    if (!nullToAbsent || eligibleValuePerMonth != null) {
+      map['eligible_value_per_month'] =
+          Variable<double?>(eligibleValuePerMonth);
     }
-    if (!nullToAbsent || amountOfIncentive != null) {
-      map['amount_of_incentive'] = Variable<int?>(amountOfIncentive);
+    if (!nullToAbsent || sickTotal != null) {
+      map['sick_total'] = Variable<double?>(sickTotal);
     }
-    if (!nullToAbsent || eligibleUsed != null) {
-      map['eligible_used'] = Variable<int?>(eligibleUsed);
+    map['sick_balance'] = Variable<double>(sickBalance);
+    map['sick_used'] = Variable<double>(sickUsed);
+    if (!nullToAbsent || sickValuePerMonth != null) {
+      map['sick_value_per_month'] = Variable<double?>(sickValuePerMonth);
     }
-    if (!nullToAbsent || sickUsed != null) {
-      map['sick_used'] = Variable<int?>(sickUsed);
+    if (!nullToAbsent || incentiveTotal != null) {
+      map['incentive_total'] = Variable<double?>(incentiveTotal);
+    }
+    if (!nullToAbsent || incentiveBalance != null) {
+      map['incentive_balance'] = Variable<double?>(incentiveBalance);
     }
     if (!nullToAbsent || incentiveUsed != null) {
-      map['incentive_used'] = Variable<int?>(incentiveUsed);
+      map['incentive_used'] = Variable<double?>(incentiveUsed);
+    }
+    if (!nullToAbsent || incentiveValueLimit != null) {
+      map['incentive_value_limit'] = Variable<double?>(incentiveValueLimit);
     }
     if (!nullToAbsent || daily != null) {
       map['daily'] = Variable<int?>(daily);
@@ -7369,24 +7404,34 @@ class VacationsTableData extends DataClass
   VacationsTableCompanion toCompanion(bool nullToAbsent) {
     return VacationsTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      amountOfEligible: amountOfEligible == null && nullToAbsent
+      eligibleTotal: eligibleTotal == null && nullToAbsent
           ? const Value.absent()
-          : Value(amountOfEligible),
-      amountOfSick: amountOfSick == null && nullToAbsent
+          : Value(eligibleTotal),
+      eligibleBalance: Value(eligibleBalance),
+      eligibleUsed: Value(eligibleUsed),
+      eligibleValuePerMonth: eligibleValuePerMonth == null && nullToAbsent
           ? const Value.absent()
-          : Value(amountOfSick),
-      amountOfIncentive: amountOfIncentive == null && nullToAbsent
+          : Value(eligibleValuePerMonth),
+      sickTotal: sickTotal == null && nullToAbsent
           ? const Value.absent()
-          : Value(amountOfIncentive),
-      eligibleUsed: eligibleUsed == null && nullToAbsent
+          : Value(sickTotal),
+      sickBalance: Value(sickBalance),
+      sickUsed: Value(sickUsed),
+      sickValuePerMonth: sickValuePerMonth == null && nullToAbsent
           ? const Value.absent()
-          : Value(eligibleUsed),
-      sickUsed: sickUsed == null && nullToAbsent
+          : Value(sickValuePerMonth),
+      incentiveTotal: incentiveTotal == null && nullToAbsent
           ? const Value.absent()
-          : Value(sickUsed),
+          : Value(incentiveTotal),
+      incentiveBalance: incentiveBalance == null && nullToAbsent
+          ? const Value.absent()
+          : Value(incentiveBalance),
       incentiveUsed: incentiveUsed == null && nullToAbsent
           ? const Value.absent()
           : Value(incentiveUsed),
+      incentiveValueLimit: incentiveValueLimit == null && nullToAbsent
+          ? const Value.absent()
+          : Value(incentiveValueLimit),
       daily:
           daily == null && nullToAbsent ? const Value.absent() : Value(daily),
       hourly:
@@ -7405,12 +7450,21 @@ class VacationsTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return VacationsTableData(
       id: serializer.fromJson<int?>(json['id']),
-      amountOfEligible: serializer.fromJson<int?>(json['amountOfEligible']),
-      amountOfSick: serializer.fromJson<int?>(json['amountOfSick']),
-      amountOfIncentive: serializer.fromJson<int?>(json['amountOfIncentive']),
-      eligibleUsed: serializer.fromJson<int?>(json['eligibleUsed']),
-      sickUsed: serializer.fromJson<int?>(json['sickUsed']),
-      incentiveUsed: serializer.fromJson<int?>(json['incentiveUsed']),
+      eligibleTotal: serializer.fromJson<double?>(json['eligibleTotal']),
+      eligibleBalance: serializer.fromJson<double>(json['eligibleBalance']),
+      eligibleUsed: serializer.fromJson<double>(json['eligibleUsed']),
+      eligibleValuePerMonth:
+          serializer.fromJson<double?>(json['eligibleValuePerMonth']),
+      sickTotal: serializer.fromJson<double?>(json['sickTotal']),
+      sickBalance: serializer.fromJson<double>(json['sickBalance']),
+      sickUsed: serializer.fromJson<double>(json['sickUsed']),
+      sickValuePerMonth:
+          serializer.fromJson<double?>(json['sickValuePerMonth']),
+      incentiveTotal: serializer.fromJson<double?>(json['incentiveTotal']),
+      incentiveBalance: serializer.fromJson<double?>(json['incentiveBalance']),
+      incentiveUsed: serializer.fromJson<double?>(json['incentiveUsed']),
+      incentiveValueLimit:
+          serializer.fromJson<double?>(json['incentiveValueLimit']),
       daily: serializer.fromJson<int?>(json['daily']),
       hourly: serializer.fromJson<int?>(json['hourly']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
@@ -7422,12 +7476,19 @@ class VacationsTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int?>(id),
-      'amountOfEligible': serializer.toJson<int?>(amountOfEligible),
-      'amountOfSick': serializer.toJson<int?>(amountOfSick),
-      'amountOfIncentive': serializer.toJson<int?>(amountOfIncentive),
-      'eligibleUsed': serializer.toJson<int?>(eligibleUsed),
-      'sickUsed': serializer.toJson<int?>(sickUsed),
-      'incentiveUsed': serializer.toJson<int?>(incentiveUsed),
+      'eligibleTotal': serializer.toJson<double?>(eligibleTotal),
+      'eligibleBalance': serializer.toJson<double>(eligibleBalance),
+      'eligibleUsed': serializer.toJson<double>(eligibleUsed),
+      'eligibleValuePerMonth':
+          serializer.toJson<double?>(eligibleValuePerMonth),
+      'sickTotal': serializer.toJson<double?>(sickTotal),
+      'sickBalance': serializer.toJson<double>(sickBalance),
+      'sickUsed': serializer.toJson<double>(sickUsed),
+      'sickValuePerMonth': serializer.toJson<double?>(sickValuePerMonth),
+      'incentiveTotal': serializer.toJson<double?>(incentiveTotal),
+      'incentiveBalance': serializer.toJson<double?>(incentiveBalance),
+      'incentiveUsed': serializer.toJson<double?>(incentiveUsed),
+      'incentiveValueLimit': serializer.toJson<double?>(incentiveValueLimit),
       'daily': serializer.toJson<int?>(daily),
       'hourly': serializer.toJson<int?>(hourly),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
@@ -7437,24 +7498,37 @@ class VacationsTableData extends DataClass
 
   VacationsTableData copyWith(
           {int? id,
-          int? amountOfEligible,
-          int? amountOfSick,
-          int? amountOfIncentive,
-          int? eligibleUsed,
-          int? sickUsed,
-          int? incentiveUsed,
+          double? eligibleTotal,
+          double? eligibleBalance,
+          double? eligibleUsed,
+          double? eligibleValuePerMonth,
+          double? sickTotal,
+          double? sickBalance,
+          double? sickUsed,
+          double? sickValuePerMonth,
+          double? incentiveTotal,
+          double? incentiveBalance,
+          double? incentiveUsed,
+          double? incentiveValueLimit,
           int? daily,
           int? hourly,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       VacationsTableData(
         id: id ?? this.id,
-        amountOfEligible: amountOfEligible ?? this.amountOfEligible,
-        amountOfSick: amountOfSick ?? this.amountOfSick,
-        amountOfIncentive: amountOfIncentive ?? this.amountOfIncentive,
+        eligibleTotal: eligibleTotal ?? this.eligibleTotal,
+        eligibleBalance: eligibleBalance ?? this.eligibleBalance,
         eligibleUsed: eligibleUsed ?? this.eligibleUsed,
+        eligibleValuePerMonth:
+            eligibleValuePerMonth ?? this.eligibleValuePerMonth,
+        sickTotal: sickTotal ?? this.sickTotal,
+        sickBalance: sickBalance ?? this.sickBalance,
         sickUsed: sickUsed ?? this.sickUsed,
+        sickValuePerMonth: sickValuePerMonth ?? this.sickValuePerMonth,
+        incentiveTotal: incentiveTotal ?? this.incentiveTotal,
+        incentiveBalance: incentiveBalance ?? this.incentiveBalance,
         incentiveUsed: incentiveUsed ?? this.incentiveUsed,
+        incentiveValueLimit: incentiveValueLimit ?? this.incentiveValueLimit,
         daily: daily ?? this.daily,
         hourly: hourly ?? this.hourly,
         createdAt: createdAt ?? this.createdAt,
@@ -7464,12 +7538,18 @@ class VacationsTableData extends DataClass
   String toString() {
     return (StringBuffer('VacationsTableData(')
           ..write('id: $id, ')
-          ..write('amountOfEligible: $amountOfEligible, ')
-          ..write('amountOfSick: $amountOfSick, ')
-          ..write('amountOfIncentive: $amountOfIncentive, ')
+          ..write('eligibleTotal: $eligibleTotal, ')
+          ..write('eligibleBalance: $eligibleBalance, ')
           ..write('eligibleUsed: $eligibleUsed, ')
+          ..write('eligibleValuePerMonth: $eligibleValuePerMonth, ')
+          ..write('sickTotal: $sickTotal, ')
+          ..write('sickBalance: $sickBalance, ')
           ..write('sickUsed: $sickUsed, ')
+          ..write('sickValuePerMonth: $sickValuePerMonth, ')
+          ..write('incentiveTotal: $incentiveTotal, ')
+          ..write('incentiveBalance: $incentiveBalance, ')
           ..write('incentiveUsed: $incentiveUsed, ')
+          ..write('incentiveValueLimit: $incentiveValueLimit, ')
           ..write('daily: $daily, ')
           ..write('hourly: $hourly, ')
           ..write('createdAt: $createdAt, ')
@@ -7481,12 +7561,18 @@ class VacationsTableData extends DataClass
   @override
   int get hashCode => Object.hash(
       id,
-      amountOfEligible,
-      amountOfSick,
-      amountOfIncentive,
+      eligibleTotal,
+      eligibleBalance,
       eligibleUsed,
+      eligibleValuePerMonth,
+      sickTotal,
+      sickBalance,
       sickUsed,
+      sickValuePerMonth,
+      incentiveTotal,
+      incentiveBalance,
       incentiveUsed,
+      incentiveValueLimit,
       daily,
       hourly,
       createdAt,
@@ -7496,12 +7582,18 @@ class VacationsTableData extends DataClass
       identical(this, other) ||
       (other is VacationsTableData &&
           other.id == this.id &&
-          other.amountOfEligible == this.amountOfEligible &&
-          other.amountOfSick == this.amountOfSick &&
-          other.amountOfIncentive == this.amountOfIncentive &&
+          other.eligibleTotal == this.eligibleTotal &&
+          other.eligibleBalance == this.eligibleBalance &&
           other.eligibleUsed == this.eligibleUsed &&
+          other.eligibleValuePerMonth == this.eligibleValuePerMonth &&
+          other.sickTotal == this.sickTotal &&
+          other.sickBalance == this.sickBalance &&
           other.sickUsed == this.sickUsed &&
+          other.sickValuePerMonth == this.sickValuePerMonth &&
+          other.incentiveTotal == this.incentiveTotal &&
+          other.incentiveBalance == this.incentiveBalance &&
           other.incentiveUsed == this.incentiveUsed &&
+          other.incentiveValueLimit == this.incentiveValueLimit &&
           other.daily == this.daily &&
           other.hourly == this.hourly &&
           other.createdAt == this.createdAt &&
@@ -7510,24 +7602,36 @@ class VacationsTableData extends DataClass
 
 class VacationsTableCompanion extends UpdateCompanion<VacationsTableData> {
   final Value<int?> id;
-  final Value<int?> amountOfEligible;
-  final Value<int?> amountOfSick;
-  final Value<int?> amountOfIncentive;
-  final Value<int?> eligibleUsed;
-  final Value<int?> sickUsed;
-  final Value<int?> incentiveUsed;
+  final Value<double?> eligibleTotal;
+  final Value<double> eligibleBalance;
+  final Value<double> eligibleUsed;
+  final Value<double?> eligibleValuePerMonth;
+  final Value<double?> sickTotal;
+  final Value<double> sickBalance;
+  final Value<double> sickUsed;
+  final Value<double?> sickValuePerMonth;
+  final Value<double?> incentiveTotal;
+  final Value<double?> incentiveBalance;
+  final Value<double?> incentiveUsed;
+  final Value<double?> incentiveValueLimit;
   final Value<int?> daily;
   final Value<int?> hourly;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   const VacationsTableCompanion({
     this.id = const Value.absent(),
-    this.amountOfEligible = const Value.absent(),
-    this.amountOfSick = const Value.absent(),
-    this.amountOfIncentive = const Value.absent(),
+    this.eligibleTotal = const Value.absent(),
+    this.eligibleBalance = const Value.absent(),
     this.eligibleUsed = const Value.absent(),
+    this.eligibleValuePerMonth = const Value.absent(),
+    this.sickTotal = const Value.absent(),
+    this.sickBalance = const Value.absent(),
     this.sickUsed = const Value.absent(),
+    this.sickValuePerMonth = const Value.absent(),
+    this.incentiveTotal = const Value.absent(),
+    this.incentiveBalance = const Value.absent(),
     this.incentiveUsed = const Value.absent(),
+    this.incentiveValueLimit = const Value.absent(),
     this.daily = const Value.absent(),
     this.hourly = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -7535,25 +7639,40 @@ class VacationsTableCompanion extends UpdateCompanion<VacationsTableData> {
   });
   VacationsTableCompanion.insert({
     this.id = const Value.absent(),
-    this.amountOfEligible = const Value.absent(),
-    this.amountOfSick = const Value.absent(),
-    this.amountOfIncentive = const Value.absent(),
-    this.eligibleUsed = const Value.absent(),
-    this.sickUsed = const Value.absent(),
+    this.eligibleTotal = const Value.absent(),
+    required double eligibleBalance,
+    required double eligibleUsed,
+    this.eligibleValuePerMonth = const Value.absent(),
+    this.sickTotal = const Value.absent(),
+    required double sickBalance,
+    required double sickUsed,
+    this.sickValuePerMonth = const Value.absent(),
+    this.incentiveTotal = const Value.absent(),
+    this.incentiveBalance = const Value.absent(),
     this.incentiveUsed = const Value.absent(),
+    this.incentiveValueLimit = const Value.absent(),
     this.daily = const Value.absent(),
     this.hourly = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
-  });
+  })  : eligibleBalance = Value(eligibleBalance),
+        eligibleUsed = Value(eligibleUsed),
+        sickBalance = Value(sickBalance),
+        sickUsed = Value(sickUsed);
   static Insertable<VacationsTableData> custom({
     Expression<int?>? id,
-    Expression<int?>? amountOfEligible,
-    Expression<int?>? amountOfSick,
-    Expression<int?>? amountOfIncentive,
-    Expression<int?>? eligibleUsed,
-    Expression<int?>? sickUsed,
-    Expression<int?>? incentiveUsed,
+    Expression<double?>? eligibleTotal,
+    Expression<double>? eligibleBalance,
+    Expression<double>? eligibleUsed,
+    Expression<double?>? eligibleValuePerMonth,
+    Expression<double?>? sickTotal,
+    Expression<double>? sickBalance,
+    Expression<double>? sickUsed,
+    Expression<double?>? sickValuePerMonth,
+    Expression<double?>? incentiveTotal,
+    Expression<double?>? incentiveBalance,
+    Expression<double?>? incentiveUsed,
+    Expression<double?>? incentiveValueLimit,
     Expression<int?>? daily,
     Expression<int?>? hourly,
     Expression<DateTime?>? createdAt,
@@ -7561,12 +7680,20 @@ class VacationsTableCompanion extends UpdateCompanion<VacationsTableData> {
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (amountOfEligible != null) 'amount_of_eligible': amountOfEligible,
-      if (amountOfSick != null) 'amount_of_sick': amountOfSick,
-      if (amountOfIncentive != null) 'amount_of_incentive': amountOfIncentive,
+      if (eligibleTotal != null) 'eligible_total': eligibleTotal,
+      if (eligibleBalance != null) 'eligible_balance': eligibleBalance,
       if (eligibleUsed != null) 'eligible_used': eligibleUsed,
+      if (eligibleValuePerMonth != null)
+        'eligible_value_per_month': eligibleValuePerMonth,
+      if (sickTotal != null) 'sick_total': sickTotal,
+      if (sickBalance != null) 'sick_balance': sickBalance,
       if (sickUsed != null) 'sick_used': sickUsed,
+      if (sickValuePerMonth != null) 'sick_value_per_month': sickValuePerMonth,
+      if (incentiveTotal != null) 'incentive_total': incentiveTotal,
+      if (incentiveBalance != null) 'incentive_balance': incentiveBalance,
       if (incentiveUsed != null) 'incentive_used': incentiveUsed,
+      if (incentiveValueLimit != null)
+        'incentive_value_limit': incentiveValueLimit,
       if (daily != null) 'daily': daily,
       if (hourly != null) 'hourly': hourly,
       if (createdAt != null) 'created_at': createdAt,
@@ -7576,24 +7703,37 @@ class VacationsTableCompanion extends UpdateCompanion<VacationsTableData> {
 
   VacationsTableCompanion copyWith(
       {Value<int?>? id,
-      Value<int?>? amountOfEligible,
-      Value<int?>? amountOfSick,
-      Value<int?>? amountOfIncentive,
-      Value<int?>? eligibleUsed,
-      Value<int?>? sickUsed,
-      Value<int?>? incentiveUsed,
+      Value<double?>? eligibleTotal,
+      Value<double>? eligibleBalance,
+      Value<double>? eligibleUsed,
+      Value<double?>? eligibleValuePerMonth,
+      Value<double?>? sickTotal,
+      Value<double>? sickBalance,
+      Value<double>? sickUsed,
+      Value<double?>? sickValuePerMonth,
+      Value<double?>? incentiveTotal,
+      Value<double?>? incentiveBalance,
+      Value<double?>? incentiveUsed,
+      Value<double?>? incentiveValueLimit,
       Value<int?>? daily,
       Value<int?>? hourly,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
     return VacationsTableCompanion(
       id: id ?? this.id,
-      amountOfEligible: amountOfEligible ?? this.amountOfEligible,
-      amountOfSick: amountOfSick ?? this.amountOfSick,
-      amountOfIncentive: amountOfIncentive ?? this.amountOfIncentive,
+      eligibleTotal: eligibleTotal ?? this.eligibleTotal,
+      eligibleBalance: eligibleBalance ?? this.eligibleBalance,
       eligibleUsed: eligibleUsed ?? this.eligibleUsed,
+      eligibleValuePerMonth:
+          eligibleValuePerMonth ?? this.eligibleValuePerMonth,
+      sickTotal: sickTotal ?? this.sickTotal,
+      sickBalance: sickBalance ?? this.sickBalance,
       sickUsed: sickUsed ?? this.sickUsed,
+      sickValuePerMonth: sickValuePerMonth ?? this.sickValuePerMonth,
+      incentiveTotal: incentiveTotal ?? this.incentiveTotal,
+      incentiveBalance: incentiveBalance ?? this.incentiveBalance,
       incentiveUsed: incentiveUsed ?? this.incentiveUsed,
+      incentiveValueLimit: incentiveValueLimit ?? this.incentiveValueLimit,
       daily: daily ?? this.daily,
       hourly: hourly ?? this.hourly,
       createdAt: createdAt ?? this.createdAt,
@@ -7607,23 +7747,43 @@ class VacationsTableCompanion extends UpdateCompanion<VacationsTableData> {
     if (id.present) {
       map['id'] = Variable<int?>(id.value);
     }
-    if (amountOfEligible.present) {
-      map['amount_of_eligible'] = Variable<int?>(amountOfEligible.value);
+    if (eligibleTotal.present) {
+      map['eligible_total'] = Variable<double?>(eligibleTotal.value);
     }
-    if (amountOfSick.present) {
-      map['amount_of_sick'] = Variable<int?>(amountOfSick.value);
-    }
-    if (amountOfIncentive.present) {
-      map['amount_of_incentive'] = Variable<int?>(amountOfIncentive.value);
+    if (eligibleBalance.present) {
+      map['eligible_balance'] = Variable<double>(eligibleBalance.value);
     }
     if (eligibleUsed.present) {
-      map['eligible_used'] = Variable<int?>(eligibleUsed.value);
+      map['eligible_used'] = Variable<double>(eligibleUsed.value);
+    }
+    if (eligibleValuePerMonth.present) {
+      map['eligible_value_per_month'] =
+          Variable<double?>(eligibleValuePerMonth.value);
+    }
+    if (sickTotal.present) {
+      map['sick_total'] = Variable<double?>(sickTotal.value);
+    }
+    if (sickBalance.present) {
+      map['sick_balance'] = Variable<double>(sickBalance.value);
     }
     if (sickUsed.present) {
-      map['sick_used'] = Variable<int?>(sickUsed.value);
+      map['sick_used'] = Variable<double>(sickUsed.value);
+    }
+    if (sickValuePerMonth.present) {
+      map['sick_value_per_month'] = Variable<double?>(sickValuePerMonth.value);
+    }
+    if (incentiveTotal.present) {
+      map['incentive_total'] = Variable<double?>(incentiveTotal.value);
+    }
+    if (incentiveBalance.present) {
+      map['incentive_balance'] = Variable<double?>(incentiveBalance.value);
     }
     if (incentiveUsed.present) {
-      map['incentive_used'] = Variable<int?>(incentiveUsed.value);
+      map['incentive_used'] = Variable<double?>(incentiveUsed.value);
+    }
+    if (incentiveValueLimit.present) {
+      map['incentive_value_limit'] =
+          Variable<double?>(incentiveValueLimit.value);
     }
     if (daily.present) {
       map['daily'] = Variable<int?>(daily.value);
@@ -7644,12 +7804,18 @@ class VacationsTableCompanion extends UpdateCompanion<VacationsTableData> {
   String toString() {
     return (StringBuffer('VacationsTableCompanion(')
           ..write('id: $id, ')
-          ..write('amountOfEligible: $amountOfEligible, ')
-          ..write('amountOfSick: $amountOfSick, ')
-          ..write('amountOfIncentive: $amountOfIncentive, ')
+          ..write('eligibleTotal: $eligibleTotal, ')
+          ..write('eligibleBalance: $eligibleBalance, ')
           ..write('eligibleUsed: $eligibleUsed, ')
+          ..write('eligibleValuePerMonth: $eligibleValuePerMonth, ')
+          ..write('sickTotal: $sickTotal, ')
+          ..write('sickBalance: $sickBalance, ')
           ..write('sickUsed: $sickUsed, ')
+          ..write('sickValuePerMonth: $sickValuePerMonth, ')
+          ..write('incentiveTotal: $incentiveTotal, ')
+          ..write('incentiveBalance: $incentiveBalance, ')
           ..write('incentiveUsed: $incentiveUsed, ')
+          ..write('incentiveValueLimit: $incentiveValueLimit, ')
           ..write('daily: $daily, ')
           ..write('hourly: $hourly, ')
           ..write('createdAt: $createdAt, ')
@@ -7672,41 +7838,76 @@ class $VacationsTableTable extends VacationsTable
       type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _amountOfEligibleMeta =
-      const VerificationMeta('amountOfEligible');
+  final VerificationMeta _eligibleTotalMeta =
+      const VerificationMeta('eligibleTotal');
   @override
-  late final GeneratedColumn<int?> amountOfEligible = GeneratedColumn<int?>(
-      'amount_of_eligible', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
-  final VerificationMeta _amountOfSickMeta =
-      const VerificationMeta('amountOfSick');
+  late final GeneratedColumn<double?> eligibleTotal = GeneratedColumn<double?>(
+      'eligible_total', aliasedName, true,
+      type: const RealType(), requiredDuringInsert: false);
+  final VerificationMeta _eligibleBalanceMeta =
+      const VerificationMeta('eligibleBalance');
   @override
-  late final GeneratedColumn<int?> amountOfSick = GeneratedColumn<int?>(
-      'amount_of_sick', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
-  final VerificationMeta _amountOfIncentiveMeta =
-      const VerificationMeta('amountOfIncentive');
-  @override
-  late final GeneratedColumn<int?> amountOfIncentive = GeneratedColumn<int?>(
-      'amount_of_incentive', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<double?> eligibleBalance =
+      GeneratedColumn<double?>('eligible_balance', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _eligibleUsedMeta =
       const VerificationMeta('eligibleUsed');
   @override
-  late final GeneratedColumn<int?> eligibleUsed = GeneratedColumn<int?>(
-      'eligible_used', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<double?> eligibleUsed = GeneratedColumn<double?>(
+      'eligible_used', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
+  final VerificationMeta _eligibleValuePerMonthMeta =
+      const VerificationMeta('eligibleValuePerMonth');
+  @override
+  late final GeneratedColumn<double?> eligibleValuePerMonth =
+      GeneratedColumn<double?>('eligible_value_per_month', aliasedName, true,
+          type: const RealType(), requiredDuringInsert: false);
+  final VerificationMeta _sickTotalMeta = const VerificationMeta('sickTotal');
+  @override
+  late final GeneratedColumn<double?> sickTotal = GeneratedColumn<double?>(
+      'sick_total', aliasedName, true,
+      type: const RealType(), requiredDuringInsert: false);
+  final VerificationMeta _sickBalanceMeta =
+      const VerificationMeta('sickBalance');
+  @override
+  late final GeneratedColumn<double?> sickBalance = GeneratedColumn<double?>(
+      'sick_balance', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _sickUsedMeta = const VerificationMeta('sickUsed');
   @override
-  late final GeneratedColumn<int?> sickUsed = GeneratedColumn<int?>(
-      'sick_used', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<double?> sickUsed = GeneratedColumn<double?>(
+      'sick_used', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
+  final VerificationMeta _sickValuePerMonthMeta =
+      const VerificationMeta('sickValuePerMonth');
+  @override
+  late final GeneratedColumn<double?> sickValuePerMonth =
+      GeneratedColumn<double?>('sick_value_per_month', aliasedName, true,
+          type: const RealType(), requiredDuringInsert: false);
+  final VerificationMeta _incentiveTotalMeta =
+      const VerificationMeta('incentiveTotal');
+  @override
+  late final GeneratedColumn<double?> incentiveTotal = GeneratedColumn<double?>(
+      'incentive_total', aliasedName, true,
+      type: const RealType(), requiredDuringInsert: false);
+  final VerificationMeta _incentiveBalanceMeta =
+      const VerificationMeta('incentiveBalance');
+  @override
+  late final GeneratedColumn<double?> incentiveBalance =
+      GeneratedColumn<double?>('incentive_balance', aliasedName, true,
+          type: const RealType(), requiredDuringInsert: false);
   final VerificationMeta _incentiveUsedMeta =
       const VerificationMeta('incentiveUsed');
   @override
-  late final GeneratedColumn<int?> incentiveUsed = GeneratedColumn<int?>(
+  late final GeneratedColumn<double?> incentiveUsed = GeneratedColumn<double?>(
       'incentive_used', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      type: const RealType(), requiredDuringInsert: false);
+  final VerificationMeta _incentiveValueLimitMeta =
+      const VerificationMeta('incentiveValueLimit');
+  @override
+  late final GeneratedColumn<double?> incentiveValueLimit =
+      GeneratedColumn<double?>('incentive_value_limit', aliasedName, true,
+          type: const RealType(), requiredDuringInsert: false);
   final VerificationMeta _dailyMeta = const VerificationMeta('daily');
   @override
   late final GeneratedColumn<int?> daily = GeneratedColumn<int?>(
@@ -7734,12 +7935,18 @@ class $VacationsTableTable extends VacationsTable
   @override
   List<GeneratedColumn> get $columns => [
         id,
-        amountOfEligible,
-        amountOfSick,
-        amountOfIncentive,
+        eligibleTotal,
+        eligibleBalance,
         eligibleUsed,
+        eligibleValuePerMonth,
+        sickTotal,
+        sickBalance,
         sickUsed,
+        sickValuePerMonth,
+        incentiveTotal,
+        incentiveBalance,
         incentiveUsed,
+        incentiveValueLimit,
         daily,
         hourly,
         createdAt,
@@ -7757,39 +7964,81 @@ class $VacationsTableTable extends VacationsTable
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('amount_of_eligible')) {
+    if (data.containsKey('eligible_total')) {
       context.handle(
-          _amountOfEligibleMeta,
-          amountOfEligible.isAcceptableOrUnknown(
-              data['amount_of_eligible']!, _amountOfEligibleMeta));
+          _eligibleTotalMeta,
+          eligibleTotal.isAcceptableOrUnknown(
+              data['eligible_total']!, _eligibleTotalMeta));
     }
-    if (data.containsKey('amount_of_sick')) {
+    if (data.containsKey('eligible_balance')) {
       context.handle(
-          _amountOfSickMeta,
-          amountOfSick.isAcceptableOrUnknown(
-              data['amount_of_sick']!, _amountOfSickMeta));
-    }
-    if (data.containsKey('amount_of_incentive')) {
-      context.handle(
-          _amountOfIncentiveMeta,
-          amountOfIncentive.isAcceptableOrUnknown(
-              data['amount_of_incentive']!, _amountOfIncentiveMeta));
+          _eligibleBalanceMeta,
+          eligibleBalance.isAcceptableOrUnknown(
+              data['eligible_balance']!, _eligibleBalanceMeta));
+    } else if (isInserting) {
+      context.missing(_eligibleBalanceMeta);
     }
     if (data.containsKey('eligible_used')) {
       context.handle(
           _eligibleUsedMeta,
           eligibleUsed.isAcceptableOrUnknown(
               data['eligible_used']!, _eligibleUsedMeta));
+    } else if (isInserting) {
+      context.missing(_eligibleUsedMeta);
+    }
+    if (data.containsKey('eligible_value_per_month')) {
+      context.handle(
+          _eligibleValuePerMonthMeta,
+          eligibleValuePerMonth.isAcceptableOrUnknown(
+              data['eligible_value_per_month']!, _eligibleValuePerMonthMeta));
+    }
+    if (data.containsKey('sick_total')) {
+      context.handle(_sickTotalMeta,
+          sickTotal.isAcceptableOrUnknown(data['sick_total']!, _sickTotalMeta));
+    }
+    if (data.containsKey('sick_balance')) {
+      context.handle(
+          _sickBalanceMeta,
+          sickBalance.isAcceptableOrUnknown(
+              data['sick_balance']!, _sickBalanceMeta));
+    } else if (isInserting) {
+      context.missing(_sickBalanceMeta);
     }
     if (data.containsKey('sick_used')) {
       context.handle(_sickUsedMeta,
           sickUsed.isAcceptableOrUnknown(data['sick_used']!, _sickUsedMeta));
+    } else if (isInserting) {
+      context.missing(_sickUsedMeta);
+    }
+    if (data.containsKey('sick_value_per_month')) {
+      context.handle(
+          _sickValuePerMonthMeta,
+          sickValuePerMonth.isAcceptableOrUnknown(
+              data['sick_value_per_month']!, _sickValuePerMonthMeta));
+    }
+    if (data.containsKey('incentive_total')) {
+      context.handle(
+          _incentiveTotalMeta,
+          incentiveTotal.isAcceptableOrUnknown(
+              data['incentive_total']!, _incentiveTotalMeta));
+    }
+    if (data.containsKey('incentive_balance')) {
+      context.handle(
+          _incentiveBalanceMeta,
+          incentiveBalance.isAcceptableOrUnknown(
+              data['incentive_balance']!, _incentiveBalanceMeta));
     }
     if (data.containsKey('incentive_used')) {
       context.handle(
           _incentiveUsedMeta,
           incentiveUsed.isAcceptableOrUnknown(
               data['incentive_used']!, _incentiveUsedMeta));
+    }
+    if (data.containsKey('incentive_value_limit')) {
+      context.handle(
+          _incentiveValueLimitMeta,
+          incentiveValueLimit.isAcceptableOrUnknown(
+              data['incentive_value_limit']!, _incentiveValueLimitMeta));
     }
     if (data.containsKey('daily')) {
       context.handle(
@@ -8808,7 +9057,7 @@ class SoldierCaseTableData extends DataClass
     implements Insertable<SoldierCaseTableData> {
   final int? id;
   final String membershipType;
-  final DateTime dispatchField;
+  final DateTime dispatchDate;
   final String dispatcher;
   final String serviceCategory;
   final DateTime startDateOfService;
@@ -8817,6 +9066,7 @@ class SoldierCaseTableData extends DataClass
   final DateTime introductionDate;
   final int? lastPeriodOfService;
   final int? amountOfService;
+  final String? description;
   final int? overtime;
   final int? vacations;
   final int? serviceDeficit;
@@ -8827,7 +9077,7 @@ class SoldierCaseTableData extends DataClass
   SoldierCaseTableData(
       {this.id,
       required this.membershipType,
-      required this.dispatchField,
+      required this.dispatchDate,
       required this.dispatcher,
       required this.serviceCategory,
       required this.startDateOfService,
@@ -8836,6 +9086,7 @@ class SoldierCaseTableData extends DataClass
       required this.introductionDate,
       this.lastPeriodOfService,
       this.amountOfService,
+      this.description,
       this.overtime,
       this.vacations,
       this.serviceDeficit,
@@ -8850,8 +9101,8 @@ class SoldierCaseTableData extends DataClass
       id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
       membershipType: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}membership_type'])!,
-      dispatchField: const DateTimeType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}dispatch_field'])!,
+      dispatchDate: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}dispatch_date'])!,
       dispatcher: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}dispatcher'])!,
       serviceCategory: const StringType()
@@ -8868,6 +9119,8 @@ class SoldierCaseTableData extends DataClass
           data['${effectivePrefix}last_period_of_service']),
       amountOfService: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}amount_of_service']),
+      description: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
       overtime: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}overtime']),
       vacations: const IntType()
@@ -8891,7 +9144,7 @@ class SoldierCaseTableData extends DataClass
       map['id'] = Variable<int?>(id);
     }
     map['membership_type'] = Variable<String>(membershipType);
-    map['dispatch_field'] = Variable<DateTime>(dispatchField);
+    map['dispatch_date'] = Variable<DateTime>(dispatchDate);
     map['dispatcher'] = Variable<String>(dispatcher);
     map['service_category'] = Variable<String>(serviceCategory);
     map['start_date_of_service'] = Variable<DateTime>(startDateOfService);
@@ -8903,6 +9156,9 @@ class SoldierCaseTableData extends DataClass
     }
     if (!nullToAbsent || amountOfService != null) {
       map['amount_of_service'] = Variable<int?>(amountOfService);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String?>(description);
     }
     if (!nullToAbsent || overtime != null) {
       map['overtime'] = Variable<int?>(overtime);
@@ -8932,7 +9188,7 @@ class SoldierCaseTableData extends DataClass
     return SoldierCaseTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       membershipType: Value(membershipType),
-      dispatchField: Value(dispatchField),
+      dispatchDate: Value(dispatchDate),
       dispatcher: Value(dispatcher),
       serviceCategory: Value(serviceCategory),
       startDateOfService: Value(startDateOfService),
@@ -8945,6 +9201,9 @@ class SoldierCaseTableData extends DataClass
       amountOfService: amountOfService == null && nullToAbsent
           ? const Value.absent()
           : Value(amountOfService),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
       overtime: overtime == null && nullToAbsent
           ? const Value.absent()
           : Value(overtime),
@@ -8971,7 +9230,7 @@ class SoldierCaseTableData extends DataClass
     return SoldierCaseTableData(
       id: serializer.fromJson<int?>(json['id']),
       membershipType: serializer.fromJson<String>(json['membershipType']),
-      dispatchField: serializer.fromJson<DateTime>(json['dispatchField']),
+      dispatchDate: serializer.fromJson<DateTime>(json['dispatchDate']),
       dispatcher: serializer.fromJson<String>(json['dispatcher']),
       serviceCategory: serializer.fromJson<String>(json['serviceCategory']),
       startDateOfService:
@@ -8983,6 +9242,7 @@ class SoldierCaseTableData extends DataClass
       lastPeriodOfService:
           serializer.fromJson<int?>(json['lastPeriodOfService']),
       amountOfService: serializer.fromJson<int?>(json['amountOfService']),
+      description: serializer.fromJson<String?>(json['description']),
       overtime: serializer.fromJson<int?>(json['overtime']),
       vacations: serializer.fromJson<int?>(json['vacations']),
       serviceDeficit: serializer.fromJson<int?>(json['serviceDeficit']),
@@ -8998,7 +9258,7 @@ class SoldierCaseTableData extends DataClass
     return <String, dynamic>{
       'id': serializer.toJson<int?>(id),
       'membershipType': serializer.toJson<String>(membershipType),
-      'dispatchField': serializer.toJson<DateTime>(dispatchField),
+      'dispatchDate': serializer.toJson<DateTime>(dispatchDate),
       'dispatcher': serializer.toJson<String>(dispatcher),
       'serviceCategory': serializer.toJson<String>(serviceCategory),
       'startDateOfService': serializer.toJson<DateTime>(startDateOfService),
@@ -9007,6 +9267,7 @@ class SoldierCaseTableData extends DataClass
       'introductionDate': serializer.toJson<DateTime>(introductionDate),
       'lastPeriodOfService': serializer.toJson<int?>(lastPeriodOfService),
       'amountOfService': serializer.toJson<int?>(amountOfService),
+      'description': serializer.toJson<String?>(description),
       'overtime': serializer.toJson<int?>(overtime),
       'vacations': serializer.toJson<int?>(vacations),
       'serviceDeficit': serializer.toJson<int?>(serviceDeficit),
@@ -9020,7 +9281,7 @@ class SoldierCaseTableData extends DataClass
   SoldierCaseTableData copyWith(
           {int? id,
           String? membershipType,
-          DateTime? dispatchField,
+          DateTime? dispatchDate,
           String? dispatcher,
           String? serviceCategory,
           DateTime? startDateOfService,
@@ -9029,6 +9290,7 @@ class SoldierCaseTableData extends DataClass
           DateTime? introductionDate,
           int? lastPeriodOfService,
           int? amountOfService,
+          String? description,
           int? overtime,
           int? vacations,
           int? serviceDeficit,
@@ -9039,7 +9301,7 @@ class SoldierCaseTableData extends DataClass
       SoldierCaseTableData(
         id: id ?? this.id,
         membershipType: membershipType ?? this.membershipType,
-        dispatchField: dispatchField ?? this.dispatchField,
+        dispatchDate: dispatchDate ?? this.dispatchDate,
         dispatcher: dispatcher ?? this.dispatcher,
         serviceCategory: serviceCategory ?? this.serviceCategory,
         startDateOfService: startDateOfService ?? this.startDateOfService,
@@ -9048,6 +9310,7 @@ class SoldierCaseTableData extends DataClass
         introductionDate: introductionDate ?? this.introductionDate,
         lastPeriodOfService: lastPeriodOfService ?? this.lastPeriodOfService,
         amountOfService: amountOfService ?? this.amountOfService,
+        description: description ?? this.description,
         overtime: overtime ?? this.overtime,
         vacations: vacations ?? this.vacations,
         serviceDeficit: serviceDeficit ?? this.serviceDeficit,
@@ -9061,7 +9324,7 @@ class SoldierCaseTableData extends DataClass
     return (StringBuffer('SoldierCaseTableData(')
           ..write('id: $id, ')
           ..write('membershipType: $membershipType, ')
-          ..write('dispatchField: $dispatchField, ')
+          ..write('dispatchDate: $dispatchDate, ')
           ..write('dispatcher: $dispatcher, ')
           ..write('serviceCategory: $serviceCategory, ')
           ..write('startDateOfService: $startDateOfService, ')
@@ -9070,6 +9333,7 @@ class SoldierCaseTableData extends DataClass
           ..write('introductionDate: $introductionDate, ')
           ..write('lastPeriodOfService: $lastPeriodOfService, ')
           ..write('amountOfService: $amountOfService, ')
+          ..write('description: $description, ')
           ..write('overtime: $overtime, ')
           ..write('vacations: $vacations, ')
           ..write('serviceDeficit: $serviceDeficit, ')
@@ -9085,7 +9349,7 @@ class SoldierCaseTableData extends DataClass
   int get hashCode => Object.hash(
       id,
       membershipType,
-      dispatchField,
+      dispatchDate,
       dispatcher,
       serviceCategory,
       startDateOfService,
@@ -9094,6 +9358,7 @@ class SoldierCaseTableData extends DataClass
       introductionDate,
       lastPeriodOfService,
       amountOfService,
+      description,
       overtime,
       vacations,
       serviceDeficit,
@@ -9107,7 +9372,7 @@ class SoldierCaseTableData extends DataClass
       (other is SoldierCaseTableData &&
           other.id == this.id &&
           other.membershipType == this.membershipType &&
-          other.dispatchField == this.dispatchField &&
+          other.dispatchDate == this.dispatchDate &&
           other.dispatcher == this.dispatcher &&
           other.serviceCategory == this.serviceCategory &&
           other.startDateOfService == this.startDateOfService &&
@@ -9116,6 +9381,7 @@ class SoldierCaseTableData extends DataClass
           other.introductionDate == this.introductionDate &&
           other.lastPeriodOfService == this.lastPeriodOfService &&
           other.amountOfService == this.amountOfService &&
+          other.description == this.description &&
           other.overtime == this.overtime &&
           other.vacations == this.vacations &&
           other.serviceDeficit == this.serviceDeficit &&
@@ -9128,7 +9394,7 @@ class SoldierCaseTableData extends DataClass
 class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
   final Value<int?> id;
   final Value<String> membershipType;
-  final Value<DateTime> dispatchField;
+  final Value<DateTime> dispatchDate;
   final Value<String> dispatcher;
   final Value<String> serviceCategory;
   final Value<DateTime> startDateOfService;
@@ -9137,6 +9403,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
   final Value<DateTime> introductionDate;
   final Value<int?> lastPeriodOfService;
   final Value<int?> amountOfService;
+  final Value<String?> description;
   final Value<int?> overtime;
   final Value<int?> vacations;
   final Value<int?> serviceDeficit;
@@ -9147,7 +9414,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
   const SoldierCaseTableCompanion({
     this.id = const Value.absent(),
     this.membershipType = const Value.absent(),
-    this.dispatchField = const Value.absent(),
+    this.dispatchDate = const Value.absent(),
     this.dispatcher = const Value.absent(),
     this.serviceCategory = const Value.absent(),
     this.startDateOfService = const Value.absent(),
@@ -9156,6 +9423,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     this.introductionDate = const Value.absent(),
     this.lastPeriodOfService = const Value.absent(),
     this.amountOfService = const Value.absent(),
+    this.description = const Value.absent(),
     this.overtime = const Value.absent(),
     this.vacations = const Value.absent(),
     this.serviceDeficit = const Value.absent(),
@@ -9167,7 +9435,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
   SoldierCaseTableCompanion.insert({
     this.id = const Value.absent(),
     required String membershipType,
-    required DateTime dispatchField,
+    required DateTime dispatchDate,
     required String dispatcher,
     required String serviceCategory,
     required DateTime startDateOfService,
@@ -9176,6 +9444,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     required DateTime introductionDate,
     this.lastPeriodOfService = const Value.absent(),
     this.amountOfService = const Value.absent(),
+    this.description = const Value.absent(),
     this.overtime = const Value.absent(),
     this.vacations = const Value.absent(),
     this.serviceDeficit = const Value.absent(),
@@ -9184,7 +9453,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   })  : membershipType = Value(membershipType),
-        dispatchField = Value(dispatchField),
+        dispatchDate = Value(dispatchDate),
         dispatcher = Value(dispatcher),
         serviceCategory = Value(serviceCategory),
         startDateOfService = Value(startDateOfService),
@@ -9194,7 +9463,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
   static Insertable<SoldierCaseTableData> custom({
     Expression<int?>? id,
     Expression<String>? membershipType,
-    Expression<DateTime>? dispatchField,
+    Expression<DateTime>? dispatchDate,
     Expression<String>? dispatcher,
     Expression<String>? serviceCategory,
     Expression<DateTime>? startDateOfService,
@@ -9203,6 +9472,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     Expression<DateTime>? introductionDate,
     Expression<int?>? lastPeriodOfService,
     Expression<int?>? amountOfService,
+    Expression<String?>? description,
     Expression<int?>? overtime,
     Expression<int?>? vacations,
     Expression<int?>? serviceDeficit,
@@ -9214,7 +9484,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (membershipType != null) 'membership_type': membershipType,
-      if (dispatchField != null) 'dispatch_field': dispatchField,
+      if (dispatchDate != null) 'dispatch_date': dispatchDate,
       if (dispatcher != null) 'dispatcher': dispatcher,
       if (serviceCategory != null) 'service_category': serviceCategory,
       if (startDateOfService != null)
@@ -9226,6 +9496,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
       if (lastPeriodOfService != null)
         'last_period_of_service': lastPeriodOfService,
       if (amountOfService != null) 'amount_of_service': amountOfService,
+      if (description != null) 'description': description,
       if (overtime != null) 'overtime': overtime,
       if (vacations != null) 'vacations': vacations,
       if (serviceDeficit != null) 'service_deficit': serviceDeficit,
@@ -9239,7 +9510,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
   SoldierCaseTableCompanion copyWith(
       {Value<int?>? id,
       Value<String>? membershipType,
-      Value<DateTime>? dispatchField,
+      Value<DateTime>? dispatchDate,
       Value<String>? dispatcher,
       Value<String>? serviceCategory,
       Value<DateTime>? startDateOfService,
@@ -9248,6 +9519,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
       Value<DateTime>? introductionDate,
       Value<int?>? lastPeriodOfService,
       Value<int?>? amountOfService,
+      Value<String?>? description,
       Value<int?>? overtime,
       Value<int?>? vacations,
       Value<int?>? serviceDeficit,
@@ -9258,7 +9530,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     return SoldierCaseTableCompanion(
       id: id ?? this.id,
       membershipType: membershipType ?? this.membershipType,
-      dispatchField: dispatchField ?? this.dispatchField,
+      dispatchDate: dispatchDate ?? this.dispatchDate,
       dispatcher: dispatcher ?? this.dispatcher,
       serviceCategory: serviceCategory ?? this.serviceCategory,
       startDateOfService: startDateOfService ?? this.startDateOfService,
@@ -9267,6 +9539,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
       introductionDate: introductionDate ?? this.introductionDate,
       lastPeriodOfService: lastPeriodOfService ?? this.lastPeriodOfService,
       amountOfService: amountOfService ?? this.amountOfService,
+      description: description ?? this.description,
       overtime: overtime ?? this.overtime,
       vacations: vacations ?? this.vacations,
       serviceDeficit: serviceDeficit ?? this.serviceDeficit,
@@ -9286,8 +9559,8 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     if (membershipType.present) {
       map['membership_type'] = Variable<String>(membershipType.value);
     }
-    if (dispatchField.present) {
-      map['dispatch_field'] = Variable<DateTime>(dispatchField.value);
+    if (dispatchDate.present) {
+      map['dispatch_date'] = Variable<DateTime>(dispatchDate.value);
     }
     if (dispatcher.present) {
       map['dispatcher'] = Variable<String>(dispatcher.value);
@@ -9314,6 +9587,9 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     }
     if (amountOfService.present) {
       map['amount_of_service'] = Variable<int?>(amountOfService.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String?>(description.value);
     }
     if (overtime.present) {
       map['overtime'] = Variable<int?>(overtime.value);
@@ -9344,7 +9620,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
     return (StringBuffer('SoldierCaseTableCompanion(')
           ..write('id: $id, ')
           ..write('membershipType: $membershipType, ')
-          ..write('dispatchField: $dispatchField, ')
+          ..write('dispatchDate: $dispatchDate, ')
           ..write('dispatcher: $dispatcher, ')
           ..write('serviceCategory: $serviceCategory, ')
           ..write('startDateOfService: $startDateOfService, ')
@@ -9353,6 +9629,7 @@ class SoldierCaseTableCompanion extends UpdateCompanion<SoldierCaseTableData> {
           ..write('introductionDate: $introductionDate, ')
           ..write('lastPeriodOfService: $lastPeriodOfService, ')
           ..write('amountOfService: $amountOfService, ')
+          ..write('description: $description, ')
           ..write('overtime: $overtime, ')
           ..write('vacations: $vacations, ')
           ..write('serviceDeficit: $serviceDeficit, ')
@@ -9384,11 +9661,11 @@ class $SoldierCaseTableTable extends SoldierCaseTable
   late final GeneratedColumn<String?> membershipType = GeneratedColumn<String?>(
       'membership_type', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
-  final VerificationMeta _dispatchFieldMeta =
-      const VerificationMeta('dispatchField');
+  final VerificationMeta _dispatchDateMeta =
+      const VerificationMeta('dispatchDate');
   @override
-  late final GeneratedColumn<DateTime?> dispatchField =
-      GeneratedColumn<DateTime?>('dispatch_field', aliasedName, false,
+  late final GeneratedColumn<DateTime?> dispatchDate =
+      GeneratedColumn<DateTime?>('dispatch_date', aliasedName, false,
           type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _dispatcherMeta = const VerificationMeta('dispatcher');
   @override
@@ -9437,6 +9714,12 @@ class $SoldierCaseTableTable extends SoldierCaseTable
   late final GeneratedColumn<int?> amountOfService = GeneratedColumn<int?>(
       'amount_of_service', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'description', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _overtimeMeta = const VerificationMeta('overtime');
   @override
   late final GeneratedColumn<int?> overtime = GeneratedColumn<int?>(
@@ -9487,7 +9770,7 @@ class $SoldierCaseTableTable extends SoldierCaseTable
   List<GeneratedColumn> get $columns => [
         id,
         membershipType,
-        dispatchField,
+        dispatchDate,
         dispatcher,
         serviceCategory,
         startDateOfService,
@@ -9496,6 +9779,7 @@ class $SoldierCaseTableTable extends SoldierCaseTable
         introductionDate,
         lastPeriodOfService,
         amountOfService,
+        description,
         overtime,
         vacations,
         serviceDeficit,
@@ -9525,13 +9809,13 @@ class $SoldierCaseTableTable extends SoldierCaseTable
     } else if (isInserting) {
       context.missing(_membershipTypeMeta);
     }
-    if (data.containsKey('dispatch_field')) {
+    if (data.containsKey('dispatch_date')) {
       context.handle(
-          _dispatchFieldMeta,
-          dispatchField.isAcceptableOrUnknown(
-              data['dispatch_field']!, _dispatchFieldMeta));
+          _dispatchDateMeta,
+          dispatchDate.isAcceptableOrUnknown(
+              data['dispatch_date']!, _dispatchDateMeta));
     } else if (isInserting) {
-      context.missing(_dispatchFieldMeta);
+      context.missing(_dispatchDateMeta);
     }
     if (data.containsKey('dispatcher')) {
       context.handle(
@@ -9592,6 +9876,12 @@ class $SoldierCaseTableTable extends SoldierCaseTable
           _amountOfServiceMeta,
           amountOfService.isAcceptableOrUnknown(
               data['amount_of_service']!, _amountOfServiceMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
     }
     if (data.containsKey('overtime')) {
       context.handle(_overtimeMeta,
@@ -12031,11 +12321,32 @@ mixin _$UnitPropertiesDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $SectionTableTable get sectionTable => attachedDatabase.sectionTable;
 }
 mixin _$VacationsDAOMixin on DatabaseAccessor<SoldierDatabase> {
+  $ViolationsOvertimeTableTable get violationsOvertimeTable =>
+      attachedDatabase.violationsOvertimeTable;
+  $DailyAbsenceOvertimeTableTable get dailyAbsenceOvertimeTable =>
+      attachedDatabase.dailyAbsenceOvertimeTable;
+  $DisciplinaryOvertimeTableTable get disciplinaryOvertimeTable =>
+      attachedDatabase.disciplinaryOvertimeTable;
+  $AnnualOvertimeTableTable get annualOvertimeTable =>
+      attachedDatabase.annualOvertimeTable;
+  $OvertimeTableTable get overtimeTable => attachedDatabase.overtimeTable;
   $DailyVacationTableTable get dailyVacationTable =>
       attachedDatabase.dailyVacationTable;
   $HourlyVacationTableTable get hourlyVacationTable =>
       attachedDatabase.hourlyVacationTable;
   $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
+  $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
+      attachedDatabase.serviceDeficitRecordTable;
+  $OperationalServiceDeficitRecordTableTable
+      get operationalServiceDeficitRecordTable =>
+          attachedDatabase.operationalServiceDeficitRecordTable;
+  $ServiceDeficitTableTable get serviceDeficitTable =>
+      attachedDatabase.serviceDeficitTable;
+  $RankTableTable get rankTable => attachedDatabase.rankTable;
+  $UnitPropertiesTableTable get unitPropertiesTable =>
+      attachedDatabase.unitPropertiesTable;
+  $SoldierCaseTableTable get soldierCaseTable =>
+      attachedDatabase.soldierCaseTable;
 }
 mixin _$ViolationsOvertimeDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $ViolationsOvertimeTableTable get violationsOvertimeTable =>

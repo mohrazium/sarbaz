@@ -1,11 +1,168 @@
 part of services;
 
-abstract class VacationsService extends Service<int, VacationsModel> {}
+abstract class VacationsService extends Service<int, VacationsModel> {
+  Future<VacationsModel?> findByPersonalInfoId(int personalInfoId);
+
+  Future<int> saveByPersonalInfoId(int personalInfoId);
+  Future<int> saveBySoldierCase(SoldierCaseModel soldierCase);
+  Future<bool> updateBySoldierCase(SoldierCaseModel soldierCase);
+
+  Future<VacationResult> updateByChangedAmount(
+      {required int personalInfoId, required VacationType vacationType, required int amount});
+}
 
 class VacationsServiceImpl implements VacationsService {
-   final VacationsDAO vacationsDAO;
+  final VacationsDAO _vacationsDAO;
+  final PersonalInfoDAO _personalInfoDAO;
+  final SoldierDAO _soldierDAO;
+  final SoldierCaseDAO _soldierCaseDAO;
+  final PrefStorage _prefStorage;
 
-  VacationsServiceImpl(this.vacationsDAO);
+  VacationsServiceImpl(
+    this._vacationsDAO,
+    this._personalInfoDAO,
+    this._soldierDAO,
+    this._soldierCaseDAO,
+    this._prefStorage,
+  );
+
+  @override
+  Future<int> saveByPersonalInfoId(int personalInfoId) async {
+    final soldierCase = await _getSoldierCase(personalInfoId);
+    return saveBySoldierCase(soldierCase).onError((error, stackTrace) =>
+        throw FailureException("Vacation can not save, see the error :\n $error \n $stackTrace"));
+  }
+
+  @override
+  Future<int> saveBySoldierCase(SoldierCaseModel soldierCase) {
+    final model = _calculateVacations(soldierCase.startDateOfService, soldierCase.endDateOfService);
+    return _vacationsDAO.doInsert(model.toJson(), soldierCase.id!).then((value) {
+      logger.info("Vacation was saved.");
+      return value.id ?? 0;
+    }).onError((error, stackTrace) =>
+        throw FailureException("Vacation can not save, see the error :\n $error \n $stackTrace"));
+  }
+
+  @override
+  Future<bool> updateBySoldierCase(SoldierCaseModel soldierCase) async {
+    var model = _calculateVacations(soldierCase.startDateOfService, soldierCase.endDateOfService);
+    final vacationId = await _soldierCaseDAO.findById(soldierCase.id!).then((soldierCase) => soldierCase!.vacations!);
+    return update(model.copyWith(id: vacationId));
+  }
+
+  @override
+  Future<bool> update(VacationsModel model) async {
+    return await _vacationsDAO
+        .doUpdate(model.toJson())
+        .onError((error, stackTrace) => throw FailureException("Updating Vacation failed, error $stackTrace"));
+  }
+
+  @override
+  Future<VacationsModel?> findByPersonalInfoId(int personalInfoId) async {
+    final vacationId = await _getSoldierCase(personalInfoId).then((soldierCase) => soldierCase.vacations!.id!);
+    return findById(vacationId);
+  }
+
+  @override
+  Future<VacationsModel?> findById(int id) async {
+    return await _vacationsDAO
+        .findById(id)
+        .then((foundedVacation) => VacationsModel.fromJson(foundedVacation!.toJson()))
+        .onError((error, stackTrace) => throw FailureException(
+            "An error happened in finding further info by personal id, see the error :\n $error \n $stackTrace"));
+  }
+
+  Future<SoldierCaseModel> _getSoldierCase(int pid) async {
+    final soldierId = await _personalInfoDAO.findById(pid).then((person) => person!.soldier!);
+
+    final soldierCaseId = await _soldierDAO.findById(soldierId).then((soldier) => soldier!.soldierCase!);
+
+    return await _soldierCaseDAO
+        .findById(soldierCaseId)
+        .then((soldierCase) => SoldierCaseModel.fromJson(soldierCase!.toJson()));
+  }
+
+  @override
+  Future<VacationResult> updateByChangedAmount({
+    required int personalInfoId,
+    required VacationType vacationType,
+    required int amount,
+  }) async {
+    VacationResult result = VacationResult.none;
+    VacationsModel model =
+        await findByPersonalInfoId(personalInfoId).then((value) => value!).onError((error, stackTrace) {
+      result = VacationResult.failed;
+      throw FailureException('Founding vacation failed, see the errors:\n $error \n $stackTrace ');
+    });
+    if (vacationType == VacationType.eligible) {
+      if (model.eligibleBalance > 0 && model.eligibleBalance >= amount) {
+        model = model.copyWith(eligibleBalance: model.eligibleBalance - amount, eligibleUsed: amount as double);
+
+        if (await update(model)) {
+          result = VacationResult.saved;
+        } else {
+          result = VacationResult.failed;
+        }
+      } else {
+        result = VacationResult.noEnoughEligibleBalance;
+      }
+    } else if (vacationType == VacationType.sick) {
+      if (model.sickBalance > 0 && model.sickBalance >= amount) {
+        model = model.copyWith(sickBalance: model.sickBalance - amount, sickUsed: amount as double);
+        if (await update(model)) {
+          result = VacationResult.saved;
+        } else {
+          result = VacationResult.failed;
+        }
+      } else {
+        result = VacationResult.noEnoughSickBalance;
+      }
+    } else if (vacationType == VacationType.incentive) {
+      if (model.incentiveBalance! > 0 && model.incentiveBalance! >= amount) {
+        model = model.copyWith(incentiveBalance: model.incentiveBalance! - amount, incentiveUsed: amount as double);
+        if (await update(model)) {
+          result = VacationResult.saved;
+        } else {
+          result = VacationResult.failed;
+        }
+      } else {
+        result = VacationResult.noEnoughIncentiveBalance;
+      }
+    }
+    return result;
+  }
+
+  VacationsModel _calculateVacations(DateTime start, DateTime end) {
+    double eligiblePerMonth = _prefStorage.getEligibleVacationPerMonth();
+    double sickPerMonth = _prefStorage.getEligibleVacationPerMonth();
+    double incentiveLimit = _prefStorage.getIncentiveLimit();
+
+    final int monthsOfService = (end.difference(start).inDays) ~/ 30;
+    VacationsModel vacationsModel = VacationsModel.init();
+
+    if (eligiblePerMonth > 0.0) {
+      vacationsModel = vacationsModel.copyWith(
+          eligibleValuePerMonth: eligiblePerMonth,
+          eligibleTotal: monthsOfService * eligiblePerMonth,
+          eligibleBalance: monthsOfService * eligiblePerMonth,
+          eligibleUsed: 0.0);
+    }
+
+    if (sickPerMonth > 0.0) {
+      vacationsModel = vacationsModel.copyWith(
+        sickValuePerMonth: sickPerMonth,
+        sickTotal: monthsOfService * sickPerMonth,
+        sickBalance: monthsOfService * sickPerMonth,
+        sickUsed: 0.0,
+      );
+    }
+
+    if (incentiveLimit > 0.0) {
+      vacationsModel = vacationsModel.copyWith(incentiveValueLimit: incentiveLimit);
+    }
+
+    return vacationsModel;
+  }
 
   @override
   Future<bool> delete(VacationsModel model) {
@@ -20,20 +177,8 @@ class VacationsServiceImpl implements VacationsService {
   }
 
   @override
-  Future<VacationsModel?> findById(int id) {
-    // TODO: implement findById
-    throw UnimplementedError();
-  }
-
-  @override
   Future<int> save(VacationsModel model) {
     // TODO: implement save
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> update(VacationsModel model) {
-    // TODO: implement update
     throw UnimplementedError();
   }
 }

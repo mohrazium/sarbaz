@@ -45,5 +45,11 @@ class ApplicationControllerBinding implements Bindings {
       Get.find(),
       Get.find(),
     ));
+    Get.put(VacationsController());
+    Get.put(DailyVacationController(
+      Get.find(),
+      Get.find(),
+      Get.find(),
+    ));
   }
 }

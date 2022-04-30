@@ -1,7 +1,7 @@
 part of views;
 
-class TrainingStatusView extends GetView<TrainingStatusController> {
-  const TrainingStatusView({Key? key}) : super(key: key);
+class DailyVacationView extends GetView<DailyVacationController> {
+  const DailyVacationView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +9,7 @@ class TrainingStatusView extends GetView<TrainingStatusController> {
         init: controller,
         builder: (_) => FormCard(
             haveShadow: true,
-            globalFormKey: controller.trainingStatusFormGlobalKey,
+            globalFormKey: controller.dailyVacationFormGlobalKey,
             readyOnly: controller.readOnly.value,
             onConfirmButtonPressed: () => controller.onConfirmButtonPressed(),
             createdAt: controller.model.value.createdAt,
@@ -17,11 +17,10 @@ class TrainingStatusView extends GetView<TrainingStatusController> {
             onCancelButtonPressed: () => controller.onCancelButtonPressed(),
             headerContent: const Center(
                 child: Text(
-              Strings.trainingStatus,
+              Strings.vacation,
               style: TextStyle(fontWeight: FontWeight.bold),
             )),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -29,82 +28,100 @@ class TrainingStatusView extends GetView<TrainingStatusController> {
                     children: [
                       Column(
                         children: [
-                          //! Place field
-                          TextBox(
-                            titleText: Strings.placeOfTraining,
-                            controller: controller.placeNameController,
-                            readOnly: controller.readOnly.value,
-                            isRequired: true,
-                            validator: (v) =>
-                                controller.requiredFieldValidator(value: v),
-                          ),
-
                           //! Start date field
                           TextBox(
                             titleText: Strings.startDate,
                             controller: controller.startDateController,
                             readOnly: controller.readOnly.value,
+                            isRequired: true,
                             inputFormatters: [
                               MaskedInputFormatter(
                                 "0000/00/00",
                                 allowedCharMatcher: RegExp('[0-9]'),
                               ),
                             ],
+                            validator: (val) => controller.requiredFieldValidator(value: val),
                             prefixIcon: IconButton(
-                                onPressed: () =>
-                                    controller.onCalenderPressed(context, true),
+                                onPressed: () => controller.onStartDateCalenderPressed(context),
                                 icon: const Icon(EvaIcons.calendar)),
                           ),
 
-                          //! Training status field
+                          //! Start date field
                           TextBox(
-                            titleText: Strings.trainingStatus,
-                            controller: controller.statusController,
+                            titleText: Strings.vacationType,
+                            controller: controller.vacationTypeController,
                             readOnly: controller.readOnly.value,
+                            isRequired: true,
+                            inputFormatters: [
+                              MaskedInputFormatter(
+                                "0000/00/00",
+                                allowedCharMatcher: RegExp('[0-9]'),
+                              ),
+                            ],
+                            validator: (val) => controller.requiredFieldValidator(value: val),
+                            onChanged: (val) => controller.onChangeAmountOfVacation(val),
+                          ),
+
+                          //! Last period field
+                          TextBox(
+                            titleText: Strings.lastPeriodOfService,
+                            controller: controller.vacationTypeController,
+                            readOnly: controller.readOnly.value,
+                            onChanged: (val) => controller.onChangeAmountOfVacation(val),
+                            keyboardType: TextInputType.number,
                           ),
                         ],
                       ),
                       Column(
                         children: [
-                          //! Type of training field
-                          TextBox(
-                            titleText: Strings.typeOfTraining,
-                            controller: controller.typeController,
-                            readOnly: controller.readOnly.value,
-                          ),
-                          //! End date field
+                          //! End date period field
                           TextBox(
                             titleText: Strings.endDate,
                             controller: controller.endDateController,
                             readOnly: controller.readOnly.value,
+                            isRequired: true,
                             inputFormatters: [
                               MaskedInputFormatter(
                                 "0000/00/00",
                                 allowedCharMatcher: RegExp('[0-9]'),
                               ),
                             ],
+                            validator: (val) => controller.requiredFieldValidator(value: val),
                             prefixIcon: IconButton(
-                                onPressed: () => controller.onCalenderPressed(
-                                    context, false),
+                                onPressed: () => controller.onEndDateCalenderPressed(context),
                                 icon: const Icon(EvaIcons.calendar)),
                           ),
-                          //! Period field
+
+                          //! End date field
                           TextBox(
-                            titleText: Strings.trainingPeriod,
-                            controller: controller.periodController,
-                            keyboardType: TextInputType.number,
+                            titleText: Strings.endDateOfService,
+                            controller: controller.endDateController,
+                            inputFormatters: [
+                              MaskedInputFormatter(
+                                "0000/00/00",
+                                allowedCharMatcher: RegExp('[0-9]'),
+                              ),
+                            ],
+                            readOnly: true,
+                            isRequired: true,
+                          ),
+
+                          //! Amount of service field
+                          TextBox(
+                            titleText: Strings.amountOfService,
+                            controller: controller.amountController,
                             readOnly: true,
                           ),
                         ],
                       ),
                     ]),
-                //! Descriptions field
+                //! Description field
                 TextBox(
-                  width: 600,
                   titleText: Strings.description,
-                  maxLines: 3,
                   controller: controller.descriptionController,
                   readOnly: controller.readOnly.value,
+                  width: double.maxFinite,
+                  maxLines: 3,
                 ),
               ],
             )));

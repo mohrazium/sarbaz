@@ -53,7 +53,7 @@ class InnerView extends StatelessWidget {
       },
       body: GroupBox(
           padding: const EdgeInsets.fromLTRB(kSpacing, 0, kSpacing, kSpacing),
-          margin:const EdgeInsets.fromLTRB(0, kSpacing/2, 0, kSpacing / 2),
+          margin: const EdgeInsets.fromLTRB(0, kSpacing / 2, 0, kSpacing / 2),
           borderRadius: const BorderRadius.all(
             Radius.circular(kBorderRadius),
           ),

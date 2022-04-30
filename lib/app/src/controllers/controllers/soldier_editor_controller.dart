@@ -1,14 +1,13 @@
 part of controllers;
 
-class SoldierEditorController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+class SoldierEditorController extends GetxController with GetSingleTickerProviderStateMixin {
   final soldierCaseEditorScaffoldKey = GlobalKey<ScaffoldState>();
 
-  late Rx<TabController> tabController = Rx(TabController(
-      vsync: this, initialIndex: 0, length: soldierCaseEditorContentLen.value)
-    ..addListener(() {
-      soldierCaseEditorShownContentIndex.value = tabController.value.index;
-    }));
+  late Rx<TabController> tabController =
+      Rx(TabController(vsync: this, initialIndex: 0, length: soldierCaseEditorContentLen.value)
+        ..addListener(() {
+          soldierCaseEditorShownContentIndex.value = tabController.value.index;
+        }));
 
   late Rx<int> soldierCaseEditorShownContentIndex = 0.obs;
   late Rx<int> soldierCaseEditorContentLen = 0.obs;
@@ -16,6 +15,8 @@ class SoldierEditorController extends GetxController
   late Rx<int> gridColumns = Rx(0);
 
   late final BridgeController bridgeController;
+
+  late Rx<bool> isLoadedView = Rx(false);
 
   @override
   void onInit() {
@@ -36,10 +37,18 @@ class SoldierEditorController extends GetxController
     return bridgeController.soldierNameAndFamily.value;
   }
 
-  // void keepSelectedLevelOfEducation() {
-  //   if (levelOfEducationController.text.length > 0)
-  //     selectedLevelOfEducation.value = levelOfEducationController.text;
-  // }
+  void loadedEditor() {
+    isLoadedView(false);
+    Future.delayed(
+      const Duration(milliseconds: 500),
+    ).whenComplete(() {
+      isLoadedView(true);
+    });
+  }
+
+  void isLoadingEditor() {
+    isLoadedView(false);
+  }
 
   onSelectedMainMenu(int index, TabMenu value) {
     tabController.value.index = index;

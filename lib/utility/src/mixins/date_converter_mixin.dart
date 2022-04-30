@@ -91,9 +91,7 @@ class _Date {
 
       if (yearsBefore != null) {
         return toDateTime(
-          year: y <= (DateTime.now().toJalali().year - 50)
-              ? y
-              : DateTime.now().toJalali().year - 50,
+          year: y <= (DateTime.now().toJalali().year - 50) ? y : DateTime.now().toJalali().year - 50,
           month: m <= 12 ? m : 12,
           day: d <= 31 ? d : 30,
         );
@@ -112,8 +110,7 @@ class _Date {
     return end.difference(start).inHours;
   }
 
-  static DateTime? calculateEndDate(
-      DateTime startDate, int months, int pastDay) {
+  static DateTime? calculateEndDate(DateTime startDate, int months, int pastDay) {
     final gregorian = Gregorian.fromDateTime(startDate);
     final endDate = gregorian.addMonths(months);
     final res = endDate.addDays(-(pastDay + 1));

@@ -1,5 +1,6 @@
 library models;
 
+import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'models.g.dart';
@@ -27,3 +28,5 @@ part 'models/training_status_model.dart';
 part 'models/unit_properties_model.dart';
 part 'models/vacations_model.dart';
 part 'models/violations_overtime_model.dart';
+part 'enums/vacations_type_enum.dart';
+part 'enums/vacation_result.dart';

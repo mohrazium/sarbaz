@@ -1,8 +1,7 @@
 part of controllers;
 
 class EducationalInfoController extends GetxController with ValidatorMixin {
-  final GlobalKey<FormState> educationalInfoFormGlobalKey =
-      GlobalKey<FormState>();
+  final GlobalKey<FormState> educationalInfoFormGlobalKey = GlobalKey<FormState>();
 
   final EducationalInfoService _educationalInfoService;
   final BridgeController _bridgeController;
@@ -17,7 +16,7 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
   late TextEditingController gradeController;
   late TextEditingController skillsController;
   late TextEditingController permissionToStudyController;
-  
+
   EducationalInfoController(this._educationalInfoService, this._bridgeController);
   @override
   void onInit() {
@@ -51,9 +50,9 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
     super.onClose();
   }
 
-  void initForm() {
+   Future<void> initForm() async {
     _clearEditor();
-    _loadInfo();
+    await _loadData();
   }
 
   Future<void> onConfirmButtonPressed() async {
@@ -72,7 +71,7 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
                   _save();
                   logger.info("saving edu info...");
 
-                  Get.find<SoldiersController>().loadAll();
+                  Get.find<SoldiersController>().loadAllSoldiers();
                   readOnly(true);
                 });
           }
@@ -91,7 +90,7 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
     if (model.value.id == null) {
       _clearEditor();
     } else {
-      _loadInfo();
+      _loadData();
       readOnly(true);
     }
   }
@@ -100,12 +99,11 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
     _catchFormData();
     if (model.value.id == null) {
       await _educationalInfoService
-          .saveByPersonalInfoId(model.value,
-              personalInfoId: _bridgeController.personalInfoId.value)
+          .saveByPersonalInfoId(model.value, personalInfoId: _bridgeController.personalInfoId.value)
           .then((value) {
         if (value != 0) {
           model(model.value.copyWith(id: value));
-          _loadInfo();
+          _loadData();
           showToast(Strings.successfullySavingInfo);
         } else {
           showToast(Strings.unsuccessfullySavingInfo);
@@ -116,7 +114,7 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
     } else {
       await _educationalInfoService.update(model.value).then((value) {
         if (value) {
-          _loadInfo();
+          _loadData();
           showToast(Strings.successfullyUpdatingInfo);
         } else {
           showToast(Strings.unsuccessfullyUpdatingInfo);
@@ -127,28 +125,20 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
     }
   }
 
-  Future<void> _loadInfo() async {
-    await _educationalInfoService
-        .findByPersonalInfoId(_bridgeController.personalInfoId.value)
-        .then((value) {
+  Future<void> _loadData() async {
+    await _educationalInfoService.findByPersonalInfoId(_bridgeController.personalInfoId.value).then((value) {
       if (value?.id != null) {
         _clearEditor();
         readOnly(true);
         model(value);
         levelOfEducationController.text =
-            model.value.levelOfEducation.isNotEmpty
-                ? model.value.levelOfEducation
-                : Strings.levelOfEducationList[0];
+            model.value.levelOfEducation.isNotEmpty ? model.value.levelOfEducation : Strings.levelOfEducationList[0];
         fieldOfStudyController.text = model.value.fieldOfStudy ?? "";
         educationPlaceController.text = model.value.educationPlace ?? "";
-        gradeController.text =
-            model.value.grade != null ? model.value.grade.toString() : "";
+        gradeController.text = model.value.grade != null ? model.value.grade.toString() : "";
         skillsController.text = model.value.skills ?? "";
         permissionToStudyController.text =
-            model.value.permissionToStudy != null &&
-                    model.value.permissionToStudy!
-                ? Strings.yes
-                : Strings.no;
+            model.value.permissionToStudy != null && model.value.permissionToStudy! ? Strings.yes : Strings.no;
       } else {
         _clearEditor();
         readOnly(false);
@@ -162,23 +152,15 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
     model(EducationalInfoModel(
       id: model.value.id,
       levelOfEducation: levelOfEducationController.text,
-      educationPlace: educationPlaceController.text.isNotEmpty
-          ? educationPlaceController.text.trim()
-          : null,
-      fieldOfStudy: fieldOfStudyController.text.isNotEmpty
-          ? fieldOfStudyController.text.trim()
-          : null,
-      grade: gradeController.text.isNotEmpty
-          ? double.parse(gradeController.text.trim())
-          : null,
+      educationPlace: educationPlaceController.text.isNotEmpty ? educationPlaceController.text.trim() : null,
+      fieldOfStudy: fieldOfStudyController.text.isNotEmpty ? fieldOfStudyController.text.trim() : null,
+      grade: gradeController.text.isNotEmpty ? double.parse(gradeController.text.trim()) : null,
       permissionToStudy: permissionToStudyController.text.isNotEmpty
           ? permissionToStudyController.text.trim() == Strings.yes
               ? true
               : false
           : null,
-      skills: skillsController.text.isNotEmpty
-          ? skillsController.text.trim()
-          : null,
+      skills: skillsController.text.isNotEmpty ? skillsController.text.trim() : null,
     ));
   }
 
@@ -203,11 +185,8 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
         levelOfEducationController.text = value;
       },
       itemBuilder: (BuildContext context) {
-        return Strings.levelOfEducationList
-            .map<PopupMenuItem<String>>((String value) {
-          return PopupMenuItem(
-              child: SizedBox(width: kTextFieldWidth / 2, child: Text(value)),
-              value: value);
+        return Strings.levelOfEducationList.map<PopupMenuItem<String>>((String value) {
+          return PopupMenuItem(child: SizedBox(width: kTextFieldWidth / 2, child: Text(value)), value: value);
         }).toList();
       },
     );
@@ -224,11 +203,8 @@ class EducationalInfoController extends GetxController with ValidatorMixin {
         permissionToStudyController.text = value;
       },
       itemBuilder: (BuildContext context) {
-        return Strings.permissionsList
-            .map<PopupMenuItem<String>>((String value) {
-          return PopupMenuItem(
-              child: SizedBox(width: kTextFieldWidth / 3, child: Text(value)),
-              value: value);
+        return Strings.permissionsList.map<PopupMenuItem<String>>((String value) {
+          return PopupMenuItem(child: SizedBox(width: kTextFieldWidth / 3, child: Text(value)), value: value);
         }).toList();
       },
     );

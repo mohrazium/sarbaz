@@ -60,7 +60,7 @@ class RelativeContactsInfoController extends GetxController
 
   Future<void> initForm() async {
     _clearEditor();
-    _loadInfo();
+    await _loadData();
   }
 
   Future<void> onConfirmButtonPressed() async {
@@ -107,11 +107,11 @@ class RelativeContactsInfoController extends GetxController
     if (model.value.id == null) {
       _clearEditor();
     } else {
-      _loadInfo();
+      _loadData();
     }
   }
 
-  Future<void> _loadInfo() async {
+  Future<void> _loadData() async {
     models.value.clear();
     if (contactController.model.value.id != null) {
       await _relativeContactsService
@@ -186,7 +186,7 @@ class RelativeContactsInfoController extends GetxController
           onYesPressed: () async {
             if (item.id != null) {
               await _relativeContactsService.delete(item).then((value) {
-                _loadInfo();
+                _loadData();
               }).onError((error, stackTrace) => throw FailureException(
                   "Can not delete relative contact with error :$error $stackTrace"));
             } else {
@@ -214,7 +214,7 @@ class RelativeContactsInfoController extends GetxController
       }
     }
 
-    _loadInfo();
+    _loadData();
   }
 
   void onCheckBoxChange(bool? val) {

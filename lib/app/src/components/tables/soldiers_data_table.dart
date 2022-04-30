@@ -2,13 +2,11 @@ part of components;
 
 const int _rowsPerPage = 15;
 const double _dataPagerHeight = 60;
-List<SoldiersDataCellModel> soldiersList = List.empty(growable: true);
+// List<SoldiersDataCellModel> soldiersList = List.empty(growable: true);
 List<SoldiersDataCellModel> _paginatedSoldiers = List.empty(growable: true);
 
-
-
-class SoldiersDataTable extends StatefulWidget {
-  final List<SoldiersDataCellModel> soldiers;
+class SoldiersDataTable extends StatelessWidget {
+  final SoldiersDataSource dataSource;
   final DataGridController? controller;
   final DataGridCellTapCallback? onCellTap;
   final DataGridCellDoubleTapCallback? onCellDoubleTap;
@@ -18,27 +16,13 @@ class SoldiersDataTable extends StatefulWidget {
 
   const SoldiersDataTable({
     Key? key,
-    required this.soldiers,
+    required this.dataSource,
     this.controller,
     this.onCellTap,
+    this.onCellDoubleTap,
     this.onCellSecondaryTap,
     this.onCellLongPress,
-    this.onCellDoubleTap,
   }) : super(key: key);
-
-  @override
-  _SoldiersDataTableState createState() => _SoldiersDataTableState();
-}
-
-class _SoldiersDataTableState extends State<SoldiersDataTable> {
-  late final BridgeController bridgeController;
-  @override
-  void initState() {
-    super.initState();
-    bridgeController = Get.find<BridgeController>();
-    soldiersList = widget.soldiers;
-    bridgeController.setSoldiersDataSource(soldiersList);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,25 +33,19 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
             SizedBox(
                 height: constraint.maxHeight - _dataPagerHeight,
                 width: constraint.maxWidth,
-                child: _buildDataGrid(
-                    constraint: constraint,
-                    dataSource: bridgeController.soldiersDataSource.value)),
+                child: _buildDataGrid(constraint: constraint, dataSource: dataSource)),
             SizedBox(
                 height: _dataPagerHeight,
                 child: SfDataPager(
-                  delegate: bridgeController.soldiersDataSource.value,
-                  pageCount: soldiersList.length >= 20
-                      ? soldiersList.length / _rowsPerPage
-                      : 1,
+                  delegate: dataSource,
+                  pageCount: dataSource.dataGridRows.length >= 20 ? dataSource.dataGridRows.length / _rowsPerPage : 1,
                   direction: Axis.horizontal,
                 ))
           ]);
         }));
   }
 
-  _buildDataGrid(
-      {required BoxConstraints constraint,
-      required SoldiersDataSource dataSource}) {
+  _buildDataGrid({required BoxConstraints constraint, required SoldiersDataSource dataSource}) {
     return SfDataGridTheme(
       data: SfDataGridThemeData(
         rowHoverColor: Colorize.primaryColor.shade200,
@@ -78,14 +56,14 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
       child: SfDataGrid(
         selectionMode: SelectionMode.singleDeselect,
         navigationMode: GridNavigationMode.row,
-        controller: widget.controller,
+        controller: controller,
         allowSorting: true,
         source: dataSource,
         columnWidthMode: ColumnWidthMode.fill,
-        onCellTap: widget.onCellTap,
-        onCellDoubleTap: widget.onCellDoubleTap,
-        onCellLongPress: widget.onCellLongPress,
-        onCellSecondaryTap: widget.onCellSecondaryTap,
+        onCellTap: onCellTap,
+        onCellDoubleTap: onCellDoubleTap,
+        onCellLongPress: onCellLongPress,
+        onCellSecondaryTap: onCellSecondaryTap,
         selectionManager: CustomSelectionManager(),
         columns: <GridColumn>[
           GridColumn(
@@ -93,8 +71,7 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
               label: Container(
                   decoration: const BoxDecoration(
                       color: Colorize.primaryColor,
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(kBorderRadius))),
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(kBorderRadius))),
                   padding: const EdgeInsets.all(kPadding),
                   alignment: Alignment.center,
                   child: const Text(Strings.caseNo,
@@ -110,8 +87,7 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
               label: Container(
                   decoration: const BoxDecoration(
                       color: Colorize.primaryColor,
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(kBorderRadius))),
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(kBorderRadius))),
                   padding: const EdgeInsets.all(kPadding),
                   alignment: Alignment.center,
                   child: const Text(Strings.personnelCode,
@@ -202,8 +178,7 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
               label: Container(
                   decoration: const BoxDecoration(
                       color: Colorize.primaryColor,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(kBorderRadius))),
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(kBorderRadius))),
                   padding: const EdgeInsets.all(8.0),
                   alignment: Alignment.center,
                   child: const Text(Strings.latestStatusOfSoldier,
@@ -217,10 +192,8 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
           GridColumn(
               columnName: 'id',
               visible: false,
-              label: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  alignment: Alignment.center,
-                  child: const Text("id"))),
+              label:
+                  Container(padding: const EdgeInsets.all(8.0), alignment: Alignment.center, child: const Text("id"))),
         ],
       ),
     );
@@ -228,11 +201,10 @@ class _SoldiersDataTableState extends State<SoldiersDataTable> {
 }
 
 class SoldiersDataSource extends DataGridSource {
-  /// Creates the employee data source class with required details.
-  SoldiersDataSource({required List<SoldiersDataCellModel> soldierDataList}) {
+  final List<SoldiersDataCellModel> soldierDataList;
+  SoldiersDataSource({required this.soldierDataList}) {
     var len = soldierDataList.length;
-    _paginatedSoldiers =
-        soldiersList.getRange(0, len >= 19 ? 19 : len).toList(growable: false);
+    _paginatedSoldiers = soldierDataList.getRange(0, len >= 19 ? 19 : len).toList(growable: false);
     buildPaginatedDataGridRows();
   }
 
@@ -389,9 +361,8 @@ class SoldiersDataSource extends DataGridSource {
   Future<bool> handlePageChange(int oldPageIndex, int newPageIndex) async {
     int startIndex = newPageIndex * _rowsPerPage;
     int endIndex = startIndex + _rowsPerPage;
-    if (startIndex < soldiersList.length && endIndex <= soldiersList.length) {
-      _paginatedSoldiers =
-          soldiersList.getRange(startIndex, endIndex).toList(growable: false);
+    if (startIndex < soldierDataList.length && endIndex <= soldierDataList.length) {
+      _paginatedSoldiers = soldierDataList.getRange(startIndex, endIndex).toList(growable: false);
       buildPaginatedDataGridRows();
       notifyListeners();
     } else {
@@ -404,25 +375,14 @@ class SoldiersDataSource extends DataGridSource {
   void buildPaginatedDataGridRows() {
     dataGridRows = _paginatedSoldiers.map<DataGridRow>((dataGridRow) {
       return DataGridRow(cells: [
-        DataGridCell(
-            columnName: Strings.caseNo, value: dataGridRow.caseNo ?? "-"),
-        DataGridCell(
-            columnName: Strings.personnelCode,
-            value: dataGridRow.personnelCode ?? "-"),
-        DataGridCell(
-            columnName: Strings.nationalCode, value: dataGridRow.nationalCode??"-"),
-        DataGridCell(
-            columnName: Strings.firstName, value: dataGridRow.firstName??"-"),
+        DataGridCell(columnName: Strings.caseNo, value: dataGridRow.caseNo ?? "-"),
+        DataGridCell(columnName: Strings.personnelCode, value: dataGridRow.personnelCode ?? "-"),
+        DataGridCell(columnName: Strings.nationalCode, value: dataGridRow.nationalCode ?? "-"),
+        DataGridCell(columnName: Strings.firstName, value: dataGridRow.firstName ?? "-"),
         DataGridCell(columnName: Strings.lastName, value: dataGridRow.lastName),
-        DataGridCell(
-            columnName: Strings.fatherName,
-            value: dataGridRow.fatherName ?? "-"),
-        DataGridCell(
-            columnName: Strings.mobileNumber,
-            value: dataGridRow.mobileNumber ?? "-"),
-        DataGridCell(
-            columnName: Strings.latestStatusOfSoldier,
-            value: dataGridRow.soldierStatus ?? "-"),
+        DataGridCell(columnName: Strings.fatherName, value: dataGridRow.fatherName ?? "-"),
+        DataGridCell(columnName: Strings.mobileNumber, value: dataGridRow.mobileNumber ?? "-"),
+        DataGridCell(columnName: Strings.latestStatusOfSoldier, value: dataGridRow.soldierStatus ?? "-"),
         DataGridCell(columnName: "id", value: "${dataGridRow.id ?? 0}"),
       ]);
     }).toList(growable: false);

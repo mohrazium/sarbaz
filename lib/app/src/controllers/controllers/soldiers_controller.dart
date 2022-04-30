@@ -4,31 +4,47 @@ class SoldiersController extends GetxController {
   final PersonalInfoService _personalInfoService;
   final BridgeController _bridgeController;
 
-  Rx<List<SoldiersDataCellModel>> soldiersList = Rx(List.empty(growable: true));
+  Rx<SoldiersDataSource> soldiersDataSource = Rx(SoldiersDataSource(soldierDataList: []));
   late final DataGridController dataGridController;
 
+  final List<SoldiersDataCellModel> _loadedSoldiers = List.empty(growable: true);
+
   late DataGridCellTapDetails cellTapDetails;
+
+  late final TextEditingController searchFieldController;
 
   SoldiersController(this._personalInfoService, this._bridgeController);
 
   @override
   Future<void> onInit() async {
     super.onInit();
+    searchFieldController = TextEditingController();
     dataGridController = DataGridController();
-    loadAll();
   }
 
-  void loadAll() async {
+  @override
+  void onReady() {
+    super.onReady();
+    _loadAll();
+    searchSoldier("");
+    logger.info('$this as been ready.');
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    searchFieldController.dispose();
+  }
+
+  void _loadAll() async {
     await _personalInfoService.findAll().then((values) {
       if (values != null) {
         List<SoldiersDataCellModel> soldiers = List.empty(growable: true);
-        soldiersList.value.clear();
+        _loadedSoldiers.clear();
         for (var person in values) {
           soldiers.add(SoldiersDataCellModel(
               id: person.id,
-              caseNo: (person.soldier?.caseNo?.caseName ?? "") +
-                  "-" +
-                  (person.soldier?.caseNo?.caseCode ?? ""),
+              caseNo: (person.soldier?.caseNo?.caseName ?? "") + "-" + (person.soldier?.caseNo?.caseCode ?? ""),
               firstName: person.firstName,
               lastName: person.lastName,
               fatherName: person.fatherName,
@@ -38,46 +54,110 @@ class SoldiersController extends GetxController {
               soldierStatus: person.soldier?.latestStatus,
               isSelected: false));
         }
-        soldiersList.value.addAll(soldiers);
+        _loadedSoldiers.addAll(soldiers);
       }
     }).catchError((onError) {
       DialogHelper.showCrashReport(onError.toString());
-    });
+    }).whenComplete(() => DialogHelper.hideLoading());
+  }
+
+  void searchSoldier(String? key) {
+    if (key == null || key.isEmpty) {
+      soldiersDataSource(SoldiersDataSource(soldierDataList: []));
+      soldiersDataSource(SoldiersDataSource(soldierDataList: _loadedSoldiers));
+    } else {
+      soldiersDataSource.value = SoldiersDataSource(soldierDataList: []);
+      soldiersDataSource(SoldiersDataSource(
+          soldierDataList: _loadedSoldiers.where((soldier) {
+        getCaseNo() {
+          var caseNo = soldier.caseNo ?? "";
+          return caseNo.isNotEmpty ? caseNo.contains(key) : false;
+        }
+
+        getFirstName() {
+          var firstName = soldier.firstName ?? "";
+          return firstName.isNotEmpty ? firstName.contains(key) : false;
+        }
+
+        getLastName() {
+          var lastName = soldier.lastName ?? "";
+          return lastName.isNotEmpty ? lastName.contains(key) : false;
+        }
+
+        getFatherName() {
+          var fatherName = soldier.fatherName ?? "";
+          return fatherName.isNotEmpty ? fatherName.contains(key) : false;
+        }
+
+        getNationalCode() {
+          var nationalCode = soldier.nationalCode ?? "";
+          return nationalCode.isNotEmpty ? nationalCode.contains(key) : false;
+        }
+
+        getMobileNumber() {
+          var mobileNumber = soldier.mobileNumber ?? "";
+          return mobileNumber.isNotEmpty ? mobileNumber.contains(key) : false;
+        }
+
+        getPersonnelCode() {
+          var personnelCode = soldier.personnelCode ?? "";
+          return personnelCode.isNotEmpty ? personnelCode.contains(key) : false;
+        }
+
+        getSoldierStatus() {
+          var soldierStatus = soldier.soldierStatus ?? "";
+          return soldierStatus.isNotEmpty ? soldierStatus.contains(key) : false;
+        }
+
+        return getCaseNo() ||
+            getFirstName() ||
+            getLastName() ||
+            getFatherName() ||
+            getNationalCode() ||
+            getMobileNumber() ||
+            getPersonnelCode() ||
+            getSoldierStatus();
+      }).toList()));
+    }
+    DialogHelper.hideLoading();
   }
 
   void onCellDoubleTap(DataGridCellDoubleTapDetails details) {
-    int id = int.parse(_bridgeController.soldiersDataSource.value
-        .effectiveRows[details.rowColumnIndex.rowIndex - 1]
-        .getCells()
-        .last
-        .value);
+    int id =
+        int.parse(soldiersDataSource.value.effectiveRows[details.rowColumnIndex.rowIndex - 1].getCells().last.value);
+    _bridgeController.setDashboardTab(_bridgeController.dashboardTabSoldiersEditor);
     _bridgeController.initSoldierEditorForms(id);
-    _bridgeController
-        .setDashboardTab(_bridgeController.dashboardTabSoldiersEditor);
   }
 
-  void onNewSoldierPressed() {
-    _bridgeController
-        .setDashboardTab(_bridgeController.dashboardTabSoldiersEditor);
+  void onNewSoldierPressed() async {
+    _bridgeController.setDashboardTab(_bridgeController.dashboardTabSoldiersEditor);
     _bridgeController.initSoldierEditorForms(0);
   }
 
-  void onEditSoldierPressed() {
-    int id = int.parse(_bridgeController.soldiersDataSource.value
-        .effectiveRows[cellTapDetails.rowColumnIndex.rowIndex - 1]
-        .getCells()
-        .last
-        .value);
+  void onEditSoldierPressed() { 
+       _bridgeController.setDashboardTab(_bridgeController.dashboardTabSoldiersEditor);
+    int id = int.parse(
+        soldiersDataSource.value.effectiveRows[cellTapDetails.rowColumnIndex.rowIndex - 1].getCells().last.value);
     _bridgeController.initSoldierEditorForms(id);
-    _bridgeController
-        .setDashboardTab(_bridgeController.dashboardTabSoldiersEditor);
   }
 
-  void onDeleteSoldierPressed() {
-    loadAll();
-  }
+  void onDeleteSoldierPressed() {}
 
   void onCellTap(DataGridCellTapDetails details) {
     cellTapDetails = details;
+  }
+
+  void onRefreshSoldiersPressed() {
+    DialogHelper.showLoading();
+    searchSoldier("");
+  }
+
+  void onSearchSoldierChanged(String? val) {
+    searchSoldier(val);
+  }
+
+  void loadAllSoldiers() {
+    _loadAll();
+    searchSoldier("");
   }
 }

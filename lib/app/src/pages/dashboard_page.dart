@@ -21,23 +21,28 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     final currentSize = MediaQuery.of(context).size;
-    return   Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Env.mode == Env.dev
-                ? Positioned(
-                    top: 5,
-                    right: 5,
-                    child: Text(
-                      "${currentSize.width} X ${currentSize.height}",
-                    ))
-                : Container(),
-            const DashboardDesktopView(),
-            MdiManager(mdiController: mdiController)
-          ],
+    return Scaffold(
+        body: SafeArea(
+      child: LayoutBuilder(
+        builder: (context, constraint) => SizedBox(
+          height: constraint.maxHeight,
+          width: constraint.maxWidth,
+          child: Stack(
+            children: [
+              Env.mode == Env.dev
+                  ? Positioned(
+                      top: 5,
+                      right: 5,
+                      child: Text(
+                        "${currentSize.width} X ${currentSize.height}",
+                      ))
+                  : Container(),
+              const DashboardDesktopView(),
+              MdiManager(mdiController: mdiController)
+            ],
+          ),
         ),
       ),
-    );
+    ));
   }
 }

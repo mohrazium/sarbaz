@@ -1,7 +1,6 @@
 part of controllers;
 
-class FurtherInfoController extends GetxController
-    with ValidatorMixin, DateConverterMixin {
+class FurtherInfoController extends GetxController with ValidatorMixin, DateConverterMixin {
   final GlobalKey<FormState> furtherInfoFormGlobalKey = GlobalKey<FormState>();
   final BridgeController _bridgeController;
   final FurtherInfoService _furtherInfoService;
@@ -66,9 +65,9 @@ class FurtherInfoController extends GetxController
     super.onClose();
   }
 
-  void initForm() {
+  Future<void> initForm() async {
     _clearEditor();
-    _loadInfo();
+    await _loadData();
   }
 
   Future<void> onConfirmButtonPressed() async {
@@ -87,7 +86,7 @@ class FurtherInfoController extends GetxController
                   _save();
                   logger.info("saving further info...");
 
-                  Get.find<SoldiersController>().loadAll();
+                  Get.find<SoldiersController>().loadAllSoldiers();
                   readOnly(true);
                 });
           }
@@ -106,7 +105,7 @@ class FurtherInfoController extends GetxController
     if (model.value.id == null) {
       _clearEditor();
     } else {
-      _loadInfo();
+      _loadData();
       readOnly(true);
     }
   }
@@ -120,8 +119,7 @@ class FurtherInfoController extends GetxController
       lastDate: Jalali(now - 16, 1),
     );
     if (picked != null) {
-      dateOfMarriageController.text =
-          persianTools.convertEnToFa(picked.formatCompactDate());
+      dateOfMarriageController.text = persianTools.convertEnToFa(picked.formatCompactDate());
     }
   }
 
@@ -154,9 +152,7 @@ class FurtherInfoController extends GetxController
       },
       itemBuilder: (BuildContext context) {
         return Strings.bloodTypeList.map<PopupMenuItem<String>>((String value) {
-          return PopupMenuItem(
-              child: SizedBox(width: kTextFieldWidth / 5, child: Text(value)),
-              value: value);
+          return PopupMenuItem(child: SizedBox(width: kTextFieldWidth / 5, child: Text(value)), value: value);
         }).toList();
       },
     );
@@ -174,9 +170,7 @@ class FurtherInfoController extends GetxController
       },
       itemBuilder: (BuildContext context) {
         return Strings.hairColorList.map<PopupMenuItem<String>>((String value) {
-          return PopupMenuItem(
-              child: SizedBox(width: kTextFieldWidth / 3, child: Text(value)),
-              value: value);
+          return PopupMenuItem(child: SizedBox(width: kTextFieldWidth / 3, child: Text(value)), value: value);
         }).toList();
       },
     );
@@ -194,9 +188,7 @@ class FurtherInfoController extends GetxController
       },
       itemBuilder: (BuildContext context) {
         return Strings.eyesColorList.map<PopupMenuItem<String>>((String value) {
-          return PopupMenuItem(
-              child: SizedBox(width: kTextFieldWidth / 3, child: Text(value)),
-              value: value);
+          return PopupMenuItem(child: SizedBox(width: kTextFieldWidth / 3, child: Text(value)), value: value);
         }).toList();
       },
     );
@@ -214,11 +206,8 @@ class FurtherInfoController extends GetxController
         maritalStateChanged();
       },
       itemBuilder: (BuildContext context) {
-        return Strings.maritalStatusList
-            .map<PopupMenuItem<String>>((String value) {
-          return PopupMenuItem(
-              child: SizedBox(width: kTextFieldWidth / 5, child: Text(value)),
-              value: value);
+        return Strings.maritalStatusList.map<PopupMenuItem<String>>((String value) {
+          return PopupMenuItem(child: SizedBox(width: kTextFieldWidth / 5, child: Text(value)), value: value);
         }).toList();
       },
     );
@@ -236,9 +225,7 @@ class FurtherInfoController extends GetxController
       },
       itemBuilder: (BuildContext context) {
         return Strings.religionList.map<PopupMenuItem<String>>((String value) {
-          return PopupMenuItem(
-              child: SizedBox(width: kTextFieldWidth / 5, child: Text(value)),
-              value: value);
+          return PopupMenuItem(child: SizedBox(width: kTextFieldWidth / 5, child: Text(value)), value: value);
         }).toList();
       },
     );
@@ -256,9 +243,7 @@ class FurtherInfoController extends GetxController
       },
       itemBuilder: (BuildContext context) {
         return Strings.sectList.map<PopupMenuItem<String>>((String value) {
-          return PopupMenuItem(
-              child: SizedBox(width: kTextFieldWidth / 5, child: Text(value)),
-              value: value);
+          return PopupMenuItem(child: SizedBox(width: kTextFieldWidth / 5, child: Text(value)), value: value);
         }).toList();
       },
     );
@@ -268,12 +253,11 @@ class FurtherInfoController extends GetxController
     _catchFormData();
     if (model.value.id == null) {
       await _furtherInfoService
-          .saveWithParentId(model.value,
-              personalInfoId: _bridgeController.personalInfoId.value)
+          .saveWithParentId(model.value, personalInfoId: _bridgeController.personalInfoId.value)
           .then((value) {
         if (value != 0) {
           model(model.value.copyWith(id: value));
-          _loadInfo();
+          _loadData();
           showToast(Strings.successfullySavingInfo);
         } else {
           showToast(Strings.unsuccessfullySavingInfo);
@@ -284,7 +268,7 @@ class FurtherInfoController extends GetxController
     } else {
       _furtherInfoService.update(model.value).then((value) {
         if (value) {
-          _loadInfo();
+          _loadData();
           showToast(Strings.successfullyUpdatingInfo);
         } else {
           showToast(Strings.unsuccessfullyUpdatingInfo);
@@ -295,25 +279,20 @@ class FurtherInfoController extends GetxController
     }
   }
 
-  Future<void> _loadInfo() async {
-    await _furtherInfoService
-        .findByPersonalInfoId(_bridgeController.personalInfoId.value)
-        .then((value) {
+  Future<void> _loadData() async {
+    await _furtherInfoService.findByPersonalInfoId(_bridgeController.personalInfoId.value).then((value) {
       if (value?.id != null) {
         _clearEditor();
         readOnly(true);
         model(value);
         maritalStateController.text = model.value.maritalState;
         dateOfMarriageController.text = toShamsi(model.value.dateOfMarriage);
-        numberOfChildrenController.text = model.value.numberOfChildren != null
-            ? model.value.numberOfChildren.toString()
-            : "";
+        numberOfChildrenController.text =
+            model.value.numberOfChildren != null ? model.value.numberOfChildren.toString() : "";
         religionController.text = model.value.religion ?? "";
         sectController.text = model.value.sect ?? "";
-        heightController.text =
-            model.value.height != null ? model.value.height.toString() : "";
-        weightController.text =
-            model.value.weight != null ? model.value.weight.toString() : "";
+        heightController.text = model.value.height != null ? model.value.height.toString() : "";
+        weightController.text = model.value.weight != null ? model.value.weight.toString() : "";
         hairColorController.text = model.value.hairColor ?? "";
         eyesColorController.text = model.value.eyesColor ?? "";
         bloodTypeController.text = model.value.bloodType ?? "";
@@ -336,26 +315,13 @@ class FurtherInfoController extends GetxController
         numberOfChildren: numberOfChildrenController.text.trim().isNotEmpty
             ? int.parse(numberOfChildrenController.text.trim())
             : null,
-        religion: religionController.text.isNotEmpty
-            ? religionController.text.trim()
-            : null,
-        sect:
-            sectController.text.isNotEmpty ? sectController.text.trim() : null,
-        height: heightController.text.trim().isNotEmpty
-            ? int.parse(heightController.text.trim())
-            : null,
-        weight: weightController.text.trim().isNotEmpty
-            ? double.parse(weightController.text.trim())
-            : null,
-        hairColor: hairColorController.text.isNotEmpty
-            ? hairColorController.text.trim()
-            : null,
-        eyesColor: eyesColorController.text.isNotEmpty
-            ? eyesColorController.text.trim()
-            : null,
-        bloodType: bloodTypeController.text.isNotEmpty
-            ? bloodTypeController.text.trim()
-            : null));
+        religion: religionController.text.isNotEmpty ? religionController.text.trim() : null,
+        sect: sectController.text.isNotEmpty ? sectController.text.trim() : null,
+        height: heightController.text.trim().isNotEmpty ? int.parse(heightController.text.trim()) : null,
+        weight: weightController.text.trim().isNotEmpty ? double.parse(weightController.text.trim()) : null,
+        hairColor: hairColorController.text.isNotEmpty ? hairColorController.text.trim() : null,
+        eyesColor: eyesColorController.text.isNotEmpty ? eyesColorController.text.trim() : null,
+        bloodType: bloodTypeController.text.isNotEmpty ? bloodTypeController.text.trim() : null));
   }
 
   void _clearEditor() {

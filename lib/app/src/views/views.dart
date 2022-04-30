@@ -24,3 +24,5 @@ part 'educational_info_view.dart';
 part 'soldier_view.dart';
 part 'training_status_view.dart';
 part 'soldier_case_view.dart';
+part 'vacations_view.dart';
+part 'daily_vacation_view.dart';

@@ -324,7 +324,7 @@ class DialogHelper {
           ),
         ),
       ),
-      barrierColor: Colors.transparent,
+      barrierColor: Colors.grey.withOpacity(.1),
     );
   }
 

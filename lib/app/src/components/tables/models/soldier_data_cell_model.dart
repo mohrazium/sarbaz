@@ -23,4 +23,9 @@ class SoldiersDataCellModel {
     this.soldierStatus,
     required this.isSelected,
   });
+
+  @override
+  String toString() {
+    return 'SoldiersDataCellModel(id: $id, caseNo: $caseNo, personnelCode: $personnelCode, firstName: $firstName, lastName: $lastName, fatherName: $fatherName, nationalCode: $nationalCode, mobileNumber: $mobileNumber, soldierStatus: $soldierStatus, isSelected: $isSelected)';
+  }
 }

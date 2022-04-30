@@ -1,13 +1,11 @@
 part of controllers;
 
-class SoldierCaseController extends GetxController
-    with ValidatorMixin, DateConverterMixin {
+class SoldierCaseController extends GetxController with ValidatorMixin, DateConverterMixin {
   final BridgeController _bridgeController;
   final SoldierCaseService _soldierCaseService;
   final RankService _rankService;
 
-  SoldierCaseController(
-      this._soldierCaseService, this._bridgeController, this._rankService);
+  SoldierCaseController(this._soldierCaseService, this._bridgeController, this._rankService);
 
   final GlobalKey<FormState> soldierCaseFormGlobalKey = GlobalKey<FormState>();
   late RxBool readOnly = false.obs;
@@ -27,6 +25,7 @@ class SoldierCaseController extends GetxController
   late TextEditingController introductionDateController;
   late TextEditingController amountOfServiceController;
   late TextEditingController rankController;
+  late TextEditingController descriptionController;
 
   @override
   void onInit() {
@@ -35,15 +34,14 @@ class SoldierCaseController extends GetxController
     dispatchController = TextEditingController();
     dispatcherController = TextEditingController();
     serviceCategoryController = TextEditingController();
-    startDateOfServiceController =
-        TextEditingController(text: Strings.religionList[0]);
-    endDateOfServiceController =
-        TextEditingController(text: Strings.sectList[0]);
+    startDateOfServiceController = TextEditingController(text: Strings.religionList[0]);
+    endDateOfServiceController = TextEditingController(text: Strings.sectList[0]);
     legalPeriodOfServiceController = TextEditingController();
     introductionDateController = TextEditingController();
     lastPeriodOfServiceController = TextEditingController();
     rankController = TextEditingController();
     amountOfServiceController = TextEditingController();
+    descriptionController = TextEditingController();
     initForm();
     logger.info("$runtimeType has been initialized.");
   }
@@ -68,13 +66,14 @@ class SoldierCaseController extends GetxController
     lastPeriodOfServiceController.dispose();
     rankController.dispose();
     amountOfServiceController.dispose();
+    descriptionController.dispose();
     logger.info("$runtimeType has been closed.");
     super.onClose();
   }
 
-  void initForm() {
+  Future<void> initForm() async {
     _clearEditor();
-    _loadData();
+    await _loadData();
   }
 
   Future<void> onConfirmButtonPressed() async {
@@ -93,7 +92,7 @@ class SoldierCaseController extends GetxController
                   _save();
                   logger.info("saving soldier case...");
 
-                  Get.find<SoldiersController>().loadAll();
+                  Get.find<SoldiersController>().loadAllSoldiers();
                   readOnly(true);
                 });
           }
@@ -118,16 +117,15 @@ class SoldierCaseController extends GetxController
   }
 
   void onDispatchCalenderPressed(context) async {
-    dispatchController.text = (await _getDateFromPicker(context))??"";
+    dispatchController.text = (await _getDateFromPicker(context)) ?? "";
   }
 
   void onIntroCalenderPressed(context) async {
-    introductionDateController.text = (await _getDateFromPicker(context))??"";
+    introductionDateController.text = (await _getDateFromPicker(context)) ?? "";
   }
 
   void onStartServiceDateCalenderPressed(context) async {
-    startDateOfServiceController.text =
-        (await _getDateFromPicker(context)) ?? "";
+    startDateOfServiceController.text = (await _getDateFromPicker(context)) ?? "";
     _calculateEndServiceDate();
   }
 
@@ -135,8 +133,7 @@ class SoldierCaseController extends GetxController
     _catchFormData();
     if (model.value.id == null) {
       await _soldierCaseService
-          .saveByPersonalInfoId(model.value,
-              personalInfoId: _bridgeController.personalInfoId.value)
+          .saveByPersonalInfoId(model.value, personalInfoId: _bridgeController.personalInfoId.value)
           .then((value) {
         if (value != 0) {
           model(model.value.copyWith(id: value));
@@ -165,35 +162,30 @@ class SoldierCaseController extends GetxController
   Future<void> _loadData() async {
     await _soldierCaseService
         .findByPersonalInfoId(_bridgeController.personalInfoId.value)
-        .then((foundedSoldierCase) {
+        .then((foundedSoldierCase) async {
       if (foundedSoldierCase?.id != null) {
         _clearEditor();
         readOnly(true);
         model(foundedSoldierCase);
-        if(foundedSoldierCase?.rank!=null){
+        if (foundedSoldierCase?.rank != null) {
           selectedRankModel(foundedSoldierCase?.rank!);
         }
 
-        dispatchController.text = toShamsi(model.value.dispatchField);
+        dispatchController.text = toShamsi(model.value.dispatchDate);
         dispatcherController.text = model.value.dispatcher;
-        introductionDateController.text =
-            toShamsi(model.value.introductionDate);
-        legalPeriodOfServiceController.text =
-            model.value.legalPeriodOfService.toString();
+        introductionDateController.text = toShamsi(model.value.introductionDate);
+        legalPeriodOfServiceController.text = model.value.legalPeriodOfService.toString();
         membershipTypeController.text = model.value.membershipType;
         serviceCategoryController.text = model.value.serviceCategory;
-        amountOfServiceController.text = model.value.amountOfService != null
-            ? model.value.amountOfService.toString()
-            : "";
+        amountOfServiceController.text =
+            model.value.amountOfService != null ? model.value.amountOfService.toString() : "";
         lastPeriodOfServiceController.text =
-            model.value.lastPeriodOfService != null
-                ? model.value.lastPeriodOfService.toString()
-                : "";
+            model.value.lastPeriodOfService != null ? model.value.lastPeriodOfService.toString() : "";
         rankController.text = _getRankPattern();
-        startDateOfServiceController.text =
-            toShamsi(model.value.startDateOfService);
-        endDateOfServiceController.text =
-            toShamsi(model.value.endDateOfService);
+        startDateOfServiceController.text = toShamsi(model.value.startDateOfService);
+        endDateOfServiceController.text = toShamsi(model.value.endDateOfService);
+        descriptionController.text = model.value.description ?? "";
+        await _updateAmountOfService();
       } else {
         _clearEditor();
         readOnly(false);
@@ -206,27 +198,20 @@ class SoldierCaseController extends GetxController
   void _catchFormData() {
     model(SoldierCaseModel(
       id: model.value.id,
-      dispatchField: toDateTime(shamsiDate:dispatchController.text.trim()),
+      dispatchDate: toDateTime(shamsiDate: dispatchController.text.trim()),
       dispatcher: dispatcherController.text.trim(),
-      introductionDate:
-          toDateTime(shamsiDate: introductionDateController.text.trim()),
-      legalPeriodOfService:
-          int.parse(legalPeriodOfServiceController.text.trim()),
+      introductionDate: toDateTime(shamsiDate: introductionDateController.text.trim()),
+      legalPeriodOfService: int.parse(legalPeriodOfServiceController.text.trim()),
       membershipType: membershipTypeController.text.trim(),
       serviceCategory: serviceCategoryController.text.trim(),
-      amountOfService: amountOfServiceController.text.isNotEmpty
-          ? int.parse(amountOfServiceController.text.trim())
-          : null,
-      lastPeriodOfService: lastPeriodOfServiceController.text.isNotEmpty
-          ? int.parse(lastPeriodOfServiceController.text.trim())
-          : null,
-      rank: selectedRankModel.value.gradeCode != 0
-          ? selectedRankModel.value
-          : null,
-      startDateOfService:
-          toDateTime(shamsiDate: startDateOfServiceController.text.trim()),
-      endDateOfService:
-          toDateTime(shamsiDate: endDateOfServiceController.text.trim()),
+      amountOfService:
+          amountOfServiceController.text.isNotEmpty ? int.parse(amountOfServiceController.text.trim()) : null,
+      lastPeriodOfService:
+          lastPeriodOfServiceController.text.isNotEmpty ? int.parse(lastPeriodOfServiceController.text.trim()) : null,
+      rank: selectedRankModel.value.gradeCode != 0 ? selectedRankModel.value : null,
+      startDateOfService: toDateTime(shamsiDate: startDateOfServiceController.text.trim()),
+      endDateOfService: toDateTime(shamsiDate: endDateOfServiceController.text.trim()),
+      description: descriptionController.text.isNotEmpty ? descriptionController.text.trim() : null,
     ));
   }
 
@@ -243,6 +228,7 @@ class SoldierCaseController extends GetxController
     lastPeriodOfServiceController.clear();
     rankController.clear();
     amountOfServiceController.clear();
+    descriptionController.clear();
   }
 
   Future<String?> _getDateFromPicker(ctx) async {
@@ -261,49 +247,54 @@ class SoldierCaseController extends GetxController
 
   void _calculateEndServiceDate() {
     try {
-      if (startDateOfServiceController.text.isNotEmpty &&
-          legalPeriodOfServiceController.text.isNotEmpty &&
-          model.value.id == null) {
+      if (startDateOfServiceController.text.isNotEmpty && legalPeriodOfServiceController.text.isNotEmpty) {
         endDateOfServiceController.text = calculateEndDate(
           startDate: startDateOfServiceController.text.trim(),
           months: int.parse(legalPeriodOfServiceController.text.trim()),
-          pastDays: lastPeriodOfServiceController.text.isNotEmpty
-              ? int.parse(lastPeriodOfServiceController.text.trim())
-              : 0,
+          pastDays:
+              lastPeriodOfServiceController.text.isNotEmpty ? int.parse(lastPeriodOfServiceController.text.trim()) : 0,
         );
 
-        amountOfServiceController.text = differenceInDays(
-                shamsiNow(), endDateOfServiceController.text.trim())
-            .toString();
+        amountOfServiceController.text = updateAmountOfServiceField().toString();
       }
 
       // ignore: empty_catches
     } catch (ignore) {}
   }
 
+  Future<void> _updateAmountOfService() async {
+    if (model.value.id != null) {
+      int amount = updateAmountOfServiceField();
+      bool result = await _soldierCaseService.updateAmountOfServiceById(model.value.id!, amount);
+      if (result) {
+        model(model.value.copyWith(amountOfService: amount));
+        amountOfServiceController.text = model.value.amountOfService.toString();
+      }
+    }
+  }
+
+  int updateAmountOfServiceField() => differenceInDays(shamsiNow(), endDateOfServiceController.text.trim());
+
   void onChangeCalculateEndDate(String val) {
     _calculateEndServiceDate();
   }
 
   Future<void> _loadRanks() async {
-    await _rankService
-        .findAll()
-        .then((value) => ranks.value.addAll(value!))
-        .catchError((err) {
+    await _rankService.findAll().then((value) => ranks.value.addAll(value!)).catchError((err) {
       DialogHelper.showCrashReport(err.toString());
     });
   }
 
   void selectRank(String value) {
     selectedRankModel(ranks.value.elementAt(int.parse(value) - 1));
-    rankController.text =_getRankPattern();
+    rankController.text = _getRankPattern();
   }
 
   onRankChanged(String val) {
     rankController.text = _getRankPattern();
   }
 
-  String _getRankPattern(){
+  String _getRankPattern() {
     return selectedRankModel.value.name.isNotEmpty
         ? "${selectedRankModel.value.gradeCode} - ${selectedRankModel.value.name}"
         : "";

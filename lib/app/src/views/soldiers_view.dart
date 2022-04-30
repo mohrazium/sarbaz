@@ -8,7 +8,7 @@ class SoldiersView extends GetView<SoldiersController> {
     return GetX(
         init: controller,
         initState: (s) {
-          controller.loadAll();
+          controller.searchSoldier("");
         },
         builder: (_) {
           return Column(
@@ -24,52 +24,62 @@ class SoldiersView extends GetView<SoldiersController> {
                 ),
                 GroupBox(
                   padding: const EdgeInsets.all(kPadding),
-                  height: kSpacing * 5,
-                  margin: const EdgeInsets.all(kPadding / 3),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        FilledButton(
-                          icon: EvaIcons.plus,
-                          onPressed: () => controller.onNewSoldierPressed(),
-                          label: Strings.newSoldier,
-                        ),
-                        const SizedBox(
-                          width: kSpacing,
-                        ),
-                        FilledButton(
-                          icon: EvaIcons.plus,
-                          onPressed: () => controller.onEditSoldierPressed(),
-                          label: Strings.edit,
-                        ),
-                        const SizedBox(width: kSpacing),
-                        FilledButton(
-                          icon: EvaIcons.plus,
-                          onPressed: () => controller.onDeleteSoldierPressed(),
-                          label: Strings.delete,
-                        ),
-                        const SizedBox(width: kSpacing),
-                        Expanded(
-                            child: SearchField(
-                          controller: TextEditingController(),
-                        )),
-                        const SizedBox(width: kSpacing),
-                        FilledButton(
-                            onPressed: () {},
-                            icon: EvaIcons.search,
-                            label: Strings.search)
-                      ]),
+                  
+                  margin: const EdgeInsets.all(kPadding),
+                  child: Column(children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          FilledButton(
+                            icon: EvaIcons.plus,
+                            onPressed: () => controller.onNewSoldierPressed(),
+                            label: Strings.newSoldier,
+                          ),
+                          const SizedBox(
+                            width: kSpacing,
+                          ),
+                          FilledButton(
+                            icon: EvaIcons.plus,
+                            onPressed: () => controller.onEditSoldierPressed(),
+                            label: Strings.edit,
+                          ),
+                          const SizedBox(width: kSpacing),
+                          FilledButton(
+                            icon: EvaIcons.plus,
+                            onPressed: () => controller.onDeleteSoldierPressed(),
+                            label: Strings.delete,
+                          ),
+                          const SizedBox(width: kSpacing),
+                          FilledButton(
+                            icon: EvaIcons.refresh,
+                            onPressed: () => controller.onRefreshSoldiersPressed(),
+                            label: Strings.refresh,
+                          ),
+                        ]),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Expanded(
+                              child: SearchField(
+                            onSearch: (val) => controller.searchSoldier(val),
+                            controller: controller.searchFieldController,
+                          )),
+                          const SizedBox(width: kSpacing),
+                          FilledButton(onPressed: () {}, icon: EvaIcons.search, label: Strings.search)
+                        ]),
+                  ]),
                 ),
                 Expanded(
                   child: GroupBox(
                     padding: const EdgeInsets.all(kPadding),
                     child: SoldiersDataTable(
-                      soldiers: controller.soldiersList.value,
-                      onCellTap: ((details) => controller.onCellTap(details)),
-                      onCellDoubleTap: (details) =>
-                          controller.onCellDoubleTap(details),
+                      dataSource: controller.soldiersDataSource.value,
+                      onCellTap: (details) => controller.onCellTap(details),
+                      onCellDoubleTap: (details) => controller.onCellDoubleTap(details),
                     ),
                   ),
                 )

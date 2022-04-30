@@ -1,7 +1,6 @@
 part of controllers;
 
-class PersonalInfoController extends GetxController
-    with ValidatorMixin, DateConverterMixin {
+class PersonalInfoController extends GetxController with ValidatorMixin, DateConverterMixin {
   final GlobalKey<FormState> personalInfoFormGlobalKey = GlobalKey<FormState>();
   final PersonalInfoService _personalInfoService;
   final BridgeController _bridgeController;
@@ -56,7 +55,7 @@ class PersonalInfoController extends GetxController
     super.onClose();
   }
 
-  void initForm(int id) {
+  Future<void> initForm(int id) async {
     if (id == 0) {
       logger.info("$runtimeType has been initialized on new person mode.");
       _bridgeController.soldierNameAndFamily("...");
@@ -64,15 +63,14 @@ class PersonalInfoController extends GetxController
       readOnly(false);
     } else {
       logger.info("$runtimeType has been initialized on editable person mode.");
-      _loadPersonalInfo(id);
+     await _loadPersonalInfo(id);
       readOnly(true);
     }
   }
 
   void getSoldierNameAndFamily(PersonalInfoModel? model) {
     if (model != null) {
-      _bridgeController
-          .soldierNameAndFamily("${model.firstName} ${model.lastName}");
+      _bridgeController.soldierNameAndFamily("${model.firstName} ${model.lastName}");
     }
   }
 
@@ -94,8 +92,7 @@ class PersonalInfoController extends GetxController
   }
 
   void onChangedFirstAndLastNameField(String val) async {
-    _bridgeController.soldierNameAndFamily(
-        firstNameController.text + " " + lastNameController.text);
+    _bridgeController.soldierNameAndFamily(firstNameController.text + " " + lastNameController.text);
   }
 
   void onConfirmButtonPressed() {
@@ -133,20 +130,16 @@ class PersonalInfoController extends GetxController
       lastDate: Jalali(now - 16, 1),
     );
     if (picked != null) {
-      dateOfBirthController.text =
-          persianTools.convertEnToFa(picked.formatCompactDate());
+      dateOfBirthController.text = persianTools.convertEnToFa(picked.formatCompactDate());
     }
   }
 
   Future<bool> _checkPersonalInfoDuplication(String nationalIdentity) async {
     bool checked = false;
-    await _personalInfoService
-        .findByNationalCode(nationalIdentity)
-        .then((value) {
+    await _personalInfoService.findByNationalCode(nationalIdentity).then((value) {
       if (value != null) {
         checked = true;
-        logger.info(
-            "Personal info is duplicated by nationalIdentity :$nationalIdentity.");
+        logger.info("Personal info is duplicated by nationalIdentity :$nationalIdentity.");
       }
     });
 
@@ -182,7 +175,7 @@ class PersonalInfoController extends GetxController
       });
     }
 
-    Get.find<SoldiersController>().loadAll();
+    Get.find<SoldiersController>().loadAllSoldiers();
   }
 
   Future<void> _loadPersonalInfo(int personalInfoId) async {
@@ -209,7 +202,8 @@ class PersonalInfoController extends GetxController
       firstName: firstNameController.text.trim(),
       lastName: lastNameController.text.trim(),
       fatherName: fatherNameController.text.trim(),
-      dateOfBirth: toDateTime(shamsiDate: dateOfBirthController.text.trim()),
+      dateOfBirth:
+          dateOfBirthController.text.isNotEmpty ? toDateTime(shamsiDate: dateOfBirthController.text.trim()) : null,
       placeOfBirth: placeOfBirthController.text.trim(),
       placeOfIssue: placeOfIssueController.text.trim(),
     );

@@ -37,6 +37,7 @@ dependencies:
   json_annotation: ^4.4.0
   json_serializable: ^6.1.4
   logging: ^1.0.1
+  get_storage: ^2.0.3
 
 
 #!#########################

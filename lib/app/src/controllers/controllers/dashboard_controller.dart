@@ -3,15 +3,16 @@ part of controllers;
 class DashboardController extends GetxController
     with GetSingleTickerProviderStateMixin {
   final dashboardScaffoldKey = GlobalKey<ScaffoldState>();
-  late final BridgeController bridgeController;
+  final BridgeController bridgeController;
 
   late final Rx<TabController> tabController;
 
   Rx<String> todayHeader = Rx("");
 
+  DashboardController(this.bridgeController);
+
   @override
   void onInit() {
-    bridgeController = Get.find<BridgeController>();
     tabController = bridgeController.dashboardTabController;
     var today = Jalali.now().formatter;
     todayHeader.value =

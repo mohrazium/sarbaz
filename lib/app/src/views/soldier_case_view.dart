@@ -47,7 +47,7 @@ class SoldierCaseView extends GetView<SoldierCaseController> {
                             allowedCharMatcher: RegExp('[0-9]'),
                           ),
                         ],
-                        validator: (val) => controller.requiredFieldValidator(value: val),
+                        validator: (val) => controller.dateValidator(isRequired: true, value: val),
                         prefixIcon: IconButton(
                             onPressed: () => controller.onIntroCalenderPressed(context),
                             icon: const Icon(EvaIcons.calendar)),
@@ -65,7 +65,7 @@ class SoldierCaseView extends GetView<SoldierCaseController> {
                             allowedCharMatcher: RegExp('[0-9]'),
                           ),
                         ],
-                        validator: (val) => controller.requiredFieldValidator(value: val),
+                        validator: (val) => controller.dateValidator(isRequired: true, value: val),
                         prefixIcon: IconButton(
                             onPressed: () => controller.onStartServiceDateCalenderPressed(context),
                             icon: const Icon(EvaIcons.calendar)),
@@ -133,7 +133,7 @@ class SoldierCaseView extends GetView<SoldierCaseController> {
                             allowedCharMatcher: RegExp('[0-9]'),
                           ),
                         ],
-                        validator: (val) => controller.requiredFieldValidator(value: val),
+                        validator: (val) => controller.dateValidator(isRequired: true, value: val),
                         prefixIcon: IconButton(
                             onPressed: () => controller.onDispatchCalenderPressed(context),
                             icon: const Icon(EvaIcons.calendar)),

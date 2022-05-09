@@ -7,12 +7,10 @@ import 'package:drift/native.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
-
-import 'package:sarbaz/core/src/config/config.dart';
 import 'package:sarbaz/utility/utility.dart';
 
 part 'data.g.dart';
-part 'db/helper.dart';
+part 'db/soldier_data_base_helper.dart';
 part 'db/soldier_database.dart';
 part 'storage/pref_storage.dart';
 

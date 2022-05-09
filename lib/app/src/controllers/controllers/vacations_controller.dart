@@ -1,8 +1,12 @@
 part of controllers;
 
 class VacationsController extends GetxController {
-  
+  final VacationsService _vacationsService;
+  final BridgeController _bridgeController;
+
   late final Rx<VacationsModel> model = Rx(VacationsModel.init());
+
+  VacationsController(this._vacationsService, this._bridgeController);
 
   @override
   void onInit() {
@@ -22,5 +26,13 @@ class VacationsController extends GetxController {
   void onClose() {
     logger.info("$runtimeType has been closed.");
     super.onClose();
+  }
+
+  Future<void> init() async {
+    model.value =
+        await _vacationsService.findByPersonalInfoId(_bridgeController.personalInfoId.value).catchError((onError) {
+              DialogHelper.showCrashReport(onError.toString());
+            }) ??
+            VacationsModel.init();
   }
 }

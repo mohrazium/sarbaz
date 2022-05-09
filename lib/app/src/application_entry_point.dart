@@ -5,10 +5,7 @@ class ApplicationEntryPoint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.config(
-        enableLog: true,
-        defaultPopGesture: true,
-        defaultTransition: Transition.zoom);
+    Get.config(enableLog: true, defaultPopGesture: true, defaultTransition: Transition.zoom);
 
     return Toast(
         materialApp: GetMaterialApp(

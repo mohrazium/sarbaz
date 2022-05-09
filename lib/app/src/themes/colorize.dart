@@ -35,7 +35,7 @@ class Colorize {
     900: backgroundColorShade900,
   });
 
-  ///* Forground color
+  ///* Foreground color
   static const int _middleForegroundColor = 0xFF1B2337;
 
   static const Color foregroundColorShade100 = Color(0xFFF0F0F0);

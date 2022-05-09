@@ -34,13 +34,17 @@ class VacationsServiceImpl implements VacationsService {
   }
 
   @override
-  Future<int> saveBySoldierCase(SoldierCaseModel soldierCase) {
-    final model = _calculateVacations(soldierCase.startDateOfService, soldierCase.endDateOfService);
-    return _vacationsDAO.doInsert(model.toJson(), soldierCase.id!).then((value) {
-      logger.info("Vacation was saved.");
-      return value.id ?? 0;
-    }).onError((error, stackTrace) =>
-        throw FailureException("Vacation can not save, see the error :\n $error \n $stackTrace"));
+  Future<int> saveBySoldierCase(SoldierCaseModel? soldierCase) {
+    if (soldierCase != null) {
+      final model = _calculateVacations(soldierCase.startDateOfService, soldierCase.endDateOfService);
+      return _vacationsDAO.doInsert(model.toJson(), soldierCase.id!).then((value) {
+        logger.info("Vacation was saved.");
+        return value.id ?? 0;
+      }).onError((error, stackTrace) =>
+          throw FailureException("Vacation can not save, see the error :\n $error \n $stackTrace"));
+    } else {
+      return Future.value(0);
+    }
   }
 
   @override
@@ -52,14 +56,15 @@ class VacationsServiceImpl implements VacationsService {
 
   @override
   Future<bool> update(VacationsModel model) async {
-    return await _vacationsDAO
-        .doUpdate(model.toJson())
-        .onError((error, stackTrace) => throw FailureException("Updating Vacation failed, error $stackTrace"));
+    return await _vacationsDAO.doUpdate(model.toJson()).onError(
+        (error, stackTrace) => throw FailureException("Updating Vacation failed, error :\n $error \n $stackTrace"));
   }
 
   @override
   Future<VacationsModel?> findByPersonalInfoId(int personalInfoId) async {
-    final vacationId = await _getSoldierCase(personalInfoId).then((soldierCase) => soldierCase.vacations!.id!);
+    final soldierCaseId = await _getSoldierCaseId(personalInfoId);
+    final vacationId = await _soldierCaseDAO.findById(soldierCaseId).then((soldierCase) => soldierCase?.vacations ?? 0);
+
     return findById(vacationId);
   }
 
@@ -67,19 +72,20 @@ class VacationsServiceImpl implements VacationsService {
   Future<VacationsModel?> findById(int id) async {
     return await _vacationsDAO
         .findById(id)
-        .then((foundedVacation) => VacationsModel.fromJson(foundedVacation!.toJson()))
+        .then((foundedVacation) => foundedVacation != null ? VacationsModel.fromJson(foundedVacation.toJson()) : null)
         .onError((error, stackTrace) => throw FailureException(
-            "An error happened in finding further info by personal id, see the error :\n $error \n $stackTrace"));
+            "An error happened in finding vacations by id, see the error :\n $error \n $stackTrace"));
   }
 
-  Future<SoldierCaseModel> _getSoldierCase(int pid) async {
-    final soldierId = await _personalInfoDAO.findById(pid).then((person) => person!.soldier!);
+  Future<int> _getSoldierCaseId(int pid) async {
+    final soldierId = await _personalInfoDAO.findById(pid).then((person) => person?.soldier ?? 0);
+    return await _soldierDAO.findById(soldierId).then((soldier) => soldier?.soldierCase ?? 0);
+  }
 
-    final soldierCaseId = await _soldierDAO.findById(soldierId).then((soldier) => soldier!.soldierCase!);
-
+  Future<SoldierCaseModel?> _getSoldierCase(int pid) async {
     return await _soldierCaseDAO
-        .findById(soldierCaseId)
-        .then((soldierCase) => SoldierCaseModel.fromJson(soldierCase!.toJson()));
+        .findById(await _getSoldierCaseId(pid))
+        .then((soldierCase) => soldierCase != null ? SoldierCaseModel.fromJson(soldierCase.toJson()) : null);
   }
 
   @override
@@ -89,44 +95,46 @@ class VacationsServiceImpl implements VacationsService {
     required int amount,
   }) async {
     VacationResult result = VacationResult.none;
-    VacationsModel model =
-        await findByPersonalInfoId(personalInfoId).then((value) => value!).onError((error, stackTrace) {
+    VacationsModel? model =
+        await findByPersonalInfoId(personalInfoId).then((value) => value).onError((error, stackTrace) {
       result = VacationResult.failed;
       throw FailureException('Founding vacation failed, see the errors:\n $error \n $stackTrace ');
     });
-    if (vacationType == VacationType.eligible) {
-      if (model.eligibleBalance > 0 && model.eligibleBalance >= amount) {
-        model = model.copyWith(eligibleBalance: model.eligibleBalance - amount, eligibleUsed: amount as double);
+    if (model != null) {
+      if (vacationType == VacationType.eligible) {
+        if (model.eligibleBalance > 0 && model.eligibleBalance >= amount) {
+          model = model.copyWith(eligibleBalance: model.eligibleBalance - amount, eligibleUsed: amount as double);
 
-        if (await update(model)) {
-          result = VacationResult.saved;
+          if (await update(model)) {
+            result = VacationResult.saved;
+          } else {
+            result = VacationResult.failed;
+          }
         } else {
-          result = VacationResult.failed;
+          result = VacationResult.noEnoughEligibleBalance;
         }
-      } else {
-        result = VacationResult.noEnoughEligibleBalance;
-      }
-    } else if (vacationType == VacationType.sick) {
-      if (model.sickBalance > 0 && model.sickBalance >= amount) {
-        model = model.copyWith(sickBalance: model.sickBalance - amount, sickUsed: amount as double);
-        if (await update(model)) {
-          result = VacationResult.saved;
+      } else if (vacationType == VacationType.sick) {
+        if (model.sickBalance > 0 && model.sickBalance >= amount) {
+          model = model.copyWith(sickBalance: model.sickBalance - amount, sickUsed: amount as double);
+          if (await update(model)) {
+            result = VacationResult.saved;
+          } else {
+            result = VacationResult.failed;
+          }
         } else {
-          result = VacationResult.failed;
+          result = VacationResult.noEnoughSickBalance;
         }
-      } else {
-        result = VacationResult.noEnoughSickBalance;
-      }
-    } else if (vacationType == VacationType.incentive) {
-      if (model.incentiveBalance! > 0 && model.incentiveBalance! >= amount) {
-        model = model.copyWith(incentiveBalance: model.incentiveBalance! - amount, incentiveUsed: amount as double);
-        if (await update(model)) {
-          result = VacationResult.saved;
+      } else if (vacationType == VacationType.incentive) {
+        if (model.incentiveBalance! > 0 && model.incentiveBalance! >= amount) {
+          model = model.copyWith(incentiveBalance: model.incentiveBalance! - amount, incentiveUsed: amount as double);
+          if (await update(model)) {
+            result = VacationResult.saved;
+          } else {
+            result = VacationResult.failed;
+          }
         } else {
-          result = VacationResult.failed;
+          result = VacationResult.noEnoughIncentiveBalance;
         }
-      } else {
-        result = VacationResult.noEnoughIncentiveBalance;
       }
     }
     return result;

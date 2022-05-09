@@ -14,6 +14,7 @@ class FormCard extends StatelessWidget with DateConverterMixin {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final bool haveShadow;
+  final Widget? footerChild;
 
   const FormCard({
     Key? key,
@@ -28,6 +29,7 @@ class FormCard extends StatelessWidget with DateConverterMixin {
     required this.headerContent,
     required this.child,
     this.haveShadow = false,
+    this.footerChild,
     this.createdAt,
     this.updatedAt,
   }) : super(key: key);
@@ -42,8 +44,7 @@ class FormCard extends StatelessWidget with DateConverterMixin {
         mainAxisSize: MainAxisSize.min,
         children: [
           ConstrainedBox(
-            constraints: BoxConstraints(
-                minWidth: minWidth ?? 200, maxWidth: maxWidth ?? 520),
+            constraints: BoxConstraints(minWidth: minWidth ?? 200, maxWidth: maxWidth ?? 520),
             child: GroupBox(
               haveShadow: haveShadow,
               color: color ?? Colorize.backgroundColorShade200,
@@ -57,16 +58,12 @@ class FormCard extends StatelessWidget with DateConverterMixin {
                         children: [
                           Container(
                             color: headerColor ?? Colorize.primaryColorShade100,
-                            child: Padding(
-                                padding: const EdgeInsets.all(kPadding),
-                                child: headerContent),
+                            child: Padding(padding: const EdgeInsets.all(kPadding), child: headerContent),
                           ),
-                          Padding(
-                              padding: const EdgeInsets.all(kPadding),
-                              child: child),
+                          Padding(padding: const EdgeInsets.all(kPadding), child: child),
                         ],
                       ),
-                      _buildFooter(),
+                      _buildFooter(footerChild),
                     ],
                   ),
                 ],
@@ -78,7 +75,7 @@ class FormCard extends StatelessWidget with DateConverterMixin {
     );
   }
 
-  Widget _buildFooter() {
+  Widget _buildFooter(Widget? footerChild) {
     Widget _buildConfirmButton() {
       return ElevatedButton.icon(
         icon: Icon(
@@ -113,21 +110,21 @@ class FormCard extends StatelessWidget with DateConverterMixin {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                createdAt != null
-                    ? "${Strings.createdAt}: ${toShamsi(createdAt)}"
-                    : "",
+                createdAt != null ? "${Strings.createdAt}: ${toShamsi(createdAt)}" : "",
                 style: Themizer.light.textTheme.caption,
               ),
               Text(
-                updatedAt != null
-                    ? "${Strings.updatedAt}: ${toShamsi(updatedAt)}"
-                    : "",
+                updatedAt != null ? "${Strings.updatedAt}: ${toShamsi(updatedAt)}" : "",
                 style: Themizer.light.textTheme.caption,
               ),
             ],
           ),
           Row(
             children: [
+              footerChild ?? Container(),
+              const SizedBox(
+                width: kSpacing / 2,
+              ),
               _buildConfirmButton(),
               const SizedBox(
                 width: kSpacing / 2,

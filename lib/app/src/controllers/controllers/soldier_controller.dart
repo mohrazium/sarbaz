@@ -24,6 +24,8 @@ class SoldierController extends GetxController with ValidatorMixin {
   late TextEditingController caseNoController;
   late TextEditingController searchController;
 
+  late Rx<int> dividedCaseCount = 100.obs;
+
   SoldierController(this._soldierService, this._caseNoService, this._bridgeController);
 
   @override
@@ -209,7 +211,17 @@ class SoldierController extends GetxController with ValidatorMixin {
     }
   }
 
+  Future<void> calculatedCaseCount() async {
+    final int caseCount = searchController.text.isNotEmpty ? int.tryParse(searchController.text.trim()) ?? 200 : 200;
+    dividedCaseCount.value = caseCount ~/ 2;
+  }
+
   Future<void> onGenerateCaseNoListPressed() async {
-    await _caseNoService.saveAll(100).catchError((err) => showToast(Strings.error)).whenComplete(() => loadAllCaseNo());
+   await _caseNoService
+        .saveAll(dividedCaseCount.value * 2)
+        .catchError((err) => showToast(Strings.error))
+        .whenComplete(() async => await loadAllCaseNo().whenComplete(() {
+              DialogHelper.hideLoading();
+            }));
   }
 }

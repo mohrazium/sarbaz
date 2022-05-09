@@ -3,7 +3,6 @@ library pages;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:sarbaz/core/src/config/config.dart';
 import 'package:sarbaz/utility/utility.dart';
 
 

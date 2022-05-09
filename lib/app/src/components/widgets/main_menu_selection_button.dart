@@ -4,21 +4,22 @@ class MainMenuSelectionButtonData {
   final IconData activeIcon;
   final IconData icon;
   final String label;
-  final int? totalNotif;
+  final int? totalNotice;
+  final bool isLocked;
 
   MainMenuSelectionButtonData({
     required this.activeIcon,
     required this.icon,
     required this.label,
-    this.totalNotif,
+    this.totalNotice,
+    this.isLocked = false,
   });
 }
 
 class MainMenuSelectionButton extends StatelessWidget {
   final int initialSelected;
   final List<MainMenuSelectionButtonData> data;
-  final Function({required int index, MainMenuSelectionButtonData? value})
-      onSelected;
+  final Function({required int index, MainMenuSelectionButtonData? value}) onSelected;
   const MainMenuSelectionButton({
     this.initialSelected = 0,
     required this.data,
@@ -42,13 +43,13 @@ class MainMenuSelectionButton extends StatelessWidget {
           child: GetX(
               init: bridgeController,
               builder: (_) => MainMenuButton(
-                    selected:
-                        bridgeController.selectedDashboardMainMenuIndex.value ==
-                            index,
-                    onPressed: () {
-                      onSelected(index: index, value: data);
-                      bridgeController.selectedDashboardMainMenuIndex(index);
-                    },
+                    selected: bridgeController.selectedDashboardMainMenuIndex.value == index,
+                    onPressed: !e.value.isLocked
+                        ? () {
+                            onSelected(index: index, value: data);
+                            bridgeController.selectedDashboardMainMenuIndex(index);
+                          }
+                        : null,
                     data: data,
                   )),
         );
@@ -67,13 +68,12 @@ class MainMenuButton extends StatelessWidget {
 
   final bool selected;
   final MainMenuSelectionButtonData data;
-  final Function() onPressed;
+  final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color:
-          (!selected) ? null : Theme.of(context).primaryColor.withOpacity(.1),
+      color: (!selected) ? null : Theme.of(context).primaryColor.withOpacity(.1),
       borderRadius: BorderRadius.circular(kBorderRadius),
       child: InkWell(
         onTap: onPressed,
@@ -102,9 +102,7 @@ class MainMenuButton extends StatelessWidget {
     return Icon(
       (!selected) ? data.icon : data.activeIcon,
       size: 20,
-      color: (!selected)
-          ? Colorize.foregroundColor
-          : Theme.of(Get.context!).primaryColor,
+      color: (!selected) ? Colorize.foregroundColor : Theme.of(Get.context!).primaryColor,
     );
   }
 
@@ -112,9 +110,7 @@ class MainMenuButton extends StatelessWidget {
     return Text(
       data.label,
       style: TextStyle(
-        color: (!selected)
-            ? Colorize.foregroundColor
-            : Theme.of(Get.context!).primaryColor,
+        color: (!selected) ? Colorize.foregroundColor : Theme.of(Get.context!).primaryColor,
         fontWeight: FontWeight.bold,
         letterSpacing: .8,
         fontSize: 14,

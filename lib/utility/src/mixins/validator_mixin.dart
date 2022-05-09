@@ -4,8 +4,7 @@ part of mixins;
 
 /// use this mixin for all form field
 mixin ValidatorMixin {
-  String? nationalIdentityValidator(
-      {required String? value, required String errorMessage}) {
+  String? nationalIdentityValidator({required String? value, required String errorMessage}) {
     if (value!.isEmpty) {
       return Strings.fieldCantBeEmpty;
     } else if (!persian_tools.verifyIranianNationalId(value)) {
@@ -19,13 +18,13 @@ mixin ValidatorMixin {
     if (value!.isEmpty) {
       return Strings.fieldCantBeEmpty;
     }
+    return null;
   }
 
-  String? beforeTodayValidator(
-      {required String? value, required String errorMessage}) {
+  String? beforeTodayValidator({required String? value, required String errorMessage}) {
     try {
-      DateTime date = _Date.toDateTime(shamsiDate:value);
-      if (date.isAfter(DateTime.now())) {
+      DateTime date = _Date.toDateTime(shamsiDate: value);
+      if (!date.isBefore(DateTime.now())) {
         return errorMessage;
       }
     } catch (ignore) {
@@ -33,8 +32,7 @@ mixin ValidatorMixin {
     }
   }
 
-  String? mobileNumberValidator(
-      {required String? value, required String errorMessage}) {
+  String? mobileNumberValidator({required String? value, required String errorMessage}) {
     if (value!.isEmpty) {
       return Strings.fieldCantBeEmpty;
     } else {
@@ -44,14 +42,15 @@ mixin ValidatorMixin {
     }
   }
 
-  String? dateValidator({required String? value, String? errorMessage}) {
-    if (value!.isNotEmpty) {
+  String? dateValidator({bool isRequired = false, required String? value, String? errorMessage}) {
+    final requiredFieldError = isRequired ? requiredFieldValidator(value: value) : null;
+    if (requiredFieldError == null) {
       RegExp dateRegExp = RegExp(
         r"[0-9]{4}/[0-9]{2}/[0-9]{2}",
         caseSensitive: false,
         multiLine: false,
       );
-      if (dateRegExp.hasMatch(value)) {
+      if (dateRegExp.hasMatch(value!)) {
         var splitDate = (value.split("/"));
         if (int.parse(splitDate[0]) > 1450) {
           return Strings.yearNotValid;
@@ -61,6 +60,23 @@ mixin ValidatorMixin {
           return Strings.dayNotValid;
         }
       }
+    }
+    return requiredFieldError;
+  }
+
+  String? endDateAfterStartDateValidator(
+      {bool isRequired = false, required String? startDate, required String? endDate}) {
+    final validDateError = dateValidator(isRequired: isRequired, value: endDate);
+    if (validDateError == null) {
+      DateTime start = _Date.toDateTime(shamsiDate: startDate);
+      DateTime end = _Date.toDateTime(shamsiDate: endDate);
+      if (end.isAfter(start) || end.isAtSameMomentAs(start)) {
+        return null;
+      } else {
+        return "تاریخ نامعتبر است";
+      }
+    } else {
+      return validDateError;
     }
   }
 }

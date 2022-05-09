@@ -1,16 +1,12 @@
 part of controllers;
 
-class DailyVacationController extends GetxController
-    with ValidatorMixin, DateConverterMixin {
+class DailyVacationController extends GetxController with ValidatorMixin, DateConverterMixin {
   final BridgeController _bridgeController;
-  final SoldierCaseService _soldierCaseService;
   final DailyVacationService _dailyVacationService;
 
-  DailyVacationController(this._soldierCaseService, this._bridgeController,
-      this._dailyVacationService);
+  DailyVacationController(this._bridgeController, this._dailyVacationService);
 
-  final GlobalKey<FormState> dailyVacationFormGlobalKey =
-      GlobalKey<FormState>();
+  final GlobalKey<FormState> dailyVacationFormGlobalKey = GlobalKey<FormState>();
   late RxBool readOnly = false.obs;
 
   late final Rx<DailyVacationModel> model = Rx(DailyVacationModel.init());
@@ -21,23 +17,14 @@ class DailyVacationController extends GetxController
   late TextEditingController vacationTypeController;
   late TextEditingController descriptionController;
 
-// IntColumn get id => integer().autoIncrement().nullable()();
-//   DateTimeColumn get startDate => dateTime()();
-//   DateTimeColumn get endDate => dateTime()();
-//   IntColumn get amount => integer()();
-//   TextColumn get vacationType => text()();
-//   TextColumn get  => text().nullable()();
-//   DateTimeColumn get createdAt => dateTime().nullable()();
-//   DateTimeColumn get updatedAt => dateTime().nullable()();
-
   @override
   void onInit() {
     super.onInit();
-    startDateController = TextEditingController(text: Strings.religionList[0]);
-    endDateController = TextEditingController(text: Strings.sectList[0]);
+    startDateController = TextEditingController();
+    endDateController = TextEditingController();
     amountController = TextEditingController();
     descriptionController = TextEditingController();
-    vacationTypeController = TextEditingController();
+    vacationTypeController = TextEditingController(text: Strings.vacationsTypeList[0]);
     initForm();
     logger.info("$runtimeType has been initialized.");
   }
@@ -67,11 +54,11 @@ class DailyVacationController extends GetxController
 
   Future<void> onConfirmButtonPressed() async {
     if (!readOnly.value) {
-      await _bridgeController.isSoldierSaved().then((value) {
+      await _bridgeController.isSoldierCaseSaved().then((value) {
         if (value) {
           if (dailyVacationFormGlobalKey.currentState!.validate()) {
             dailyVacationFormGlobalKey.currentState!.save();
-            logger.info("Soldier case form is valid to save.");
+            logger.info("Daily vacation form is valid to save.");
             DialogHelper.showMessageBox(
                 title: Strings.saveInfoTitle,
                 dialogButtons: DialogButtons.YES_NO,
@@ -79,14 +66,14 @@ class DailyVacationController extends GetxController
                 message: Strings.saveInfoMessage,
                 onYesPressed: () {
                   _save();
-                  logger.info("saving soldier case...");
+                  logger.info("saving daily vacation...");
 
                   Get.find<SoldiersController>().loadAllSoldiers();
                   readOnly(true);
                 });
           }
         } else {
-          showToast(Strings.soldierIsnotSavedPleaseSave);
+          showToast(Strings.soldierCaseIsnotSavedPleaseSave);
         }
       }).catchError((onError) {
         DialogHelper.showCrashReport(onError.toString());
@@ -115,45 +102,43 @@ class DailyVacationController extends GetxController
   }
 
   void _save() async {
-    throw UnimplementedError(" save method of daily vacation");
-    //_catchFormData();
-    // if (model.value.id == null) {
-    //   await _soldierCaseService
-    //       .saveByPersonalInfoId(model.value,
-    //           personalInfoId: _bridgeController.personalInfoId.value)
-    //       .then((value) {
-    //     if (value != 0) {
-    //       model(model.value.copyWith(id: value));
-    //       _loadData();
-    //       showToast(Strings.successfullySavingInfo);
-    //     } else {
-    //       showToast(Strings.unsuccessfullySavingInfo);
-    //     }
-    //   }).catchError((onError) {
-    //     DialogHelper.showCrashReport(onError.toString());
-    //   });
-    // } else {
-    //   _soldierCaseService.update(model.value).then((value) {
-    //     if (value) {
-    //       _loadData();
-    //       showToast(Strings.successfullyUpdatingInfo);
-    //     } else {
-    //       showToast(Strings.unsuccessfullyUpdatingInfo);
-    //     }
-    //   }).catchError((onError) {
-    //     DialogHelper.showCrashReport(onError.toString());
-    //   });
-    // }
+    _catchFormData();
+    if (model.value.id == null) {
+      await _dailyVacationService
+          .saveByVacationsId(model.value, await _bridgeController.getCurrentVacationsId())
+          .then((value) {
+        if (value != null && value.id! != 0) {
+          model(model.value.copyWith(id: value.id));
+          _loadData();
+          showToast(Strings.successfullySavingInfo);
+        } else {
+          showToast(Strings.unsuccessfullySavingInfo);
+        }
+      }).catchError((onError) {
+        DialogHelper.showCrashReport(onError.toString());
+      });
+    } else {
+      _dailyVacationService.update(model.value).then((isUpdated) {
+        if (isUpdated) {
+          _loadData();
+          showToast(Strings.successfullyUpdatingInfo);
+        } else {
+          showToast(Strings.unsuccessfullyUpdatingInfo);
+        }
+      }).catchError((onError) {
+        DialogHelper.showCrashReport(onError.toString());
+      });
+    }
   }
 
   Future<void> _loadData() async {
-    await _soldierCaseService
-        .findByPersonalInfoId(_bridgeController.personalInfoId.value)
-        .then((foundedSoldierCase) {
-      if (foundedSoldierCase?.id != null) {
+    await _dailyVacationService
+        .findById(model.value.id ?? _bridgeController.dailyVacationId.value)
+        .then((foundedDailyVacation) {
+      if (foundedDailyVacation?.id != null) {
         _clearEditor();
         readOnly(true);
-        //  model(foundedSoldierCase);
+        model(foundedDailyVacation);
         descriptionController.text = model.value.description ?? "";
         amountController.text = model.value.amount.toString();
         vacationTypeController.text = model.value.vacationType;
@@ -175,9 +160,7 @@ class DailyVacationController extends GetxController
       endDate: toDateTime(shamsiDate: endDateController.text.trim()),
       amount: int.parse(amountController.text.trim()),
       vacationType: vacationTypeController.text.trim(),
-      description: descriptionController.text.isNotEmpty
-          ? descriptionController.text.trim()
-          : null,
+      description: descriptionController.text.isNotEmpty ? descriptionController.text.trim() : null,
     ));
   }
 
@@ -187,14 +170,14 @@ class DailyVacationController extends GetxController
     endDateController.clear();
     amountController.clear();
     descriptionController.clear();
-    vacationTypeController.clear();
+    vacationTypeController.text = Strings.vacationsTypeList[0];
   }
 
   Future<String?> _getDateFromPicker(ctx) async {
     var now = Jalali.now().year;
     Jalali? picked = await showPersianDatePicker(
       context: ctx,
-      initialDate: Jalali(now, 1),
+      initialDate: Jalali(now),
       firstDate: Jalali(now - 2, 1),
       lastDate: Jalali(now, 6),
     );
@@ -205,24 +188,18 @@ class DailyVacationController extends GetxController
   }
 
   void _calculateAmountOfVacation() {
-    try {
-      if (startDateController.text.isNotEmpty &&
-          amountController.text.isNotEmpty &&
-          model.value.id == null) {
-        endDateController.text = differenceInDays(
-                startDateController.text.trim(), endDateController.text.trim())
-            .toString();
-
-        amountController.text =
-            differenceInDays(shamsiNow(), endDateController.text.trim())
-                .toString();
-      }
-
-      // ignore: empty_catches
-    } catch (ignore) {}
+    if (startDateController.text.isNotEmpty && endDateController.text.isNotEmpty) {
+      amountController.text =
+          differenceInDays(startDateController.text.trim(), endDateController.text.trim()).toString();
+    }
   }
 
   void onChangeAmountOfVacation(String val) {
     _calculateAmountOfVacation();
+  }
+
+  void onClearFormPressed() {
+    _clearEditor();
+    readOnly(false);
   }
 }

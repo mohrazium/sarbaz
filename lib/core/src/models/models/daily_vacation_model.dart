@@ -8,14 +8,13 @@ class DailyVacationModel {
   final int amount;
   final String vacationType;
   final String? description;
+  @JsonKey(ignore: true)
+  final VacationsModel? vacations;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
-  factory DailyVacationModel.init() => DailyVacationModel(
-      startDate: DateTime.now(),
-      endDate: DateTime.now(),
-      amount: 0,
-      vacationType: "");
+  factory DailyVacationModel.init() =>
+      DailyVacationModel(startDate: DateTime.now(), endDate: DateTime.now(), amount: 0, vacationType: "");
 
   DailyVacationModel({
     this.id,
@@ -23,14 +22,19 @@ class DailyVacationModel {
     required this.endDate,
     required this.amount,
     required this.vacationType,
+    this.vacations,
     this.description,
     this.createdAt,
     this.updatedAt,
   });
 
-  factory DailyVacationModel.fromJson(Map<String, dynamic> json) =>
-      _$DailyVacationModelFromJson(json);
-  Map<String, dynamic> toJson() => _$DailyVacationModelToJson(this);
+  factory DailyVacationModel.fromJson(Map<String, dynamic> json) => _$DailyVacationModelFromJson(json);
+  
+  Map<String, dynamic> toJson() {
+    var mappedModel = _$DailyVacationModelToJson(this);
+    mappedModel['vacations'] = vacations?.id;
+    return mappedModel;
+  }
 
   DailyVacationModel copyWith({
     int? id,
@@ -39,6 +43,7 @@ class DailyVacationModel {
     int? amount,
     String? vacationType,
     String? description,
+    VacationsModel? vacations,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -49,6 +54,7 @@ class DailyVacationModel {
       amount: amount ?? this.amount,
       vacationType: vacationType ?? this.vacationType,
       description: description ?? this.description,
+      vacations: vacations ?? this.vacations,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -56,33 +62,6 @@ class DailyVacationModel {
 
   @override
   String toString() {
-    return 'DailyVacationModel(id: $id, startDate: $startDate, endDate: $endDate, amount: $amount, vacationType: $vacationType, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is DailyVacationModel &&
-        other.id == id &&
-        other.startDate == startDate &&
-        other.endDate == endDate &&
-        other.amount == amount &&
-        other.vacationType == vacationType &&
-        other.description == description &&
-        other.createdAt == createdAt &&
-        other.updatedAt == updatedAt;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        startDate.hashCode ^
-        endDate.hashCode ^
-        amount.hashCode ^
-        vacationType.hashCode ^
-        description.hashCode ^
-        createdAt.hashCode ^
-        updatedAt.hashCode;
+    return 'DailyVacationModel(id: $id, startDate: $startDate, endDate: $endDate, amount: $amount, vacationType: $vacationType, description: $description, vacations: $vacations, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }

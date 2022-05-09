@@ -33,8 +33,7 @@ class DashboardDesktopView extends GetView<DashboardController> {
               ),
               Flexible(
                 flex: 10,
-                child: SizedBox(
-                    height: constraints.maxHeight, child: _buildBodyContent()),
+                child: SizedBox(height: constraints.maxHeight, child: _buildBodyContent()),
               ),
 
               //! left sidebar
@@ -61,13 +60,14 @@ class DashboardDesktopView extends GetView<DashboardController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kPadding),
-          child: UserProfile(
-            data: controller.dataProfile,
-            onPressed: controller.onPressedProfile,
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: kPadding),
+        //   child: UserProfile(
+        //     data: controller.dataProfile,
+        //     // onPressed: controller.onPressedProfile,
+        //     onPressed: null,
+        //   ),
+        // ),
         const SizedBox(
           height: kSpacing,
           width: kSpacing * 10,
@@ -112,12 +112,8 @@ class DashboardDesktopView extends GetView<DashboardController> {
                 _buildMainSection(onPressedMenu),
                 const SoldiersView(),
                 const SoldierEditorView(),
-                Container(
-                  color: Colors.red,
-                ),
-                Container(
-                  color: Colors.red,
-                ),
+                Container(),
+                Container(),
               ]);
         });
   }
@@ -125,59 +121,60 @@ class DashboardDesktopView extends GetView<DashboardController> {
   Widget _buildMainSection(onPressedMenu) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kSpacing),
-      child: SingleChildScrollView(
-        controller: ScrollController(),
-        child: Column(
-          children: [
-            const SizedBox(height: kSpacing),
-            const HeaderText(Strings.dashboard),
-            const SizedBox(height: kSpacing / 2),
-            Row(
-              children: [
-                if (onPressedMenu != null)
-                  Padding(
-                    padding: const EdgeInsets.only(right: kSpacing / 2),
-                    child: IconButton(
-                      onPressed: onPressedMenu,
-                      icon: const Icon(Icons.menu),
-                    ),
-                  ),
-                Expanded(
-                  child: SearchField(
-                    controller: TextEditingController(),
-                    onSearch: controller.search,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: kSpacing),
-            Row(
-              children: [
-                Expanded(
-                  child:
-                      HeaderText(convertEnToFa(controller.todayHeader.value)),
-                ),
-                const SizedBox(width: kSpacing / 2),
-                SizedBox(
-                  width: kSpacing * 10,
-                  child: ProgressLine(data: controller.unitSoldiersOverview),
-                ),
-              ],
-            ),
-            const SizedBox(height: kSpacing),
-            StatusCardsOverview(data: controller.statusCards),
-            const SizedBox(height: kSpacing * 2),
-            const RecentActivitiesHeader(),
-            const SizedBox(height: kSpacing),
-            RecentActivities(
-              data: controller.weeklyTask,
-              onPressed: controller.onPressedActivity,
-              onPressedAssign: controller.onPressedAssignTask,
-              onPressedMember: controller.onPressedMemberTask,
-            )
-          ],
-        ),
-      ),
+      child: Container(),
+      // child: SingleChildScrollView(
+      //   controller: ScrollController(),
+      //   child: Column(
+      //     children: [
+      //       const SizedBox(height: kSpacing),
+      //       const HeaderText(Strings.dashboard),
+      //       const SizedBox(height: kSpacing / 2),
+      //       Row(
+      //         children: [
+      //           if (onPressedMenu != null)
+      //             Padding(
+      //               padding: const EdgeInsets.only(right: kSpacing / 2),
+      //               child: IconButton(
+      //                 onPressed: onPressedMenu,
+      //                 icon: const Icon(Icons.menu),
+      //               ),
+      //             ),
+      //           Expanded(
+      //             child: SearchField(
+      //               controller: TextEditingController(),
+      //               onSearch: controller.search,
+      //             ),
+      //           ),
+      //         ],
+      //       ),
+      //       const SizedBox(height: kSpacing),
+      //       Row(
+      //         children: [
+      //           Expanded(
+      //             child:
+      //                 HeaderText(convertEnToFa(controller.todayHeader.value)),
+      //           ),
+      //           const SizedBox(width: kSpacing / 2),
+      //           SizedBox(
+      //             width: kSpacing * 10,
+      //             child: ProgressLine(data: controller.unitSoldiersOverview),
+      //           ),
+      //         ],
+      //       ),
+      //       const SizedBox(height: kSpacing),
+      //       StatusCardsOverview(data: controller.statusCards),
+      //       const SizedBox(height: kSpacing * 2),
+      //       const RecentActivitiesHeader(),
+      //       const SizedBox(height: kSpacing),
+      //       RecentActivities(
+      //         data: controller.weeklyTask,
+      //         onPressed: controller.onPressedActivity,
+      //         onPressedAssign: controller.onPressedAssignTask,
+      //         onPressedMember: controller.onPressedMemberTask,
+      //       )
+      //     ],
+      //   ),
+      // ),
     );
   }
 

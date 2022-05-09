@@ -5,14 +5,13 @@ class VacationsView extends GetView<VacationsController> {
 
   @override
   Widget build(BuildContext context) {
-    // return GetX(
-    // init: controller,
-    // initState: (_) {
-    //   controller.model.value = VacationsModel(
-    //       amountOfEligible: 12, amountOfIncentive: 35, amountOfSick: 20);
-    // },
-    // builder: (_) =>
-    return GroupBox(
+    return GetX(
+    init: controller,
+    initState: (_) {
+     
+    },
+    builder: (_) =>
+     GroupBox(
         haveShadow: true,
         width: double.maxFinite,
         color: Colorize.backgroundColorShade200,
@@ -45,42 +44,27 @@ class VacationsView extends GetView<VacationsController> {
                     children: [
                       SizedBox(
                         width: kTextFieldWidth,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _getVacationDays(Strings.eligibleVacationTotal,
-                                  controller.model.value.eligibleTotal),
-                              _getVacationDays(Strings.eligibleVacationBalance,
-                                  controller.model.value.eligibleBalance),
-                              _getVacationDays(Strings.eligibleVacationUsed,
-                                  controller.model.value.eligibleUsed),
-                            ]),
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          _getVacationDays(Strings.eligibleVacationTotal, controller.model.value.eligibleTotal),
+                          _getVacationDays(Strings.eligibleVacationBalance, controller.model.value.eligibleBalance),
+                          _getVacationDays(Strings.eligibleVacationUsed, controller.model.value.eligibleUsed),
+                        ]),
                       ),
                       SizedBox(
                         width: kTextFieldWidth,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _getVacationDays(Strings.sickVacationTotal,
-                                  controller.model.value.sickTotal),
-                              _getVacationDays(Strings.sickVacationBalance,
-                                  controller.model.value.sickBalance),
-                              _getVacationDays(Strings.sickVacationUsed,
-                                  controller.model.value.sickUsed)
-                            ]),
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          _getVacationDays(Strings.sickVacationTotal, controller.model.value.sickTotal),
+                          _getVacationDays(Strings.sickVacationBalance, controller.model.value.sickBalance),
+                          _getVacationDays(Strings.sickVacationUsed, controller.model.value.sickUsed)
+                        ]),
                       ),
                       SizedBox(
                         width: kTextFieldWidth,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _getVacationDays(Strings.incentiveVacationTotal,
-                                  controller.model.value.incentiveTotal),
-                              _getVacationDays(Strings.incentiveVacationBalance,
-                                  controller.model.value.incentiveBalance),
-                              _getVacationDays(Strings.incentiveVacationUsed,
-                                  controller.model.value.incentiveUsed),
-                            ]),
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          _getVacationDays(Strings.incentiveVacationTotal, controller.model.value.incentiveTotal),
+                          _getVacationDays(Strings.incentiveVacationBalance, controller.model.value.incentiveBalance),
+                          _getVacationDays(Strings.incentiveVacationUsed, controller.model.value.incentiveUsed),
+                        ]),
                       ),
                     ],
                   ),
@@ -88,7 +72,7 @@ class VacationsView extends GetView<VacationsController> {
               ],
             ),
           ],
-        ));
+        )));
   }
 
   Row _getVacationDays(String title, double? days) {
@@ -102,7 +86,7 @@ class VacationsView extends GetView<VacationsController> {
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           Text(
-            "${days != null ? days.toStringAsFixed(0).toString() : 0} ${Strings.day}",
+            "${days != null ? days.toStringAsFixed(1).toString() : 0.0} ${Strings.day}",
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ]);

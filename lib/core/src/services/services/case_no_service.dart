@@ -23,16 +23,16 @@ class CaseNoServiceImpl implements CaseNoService {
         caseNoList.add(CaseNoModel.fromJson(item.toJson()));
       }
       return caseNoList;
-    }).onError((error, stackTrace) =>
-        throw FailureException("Can load all case no, see the error :\n $error \n $stackTrace"));
+    }).onError(
+        (error, stackTrace) => throw FailureException("Can load all case no, see the error :\n $error \n $stackTrace"));
   }
 
   @override
   Future<CaseNoModel?> findById(int id) async {
     return await _dao.findById(id).then((value) {
       return value != null ? CaseNoModel.fromJson(value.toJson()) : null;
-    }).onError((error, stackTrace) => throw FailureException(
-        "Finding case no by id field, see the error :\n $error \n $stackTrace"));
+    }).onError((error, stackTrace) =>
+        throw FailureException("Finding case no by id field, see the error :\n $error \n $stackTrace"));
   }
 
   @override
@@ -49,8 +49,7 @@ class CaseNoServiceImpl implements CaseNoService {
 
   @override
   Future<void> saveAll(int count) async {
-    await _dao.doInsertAll(count).onError((error, stackTrace) =>
-        throw FailureException(
-            "Cant insert all case nos, something goes wrong!, see the error :\n $error \n $stackTrace"));
+    await _dao.doInsertAll(count).onError((error, stackTrace) => throw FailureException(
+        "Cant insert all case nos, something goes wrong!, see the error :\n $error \n $stackTrace"));
   }
 }

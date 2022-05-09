@@ -20,7 +20,7 @@ class UserProfile extends StatelessWidget {
   }) : super(key: key);
 
   final UserProfileData data;
-  final Function() onPressed;
+  final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {

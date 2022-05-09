@@ -7,6 +7,7 @@ class DailyVacationTable extends Table {
   IntColumn get amount => integer()();
   TextColumn get vacationType => text()();
   TextColumn get description => text().nullable()();
+  IntColumn get vacations => integer().references(VacationsTable, #id).nullable()();
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
 }

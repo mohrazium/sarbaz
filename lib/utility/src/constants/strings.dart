@@ -166,7 +166,7 @@ class Strings {
 
   static const String soldiersSection = "سربازان";
 
-  static const String search = "جستوجو";
+  static const String search = "جستجو";
 
   static const String searchBarHint = "برای مثال مشخصات سرباز یا نام معاونت و قسمت های مورد نظر را بنویسید ...";
 
@@ -308,7 +308,7 @@ class Strings {
   static const String sureToProduceCaseNo = "آیا مایل به ایجادخودکار شماره پرونده ها هستید؟ ";
 
   static const String sureToProduceCaseNoDescription =
-      "توجه:تعداد ۵۰ شماره پرونده ی سرباز و ۵۰ پرونده ی امریه تولید خواهد شد";
+      "توجه:به تعداد فوق, شماره پرونده ی سرباز و پرونده ی امریه تولید خواهد شد";
 
   static String? caseNosNotAvailablePleaseAddIt = "شماره پرونده ای در دسترس نمی باشد, لطفا آن را ایجاد نمایید";
 
@@ -385,6 +385,8 @@ class Strings {
 
   static const String eligibleVacationUsed = "مرخصی استحقاقی استفاده شده";
 
+  static const String eligibleVacation = "مرخصی استحقاقی";
+
   static const String eligibleVacationPerMonth = "مرخصی استحقاقی به ازای هر ماه ";
 
   static const String day = "روز";
@@ -395,6 +397,8 @@ class Strings {
 
   static const String sickVacationUsed = "استعلاجی استفاده شده";
 
+  static const String sickVacation = "مرخصی استعلاجی";
+
   static const String sickVacationPerMonth = "کل استعلاجی";
 
   static const String incentiveVacationTotal = "کل مرخصی تشویقی";
@@ -403,6 +407,8 @@ class Strings {
 
   static const String incentiveVacationUsed = "مرخصی تشویقی استفاده شده";
 
+  static const String incentiveVacation = "مرخصی تشویقی";
+
   static const String vacationType = "نوع مرخصی";
 
   static const String refresh = "بروز رسانی";
@@ -410,8 +416,29 @@ class Strings {
   static const String membershipType = "نوع عضویت";
 
   static const String amriyeh = "امریه";
+
   static const String vazifeh = "وظیفه";
+
   static const String pasdarVazifeh = "پاسدار وظیفه";
 
   static const List<String> membershipTypesList = [vazifeh, amriyeh, pasdarVazifeh];
+
+  static const String daysCount = "تعدا روز";
+
+  static const List<String> vacationsTypeList = [eligibleVacation, sickVacation, incentiveVacation];
+
+  static const String saveNewVacation = "ثبت مرخصی جدید";
+
+  static const String soldierCaseIsnotSavedPleaseSave =
+      "اطلاعات اعزام به خدمت ثبت نشده اند, لطفا ابتدا اقدام به ثبت اطلاعات اعزام به خدمت نمایید";
+
+  static const String endDateIsNotSameOrAfterStartDate = "تاریخ پایان باید مساوی یا بعد از تاریخ شروع باشد";
+
+  static const String editVacation = "ویرایش مرخصی";
+
+  static const String deleteVacation = "حذف مرخصی";
+
+  static const String pleaseSelectAnItemFromList = "لطفا ابتدا آیتمی از لیست انتخاب نمایید";
+
+  static const String areYouSureToDelete="آیا از حذف اطلاعات اطمینان دارید؟";
 }

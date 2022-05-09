@@ -7,6 +7,7 @@ class HourlyVacationTable extends Table {
   IntColumn get totalTime => integer().nullable()();
   IntColumn get overtimePerMonth => integer().nullable()();
   TextColumn get description => text().nullable()();
+  IntColumn get vacations => integer().references(VacationsTable, #id)();
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
 }

@@ -146,9 +146,9 @@ class SoldierCaseController extends GetxController with ValidatorMixin, DateConv
         DialogHelper.showCrashReport(onError.toString());
       });
     } else {
-      _soldierCaseService.update(model.value).then((value) {
+      _soldierCaseService.update(model.value).then((value) async {
         if (value) {
-          _loadData();
+          await _loadData();
           showToast(Strings.successfullyUpdatingInfo);
         } else {
           showToast(Strings.unsuccessfullyUpdatingInfo);

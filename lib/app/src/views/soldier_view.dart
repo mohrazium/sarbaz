@@ -114,29 +114,34 @@ class SoldierView extends GetView<SoldierController> {
                             children: [
                               Row(
                                 children: [
-                                  InkWell(
-                                    borderRadius: const BorderRadius.all(Radius.circular(kBorderRadius)),
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(kPadding / 3),
-                                      child: Icon(
+                                  Tooltip(
+                                    message: Strings.sureToProduceCaseNoTitle,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        /// For auto insert with count from search text field
+                                        controller.calculatedCaseCount();
+                                        DialogHelper.showMessageBox(
+                                            title: Strings.sureToProduceCaseNoTitle,
+                                            message:
+                                                "${Strings.sureToProduceCaseNo}\n${controller.dividedCaseCount.value}\n${Strings.sureToProduceCaseNoDescription}",
+                                            dialogType: DialogType.INFO,
+                                            dialogButtons: DialogButtons.YES_NO,
+                                            onYesPressed: () {
+                                              DialogHelper.showLoading();
+                                              Future.delayed(const Duration(milliseconds: 2000))
+                                                  .then((v) async => await controller.onGenerateCaseNoListPressed());
+                                              controller.searchController.clear();
+                                            });
+                                      },
+                                      child: const Icon(
                                         Icons.install_desktop,
                                         size: kPadding * 1.6,
                                       ),
+                                      style: ElevatedButton.styleFrom(
+                                        minimumSize: const Size(56, 45),
+                                        maximumSize: const Size(56, 45),
+                                      ),
                                     ),
-                                    onTap: () {
-                                      DialogHelper.showMessageBox(
-                                          title: Strings.sureToProduceCaseNoTitle,
-                                          message:
-                                              "${Strings.sureToProduceCaseNo}\n${Strings.sureToProduceCaseNoDescription}",
-                                          dialogType: DialogType.INFO,
-                                          dialogButtons: DialogButtons.YES_NO,
-                                          onYesPressed: () async {
-                                            DialogHelper.showLoading();
-                                            await controller
-                                                .onGenerateCaseNoListPressed()
-                                                .whenComplete(() => DialogHelper.hideLoading());
-                                          });
-                                    },
                                   ),
                                 ],
                               ),

@@ -43,7 +43,7 @@ class EducationalInfoView extends GetView<EducationalInfoController> {
                         readOnly: controller.readOnly.value,
                       ),
 
-                      //! Skills code field
+                      //! Skills field
                       TextBox(
                         titleText: Strings.skills,
                         controller: controller.skillsController,

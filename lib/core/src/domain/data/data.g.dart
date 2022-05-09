@@ -1789,6 +1789,726 @@ class $DailyAbsenceOvertimeTableTable extends DailyAbsenceOvertimeTable
   }
 }
 
+class VacationsTableData extends DataClass
+    implements Insertable<VacationsTableData> {
+  final int? id;
+  final double? eligibleTotal;
+  final double eligibleBalance;
+  final double eligibleUsed;
+  final double? eligibleValuePerMonth;
+  final double? sickTotal;
+  final double sickBalance;
+  final double sickUsed;
+  final double? sickValuePerMonth;
+  final double? incentiveTotal;
+  final double? incentiveBalance;
+  final double? incentiveUsed;
+  final double? incentiveValueLimit;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  VacationsTableData(
+      {this.id,
+      this.eligibleTotal,
+      required this.eligibleBalance,
+      required this.eligibleUsed,
+      this.eligibleValuePerMonth,
+      this.sickTotal,
+      required this.sickBalance,
+      required this.sickUsed,
+      this.sickValuePerMonth,
+      this.incentiveTotal,
+      this.incentiveBalance,
+      this.incentiveUsed,
+      this.incentiveValueLimit,
+      this.createdAt,
+      this.updatedAt});
+  factory VacationsTableData.fromData(Map<String, dynamic> data,
+      {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return VacationsTableData(
+      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      eligibleTotal: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}eligible_total']),
+      eligibleBalance: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}eligible_balance'])!,
+      eligibleUsed: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}eligible_used'])!,
+      eligibleValuePerMonth: const RealType().mapFromDatabaseResponse(
+          data['${effectivePrefix}eligible_value_per_month']),
+      sickTotal: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}sick_total']),
+      sickBalance: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}sick_balance'])!,
+      sickUsed: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}sick_used'])!,
+      sickValuePerMonth: const RealType().mapFromDatabaseResponse(
+          data['${effectivePrefix}sick_value_per_month']),
+      incentiveTotal: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}incentive_total']),
+      incentiveBalance: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}incentive_balance']),
+      incentiveUsed: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}incentive_used']),
+      incentiveValueLimit: const RealType().mapFromDatabaseResponse(
+          data['${effectivePrefix}incentive_value_limit']),
+      createdAt: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
+      updatedAt: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}updated_at']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int?>(id);
+    }
+    if (!nullToAbsent || eligibleTotal != null) {
+      map['eligible_total'] = Variable<double?>(eligibleTotal);
+    }
+    map['eligible_balance'] = Variable<double>(eligibleBalance);
+    map['eligible_used'] = Variable<double>(eligibleUsed);
+    if (!nullToAbsent || eligibleValuePerMonth != null) {
+      map['eligible_value_per_month'] =
+          Variable<double?>(eligibleValuePerMonth);
+    }
+    if (!nullToAbsent || sickTotal != null) {
+      map['sick_total'] = Variable<double?>(sickTotal);
+    }
+    map['sick_balance'] = Variable<double>(sickBalance);
+    map['sick_used'] = Variable<double>(sickUsed);
+    if (!nullToAbsent || sickValuePerMonth != null) {
+      map['sick_value_per_month'] = Variable<double?>(sickValuePerMonth);
+    }
+    if (!nullToAbsent || incentiveTotal != null) {
+      map['incentive_total'] = Variable<double?>(incentiveTotal);
+    }
+    if (!nullToAbsent || incentiveBalance != null) {
+      map['incentive_balance'] = Variable<double?>(incentiveBalance);
+    }
+    if (!nullToAbsent || incentiveUsed != null) {
+      map['incentive_used'] = Variable<double?>(incentiveUsed);
+    }
+    if (!nullToAbsent || incentiveValueLimit != null) {
+      map['incentive_value_limit'] = Variable<double?>(incentiveValueLimit);
+    }
+    if (!nullToAbsent || createdAt != null) {
+      map['created_at'] = Variable<DateTime?>(createdAt);
+    }
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime?>(updatedAt);
+    }
+    return map;
+  }
+
+  VacationsTableCompanion toCompanion(bool nullToAbsent) {
+    return VacationsTableCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      eligibleTotal: eligibleTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(eligibleTotal),
+      eligibleBalance: Value(eligibleBalance),
+      eligibleUsed: Value(eligibleUsed),
+      eligibleValuePerMonth: eligibleValuePerMonth == null && nullToAbsent
+          ? const Value.absent()
+          : Value(eligibleValuePerMonth),
+      sickTotal: sickTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sickTotal),
+      sickBalance: Value(sickBalance),
+      sickUsed: Value(sickUsed),
+      sickValuePerMonth: sickValuePerMonth == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sickValuePerMonth),
+      incentiveTotal: incentiveTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(incentiveTotal),
+      incentiveBalance: incentiveBalance == null && nullToAbsent
+          ? const Value.absent()
+          : Value(incentiveBalance),
+      incentiveUsed: incentiveUsed == null && nullToAbsent
+          ? const Value.absent()
+          : Value(incentiveUsed),
+      incentiveValueLimit: incentiveValueLimit == null && nullToAbsent
+          ? const Value.absent()
+          : Value(incentiveValueLimit),
+      createdAt: createdAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+    );
+  }
+
+  factory VacationsTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return VacationsTableData(
+      id: serializer.fromJson<int?>(json['id']),
+      eligibleTotal: serializer.fromJson<double?>(json['eligibleTotal']),
+      eligibleBalance: serializer.fromJson<double>(json['eligibleBalance']),
+      eligibleUsed: serializer.fromJson<double>(json['eligibleUsed']),
+      eligibleValuePerMonth:
+          serializer.fromJson<double?>(json['eligibleValuePerMonth']),
+      sickTotal: serializer.fromJson<double?>(json['sickTotal']),
+      sickBalance: serializer.fromJson<double>(json['sickBalance']),
+      sickUsed: serializer.fromJson<double>(json['sickUsed']),
+      sickValuePerMonth:
+          serializer.fromJson<double?>(json['sickValuePerMonth']),
+      incentiveTotal: serializer.fromJson<double?>(json['incentiveTotal']),
+      incentiveBalance: serializer.fromJson<double?>(json['incentiveBalance']),
+      incentiveUsed: serializer.fromJson<double?>(json['incentiveUsed']),
+      incentiveValueLimit:
+          serializer.fromJson<double?>(json['incentiveValueLimit']),
+      createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int?>(id),
+      'eligibleTotal': serializer.toJson<double?>(eligibleTotal),
+      'eligibleBalance': serializer.toJson<double>(eligibleBalance),
+      'eligibleUsed': serializer.toJson<double>(eligibleUsed),
+      'eligibleValuePerMonth':
+          serializer.toJson<double?>(eligibleValuePerMonth),
+      'sickTotal': serializer.toJson<double?>(sickTotal),
+      'sickBalance': serializer.toJson<double>(sickBalance),
+      'sickUsed': serializer.toJson<double>(sickUsed),
+      'sickValuePerMonth': serializer.toJson<double?>(sickValuePerMonth),
+      'incentiveTotal': serializer.toJson<double?>(incentiveTotal),
+      'incentiveBalance': serializer.toJson<double?>(incentiveBalance),
+      'incentiveUsed': serializer.toJson<double?>(incentiveUsed),
+      'incentiveValueLimit': serializer.toJson<double?>(incentiveValueLimit),
+      'createdAt': serializer.toJson<DateTime?>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+    };
+  }
+
+  VacationsTableData copyWith(
+          {int? id,
+          double? eligibleTotal,
+          double? eligibleBalance,
+          double? eligibleUsed,
+          double? eligibleValuePerMonth,
+          double? sickTotal,
+          double? sickBalance,
+          double? sickUsed,
+          double? sickValuePerMonth,
+          double? incentiveTotal,
+          double? incentiveBalance,
+          double? incentiveUsed,
+          double? incentiveValueLimit,
+          DateTime? createdAt,
+          DateTime? updatedAt}) =>
+      VacationsTableData(
+        id: id ?? this.id,
+        eligibleTotal: eligibleTotal ?? this.eligibleTotal,
+        eligibleBalance: eligibleBalance ?? this.eligibleBalance,
+        eligibleUsed: eligibleUsed ?? this.eligibleUsed,
+        eligibleValuePerMonth:
+            eligibleValuePerMonth ?? this.eligibleValuePerMonth,
+        sickTotal: sickTotal ?? this.sickTotal,
+        sickBalance: sickBalance ?? this.sickBalance,
+        sickUsed: sickUsed ?? this.sickUsed,
+        sickValuePerMonth: sickValuePerMonth ?? this.sickValuePerMonth,
+        incentiveTotal: incentiveTotal ?? this.incentiveTotal,
+        incentiveBalance: incentiveBalance ?? this.incentiveBalance,
+        incentiveUsed: incentiveUsed ?? this.incentiveUsed,
+        incentiveValueLimit: incentiveValueLimit ?? this.incentiveValueLimit,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('VacationsTableData(')
+          ..write('id: $id, ')
+          ..write('eligibleTotal: $eligibleTotal, ')
+          ..write('eligibleBalance: $eligibleBalance, ')
+          ..write('eligibleUsed: $eligibleUsed, ')
+          ..write('eligibleValuePerMonth: $eligibleValuePerMonth, ')
+          ..write('sickTotal: $sickTotal, ')
+          ..write('sickBalance: $sickBalance, ')
+          ..write('sickUsed: $sickUsed, ')
+          ..write('sickValuePerMonth: $sickValuePerMonth, ')
+          ..write('incentiveTotal: $incentiveTotal, ')
+          ..write('incentiveBalance: $incentiveBalance, ')
+          ..write('incentiveUsed: $incentiveUsed, ')
+          ..write('incentiveValueLimit: $incentiveValueLimit, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      eligibleTotal,
+      eligibleBalance,
+      eligibleUsed,
+      eligibleValuePerMonth,
+      sickTotal,
+      sickBalance,
+      sickUsed,
+      sickValuePerMonth,
+      incentiveTotal,
+      incentiveBalance,
+      incentiveUsed,
+      incentiveValueLimit,
+      createdAt,
+      updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is VacationsTableData &&
+          other.id == this.id &&
+          other.eligibleTotal == this.eligibleTotal &&
+          other.eligibleBalance == this.eligibleBalance &&
+          other.eligibleUsed == this.eligibleUsed &&
+          other.eligibleValuePerMonth == this.eligibleValuePerMonth &&
+          other.sickTotal == this.sickTotal &&
+          other.sickBalance == this.sickBalance &&
+          other.sickUsed == this.sickUsed &&
+          other.sickValuePerMonth == this.sickValuePerMonth &&
+          other.incentiveTotal == this.incentiveTotal &&
+          other.incentiveBalance == this.incentiveBalance &&
+          other.incentiveUsed == this.incentiveUsed &&
+          other.incentiveValueLimit == this.incentiveValueLimit &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class VacationsTableCompanion extends UpdateCompanion<VacationsTableData> {
+  final Value<int?> id;
+  final Value<double?> eligibleTotal;
+  final Value<double> eligibleBalance;
+  final Value<double> eligibleUsed;
+  final Value<double?> eligibleValuePerMonth;
+  final Value<double?> sickTotal;
+  final Value<double> sickBalance;
+  final Value<double> sickUsed;
+  final Value<double?> sickValuePerMonth;
+  final Value<double?> incentiveTotal;
+  final Value<double?> incentiveBalance;
+  final Value<double?> incentiveUsed;
+  final Value<double?> incentiveValueLimit;
+  final Value<DateTime?> createdAt;
+  final Value<DateTime?> updatedAt;
+  const VacationsTableCompanion({
+    this.id = const Value.absent(),
+    this.eligibleTotal = const Value.absent(),
+    this.eligibleBalance = const Value.absent(),
+    this.eligibleUsed = const Value.absent(),
+    this.eligibleValuePerMonth = const Value.absent(),
+    this.sickTotal = const Value.absent(),
+    this.sickBalance = const Value.absent(),
+    this.sickUsed = const Value.absent(),
+    this.sickValuePerMonth = const Value.absent(),
+    this.incentiveTotal = const Value.absent(),
+    this.incentiveBalance = const Value.absent(),
+    this.incentiveUsed = const Value.absent(),
+    this.incentiveValueLimit = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  VacationsTableCompanion.insert({
+    this.id = const Value.absent(),
+    this.eligibleTotal = const Value.absent(),
+    required double eligibleBalance,
+    required double eligibleUsed,
+    this.eligibleValuePerMonth = const Value.absent(),
+    this.sickTotal = const Value.absent(),
+    required double sickBalance,
+    required double sickUsed,
+    this.sickValuePerMonth = const Value.absent(),
+    this.incentiveTotal = const Value.absent(),
+    this.incentiveBalance = const Value.absent(),
+    this.incentiveUsed = const Value.absent(),
+    this.incentiveValueLimit = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  })  : eligibleBalance = Value(eligibleBalance),
+        eligibleUsed = Value(eligibleUsed),
+        sickBalance = Value(sickBalance),
+        sickUsed = Value(sickUsed);
+  static Insertable<VacationsTableData> custom({
+    Expression<int?>? id,
+    Expression<double?>? eligibleTotal,
+    Expression<double>? eligibleBalance,
+    Expression<double>? eligibleUsed,
+    Expression<double?>? eligibleValuePerMonth,
+    Expression<double?>? sickTotal,
+    Expression<double>? sickBalance,
+    Expression<double>? sickUsed,
+    Expression<double?>? sickValuePerMonth,
+    Expression<double?>? incentiveTotal,
+    Expression<double?>? incentiveBalance,
+    Expression<double?>? incentiveUsed,
+    Expression<double?>? incentiveValueLimit,
+    Expression<DateTime?>? createdAt,
+    Expression<DateTime?>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (eligibleTotal != null) 'eligible_total': eligibleTotal,
+      if (eligibleBalance != null) 'eligible_balance': eligibleBalance,
+      if (eligibleUsed != null) 'eligible_used': eligibleUsed,
+      if (eligibleValuePerMonth != null)
+        'eligible_value_per_month': eligibleValuePerMonth,
+      if (sickTotal != null) 'sick_total': sickTotal,
+      if (sickBalance != null) 'sick_balance': sickBalance,
+      if (sickUsed != null) 'sick_used': sickUsed,
+      if (sickValuePerMonth != null) 'sick_value_per_month': sickValuePerMonth,
+      if (incentiveTotal != null) 'incentive_total': incentiveTotal,
+      if (incentiveBalance != null) 'incentive_balance': incentiveBalance,
+      if (incentiveUsed != null) 'incentive_used': incentiveUsed,
+      if (incentiveValueLimit != null)
+        'incentive_value_limit': incentiveValueLimit,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  VacationsTableCompanion copyWith(
+      {Value<int?>? id,
+      Value<double?>? eligibleTotal,
+      Value<double>? eligibleBalance,
+      Value<double>? eligibleUsed,
+      Value<double?>? eligibleValuePerMonth,
+      Value<double?>? sickTotal,
+      Value<double>? sickBalance,
+      Value<double>? sickUsed,
+      Value<double?>? sickValuePerMonth,
+      Value<double?>? incentiveTotal,
+      Value<double?>? incentiveBalance,
+      Value<double?>? incentiveUsed,
+      Value<double?>? incentiveValueLimit,
+      Value<DateTime?>? createdAt,
+      Value<DateTime?>? updatedAt}) {
+    return VacationsTableCompanion(
+      id: id ?? this.id,
+      eligibleTotal: eligibleTotal ?? this.eligibleTotal,
+      eligibleBalance: eligibleBalance ?? this.eligibleBalance,
+      eligibleUsed: eligibleUsed ?? this.eligibleUsed,
+      eligibleValuePerMonth:
+          eligibleValuePerMonth ?? this.eligibleValuePerMonth,
+      sickTotal: sickTotal ?? this.sickTotal,
+      sickBalance: sickBalance ?? this.sickBalance,
+      sickUsed: sickUsed ?? this.sickUsed,
+      sickValuePerMonth: sickValuePerMonth ?? this.sickValuePerMonth,
+      incentiveTotal: incentiveTotal ?? this.incentiveTotal,
+      incentiveBalance: incentiveBalance ?? this.incentiveBalance,
+      incentiveUsed: incentiveUsed ?? this.incentiveUsed,
+      incentiveValueLimit: incentiveValueLimit ?? this.incentiveValueLimit,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int?>(id.value);
+    }
+    if (eligibleTotal.present) {
+      map['eligible_total'] = Variable<double?>(eligibleTotal.value);
+    }
+    if (eligibleBalance.present) {
+      map['eligible_balance'] = Variable<double>(eligibleBalance.value);
+    }
+    if (eligibleUsed.present) {
+      map['eligible_used'] = Variable<double>(eligibleUsed.value);
+    }
+    if (eligibleValuePerMonth.present) {
+      map['eligible_value_per_month'] =
+          Variable<double?>(eligibleValuePerMonth.value);
+    }
+    if (sickTotal.present) {
+      map['sick_total'] = Variable<double?>(sickTotal.value);
+    }
+    if (sickBalance.present) {
+      map['sick_balance'] = Variable<double>(sickBalance.value);
+    }
+    if (sickUsed.present) {
+      map['sick_used'] = Variable<double>(sickUsed.value);
+    }
+    if (sickValuePerMonth.present) {
+      map['sick_value_per_month'] = Variable<double?>(sickValuePerMonth.value);
+    }
+    if (incentiveTotal.present) {
+      map['incentive_total'] = Variable<double?>(incentiveTotal.value);
+    }
+    if (incentiveBalance.present) {
+      map['incentive_balance'] = Variable<double?>(incentiveBalance.value);
+    }
+    if (incentiveUsed.present) {
+      map['incentive_used'] = Variable<double?>(incentiveUsed.value);
+    }
+    if (incentiveValueLimit.present) {
+      map['incentive_value_limit'] =
+          Variable<double?>(incentiveValueLimit.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime?>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime?>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('VacationsTableCompanion(')
+          ..write('id: $id, ')
+          ..write('eligibleTotal: $eligibleTotal, ')
+          ..write('eligibleBalance: $eligibleBalance, ')
+          ..write('eligibleUsed: $eligibleUsed, ')
+          ..write('eligibleValuePerMonth: $eligibleValuePerMonth, ')
+          ..write('sickTotal: $sickTotal, ')
+          ..write('sickBalance: $sickBalance, ')
+          ..write('sickUsed: $sickUsed, ')
+          ..write('sickValuePerMonth: $sickValuePerMonth, ')
+          ..write('incentiveTotal: $incentiveTotal, ')
+          ..write('incentiveBalance: $incentiveBalance, ')
+          ..write('incentiveUsed: $incentiveUsed, ')
+          ..write('incentiveValueLimit: $incentiveValueLimit, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $VacationsTableTable extends VacationsTable
+    with TableInfo<$VacationsTableTable, VacationsTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $VacationsTableTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, true,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _eligibleTotalMeta =
+      const VerificationMeta('eligibleTotal');
+  @override
+  late final GeneratedColumn<double?> eligibleTotal = GeneratedColumn<double?>(
+      'eligible_total', aliasedName, true,
+      type: const RealType(), requiredDuringInsert: false);
+  final VerificationMeta _eligibleBalanceMeta =
+      const VerificationMeta('eligibleBalance');
+  @override
+  late final GeneratedColumn<double?> eligibleBalance =
+      GeneratedColumn<double?>('eligible_balance', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
+  final VerificationMeta _eligibleUsedMeta =
+      const VerificationMeta('eligibleUsed');
+  @override
+  late final GeneratedColumn<double?> eligibleUsed = GeneratedColumn<double?>(
+      'eligible_used', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
+  final VerificationMeta _eligibleValuePerMonthMeta =
+      const VerificationMeta('eligibleValuePerMonth');
+  @override
+  late final GeneratedColumn<double?> eligibleValuePerMonth =
+      GeneratedColumn<double?>('eligible_value_per_month', aliasedName, true,
+          type: const RealType(), requiredDuringInsert: false);
+  final VerificationMeta _sickTotalMeta = const VerificationMeta('sickTotal');
+  @override
+  late final GeneratedColumn<double?> sickTotal = GeneratedColumn<double?>(
+      'sick_total', aliasedName, true,
+      type: const RealType(), requiredDuringInsert: false);
+  final VerificationMeta _sickBalanceMeta =
+      const VerificationMeta('sickBalance');
+  @override
+  late final GeneratedColumn<double?> sickBalance = GeneratedColumn<double?>(
+      'sick_balance', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
+  final VerificationMeta _sickUsedMeta = const VerificationMeta('sickUsed');
+  @override
+  late final GeneratedColumn<double?> sickUsed = GeneratedColumn<double?>(
+      'sick_used', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
+  final VerificationMeta _sickValuePerMonthMeta =
+      const VerificationMeta('sickValuePerMonth');
+  @override
+  late final GeneratedColumn<double?> sickValuePerMonth =
+      GeneratedColumn<double?>('sick_value_per_month', aliasedName, true,
+          type: const RealType(), requiredDuringInsert: false);
+  final VerificationMeta _incentiveTotalMeta =
+      const VerificationMeta('incentiveTotal');
+  @override
+  late final GeneratedColumn<double?> incentiveTotal = GeneratedColumn<double?>(
+      'incentive_total', aliasedName, true,
+      type: const RealType(), requiredDuringInsert: false);
+  final VerificationMeta _incentiveBalanceMeta =
+      const VerificationMeta('incentiveBalance');
+  @override
+  late final GeneratedColumn<double?> incentiveBalance =
+      GeneratedColumn<double?>('incentive_balance', aliasedName, true,
+          type: const RealType(), requiredDuringInsert: false);
+  final VerificationMeta _incentiveUsedMeta =
+      const VerificationMeta('incentiveUsed');
+  @override
+  late final GeneratedColumn<double?> incentiveUsed = GeneratedColumn<double?>(
+      'incentive_used', aliasedName, true,
+      type: const RealType(), requiredDuringInsert: false);
+  final VerificationMeta _incentiveValueLimitMeta =
+      const VerificationMeta('incentiveValueLimit');
+  @override
+  late final GeneratedColumn<double?> incentiveValueLimit =
+      GeneratedColumn<double?>('incentive_value_limit', aliasedName, true,
+          type: const RealType(), requiredDuringInsert: false);
+  final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
+      'created_at', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime?> updatedAt = GeneratedColumn<DateTime?>(
+      'updated_at', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        eligibleTotal,
+        eligibleBalance,
+        eligibleUsed,
+        eligibleValuePerMonth,
+        sickTotal,
+        sickBalance,
+        sickUsed,
+        sickValuePerMonth,
+        incentiveTotal,
+        incentiveBalance,
+        incentiveUsed,
+        incentiveValueLimit,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  String get aliasedName => _alias ?? 'vacations_table';
+  @override
+  String get actualTableName => 'vacations_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<VacationsTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('eligible_total')) {
+      context.handle(
+          _eligibleTotalMeta,
+          eligibleTotal.isAcceptableOrUnknown(
+              data['eligible_total']!, _eligibleTotalMeta));
+    }
+    if (data.containsKey('eligible_balance')) {
+      context.handle(
+          _eligibleBalanceMeta,
+          eligibleBalance.isAcceptableOrUnknown(
+              data['eligible_balance']!, _eligibleBalanceMeta));
+    } else if (isInserting) {
+      context.missing(_eligibleBalanceMeta);
+    }
+    if (data.containsKey('eligible_used')) {
+      context.handle(
+          _eligibleUsedMeta,
+          eligibleUsed.isAcceptableOrUnknown(
+              data['eligible_used']!, _eligibleUsedMeta));
+    } else if (isInserting) {
+      context.missing(_eligibleUsedMeta);
+    }
+    if (data.containsKey('eligible_value_per_month')) {
+      context.handle(
+          _eligibleValuePerMonthMeta,
+          eligibleValuePerMonth.isAcceptableOrUnknown(
+              data['eligible_value_per_month']!, _eligibleValuePerMonthMeta));
+    }
+    if (data.containsKey('sick_total')) {
+      context.handle(_sickTotalMeta,
+          sickTotal.isAcceptableOrUnknown(data['sick_total']!, _sickTotalMeta));
+    }
+    if (data.containsKey('sick_balance')) {
+      context.handle(
+          _sickBalanceMeta,
+          sickBalance.isAcceptableOrUnknown(
+              data['sick_balance']!, _sickBalanceMeta));
+    } else if (isInserting) {
+      context.missing(_sickBalanceMeta);
+    }
+    if (data.containsKey('sick_used')) {
+      context.handle(_sickUsedMeta,
+          sickUsed.isAcceptableOrUnknown(data['sick_used']!, _sickUsedMeta));
+    } else if (isInserting) {
+      context.missing(_sickUsedMeta);
+    }
+    if (data.containsKey('sick_value_per_month')) {
+      context.handle(
+          _sickValuePerMonthMeta,
+          sickValuePerMonth.isAcceptableOrUnknown(
+              data['sick_value_per_month']!, _sickValuePerMonthMeta));
+    }
+    if (data.containsKey('incentive_total')) {
+      context.handle(
+          _incentiveTotalMeta,
+          incentiveTotal.isAcceptableOrUnknown(
+              data['incentive_total']!, _incentiveTotalMeta));
+    }
+    if (data.containsKey('incentive_balance')) {
+      context.handle(
+          _incentiveBalanceMeta,
+          incentiveBalance.isAcceptableOrUnknown(
+              data['incentive_balance']!, _incentiveBalanceMeta));
+    }
+    if (data.containsKey('incentive_used')) {
+      context.handle(
+          _incentiveUsedMeta,
+          incentiveUsed.isAcceptableOrUnknown(
+              data['incentive_used']!, _incentiveUsedMeta));
+    }
+    if (data.containsKey('incentive_value_limit')) {
+      context.handle(
+          _incentiveValueLimitMeta,
+          incentiveValueLimit.isAcceptableOrUnknown(
+              data['incentive_value_limit']!, _incentiveValueLimitMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  VacationsTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return VacationsTableData.fromData(data,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $VacationsTableTable createAlias(String alias) {
+    return $VacationsTableTable(attachedDatabase, alias);
+  }
+}
+
 class DailyVacationTableData extends DataClass
     implements Insertable<DailyVacationTableData> {
   final int? id;
@@ -1797,6 +2517,7 @@ class DailyVacationTableData extends DataClass
   final int amount;
   final String vacationType;
   final String? description;
+  final int? vacations;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   DailyVacationTableData(
@@ -1806,6 +2527,7 @@ class DailyVacationTableData extends DataClass
       required this.amount,
       required this.vacationType,
       this.description,
+      this.vacations,
       this.createdAt,
       this.updatedAt});
   factory DailyVacationTableData.fromData(Map<String, dynamic> data,
@@ -1823,6 +2545,8 @@ class DailyVacationTableData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}vacation_type'])!,
       description: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}description']),
+      vacations: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}vacations']),
       createdAt: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
       updatedAt: const DateTimeType()
@@ -1841,6 +2565,9 @@ class DailyVacationTableData extends DataClass
     map['vacation_type'] = Variable<String>(vacationType);
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String?>(description);
+    }
+    if (!nullToAbsent || vacations != null) {
+      map['vacations'] = Variable<int?>(vacations);
     }
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime?>(createdAt);
@@ -1861,6 +2588,9 @@ class DailyVacationTableData extends DataClass
       description: description == null && nullToAbsent
           ? const Value.absent()
           : Value(description),
+      vacations: vacations == null && nullToAbsent
+          ? const Value.absent()
+          : Value(vacations),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -1880,6 +2610,7 @@ class DailyVacationTableData extends DataClass
       amount: serializer.fromJson<int>(json['amount']),
       vacationType: serializer.fromJson<String>(json['vacationType']),
       description: serializer.fromJson<String?>(json['description']),
+      vacations: serializer.fromJson<int?>(json['vacations']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -1894,6 +2625,7 @@ class DailyVacationTableData extends DataClass
       'amount': serializer.toJson<int>(amount),
       'vacationType': serializer.toJson<String>(vacationType),
       'description': serializer.toJson<String?>(description),
+      'vacations': serializer.toJson<int?>(vacations),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
@@ -1906,6 +2638,7 @@ class DailyVacationTableData extends DataClass
           int? amount,
           String? vacationType,
           String? description,
+          int? vacations,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       DailyVacationTableData(
@@ -1915,6 +2648,7 @@ class DailyVacationTableData extends DataClass
         amount: amount ?? this.amount,
         vacationType: vacationType ?? this.vacationType,
         description: description ?? this.description,
+        vacations: vacations ?? this.vacations,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -1927,6 +2661,7 @@ class DailyVacationTableData extends DataClass
           ..write('amount: $amount, ')
           ..write('vacationType: $vacationType, ')
           ..write('description: $description, ')
+          ..write('vacations: $vacations, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -1935,7 +2670,7 @@ class DailyVacationTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(id, startDate, endDate, amount, vacationType,
-      description, createdAt, updatedAt);
+      description, vacations, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1946,6 +2681,7 @@ class DailyVacationTableData extends DataClass
           other.amount == this.amount &&
           other.vacationType == this.vacationType &&
           other.description == this.description &&
+          other.vacations == this.vacations &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -1958,6 +2694,7 @@ class DailyVacationTableCompanion
   final Value<int> amount;
   final Value<String> vacationType;
   final Value<String?> description;
+  final Value<int?> vacations;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   const DailyVacationTableCompanion({
@@ -1967,6 +2704,7 @@ class DailyVacationTableCompanion
     this.amount = const Value.absent(),
     this.vacationType = const Value.absent(),
     this.description = const Value.absent(),
+    this.vacations = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -1977,6 +2715,7 @@ class DailyVacationTableCompanion
     required int amount,
     required String vacationType,
     this.description = const Value.absent(),
+    this.vacations = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   })  : startDate = Value(startDate),
@@ -1990,6 +2729,7 @@ class DailyVacationTableCompanion
     Expression<int>? amount,
     Expression<String>? vacationType,
     Expression<String?>? description,
+    Expression<int?>? vacations,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
   }) {
@@ -2000,6 +2740,7 @@ class DailyVacationTableCompanion
       if (amount != null) 'amount': amount,
       if (vacationType != null) 'vacation_type': vacationType,
       if (description != null) 'description': description,
+      if (vacations != null) 'vacations': vacations,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -2012,6 +2753,7 @@ class DailyVacationTableCompanion
       Value<int>? amount,
       Value<String>? vacationType,
       Value<String?>? description,
+      Value<int?>? vacations,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
     return DailyVacationTableCompanion(
@@ -2021,6 +2763,7 @@ class DailyVacationTableCompanion
       amount: amount ?? this.amount,
       vacationType: vacationType ?? this.vacationType,
       description: description ?? this.description,
+      vacations: vacations ?? this.vacations,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -2047,6 +2790,9 @@ class DailyVacationTableCompanion
     if (description.present) {
       map['description'] = Variable<String?>(description.value);
     }
+    if (vacations.present) {
+      map['vacations'] = Variable<int?>(vacations.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime?>(createdAt.value);
     }
@@ -2065,6 +2811,7 @@ class DailyVacationTableCompanion
           ..write('amount: $amount, ')
           ..write('vacationType: $vacationType, ')
           ..write('description: $description, ')
+          ..write('vacations: $vacations, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -2112,6 +2859,13 @@ class $DailyVacationTableTable extends DailyVacationTable
   late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
       'description', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _vacationsMeta = const VerificationMeta('vacations');
+  @override
+  late final GeneratedColumn<int?> vacations = GeneratedColumn<int?>(
+      'vacations', aliasedName, true,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'REFERENCES vacations_table (id)');
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
@@ -2130,6 +2884,7 @@ class $DailyVacationTableTable extends DailyVacationTable
         amount,
         vacationType,
         description,
+        vacations,
         createdAt,
         updatedAt
       ];
@@ -2177,6 +2932,10 @@ class $DailyVacationTableTable extends DailyVacationTable
           _descriptionMeta,
           description.isAcceptableOrUnknown(
               data['description']!, _descriptionMeta));
+    }
+    if (data.containsKey('vacations')) {
+      context.handle(_vacationsMeta,
+          vacations.isAcceptableOrUnknown(data['vacations']!, _vacationsMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -4403,6 +5162,7 @@ class HourlyVacationTableData extends DataClass
   final int? totalTime;
   final int? overtimePerMonth;
   final String? description;
+  final int vacations;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   HourlyVacationTableData(
@@ -4412,6 +5172,7 @@ class HourlyVacationTableData extends DataClass
       this.totalTime,
       this.overtimePerMonth,
       this.description,
+      required this.vacations,
       this.createdAt,
       this.updatedAt});
   factory HourlyVacationTableData.fromData(Map<String, dynamic> data,
@@ -4429,6 +5190,8 @@ class HourlyVacationTableData extends DataClass
           data['${effectivePrefix}overtime_per_month']),
       description: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}description']),
+      vacations: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}vacations'])!,
       createdAt: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
       updatedAt: const DateTimeType()
@@ -4452,6 +5215,7 @@ class HourlyVacationTableData extends DataClass
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String?>(description);
     }
+    map['vacations'] = Variable<int>(vacations);
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime?>(createdAt);
     }
@@ -4475,6 +5239,7 @@ class HourlyVacationTableData extends DataClass
       description: description == null && nullToAbsent
           ? const Value.absent()
           : Value(description),
+      vacations: Value(vacations),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -4494,6 +5259,7 @@ class HourlyVacationTableData extends DataClass
       totalTime: serializer.fromJson<int?>(json['totalTime']),
       overtimePerMonth: serializer.fromJson<int?>(json['overtimePerMonth']),
       description: serializer.fromJson<String?>(json['description']),
+      vacations: serializer.fromJson<int>(json['vacations']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -4508,6 +5274,7 @@ class HourlyVacationTableData extends DataClass
       'totalTime': serializer.toJson<int?>(totalTime),
       'overtimePerMonth': serializer.toJson<int?>(overtimePerMonth),
       'description': serializer.toJson<String?>(description),
+      'vacations': serializer.toJson<int>(vacations),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
@@ -4520,6 +5287,7 @@ class HourlyVacationTableData extends DataClass
           int? totalTime,
           int? overtimePerMonth,
           String? description,
+          int? vacations,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       HourlyVacationTableData(
@@ -4529,6 +5297,7 @@ class HourlyVacationTableData extends DataClass
         totalTime: totalTime ?? this.totalTime,
         overtimePerMonth: overtimePerMonth ?? this.overtimePerMonth,
         description: description ?? this.description,
+        vacations: vacations ?? this.vacations,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -4541,6 +5310,7 @@ class HourlyVacationTableData extends DataClass
           ..write('totalTime: $totalTime, ')
           ..write('overtimePerMonth: $overtimePerMonth, ')
           ..write('description: $description, ')
+          ..write('vacations: $vacations, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -4549,7 +5319,7 @@ class HourlyVacationTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(id, startTime, endTime, totalTime,
-      overtimePerMonth, description, createdAt, updatedAt);
+      overtimePerMonth, description, vacations, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -4560,6 +5330,7 @@ class HourlyVacationTableData extends DataClass
           other.totalTime == this.totalTime &&
           other.overtimePerMonth == this.overtimePerMonth &&
           other.description == this.description &&
+          other.vacations == this.vacations &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -4572,6 +5343,7 @@ class HourlyVacationTableCompanion
   final Value<int?> totalTime;
   final Value<int?> overtimePerMonth;
   final Value<String?> description;
+  final Value<int> vacations;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   const HourlyVacationTableCompanion({
@@ -4581,6 +5353,7 @@ class HourlyVacationTableCompanion
     this.totalTime = const Value.absent(),
     this.overtimePerMonth = const Value.absent(),
     this.description = const Value.absent(),
+    this.vacations = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -4591,10 +5364,12 @@ class HourlyVacationTableCompanion
     this.totalTime = const Value.absent(),
     this.overtimePerMonth = const Value.absent(),
     this.description = const Value.absent(),
+    required int vacations,
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   })  : startTime = Value(startTime),
-        endTime = Value(endTime);
+        endTime = Value(endTime),
+        vacations = Value(vacations);
   static Insertable<HourlyVacationTableData> custom({
     Expression<int?>? id,
     Expression<DateTime>? startTime,
@@ -4602,6 +5377,7 @@ class HourlyVacationTableCompanion
     Expression<int?>? totalTime,
     Expression<int?>? overtimePerMonth,
     Expression<String?>? description,
+    Expression<int>? vacations,
     Expression<DateTime?>? createdAt,
     Expression<DateTime?>? updatedAt,
   }) {
@@ -4612,6 +5388,7 @@ class HourlyVacationTableCompanion
       if (totalTime != null) 'total_time': totalTime,
       if (overtimePerMonth != null) 'overtime_per_month': overtimePerMonth,
       if (description != null) 'description': description,
+      if (vacations != null) 'vacations': vacations,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -4624,6 +5401,7 @@ class HourlyVacationTableCompanion
       Value<int?>? totalTime,
       Value<int?>? overtimePerMonth,
       Value<String?>? description,
+      Value<int>? vacations,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt}) {
     return HourlyVacationTableCompanion(
@@ -4633,6 +5411,7 @@ class HourlyVacationTableCompanion
       totalTime: totalTime ?? this.totalTime,
       overtimePerMonth: overtimePerMonth ?? this.overtimePerMonth,
       description: description ?? this.description,
+      vacations: vacations ?? this.vacations,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -4659,6 +5438,9 @@ class HourlyVacationTableCompanion
     if (description.present) {
       map['description'] = Variable<String?>(description.value);
     }
+    if (vacations.present) {
+      map['vacations'] = Variable<int>(vacations.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime?>(createdAt.value);
     }
@@ -4677,6 +5459,7 @@ class HourlyVacationTableCompanion
           ..write('totalTime: $totalTime, ')
           ..write('overtimePerMonth: $overtimePerMonth, ')
           ..write('description: $description, ')
+          ..write('vacations: $vacations, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -4724,6 +5507,13 @@ class $HourlyVacationTableTable extends HourlyVacationTable
   late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
       'description', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _vacationsMeta = const VerificationMeta('vacations');
+  @override
+  late final GeneratedColumn<int?> vacations = GeneratedColumn<int?>(
+      'vacations', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'REFERENCES vacations_table (id)');
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
@@ -4742,6 +5532,7 @@ class $HourlyVacationTableTable extends HourlyVacationTable
         totalTime,
         overtimePerMonth,
         description,
+        vacations,
         createdAt,
         updatedAt
       ];
@@ -4785,6 +5576,12 @@ class $HourlyVacationTableTable extends HourlyVacationTable
           _descriptionMeta,
           description.isAcceptableOrUnknown(
               data['description']!, _descriptionMeta));
+    }
+    if (data.containsKey('vacations')) {
+      context.handle(_vacationsMeta,
+          vacations.isAcceptableOrUnknown(data['vacations']!, _vacationsMeta));
+    } else if (isInserting) {
+      context.missing(_vacationsMeta);
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -7272,804 +8069,6 @@ class $TrainingStatusTableTable extends TrainingStatusTable
   @override
   $TrainingStatusTableTable createAlias(String alias) {
     return $TrainingStatusTableTable(attachedDatabase, alias);
-  }
-}
-
-class VacationsTableData extends DataClass
-    implements Insertable<VacationsTableData> {
-  final int? id;
-  final double? eligibleTotal;
-  final double eligibleBalance;
-  final double eligibleUsed;
-  final double? eligibleValuePerMonth;
-  final double? sickTotal;
-  final double sickBalance;
-  final double sickUsed;
-  final double? sickValuePerMonth;
-  final double? incentiveTotal;
-  final double? incentiveBalance;
-  final double? incentiveUsed;
-  final double? incentiveValueLimit;
-  final int? daily;
-  final int? hourly;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  VacationsTableData(
-      {this.id,
-      this.eligibleTotal,
-      required this.eligibleBalance,
-      required this.eligibleUsed,
-      this.eligibleValuePerMonth,
-      this.sickTotal,
-      required this.sickBalance,
-      required this.sickUsed,
-      this.sickValuePerMonth,
-      this.incentiveTotal,
-      this.incentiveBalance,
-      this.incentiveUsed,
-      this.incentiveValueLimit,
-      this.daily,
-      this.hourly,
-      this.createdAt,
-      this.updatedAt});
-  factory VacationsTableData.fromData(Map<String, dynamic> data,
-      {String? prefix}) {
-    final effectivePrefix = prefix ?? '';
-    return VacationsTableData(
-      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      eligibleTotal: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}eligible_total']),
-      eligibleBalance: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}eligible_balance'])!,
-      eligibleUsed: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}eligible_used'])!,
-      eligibleValuePerMonth: const RealType().mapFromDatabaseResponse(
-          data['${effectivePrefix}eligible_value_per_month']),
-      sickTotal: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}sick_total']),
-      sickBalance: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}sick_balance'])!,
-      sickUsed: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}sick_used'])!,
-      sickValuePerMonth: const RealType().mapFromDatabaseResponse(
-          data['${effectivePrefix}sick_value_per_month']),
-      incentiveTotal: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}incentive_total']),
-      incentiveBalance: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}incentive_balance']),
-      incentiveUsed: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}incentive_used']),
-      incentiveValueLimit: const RealType().mapFromDatabaseResponse(
-          data['${effectivePrefix}incentive_value_limit']),
-      daily: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}daily']),
-      hourly: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}hourly']),
-      createdAt: const DateTimeType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
-      updatedAt: const DateTimeType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}updated_at']),
-    );
-  }
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (!nullToAbsent || id != null) {
-      map['id'] = Variable<int?>(id);
-    }
-    if (!nullToAbsent || eligibleTotal != null) {
-      map['eligible_total'] = Variable<double?>(eligibleTotal);
-    }
-    map['eligible_balance'] = Variable<double>(eligibleBalance);
-    map['eligible_used'] = Variable<double>(eligibleUsed);
-    if (!nullToAbsent || eligibleValuePerMonth != null) {
-      map['eligible_value_per_month'] =
-          Variable<double?>(eligibleValuePerMonth);
-    }
-    if (!nullToAbsent || sickTotal != null) {
-      map['sick_total'] = Variable<double?>(sickTotal);
-    }
-    map['sick_balance'] = Variable<double>(sickBalance);
-    map['sick_used'] = Variable<double>(sickUsed);
-    if (!nullToAbsent || sickValuePerMonth != null) {
-      map['sick_value_per_month'] = Variable<double?>(sickValuePerMonth);
-    }
-    if (!nullToAbsent || incentiveTotal != null) {
-      map['incentive_total'] = Variable<double?>(incentiveTotal);
-    }
-    if (!nullToAbsent || incentiveBalance != null) {
-      map['incentive_balance'] = Variable<double?>(incentiveBalance);
-    }
-    if (!nullToAbsent || incentiveUsed != null) {
-      map['incentive_used'] = Variable<double?>(incentiveUsed);
-    }
-    if (!nullToAbsent || incentiveValueLimit != null) {
-      map['incentive_value_limit'] = Variable<double?>(incentiveValueLimit);
-    }
-    if (!nullToAbsent || daily != null) {
-      map['daily'] = Variable<int?>(daily);
-    }
-    if (!nullToAbsent || hourly != null) {
-      map['hourly'] = Variable<int?>(hourly);
-    }
-    if (!nullToAbsent || createdAt != null) {
-      map['created_at'] = Variable<DateTime?>(createdAt);
-    }
-    if (!nullToAbsent || updatedAt != null) {
-      map['updated_at'] = Variable<DateTime?>(updatedAt);
-    }
-    return map;
-  }
-
-  VacationsTableCompanion toCompanion(bool nullToAbsent) {
-    return VacationsTableCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      eligibleTotal: eligibleTotal == null && nullToAbsent
-          ? const Value.absent()
-          : Value(eligibleTotal),
-      eligibleBalance: Value(eligibleBalance),
-      eligibleUsed: Value(eligibleUsed),
-      eligibleValuePerMonth: eligibleValuePerMonth == null && nullToAbsent
-          ? const Value.absent()
-          : Value(eligibleValuePerMonth),
-      sickTotal: sickTotal == null && nullToAbsent
-          ? const Value.absent()
-          : Value(sickTotal),
-      sickBalance: Value(sickBalance),
-      sickUsed: Value(sickUsed),
-      sickValuePerMonth: sickValuePerMonth == null && nullToAbsent
-          ? const Value.absent()
-          : Value(sickValuePerMonth),
-      incentiveTotal: incentiveTotal == null && nullToAbsent
-          ? const Value.absent()
-          : Value(incentiveTotal),
-      incentiveBalance: incentiveBalance == null && nullToAbsent
-          ? const Value.absent()
-          : Value(incentiveBalance),
-      incentiveUsed: incentiveUsed == null && nullToAbsent
-          ? const Value.absent()
-          : Value(incentiveUsed),
-      incentiveValueLimit: incentiveValueLimit == null && nullToAbsent
-          ? const Value.absent()
-          : Value(incentiveValueLimit),
-      daily:
-          daily == null && nullToAbsent ? const Value.absent() : Value(daily),
-      hourly:
-          hourly == null && nullToAbsent ? const Value.absent() : Value(hourly),
-      createdAt: createdAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createdAt),
-      updatedAt: updatedAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(updatedAt),
-    );
-  }
-
-  factory VacationsTableData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return VacationsTableData(
-      id: serializer.fromJson<int?>(json['id']),
-      eligibleTotal: serializer.fromJson<double?>(json['eligibleTotal']),
-      eligibleBalance: serializer.fromJson<double>(json['eligibleBalance']),
-      eligibleUsed: serializer.fromJson<double>(json['eligibleUsed']),
-      eligibleValuePerMonth:
-          serializer.fromJson<double?>(json['eligibleValuePerMonth']),
-      sickTotal: serializer.fromJson<double?>(json['sickTotal']),
-      sickBalance: serializer.fromJson<double>(json['sickBalance']),
-      sickUsed: serializer.fromJson<double>(json['sickUsed']),
-      sickValuePerMonth:
-          serializer.fromJson<double?>(json['sickValuePerMonth']),
-      incentiveTotal: serializer.fromJson<double?>(json['incentiveTotal']),
-      incentiveBalance: serializer.fromJson<double?>(json['incentiveBalance']),
-      incentiveUsed: serializer.fromJson<double?>(json['incentiveUsed']),
-      incentiveValueLimit:
-          serializer.fromJson<double?>(json['incentiveValueLimit']),
-      daily: serializer.fromJson<int?>(json['daily']),
-      hourly: serializer.fromJson<int?>(json['hourly']),
-      createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
-      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int?>(id),
-      'eligibleTotal': serializer.toJson<double?>(eligibleTotal),
-      'eligibleBalance': serializer.toJson<double>(eligibleBalance),
-      'eligibleUsed': serializer.toJson<double>(eligibleUsed),
-      'eligibleValuePerMonth':
-          serializer.toJson<double?>(eligibleValuePerMonth),
-      'sickTotal': serializer.toJson<double?>(sickTotal),
-      'sickBalance': serializer.toJson<double>(sickBalance),
-      'sickUsed': serializer.toJson<double>(sickUsed),
-      'sickValuePerMonth': serializer.toJson<double?>(sickValuePerMonth),
-      'incentiveTotal': serializer.toJson<double?>(incentiveTotal),
-      'incentiveBalance': serializer.toJson<double?>(incentiveBalance),
-      'incentiveUsed': serializer.toJson<double?>(incentiveUsed),
-      'incentiveValueLimit': serializer.toJson<double?>(incentiveValueLimit),
-      'daily': serializer.toJson<int?>(daily),
-      'hourly': serializer.toJson<int?>(hourly),
-      'createdAt': serializer.toJson<DateTime?>(createdAt),
-      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
-    };
-  }
-
-  VacationsTableData copyWith(
-          {int? id,
-          double? eligibleTotal,
-          double? eligibleBalance,
-          double? eligibleUsed,
-          double? eligibleValuePerMonth,
-          double? sickTotal,
-          double? sickBalance,
-          double? sickUsed,
-          double? sickValuePerMonth,
-          double? incentiveTotal,
-          double? incentiveBalance,
-          double? incentiveUsed,
-          double? incentiveValueLimit,
-          int? daily,
-          int? hourly,
-          DateTime? createdAt,
-          DateTime? updatedAt}) =>
-      VacationsTableData(
-        id: id ?? this.id,
-        eligibleTotal: eligibleTotal ?? this.eligibleTotal,
-        eligibleBalance: eligibleBalance ?? this.eligibleBalance,
-        eligibleUsed: eligibleUsed ?? this.eligibleUsed,
-        eligibleValuePerMonth:
-            eligibleValuePerMonth ?? this.eligibleValuePerMonth,
-        sickTotal: sickTotal ?? this.sickTotal,
-        sickBalance: sickBalance ?? this.sickBalance,
-        sickUsed: sickUsed ?? this.sickUsed,
-        sickValuePerMonth: sickValuePerMonth ?? this.sickValuePerMonth,
-        incentiveTotal: incentiveTotal ?? this.incentiveTotal,
-        incentiveBalance: incentiveBalance ?? this.incentiveBalance,
-        incentiveUsed: incentiveUsed ?? this.incentiveUsed,
-        incentiveValueLimit: incentiveValueLimit ?? this.incentiveValueLimit,
-        daily: daily ?? this.daily,
-        hourly: hourly ?? this.hourly,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
-  @override
-  String toString() {
-    return (StringBuffer('VacationsTableData(')
-          ..write('id: $id, ')
-          ..write('eligibleTotal: $eligibleTotal, ')
-          ..write('eligibleBalance: $eligibleBalance, ')
-          ..write('eligibleUsed: $eligibleUsed, ')
-          ..write('eligibleValuePerMonth: $eligibleValuePerMonth, ')
-          ..write('sickTotal: $sickTotal, ')
-          ..write('sickBalance: $sickBalance, ')
-          ..write('sickUsed: $sickUsed, ')
-          ..write('sickValuePerMonth: $sickValuePerMonth, ')
-          ..write('incentiveTotal: $incentiveTotal, ')
-          ..write('incentiveBalance: $incentiveBalance, ')
-          ..write('incentiveUsed: $incentiveUsed, ')
-          ..write('incentiveValueLimit: $incentiveValueLimit, ')
-          ..write('daily: $daily, ')
-          ..write('hourly: $hourly, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      id,
-      eligibleTotal,
-      eligibleBalance,
-      eligibleUsed,
-      eligibleValuePerMonth,
-      sickTotal,
-      sickBalance,
-      sickUsed,
-      sickValuePerMonth,
-      incentiveTotal,
-      incentiveBalance,
-      incentiveUsed,
-      incentiveValueLimit,
-      daily,
-      hourly,
-      createdAt,
-      updatedAt);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is VacationsTableData &&
-          other.id == this.id &&
-          other.eligibleTotal == this.eligibleTotal &&
-          other.eligibleBalance == this.eligibleBalance &&
-          other.eligibleUsed == this.eligibleUsed &&
-          other.eligibleValuePerMonth == this.eligibleValuePerMonth &&
-          other.sickTotal == this.sickTotal &&
-          other.sickBalance == this.sickBalance &&
-          other.sickUsed == this.sickUsed &&
-          other.sickValuePerMonth == this.sickValuePerMonth &&
-          other.incentiveTotal == this.incentiveTotal &&
-          other.incentiveBalance == this.incentiveBalance &&
-          other.incentiveUsed == this.incentiveUsed &&
-          other.incentiveValueLimit == this.incentiveValueLimit &&
-          other.daily == this.daily &&
-          other.hourly == this.hourly &&
-          other.createdAt == this.createdAt &&
-          other.updatedAt == this.updatedAt);
-}
-
-class VacationsTableCompanion extends UpdateCompanion<VacationsTableData> {
-  final Value<int?> id;
-  final Value<double?> eligibleTotal;
-  final Value<double> eligibleBalance;
-  final Value<double> eligibleUsed;
-  final Value<double?> eligibleValuePerMonth;
-  final Value<double?> sickTotal;
-  final Value<double> sickBalance;
-  final Value<double> sickUsed;
-  final Value<double?> sickValuePerMonth;
-  final Value<double?> incentiveTotal;
-  final Value<double?> incentiveBalance;
-  final Value<double?> incentiveUsed;
-  final Value<double?> incentiveValueLimit;
-  final Value<int?> daily;
-  final Value<int?> hourly;
-  final Value<DateTime?> createdAt;
-  final Value<DateTime?> updatedAt;
-  const VacationsTableCompanion({
-    this.id = const Value.absent(),
-    this.eligibleTotal = const Value.absent(),
-    this.eligibleBalance = const Value.absent(),
-    this.eligibleUsed = const Value.absent(),
-    this.eligibleValuePerMonth = const Value.absent(),
-    this.sickTotal = const Value.absent(),
-    this.sickBalance = const Value.absent(),
-    this.sickUsed = const Value.absent(),
-    this.sickValuePerMonth = const Value.absent(),
-    this.incentiveTotal = const Value.absent(),
-    this.incentiveBalance = const Value.absent(),
-    this.incentiveUsed = const Value.absent(),
-    this.incentiveValueLimit = const Value.absent(),
-    this.daily = const Value.absent(),
-    this.hourly = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.updatedAt = const Value.absent(),
-  });
-  VacationsTableCompanion.insert({
-    this.id = const Value.absent(),
-    this.eligibleTotal = const Value.absent(),
-    required double eligibleBalance,
-    required double eligibleUsed,
-    this.eligibleValuePerMonth = const Value.absent(),
-    this.sickTotal = const Value.absent(),
-    required double sickBalance,
-    required double sickUsed,
-    this.sickValuePerMonth = const Value.absent(),
-    this.incentiveTotal = const Value.absent(),
-    this.incentiveBalance = const Value.absent(),
-    this.incentiveUsed = const Value.absent(),
-    this.incentiveValueLimit = const Value.absent(),
-    this.daily = const Value.absent(),
-    this.hourly = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.updatedAt = const Value.absent(),
-  })  : eligibleBalance = Value(eligibleBalance),
-        eligibleUsed = Value(eligibleUsed),
-        sickBalance = Value(sickBalance),
-        sickUsed = Value(sickUsed);
-  static Insertable<VacationsTableData> custom({
-    Expression<int?>? id,
-    Expression<double?>? eligibleTotal,
-    Expression<double>? eligibleBalance,
-    Expression<double>? eligibleUsed,
-    Expression<double?>? eligibleValuePerMonth,
-    Expression<double?>? sickTotal,
-    Expression<double>? sickBalance,
-    Expression<double>? sickUsed,
-    Expression<double?>? sickValuePerMonth,
-    Expression<double?>? incentiveTotal,
-    Expression<double?>? incentiveBalance,
-    Expression<double?>? incentiveUsed,
-    Expression<double?>? incentiveValueLimit,
-    Expression<int?>? daily,
-    Expression<int?>? hourly,
-    Expression<DateTime?>? createdAt,
-    Expression<DateTime?>? updatedAt,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (eligibleTotal != null) 'eligible_total': eligibleTotal,
-      if (eligibleBalance != null) 'eligible_balance': eligibleBalance,
-      if (eligibleUsed != null) 'eligible_used': eligibleUsed,
-      if (eligibleValuePerMonth != null)
-        'eligible_value_per_month': eligibleValuePerMonth,
-      if (sickTotal != null) 'sick_total': sickTotal,
-      if (sickBalance != null) 'sick_balance': sickBalance,
-      if (sickUsed != null) 'sick_used': sickUsed,
-      if (sickValuePerMonth != null) 'sick_value_per_month': sickValuePerMonth,
-      if (incentiveTotal != null) 'incentive_total': incentiveTotal,
-      if (incentiveBalance != null) 'incentive_balance': incentiveBalance,
-      if (incentiveUsed != null) 'incentive_used': incentiveUsed,
-      if (incentiveValueLimit != null)
-        'incentive_value_limit': incentiveValueLimit,
-      if (daily != null) 'daily': daily,
-      if (hourly != null) 'hourly': hourly,
-      if (createdAt != null) 'created_at': createdAt,
-      if (updatedAt != null) 'updated_at': updatedAt,
-    });
-  }
-
-  VacationsTableCompanion copyWith(
-      {Value<int?>? id,
-      Value<double?>? eligibleTotal,
-      Value<double>? eligibleBalance,
-      Value<double>? eligibleUsed,
-      Value<double?>? eligibleValuePerMonth,
-      Value<double?>? sickTotal,
-      Value<double>? sickBalance,
-      Value<double>? sickUsed,
-      Value<double?>? sickValuePerMonth,
-      Value<double?>? incentiveTotal,
-      Value<double?>? incentiveBalance,
-      Value<double?>? incentiveUsed,
-      Value<double?>? incentiveValueLimit,
-      Value<int?>? daily,
-      Value<int?>? hourly,
-      Value<DateTime?>? createdAt,
-      Value<DateTime?>? updatedAt}) {
-    return VacationsTableCompanion(
-      id: id ?? this.id,
-      eligibleTotal: eligibleTotal ?? this.eligibleTotal,
-      eligibleBalance: eligibleBalance ?? this.eligibleBalance,
-      eligibleUsed: eligibleUsed ?? this.eligibleUsed,
-      eligibleValuePerMonth:
-          eligibleValuePerMonth ?? this.eligibleValuePerMonth,
-      sickTotal: sickTotal ?? this.sickTotal,
-      sickBalance: sickBalance ?? this.sickBalance,
-      sickUsed: sickUsed ?? this.sickUsed,
-      sickValuePerMonth: sickValuePerMonth ?? this.sickValuePerMonth,
-      incentiveTotal: incentiveTotal ?? this.incentiveTotal,
-      incentiveBalance: incentiveBalance ?? this.incentiveBalance,
-      incentiveUsed: incentiveUsed ?? this.incentiveUsed,
-      incentiveValueLimit: incentiveValueLimit ?? this.incentiveValueLimit,
-      daily: daily ?? this.daily,
-      hourly: hourly ?? this.hourly,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int?>(id.value);
-    }
-    if (eligibleTotal.present) {
-      map['eligible_total'] = Variable<double?>(eligibleTotal.value);
-    }
-    if (eligibleBalance.present) {
-      map['eligible_balance'] = Variable<double>(eligibleBalance.value);
-    }
-    if (eligibleUsed.present) {
-      map['eligible_used'] = Variable<double>(eligibleUsed.value);
-    }
-    if (eligibleValuePerMonth.present) {
-      map['eligible_value_per_month'] =
-          Variable<double?>(eligibleValuePerMonth.value);
-    }
-    if (sickTotal.present) {
-      map['sick_total'] = Variable<double?>(sickTotal.value);
-    }
-    if (sickBalance.present) {
-      map['sick_balance'] = Variable<double>(sickBalance.value);
-    }
-    if (sickUsed.present) {
-      map['sick_used'] = Variable<double>(sickUsed.value);
-    }
-    if (sickValuePerMonth.present) {
-      map['sick_value_per_month'] = Variable<double?>(sickValuePerMonth.value);
-    }
-    if (incentiveTotal.present) {
-      map['incentive_total'] = Variable<double?>(incentiveTotal.value);
-    }
-    if (incentiveBalance.present) {
-      map['incentive_balance'] = Variable<double?>(incentiveBalance.value);
-    }
-    if (incentiveUsed.present) {
-      map['incentive_used'] = Variable<double?>(incentiveUsed.value);
-    }
-    if (incentiveValueLimit.present) {
-      map['incentive_value_limit'] =
-          Variable<double?>(incentiveValueLimit.value);
-    }
-    if (daily.present) {
-      map['daily'] = Variable<int?>(daily.value);
-    }
-    if (hourly.present) {
-      map['hourly'] = Variable<int?>(hourly.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime?>(createdAt.value);
-    }
-    if (updatedAt.present) {
-      map['updated_at'] = Variable<DateTime?>(updatedAt.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('VacationsTableCompanion(')
-          ..write('id: $id, ')
-          ..write('eligibleTotal: $eligibleTotal, ')
-          ..write('eligibleBalance: $eligibleBalance, ')
-          ..write('eligibleUsed: $eligibleUsed, ')
-          ..write('eligibleValuePerMonth: $eligibleValuePerMonth, ')
-          ..write('sickTotal: $sickTotal, ')
-          ..write('sickBalance: $sickBalance, ')
-          ..write('sickUsed: $sickUsed, ')
-          ..write('sickValuePerMonth: $sickValuePerMonth, ')
-          ..write('incentiveTotal: $incentiveTotal, ')
-          ..write('incentiveBalance: $incentiveBalance, ')
-          ..write('incentiveUsed: $incentiveUsed, ')
-          ..write('incentiveValueLimit: $incentiveValueLimit, ')
-          ..write('daily: $daily, ')
-          ..write('hourly: $hourly, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $VacationsTableTable extends VacationsTable
-    with TableInfo<$VacationsTableTable, VacationsTableData> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $VacationsTableTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
-      'id', aliasedName, true,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _eligibleTotalMeta =
-      const VerificationMeta('eligibleTotal');
-  @override
-  late final GeneratedColumn<double?> eligibleTotal = GeneratedColumn<double?>(
-      'eligible_total', aliasedName, true,
-      type: const RealType(), requiredDuringInsert: false);
-  final VerificationMeta _eligibleBalanceMeta =
-      const VerificationMeta('eligibleBalance');
-  @override
-  late final GeneratedColumn<double?> eligibleBalance =
-      GeneratedColumn<double?>('eligible_balance', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
-  final VerificationMeta _eligibleUsedMeta =
-      const VerificationMeta('eligibleUsed');
-  @override
-  late final GeneratedColumn<double?> eligibleUsed = GeneratedColumn<double?>(
-      'eligible_used', aliasedName, false,
-      type: const RealType(), requiredDuringInsert: true);
-  final VerificationMeta _eligibleValuePerMonthMeta =
-      const VerificationMeta('eligibleValuePerMonth');
-  @override
-  late final GeneratedColumn<double?> eligibleValuePerMonth =
-      GeneratedColumn<double?>('eligible_value_per_month', aliasedName, true,
-          type: const RealType(), requiredDuringInsert: false);
-  final VerificationMeta _sickTotalMeta = const VerificationMeta('sickTotal');
-  @override
-  late final GeneratedColumn<double?> sickTotal = GeneratedColumn<double?>(
-      'sick_total', aliasedName, true,
-      type: const RealType(), requiredDuringInsert: false);
-  final VerificationMeta _sickBalanceMeta =
-      const VerificationMeta('sickBalance');
-  @override
-  late final GeneratedColumn<double?> sickBalance = GeneratedColumn<double?>(
-      'sick_balance', aliasedName, false,
-      type: const RealType(), requiredDuringInsert: true);
-  final VerificationMeta _sickUsedMeta = const VerificationMeta('sickUsed');
-  @override
-  late final GeneratedColumn<double?> sickUsed = GeneratedColumn<double?>(
-      'sick_used', aliasedName, false,
-      type: const RealType(), requiredDuringInsert: true);
-  final VerificationMeta _sickValuePerMonthMeta =
-      const VerificationMeta('sickValuePerMonth');
-  @override
-  late final GeneratedColumn<double?> sickValuePerMonth =
-      GeneratedColumn<double?>('sick_value_per_month', aliasedName, true,
-          type: const RealType(), requiredDuringInsert: false);
-  final VerificationMeta _incentiveTotalMeta =
-      const VerificationMeta('incentiveTotal');
-  @override
-  late final GeneratedColumn<double?> incentiveTotal = GeneratedColumn<double?>(
-      'incentive_total', aliasedName, true,
-      type: const RealType(), requiredDuringInsert: false);
-  final VerificationMeta _incentiveBalanceMeta =
-      const VerificationMeta('incentiveBalance');
-  @override
-  late final GeneratedColumn<double?> incentiveBalance =
-      GeneratedColumn<double?>('incentive_balance', aliasedName, true,
-          type: const RealType(), requiredDuringInsert: false);
-  final VerificationMeta _incentiveUsedMeta =
-      const VerificationMeta('incentiveUsed');
-  @override
-  late final GeneratedColumn<double?> incentiveUsed = GeneratedColumn<double?>(
-      'incentive_used', aliasedName, true,
-      type: const RealType(), requiredDuringInsert: false);
-  final VerificationMeta _incentiveValueLimitMeta =
-      const VerificationMeta('incentiveValueLimit');
-  @override
-  late final GeneratedColumn<double?> incentiveValueLimit =
-      GeneratedColumn<double?>('incentive_value_limit', aliasedName, true,
-          type: const RealType(), requiredDuringInsert: false);
-  final VerificationMeta _dailyMeta = const VerificationMeta('daily');
-  @override
-  late final GeneratedColumn<int?> daily = GeneratedColumn<int?>(
-      'daily', aliasedName, true,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      defaultConstraints: 'REFERENCES daily_vacation_table (id)');
-  final VerificationMeta _hourlyMeta = const VerificationMeta('hourly');
-  @override
-  late final GeneratedColumn<int?> hourly = GeneratedColumn<int?>(
-      'hourly', aliasedName, true,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      defaultConstraints: 'REFERENCES hourly_vacation_table (id)');
-  final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
-  @override
-  late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
-      'created_at', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
-  final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
-  @override
-  late final GeneratedColumn<DateTime?> updatedAt = GeneratedColumn<DateTime?>(
-      'updated_at', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
-  @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        eligibleTotal,
-        eligibleBalance,
-        eligibleUsed,
-        eligibleValuePerMonth,
-        sickTotal,
-        sickBalance,
-        sickUsed,
-        sickValuePerMonth,
-        incentiveTotal,
-        incentiveBalance,
-        incentiveUsed,
-        incentiveValueLimit,
-        daily,
-        hourly,
-        createdAt,
-        updatedAt
-      ];
-  @override
-  String get aliasedName => _alias ?? 'vacations_table';
-  @override
-  String get actualTableName => 'vacations_table';
-  @override
-  VerificationContext validateIntegrity(Insertable<VacationsTableData> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('eligible_total')) {
-      context.handle(
-          _eligibleTotalMeta,
-          eligibleTotal.isAcceptableOrUnknown(
-              data['eligible_total']!, _eligibleTotalMeta));
-    }
-    if (data.containsKey('eligible_balance')) {
-      context.handle(
-          _eligibleBalanceMeta,
-          eligibleBalance.isAcceptableOrUnknown(
-              data['eligible_balance']!, _eligibleBalanceMeta));
-    } else if (isInserting) {
-      context.missing(_eligibleBalanceMeta);
-    }
-    if (data.containsKey('eligible_used')) {
-      context.handle(
-          _eligibleUsedMeta,
-          eligibleUsed.isAcceptableOrUnknown(
-              data['eligible_used']!, _eligibleUsedMeta));
-    } else if (isInserting) {
-      context.missing(_eligibleUsedMeta);
-    }
-    if (data.containsKey('eligible_value_per_month')) {
-      context.handle(
-          _eligibleValuePerMonthMeta,
-          eligibleValuePerMonth.isAcceptableOrUnknown(
-              data['eligible_value_per_month']!, _eligibleValuePerMonthMeta));
-    }
-    if (data.containsKey('sick_total')) {
-      context.handle(_sickTotalMeta,
-          sickTotal.isAcceptableOrUnknown(data['sick_total']!, _sickTotalMeta));
-    }
-    if (data.containsKey('sick_balance')) {
-      context.handle(
-          _sickBalanceMeta,
-          sickBalance.isAcceptableOrUnknown(
-              data['sick_balance']!, _sickBalanceMeta));
-    } else if (isInserting) {
-      context.missing(_sickBalanceMeta);
-    }
-    if (data.containsKey('sick_used')) {
-      context.handle(_sickUsedMeta,
-          sickUsed.isAcceptableOrUnknown(data['sick_used']!, _sickUsedMeta));
-    } else if (isInserting) {
-      context.missing(_sickUsedMeta);
-    }
-    if (data.containsKey('sick_value_per_month')) {
-      context.handle(
-          _sickValuePerMonthMeta,
-          sickValuePerMonth.isAcceptableOrUnknown(
-              data['sick_value_per_month']!, _sickValuePerMonthMeta));
-    }
-    if (data.containsKey('incentive_total')) {
-      context.handle(
-          _incentiveTotalMeta,
-          incentiveTotal.isAcceptableOrUnknown(
-              data['incentive_total']!, _incentiveTotalMeta));
-    }
-    if (data.containsKey('incentive_balance')) {
-      context.handle(
-          _incentiveBalanceMeta,
-          incentiveBalance.isAcceptableOrUnknown(
-              data['incentive_balance']!, _incentiveBalanceMeta));
-    }
-    if (data.containsKey('incentive_used')) {
-      context.handle(
-          _incentiveUsedMeta,
-          incentiveUsed.isAcceptableOrUnknown(
-              data['incentive_used']!, _incentiveUsedMeta));
-    }
-    if (data.containsKey('incentive_value_limit')) {
-      context.handle(
-          _incentiveValueLimitMeta,
-          incentiveValueLimit.isAcceptableOrUnknown(
-              data['incentive_value_limit']!, _incentiveValueLimitMeta));
-    }
-    if (data.containsKey('daily')) {
-      context.handle(
-          _dailyMeta, daily.isAcceptableOrUnknown(data['daily']!, _dailyMeta));
-    }
-    if (data.containsKey('hourly')) {
-      context.handle(_hourlyMeta,
-          hourly.isAcceptableOrUnknown(data['hourly']!, _hourlyMeta));
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
-    }
-    if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  VacationsTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return VacationsTableData.fromData(data,
-        prefix: tablePrefix != null ? '$tablePrefix.' : null);
-  }
-
-  @override
-  $VacationsTableTable createAlias(String alias) {
-    return $VacationsTableTable(attachedDatabase, alias);
   }
 }
 
@@ -11847,6 +11846,7 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
       $ContactInfoTableTable(this);
   late final $DailyAbsenceOvertimeTableTable dailyAbsenceOvertimeTable =
       $DailyAbsenceOvertimeTableTable(this);
+  late final $VacationsTableTable vacationsTable = $VacationsTableTable(this);
   late final $DailyVacationTableTable dailyVacationTable =
       $DailyVacationTableTable(this);
   late final $ViolationsOvertimeTableTable violationsOvertimeTable =
@@ -11871,7 +11871,6 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
   late final $SectionTableTable sectionTable = $SectionTableTable(this);
   late final $TrainingStatusTableTable trainingStatusTable =
       $TrainingStatusTableTable(this);
-  late final $VacationsTableTable vacationsTable = $VacationsTableTable(this);
   late final $ServiceDeficitRecordTableTable serviceDeficitRecordTable =
       $ServiceDeficitRecordTableTable(this);
   late final $ServiceDeficitTableTable serviceDeficitTable =
@@ -11936,6 +11935,7 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
         auditTable,
         contactInfoTable,
         dailyAbsenceOvertimeTable,
+        vacationsTable,
         dailyVacationTable,
         violationsOvertimeTable,
         disciplinaryOvertimeTable,
@@ -11949,7 +11949,6 @@ abstract class _$SoldierDatabase extends GeneratedDatabase {
         unitPropertiesTable,
         sectionTable,
         trainingStatusTable,
-        vacationsTable,
         serviceDeficitRecordTable,
         serviceDeficitTable,
         rankTable,
@@ -11998,10 +11997,6 @@ mixin _$ContactInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $AnnualOvertimeTableTable get annualOvertimeTable =>
       attachedDatabase.annualOvertimeTable;
   $OvertimeTableTable get overtimeTable => attachedDatabase.overtimeTable;
-  $DailyVacationTableTable get dailyVacationTable =>
-      attachedDatabase.dailyVacationTable;
-  $HourlyVacationTableTable get hourlyVacationTable =>
-      attachedDatabase.hourlyVacationTable;
   $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
   $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
       attachedDatabase.serviceDeficitRecordTable;
@@ -12022,6 +12017,7 @@ mixin _$DailyAbsenceOvertimeDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.dailyAbsenceOvertimeTable;
 }
 mixin _$DailyVacationDAOMixin on DatabaseAccessor<SoldierDatabase> {
+  $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
   $DailyVacationTableTable get dailyVacationTable =>
       attachedDatabase.dailyVacationTable;
 }
@@ -12057,10 +12053,6 @@ mixin _$EducationalInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $AnnualOvertimeTableTable get annualOvertimeTable =>
       attachedDatabase.annualOvertimeTable;
   $OvertimeTableTable get overtimeTable => attachedDatabase.overtimeTable;
-  $DailyVacationTableTable get dailyVacationTable =>
-      attachedDatabase.dailyVacationTable;
-  $HourlyVacationTableTable get hourlyVacationTable =>
-      attachedDatabase.hourlyVacationTable;
   $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
   $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
       attachedDatabase.serviceDeficitRecordTable;
@@ -12100,10 +12092,6 @@ mixin _$FurtherInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $AnnualOvertimeTableTable get annualOvertimeTable =>
       attachedDatabase.annualOvertimeTable;
   $OvertimeTableTable get overtimeTable => attachedDatabase.overtimeTable;
-  $DailyVacationTableTable get dailyVacationTable =>
-      attachedDatabase.dailyVacationTable;
-  $HourlyVacationTableTable get hourlyVacationTable =>
-      attachedDatabase.hourlyVacationTable;
   $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
   $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
       attachedDatabase.serviceDeficitRecordTable;
@@ -12124,6 +12112,7 @@ mixin _$HealthStatusDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.healthStatusTable;
 }
 mixin _$HourlyVacationDAOMixin on DatabaseAccessor<SoldierDatabase> {
+  $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
   $HourlyVacationTableTable get hourlyVacationTable =>
       attachedDatabase.hourlyVacationTable;
 }
@@ -12162,10 +12151,6 @@ mixin _$PersonalInfoDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $AnnualOvertimeTableTable get annualOvertimeTable =>
       attachedDatabase.annualOvertimeTable;
   $OvertimeTableTable get overtimeTable => attachedDatabase.overtimeTable;
-  $DailyVacationTableTable get dailyVacationTable =>
-      attachedDatabase.dailyVacationTable;
-  $HourlyVacationTableTable get hourlyVacationTable =>
-      attachedDatabase.hourlyVacationTable;
   $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
   $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
       attachedDatabase.serviceDeficitRecordTable;
@@ -12220,10 +12205,6 @@ mixin _$SoldierCaseDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $AnnualOvertimeTableTable get annualOvertimeTable =>
       attachedDatabase.annualOvertimeTable;
   $OvertimeTableTable get overtimeTable => attachedDatabase.overtimeTable;
-  $DailyVacationTableTable get dailyVacationTable =>
-      attachedDatabase.dailyVacationTable;
-  $HourlyVacationTableTable get hourlyVacationTable =>
-      attachedDatabase.hourlyVacationTable;
   $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
   $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
       attachedDatabase.serviceDeficitRecordTable;
@@ -12255,10 +12236,6 @@ mixin _$SoldierDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $AnnualOvertimeTableTable get annualOvertimeTable =>
       attachedDatabase.annualOvertimeTable;
   $OvertimeTableTable get overtimeTable => attachedDatabase.overtimeTable;
-  $DailyVacationTableTable get dailyVacationTable =>
-      attachedDatabase.dailyVacationTable;
-  $HourlyVacationTableTable get hourlyVacationTable =>
-      attachedDatabase.hourlyVacationTable;
   $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
   $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
       attachedDatabase.serviceDeficitRecordTable;
@@ -12298,10 +12275,6 @@ mixin _$TrainingStatusDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $AnnualOvertimeTableTable get annualOvertimeTable =>
       attachedDatabase.annualOvertimeTable;
   $OvertimeTableTable get overtimeTable => attachedDatabase.overtimeTable;
-  $DailyVacationTableTable get dailyVacationTable =>
-      attachedDatabase.dailyVacationTable;
-  $HourlyVacationTableTable get hourlyVacationTable =>
-      attachedDatabase.hourlyVacationTable;
   $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
   $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
       attachedDatabase.serviceDeficitRecordTable;
@@ -12330,10 +12303,6 @@ mixin _$VacationsDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $AnnualOvertimeTableTable get annualOvertimeTable =>
       attachedDatabase.annualOvertimeTable;
   $OvertimeTableTable get overtimeTable => attachedDatabase.overtimeTable;
-  $DailyVacationTableTable get dailyVacationTable =>
-      attachedDatabase.dailyVacationTable;
-  $HourlyVacationTableTable get hourlyVacationTable =>
-      attachedDatabase.hourlyVacationTable;
   $VacationsTableTable get vacationsTable => attachedDatabase.vacationsTable;
   $ServiceDeficitRecordTableTable get serviceDeficitRecordTable =>
       attachedDatabase.serviceDeficitRecordTable;
@@ -12347,6 +12316,10 @@ mixin _$VacationsDAOMixin on DatabaseAccessor<SoldierDatabase> {
       attachedDatabase.unitPropertiesTable;
   $SoldierCaseTableTable get soldierCaseTable =>
       attachedDatabase.soldierCaseTable;
+  $DailyVacationTableTable get dailyVacationTable =>
+      attachedDatabase.dailyVacationTable;
+  $HourlyVacationTableTable get hourlyVacationTable =>
+      attachedDatabase.hourlyVacationTable;
 }
 mixin _$ViolationsOvertimeDAOMixin on DatabaseAccessor<SoldierDatabase> {
   $ViolationsOvertimeTableTable get violationsOvertimeTable =>

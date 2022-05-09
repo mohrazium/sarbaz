@@ -4,6 +4,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 // ignore: library_prefixes
 import 'package:persian_tools/persian_tools.dart' as persianTools;
@@ -23,6 +24,7 @@ part 'controllers/case_controller.dart';
 part 'controllers/contact_info_controller.dart';
 part 'controllers/daily_absence_overtime_controller.dart';
 part 'controllers/daily_vacation_controller.dart';
+part 'controllers/daily_vacations_controller.dart';
 part 'controllers/dashboard_controller.dart';
 part 'controllers/disciplinary_overtime_controller.dart';
 part 'controllers/educational_info_controller.dart';

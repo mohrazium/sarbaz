@@ -1,11 +1,11 @@
 part of components;
 
-const int _soldiersDataTableRowsPerPage = 15;
-const double _dataPagerHeight = 60;
-List<SoldiersDataCellModel> _paginatedSoldiers = List.empty(growable: true);
+int _dailyVacationsDataRowsPerPage = 4;
 
-class SoldiersDataTable extends StatelessWidget {
-  final SoldiersDataSource dataSource;
+List<DailyVacationDataCellModel> _paginatedDailyVacations = List.empty(growable: false);
+
+class DailyVacationsDataTable extends StatelessWidget {
+  final DailyVacationDataSource dataSource;
   final DataGridController? controller;
   final DataGridCellTapCallback? onCellTap;
   final DataGridCellDoubleTapCallback? onCellDoubleTap;
@@ -13,7 +13,7 @@ class SoldiersDataTable extends StatelessWidget {
   final DataGridCellTapCallback? onCellSecondaryTap;
   final DataGridCellLongPressCallback? onCellLongPress;
 
-  const SoldiersDataTable({
+  const DailyVacationsDataTable({
     Key? key,
     required this.dataSource,
     this.controller,
@@ -23,7 +23,7 @@ class SoldiersDataTable extends StatelessWidget {
     this.onCellLongPress,
   }) : super(key: key);
 
-  @override
+@override
   Widget build(BuildContext context) {
     return SizedBox(
         height: MediaQuery.of(context).size.height - 200,
@@ -37,18 +37,26 @@ class SoldiersDataTable extends StatelessWidget {
                 height: _dataPagerHeight,
                 child: SfDataPager(
                   delegate: dataSource,
-                  pageCount: dataSource.dataGridRows.length >= 20
-                      ? dataSource.dataGridRows.length / _soldiersDataTableRowsPerPage
+                  pageCount: dataSource.dailyVacationDataList.length >= 4
+                      ? (dataSource.dailyVacationDataList.length / _dailyVacationsDataRowsPerPage).ceilToDouble()
                       : 1,
                   direction: Axis.horizontal,
+                  // onPageNavigationEnd: (i) => setState((() {
+                  //   print("nav $i");
+                  // })),
+                  // onRowsPerPageChanged: (i) => setState((() {
+                  //   print("per$i");
+                  //   _dailyVacationsDataRowsPerPage = i ?? 4;
+                  // })),
                 ))
           ]);
         }));
   }
 
-  _buildDataGrid({required BoxConstraints constraint, required SoldiersDataSource dataSource}) {
+  _buildDataGrid({required BoxConstraints constraint, required DailyVacationDataSource dataSource}) {
     return SfDataGridTheme(
       data: SfDataGridThemeData(
+        columnResizeIndicatorStrokeWidth: 1,
         rowHoverColor: Colorize.primaryColor.shade200,
         selectionColor: Colorize.primaryColor.shade400,
         headerColor: Colorize.primaryColor,
@@ -65,20 +73,20 @@ class SoldiersDataTable extends StatelessWidget {
         onCellDoubleTap: onCellDoubleTap,
         onCellLongPress: onCellLongPress,
         onCellSecondaryTap: onCellSecondaryTap,
+        selectionManager: CustomSelectionManager(),
         onQueryRowHeight: (details) {
           return details.getIntrinsicRowHeight(details.rowIndex);
         },
-        selectionManager: CustomSelectionManager(),
         columns: <GridColumn>[
           GridColumn(
-              columnName: 'caseNo',
+              columnName: 'rowCount',
               label: Container(
                   decoration: const BoxDecoration(
                       color: Colorize.primaryColor,
                       borderRadius: BorderRadius.only(topRight: Radius.circular(kBorderRadius))),
                   padding: const EdgeInsets.all(kPadding),
                   alignment: Alignment.center,
-                  child: const Text(Strings.caseNo,
+                  child: const Text(Strings.rowCount,
                       softWrap: true,
                       style: TextStyle(
                         color: Colorize.backgroundColor,
@@ -88,14 +96,14 @@ class SoldiersDataTable extends StatelessWidget {
                         fontSize: 15,
                       )))),
           GridColumn(
-              columnName: 'personnelCode',
+              columnName: 'vacationType',
               label: Container(
                   decoration: const BoxDecoration(
                       color: Colorize.primaryColor,
                       borderRadius: BorderRadius.only(topRight: Radius.circular(kBorderRadius))),
                   padding: const EdgeInsets.all(kPadding),
                   alignment: Alignment.center,
-                  child: const Text(Strings.personnelCode,
+                  child: const Text(Strings.vacationType,
                       softWrap: true,
                       style: TextStyle(
                         color: Colorize.backgroundColor,
@@ -105,12 +113,12 @@ class SoldiersDataTable extends StatelessWidget {
                         fontSize: 15,
                       )))),
           GridColumn(
-              columnName: 'nationalCode',
+              columnName: 'daysCount',
               label: Container(
                   color: Colorize.primaryColor,
                   padding: const EdgeInsets.all(8.0),
                   alignment: Alignment.center,
-                  child: const Text(Strings.nationalCode,
+                  child: const Text(Strings.daysCount,
                       softWrap: true,
                       style: TextStyle(
                         color: Colorize.backgroundColor,
@@ -120,14 +128,13 @@ class SoldiersDataTable extends StatelessWidget {
                         fontSize: 15,
                       )))),
           GridColumn(
-              columnName: 'firstName',
+              columnName: 'startDate',
               label: Container(
                   color: Colorize.primaryColor,
                   padding: const EdgeInsets.all(8.0),
                   alignment: Alignment.center,
                   child: const Text(
-                    Strings.firstName,
-                    softWrap: true,
+                    Strings.startDate,
                     style: TextStyle(
                       color: Colorize.backgroundColor,
                       fontFamily: Fonts.sahelFontFamily,
@@ -139,59 +146,13 @@ class SoldiersDataTable extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ))),
           GridColumn(
-              columnName: 'lastName',
+              columnName: 'endDate',
               label: Container(
                   color: Colorize.primaryColor,
                   padding: const EdgeInsets.all(8.0),
                   alignment: Alignment.center,
-                  child: const Text(Strings.lastName,
-                      softWrap: true,
+                  child: const Text(Strings.endDate,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Colorize.backgroundColor,
-                        fontFamily: Fonts.sahelFontFamily,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: .8,
-                        fontSize: 15,
-                      )))),
-          GridColumn(
-              columnName: 'fatherName',
-              label: Container(
-                  color: Colorize.primaryColor,
-                  padding: const EdgeInsets.all(8.0),
-                  alignment: Alignment.center,
-                  child: const Text(Strings.fatherName,
-                      softWrap: true,
-                      style: TextStyle(
-                        color: Colorize.backgroundColor,
-                        fontFamily: Fonts.sahelFontFamily,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: .8,
-                        fontSize: 15,
-                      )))),
-          GridColumn(
-              columnName: 'mobileNumber',
-              label: Container(
-                  color: Colorize.primaryColor,
-                  padding: const EdgeInsets.all(8.0),
-                  alignment: Alignment.center,
-                  child: const Text(Strings.mobileNumber,
-                      style: TextStyle(
-                        color: Colorize.backgroundColor,
-                        fontFamily: Fonts.sahelFontFamily,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: .8,
-                        fontSize: 15,
-                      )))),
-          GridColumn(
-              columnName: 'latestStatus',
-              label: Container(
-                  decoration: const BoxDecoration(
-                      color: Colorize.primaryColor,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(kBorderRadius))),
-                  padding: const EdgeInsets.all(8.0),
-                  alignment: Alignment.center,
-                  child: const Text(Strings.latestStatusOfSoldier,
                       softWrap: true,
                       style: TextStyle(
                         color: Colorize.backgroundColor,
@@ -211,11 +172,11 @@ class SoldiersDataTable extends StatelessWidget {
   }
 }
 
-class SoldiersDataSource extends DataGridSource {
-  final List<SoldiersDataCellModel> soldierDataList;
-  SoldiersDataSource({required this.soldierDataList}) {
-    var len = soldierDataList.length;
-    _paginatedSoldiers = soldierDataList.getRange(0, len >= 19 ? 19 : len).toList(growable: false);
+class DailyVacationDataSource extends DataGridSource {
+  final List<DailyVacationDataCellModel> dailyVacationDataList;
+  DailyVacationDataSource({required this.dailyVacationDataList}) {
+    var len = dailyVacationDataList.length;
+    _paginatedDailyVacations = dailyVacationDataList.getRange(0, len >= 4 ? 4 : len).toList(growable: false);
     buildPaginatedDataGridRows();
   }
 
@@ -238,7 +199,7 @@ class SoldiersDataSource extends DataGridSource {
     return DataGridRowAdapter(
         color: getRowBackgroundColor(),
         cells: row.getCells().map<Widget>((dataGridCell) {
-          if (dataGridCell.columnName == Strings.caseNo) {
+          if (dataGridCell.columnName == Strings.rowCount) {
             return Container(
                 padding: const EdgeInsets.all(8.0),
                 alignment: Alignment.center,
@@ -253,7 +214,21 @@ class SoldiersDataSource extends DataGridSource {
                         fontSize: 15,
                       )),
                 ));
-          } else if (dataGridCell.columnName == Strings.personnelCode) {
+          } else if (dataGridCell.columnName == Strings.vacationType) {
+            return Container(
+                padding: const EdgeInsets.all(8.0),
+                alignment: Alignment.center,
+                child: Center(
+                  child: Text(convertEnToFa(dataGridCell.value),
+                      style: const TextStyle(
+                        color: Colorize.foregroundColor,
+                        fontFamily: Fonts.sahelFontFamily,
+                        fontWeight: FontWeight.normal,
+                        letterSpacing: .8,
+                        fontSize: 15,
+                      )),
+                ));
+          } else if (dataGridCell.columnName == Strings.daysCount) {
             return Container(
                 padding: const EdgeInsets.all(8.0),
                 alignment: Alignment.center,
@@ -268,7 +243,7 @@ class SoldiersDataSource extends DataGridSource {
                         fontSize: 15,
                       )),
                 ));
-          } else if (dataGridCell.columnName == Strings.nationalCode) {
+          } else if (dataGridCell.columnName == Strings.startDate) {
             return Container(
                 padding: const EdgeInsets.all(8.0),
                 alignment: Alignment.center,
@@ -283,67 +258,7 @@ class SoldiersDataSource extends DataGridSource {
                         fontSize: 15,
                       )),
                 ));
-          } else if (dataGridCell.columnName == Strings.firstName) {
-            return Container(
-                padding: const EdgeInsets.all(8.0),
-                alignment: Alignment.center,
-                child: Center(
-                  child: Text(convertEnToFa(dataGridCell.value),
-                      softWrap: true,
-                      style: const TextStyle(
-                        color: Colorize.foregroundColor,
-                        fontFamily: Fonts.sahelFontFamily,
-                        fontWeight: FontWeight.normal,
-                        letterSpacing: .8,
-                        fontSize: 15,
-                      )),
-                ));
-          } else if (dataGridCell.columnName == Strings.lastName) {
-            return Container(
-                padding: const EdgeInsets.all(8.0),
-                alignment: Alignment.center,
-                child: Center(
-                  child: Text(convertEnToFa(dataGridCell.value),
-                      softWrap: true,
-                      style: const TextStyle(
-                        color: Colorize.foregroundColor,
-                        fontFamily: Fonts.sahelFontFamily,
-                        fontWeight: FontWeight.normal,
-                        letterSpacing: .8,
-                        fontSize: 15,
-                      )),
-                ));
-          } else if (dataGridCell.columnName == Strings.fatherName) {
-            return Container(
-                padding: const EdgeInsets.all(8.0),
-                alignment: Alignment.center,
-                child: Center(
-                  child: Text(convertEnToFa(dataGridCell.value),
-                      softWrap: true,
-                      style: const TextStyle(
-                        color: Colorize.foregroundColor,
-                        fontFamily: Fonts.sahelFontFamily,
-                        fontWeight: FontWeight.normal,
-                        letterSpacing: .8,
-                        fontSize: 15,
-                      )),
-                ));
-          } else if (dataGridCell.columnName == Strings.latestStatusOfSoldier) {
-            return Container(
-                padding: const EdgeInsets.all(8.0),
-                alignment: Alignment.center,
-                child: Center(
-                  child: Text(convertEnToFa(dataGridCell.value),
-                      softWrap: true,
-                      style: const TextStyle(
-                        color: Colorize.foregroundColor,
-                        fontFamily: Fonts.sahelFontFamily,
-                        fontWeight: FontWeight.normal,
-                        letterSpacing: .8,
-                        fontSize: 15,
-                      )),
-                ));
-          } else if (dataGridCell.columnName == Strings.mobileNumber) {
+          } else if (dataGridCell.columnName == Strings.endDate) {
             return Container(
                 padding: const EdgeInsets.all(8.0),
                 alignment: Alignment.center,
@@ -379,46 +294,32 @@ class SoldiersDataSource extends DataGridSource {
 
   @override
   Future<bool> handlePageChange(int oldPageIndex, int newPageIndex) async {
-    int startIndex = newPageIndex * _soldiersDataTableRowsPerPage;
-    int endIndex = startIndex + _soldiersDataTableRowsPerPage;
-    if (startIndex < soldierDataList.length && endIndex <= soldierDataList.length) {
-      _paginatedSoldiers = soldierDataList.getRange(startIndex, endIndex).toList(growable: false);
+
+    int startIndex = newPageIndex * _dailyVacationsDataRowsPerPage;
+    int endIndex = startIndex + _dailyVacationsDataRowsPerPage;
+
+    if (startIndex < dailyVacationDataList.length && endIndex <= dailyVacationDataList.length) {
+      _paginatedDailyVacations = dailyVacationDataList.getRange(startIndex, endIndex).toList(growable: false);
       buildPaginatedDataGridRows();
       notifyListeners();
     } else {
-      _paginatedSoldiers = [];
-      _paginatedSoldiers = soldierDataList.getRange(startIndex, soldierDataList.length).toList(growable: false);
+      _paginatedDailyVacations = dailyVacationDataList.getRange(startIndex, dailyVacationDataList.length).toList(growable: false);
       buildPaginatedDataGridRows();
       notifyListeners();
     }
-
     return true;
   }
 
   void buildPaginatedDataGridRows() {
-    dataGridRows = _paginatedSoldiers.map<DataGridRow>((dataGridRow) {
+    dataGridRows = _paginatedDailyVacations.map<DataGridRow>((dataGridRow) {
       return DataGridRow(cells: [
-        DataGridCell(columnName: Strings.caseNo, value: dataGridRow.caseNo ?? "-"),
-        DataGridCell(columnName: Strings.personnelCode, value: dataGridRow.personnelCode ?? "-"),
-        DataGridCell(columnName: Strings.nationalCode, value: dataGridRow.nationalCode ?? "-"),
-        DataGridCell(columnName: Strings.firstName, value: dataGridRow.firstName ?? "-"),
-        DataGridCell(columnName: Strings.lastName, value: dataGridRow.lastName),
-        DataGridCell(columnName: Strings.fatherName, value: dataGridRow.fatherName ?? "-"),
-        DataGridCell(columnName: Strings.mobileNumber, value: dataGridRow.mobileNumber ?? "-"),
-        DataGridCell(columnName: Strings.latestStatusOfSoldier, value: dataGridRow.soldierStatus ?? "-"),
+        DataGridCell(columnName: Strings.rowCount, value: dataGridRow.rowCount ?? ""),
+        DataGridCell(columnName: Strings.vacationType, value: dataGridRow.vacationType ?? ""),
+        DataGridCell(columnName: Strings.daysCount, value: dataGridRow.amount ?? ""),
+        DataGridCell(columnName: Strings.startDate, value: dataGridRow.startDate),
+        DataGridCell(columnName: Strings.endDate, value: dataGridRow.endDate ?? ""),
         DataGridCell(columnName: "id", value: "${dataGridRow.id ?? 0}"),
       ]);
     }).toList(growable: false);
-  }
-}
-
-class CustomSelectionManager extends RowSelectionManager {
-  @override
-  void handleKeyEvent(RawKeyEvent keyEvent) {
-    if (keyEvent.logicalKey == LogicalKeyboardKey.enter) {
-      return;
-    }
-
-    super.handleKeyEvent(keyEvent);
   }
 }

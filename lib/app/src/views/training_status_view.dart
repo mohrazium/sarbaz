@@ -35,8 +35,7 @@ class TrainingStatusView extends GetView<TrainingStatusController> {
                             controller: controller.placeNameController,
                             readOnly: controller.readOnly.value,
                             isRequired: true,
-                            validator: (v) =>
-                                controller.requiredFieldValidator(value: v),
+                            validator: (v) => controller.requiredFieldValidator(value: v),
                           ),
 
                           //! Start date field
@@ -51,9 +50,9 @@ class TrainingStatusView extends GetView<TrainingStatusController> {
                               ),
                             ],
                             prefixIcon: IconButton(
-                                onPressed: () =>
-                                    controller.onCalenderPressed(context, true),
+                                onPressed: () => controller.onCalenderPressed(context, true),
                                 icon: const Icon(EvaIcons.calendar)),
+                            validator: (val) => controller.dateValidator(value: val),
                           ),
 
                           //! Training status field
@@ -84,9 +83,9 @@ class TrainingStatusView extends GetView<TrainingStatusController> {
                               ),
                             ],
                             prefixIcon: IconButton(
-                                onPressed: () => controller.onCalenderPressed(
-                                    context, false),
+                                onPressed: () => controller.onCalenderPressed(context, false),
                                 icon: const Icon(EvaIcons.calendar)),
+                            validator: (val) => controller.dateValidator(value: val),
                           ),
                           //! Period field
                           TextBox(

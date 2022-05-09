@@ -15,11 +15,24 @@ class DailyVacationView extends GetView<DailyVacationController> {
             createdAt: controller.model.value.createdAt,
             updatedAt: controller.model.value.updatedAt,
             onCancelButtonPressed: () => controller.onCancelButtonPressed(),
-            headerContent: const Center(
-                child: Text(
+            headerContent: const Text(
               Strings.vacation,
               style: TextStyle(fontWeight: FontWeight.bold),
-            )),
+            ),
+            footerChild: Tooltip(
+              message: Strings.saveNewVacation,
+              child: ElevatedButton(
+                onPressed: controller.readOnly.isTrue ? () => controller.onClearFormPressed() : null,
+                child: const Icon(
+                  EvaIcons.fileAddOutline,
+                  size: kPadding * 1.6,
+                ),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(56, 45),
+                  maximumSize: const Size(56, 45),
+                ),
+              ),
+            ),
             child: Column(
               children: [
                 Row(
@@ -40,41 +53,43 @@ class DailyVacationView extends GetView<DailyVacationController> {
                                 allowedCharMatcher: RegExp('[0-9]'),
                               ),
                             ],
-                            validator: (val) => controller.requiredFieldValidator(value: val),
+                            validator: (val) => controller.dateValidator(isRequired: true, value: val),
                             prefixIcon: IconButton(
                                 onPressed: () => controller.onStartDateCalenderPressed(context),
                                 icon: const Icon(EvaIcons.calendar)),
                           ),
 
-                          //! Start date field
+                          //! Vacation type field
                           TextBox(
                             titleText: Strings.vacationType,
                             controller: controller.vacationTypeController,
                             readOnly: controller.readOnly.value,
                             isRequired: true,
-                            inputFormatters: [
-                              MaskedInputFormatter(
-                                "0000/00/00",
-                                allowedCharMatcher: RegExp('[0-9]'),
+                            prefixIcon: PopupMenuButton<String>(
+                              shape: const RoundedRectangleBorder(
+                                side: BorderSide(width: 1.0, style: BorderStyle.none),
+                                borderRadius: BorderRadius.all(Radius.circular(kBorderRadius)),
                               ),
-                            ],
+                              icon: const Icon(Icons.arrow_drop_down),
+                              onSelected: (String value) {
+                                controller.vacationTypeController.text = value;
+                              },
+                              itemBuilder: (BuildContext context) {
+                                return Strings.vacationsTypeList.map<PopupMenuItem<String>>((String value) {
+                                  return PopupMenuItem(
+                                      child: SizedBox(width: kTextFieldWidth / 2, child: Text(value)), value: value);
+                                }).toList();
+                              },
+                            ),
+                            inputFormatters: [FilteringTextInputFormatter.allow("")],
                             validator: (val) => controller.requiredFieldValidator(value: val),
                             onChanged: (val) => controller.onChangeAmountOfVacation(val),
-                          ),
-
-                          //! Last period field
-                          TextBox(
-                            titleText: Strings.lastPeriodOfService,
-                            controller: controller.vacationTypeController,
-                            readOnly: controller.readOnly.value,
-                            onChanged: (val) => controller.onChangeAmountOfVacation(val),
-                            keyboardType: TextInputType.number,
                           ),
                         ],
                       ),
                       Column(
                         children: [
-                          //! End date period field
+                          //! End date field
                           TextBox(
                             titleText: Strings.endDate,
                             controller: controller.endDateController,
@@ -86,29 +101,19 @@ class DailyVacationView extends GetView<DailyVacationController> {
                                 allowedCharMatcher: RegExp('[0-9]'),
                               ),
                             ],
-                            validator: (val) => controller.requiredFieldValidator(value: val),
+                            validator: (val) => controller.endDateAfterStartDateValidator(
+                              isRequired: true,
+                              endDate: val,
+                              startDate: controller.startDateController.text,
+                            ),
                             prefixIcon: IconButton(
                                 onPressed: () => controller.onEndDateCalenderPressed(context),
                                 icon: const Icon(EvaIcons.calendar)),
                           ),
 
-                          //! End date field
+                          //! Days count field
                           TextBox(
-                            titleText: Strings.endDateOfService,
-                            controller: controller.endDateController,
-                            inputFormatters: [
-                              MaskedInputFormatter(
-                                "0000/00/00",
-                                allowedCharMatcher: RegExp('[0-9]'),
-                              ),
-                            ],
-                            readOnly: true,
-                            isRequired: true,
-                          ),
-
-                          //! Amount of service field
-                          TextBox(
-                            titleText: Strings.amountOfService,
+                            titleText: Strings.daysCount,
                             controller: controller.amountController,
                             readOnly: true,
                           ),

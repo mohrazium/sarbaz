@@ -4,8 +4,12 @@ class ApplicationControllerBinding implements Bindings {
   @override
   Future<void> dependencies() async {
     Get.put(BridgeController());
-    Get.put(DashboardController());
-    Get.put(SoldierEditorController());
+    Get.put(DashboardController(
+      Get.find(),
+    ));
+    Get.put(SoldierEditorController(
+      Get.find(),
+    ));
     Get.put(SoldiersController(
       Get.find(),
       Get.find(),
@@ -45,9 +49,15 @@ class ApplicationControllerBinding implements Bindings {
       Get.find(),
       Get.find(),
     ));
-    Get.put(VacationsController());
+    Get.put(VacationsController(
+      Get.find(),
+      Get.find(),
+    ));
     Get.put(DailyVacationController(
       Get.find(),
+      Get.find(),
+    ));
+    Get.put(DailyVacationsController(
       Get.find(),
       Get.find(),
     ));

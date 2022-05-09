@@ -26,8 +26,8 @@ class SoldiersController extends GetxController {
   void onReady() {
     super.onReady();
     _loadAll();
-    searchSoldier("");
-    logger.info('$this as been ready.');
+    searchSoldier(null);
+    logger.info('$runtimeType as been ready.');
   }
 
   @override
@@ -37,6 +37,7 @@ class SoldiersController extends GetxController {
   }
 
   void _loadAll() async {
+    _loadedSoldiers.clear();
     await _personalInfoService.findAll().then((values) {
       if (values != null) {
         List<SoldiersDataCellModel> soldiers = List.empty(growable: true);
@@ -122,6 +123,21 @@ class SoldiersController extends GetxController {
     DialogHelper.hideLoading();
   }
 
+  Future<void> _removeSoldier() async {
+    int id = int.parse(
+        soldiersDataSource.value.effectiveRows[cellTapDetails.rowColumnIndex.rowIndex - 1].getCells().last.value);
+    await Get.find<PersonalInfoService>().deleteById(id).then((isDeleted) {
+      if (isDeleted) {
+        showToast(Strings.successfullyDeleted);
+        _loadAll();
+        searchSoldier(null);
+        _bridgeController.initSoldierEditorForms(0);
+      }
+    }).catchError((onError) {
+      DialogHelper.showCrashReport(onError.toString());
+    });
+  }
+
   void onCellDoubleTap(DataGridCellDoubleTapDetails details) {
     int id =
         int.parse(soldiersDataSource.value.effectiveRows[details.rowColumnIndex.rowIndex - 1].getCells().last.value);
@@ -132,16 +148,35 @@ class SoldiersController extends GetxController {
   void onNewSoldierPressed() async {
     _bridgeController.setDashboardTab(_bridgeController.dashboardTabSoldiersEditor);
     _bridgeController.initSoldierEditorForms(0);
+    _bridgeController.dailyVacationId(0);
   }
 
-  void onEditSoldierPressed() { 
-       _bridgeController.setDashboardTab(_bridgeController.dashboardTabSoldiersEditor);
+  void onEditSoldierPressed() {
+    _bridgeController.setDashboardTab(_bridgeController.dashboardTabSoldiersEditor);
     int id = int.parse(
         soldiersDataSource.value.effectiveRows[cellTapDetails.rowColumnIndex.rowIndex - 1].getCells().last.value);
     _bridgeController.initSoldierEditorForms(id);
   }
 
-  void onDeleteSoldierPressed() {}
+  void onDeleteSoldierPressed() {
+    try {
+      DialogHelper.showMessageBox(
+        title: Strings.deleteInfo,
+        message: Strings.deleteInfoMessage,
+        dialogType: DialogType.WARNING,
+        dialogButtons: DialogButtons.YES_NO,
+        onYesPressed: () {
+          _removeSoldier();
+        },
+      );
+    } catch (e) {
+      DialogHelper.showMessageBox(
+          title: Strings.deleteInfo,
+          message: Strings.pleaseSelectAnItemFromList,
+          dialogType: DialogType.INFO,
+          dialogButtons: DialogButtons.OK);
+    }
+  }
 
   void onCellTap(DataGridCellTapDetails details) {
     cellTapDetails = details;
@@ -149,7 +184,7 @@ class SoldiersController extends GetxController {
 
   void onRefreshSoldiersPressed() {
     DialogHelper.showLoading();
-    searchSoldier("");
+    searchSoldier(null);
   }
 
   void onSearchSoldierChanged(String? val) {
@@ -158,6 +193,9 @@ class SoldiersController extends GetxController {
 
   void loadAllSoldiers() {
     _loadAll();
-    searchSoldier("");
+    searchSoldier(null);
+    if (_bridgeController.personalInfoId.value != 0) {
+      _bridgeController.initSoldierEditorForms(_bridgeController.personalInfoId.value);
+    }
   }
 }

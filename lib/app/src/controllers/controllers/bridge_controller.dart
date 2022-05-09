@@ -9,6 +9,7 @@ class BridgeController extends GetxController with GetSingleTickerProviderStateM
   final int dashboardTabSettings = 4;
 
   late RxInt personalInfoId = 0.obs;
+  late RxInt dailyVacationId = 0.obs;
 
   final Rx<int> selectedDashboardMainMenuIndex = 0.obs;
 
@@ -17,7 +18,7 @@ class BridgeController extends GetxController with GetSingleTickerProviderStateM
   final Rx<String> soldierNameAndFamily = "".obs;
 
   late Rx<TabController> dashboardTabController =
-      Rx(TabController(vsync: this, initialIndex: 0, length: dashboardTabsLen)
+      Rx(TabController(vsync: this, initialIndex: 1, length: dashboardTabsLen)
         ..addListener(() {
           dashboardShownContentIndex.value = dashboardTabController.value.index;
         }));
@@ -41,18 +42,27 @@ class BridgeController extends GetxController with GetSingleTickerProviderStateM
     selectedDashboardMainMenuIndex(index);
   }
 
-  void initSoldierEditorForms(int pId)  {
+  void initSoldierEditorForms(int pId) {
     personalInfoId(pId);
-    Get.find<SoldierEditorController>().isLoadingEditor();
-     Get.find<PersonalInfoController>().initForm(personalInfoId.value).then((value) async {
-     await Get.find<FurtherInfoController>().initForm();
-     await Get.find<ContactInfoController>().initForm();
-     await Get.find<RelativeContactsInfoController>().initForm();
-     await Get.find<EducationalInfoController>().initForm();
-     await Get.find<SoldierController>().initForm();
-     await Get.find<TrainingStatusController>().initForm();
-     await Get.find<SoldierCaseController>().initForm();
-    }).then((v) => Get.find<SoldierEditorController>().loadedEditor());
+    Get.find<SoldierEditorController>().loadingEditor();
+    Get.find<PersonalInfoController>().initForm(personalInfoId.value).then((value) async {
+      await Get.find<FurtherInfoController>().initForm();
+      await Get.find<ContactInfoController>().initForm();
+      await Get.find<RelativeContactsInfoController>().initForm();
+      await Get.find<EducationalInfoController>().initForm();
+      await Get.find<SoldierController>().initForm();
+      await Get.find<TrainingStatusController>().initForm();
+      await Get.find<SoldierCaseController>().initForm();
+      await Get.find<VacationsController>().init();
+      await Get.find<DailyVacationController>().initForm();
+      await Get.find<DailyVacationsController>().initForm();
+
+      if (personalInfoId.value != 0) {
+        await Future.delayed(const Duration(milliseconds: 500));
+      }
+    }).then((v) {
+      Get.find<SoldierEditorController>().loadedEditor();
+    });
   }
 
   Future<bool> isPersonalInfoSaved() async {
@@ -69,5 +79,26 @@ class BridgeController extends GetxController with GetSingleTickerProviderStateM
     }).catchError((onError) {
       DialogHelper.showCrashReport(onError.toString());
     });
+  }
+
+  Future<bool> isSoldierCaseSaved() async {
+    return await Get.find<SoldierCaseService>().findByPersonalInfoId(personalInfoId.value).then((value) {
+      return value != null ? true : false;
+    }).catchError((onError) {
+      DialogHelper.showCrashReport(onError.toString());
+    });
+  }
+
+  Future<int> getCurrentVacationsId() async {
+    if (personalInfoId.value != 0) {
+      return await Get.find<VacationsService>()
+          .findByPersonalInfoId(personalInfoId.value)
+          .then(((value) => value != null ? value.id! : 0))
+          .catchError((onError) {
+        DialogHelper.showCrashReport(onError.toString());
+      });
+    } else {
+      return 0;
+    }
   }
 }

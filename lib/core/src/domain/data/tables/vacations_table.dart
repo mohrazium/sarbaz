@@ -14,10 +14,6 @@ class VacationsTable extends Table {
   RealColumn get incentiveBalance => real().nullable()();
   RealColumn get incentiveUsed => real().nullable()();
   RealColumn get incentiveValueLimit => real().nullable()();
-  IntColumn get daily =>
-      integer().references(DailyVacationTable, #id).nullable()();
-  IntColumn get hourly =>
-      integer().references(HourlyVacationTable, #id).nullable()();
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
 }

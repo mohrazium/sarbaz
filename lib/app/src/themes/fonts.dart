@@ -1,7 +1,7 @@
 part of themes;
 
 class Fonts {
-  static double fontScale = 1.1;//TODO:define scale for production
+  static double fontScale = 1.0;//TODO:define scale for production
   Fonts._();
   static const String sahelFontFamily = "Sahel";
   static const String vazirFontFamily = "Vazir";

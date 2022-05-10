@@ -3,15 +3,13 @@ part of io;
 class Sqlite3Library {
   static void load() {
     if (Platform.isWindows) {
-      open.overrideFor(OperatingSystem.windows, _open);
+      open.overrideFor(OperatingSystem.windows, _openWindowsLib);
     }
   }
 
-  static DynamicLibrary _open() {
-    final scriptDir = File(Platform.script.toFilePath()).parent;
-    var pathSeparator = PlatformConfigs.pathSeparator();
+  static DynamicLibrary _openWindowsLib() {
     final libraryNextToScript = File(
-        "${scriptDir.path}$pathSeparator+assets$pathSeparator+external_libs$pathSeparator+sqlite3.dll");
+        "C:\\Program Files\\Sarbaz\\libs\\sqlite3\\sqlite3.dll");
     logger.info( "opening lib : " + libraryNextToScript.path);
     return DynamicLibrary.open(libraryNextToScript.path);
   }

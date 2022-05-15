@@ -7,8 +7,8 @@ abstract class VacationsService extends Service<int, VacationsModel> {
   Future<int> saveBySoldierCase(SoldierCaseModel soldierCase);
   Future<bool> updateBySoldierCase(SoldierCaseModel soldierCase);
 
-  Future<VacationResult> updateByChangedAmount(
-      {required int personalInfoId, required VacationType vacationType, required int amount});
+  Future<VacationResult> syncVacationsAmount(
+      {required int personalInfoId, required VacationType vacationType, required int amount, int lastAmount = 0});
 }
 
 class VacationsServiceImpl implements VacationsService {
@@ -89,10 +89,11 @@ class VacationsServiceImpl implements VacationsService {
   }
 
   @override
-  Future<VacationResult> updateByChangedAmount({
+  Future<VacationResult> syncVacationsAmount({
     required int personalInfoId,
     required VacationType vacationType,
     required int amount,
+    int lastAmount = 0,
   }) async {
     VacationResult result = VacationResult.none;
     VacationsModel? model =
@@ -102,8 +103,16 @@ class VacationsServiceImpl implements VacationsService {
     });
     if (model != null) {
       if (vacationType == VacationType.eligible) {
+        if (lastAmount > 0.0) {
+          model = model.copyWith(
+              eligibleBalance: model.eligibleBalance + lastAmount, eligibleUsed: model.eligibleUsed - lastAmount);
+          await update(model);
+        }
+
         if (model.eligibleBalance > 0 && model.eligibleBalance >= amount) {
-          model = model.copyWith(eligibleBalance: model.eligibleBalance - amount, eligibleUsed: amount as double);
+          model = model.copyWith(
+              eligibleBalance: model.eligibleBalance - amount,
+              eligibleUsed: model.eligibleUsed + double.parse(amount.toString()));
 
           if (await update(model)) {
             result = VacationResult.saved;
@@ -114,8 +123,14 @@ class VacationsServiceImpl implements VacationsService {
           result = VacationResult.noEnoughEligibleBalance;
         }
       } else if (vacationType == VacationType.sick) {
+        if (lastAmount > 0.0) {
+          model = model.copyWith(sickBalance: model.sickBalance + lastAmount, sickUsed: model.sickUsed - lastAmount);
+          await update(model);
+        }
+
         if (model.sickBalance > 0 && model.sickBalance >= amount) {
-          model = model.copyWith(sickBalance: model.sickBalance - amount, sickUsed: amount as double);
+          model = model.copyWith(
+              sickBalance: model.sickBalance - amount, sickUsed: model.sickUsed + double.parse(amount.toString()));
           if (await update(model)) {
             result = VacationResult.saved;
           } else {
@@ -125,8 +140,19 @@ class VacationsServiceImpl implements VacationsService {
           result = VacationResult.noEnoughSickBalance;
         }
       } else if (vacationType == VacationType.incentive) {
-        if (model.incentiveBalance! > 0 && model.incentiveBalance! >= amount) {
-          model = model.copyWith(incentiveBalance: model.incentiveBalance! - amount, incentiveUsed: amount as double);
+        if (lastAmount > 0.0) {
+          double incentiveUsed = model.incentiveUsed ?? 0;
+          double incentiveBalance = model.incentiveBalance ?? 0;
+          model = model.copyWith(
+              incentiveBalance: incentiveBalance + lastAmount, incentiveUsed: incentiveUsed - lastAmount);
+          await update(model);
+        }
+
+        if (model.incentiveBalance != null && model.incentiveBalance! > 0 && model.incentiveBalance! >= amount) {
+          double incentiveUsed = model.incentiveUsed ?? 0;
+          model = model.copyWith(
+              incentiveBalance: model.incentiveBalance! - amount,
+              incentiveUsed: incentiveUsed + double.parse(amount.toString()));
           if (await update(model)) {
             result = VacationResult.saved;
           } else {

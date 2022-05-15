@@ -15,9 +15,11 @@ class DailyVacationView extends GetView<DailyVacationController> {
             createdAt: controller.model.value.createdAt,
             updatedAt: controller.model.value.updatedAt,
             onCancelButtonPressed: () => controller.onCancelButtonPressed(),
-            headerContent: const Text(
-              Strings.vacation,
-              style: TextStyle(fontWeight: FontWeight.bold),
+            headerContent:const Center(
+              child:  Text(
+                Strings.vacation,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
             footerChild: Tooltip(
               message: Strings.saveNewVacation,
@@ -77,7 +79,7 @@ class DailyVacationView extends GetView<DailyVacationController> {
                               itemBuilder: (BuildContext context) {
                                 return Strings.vacationsTypeList.map<PopupMenuItem<String>>((String value) {
                                   return PopupMenuItem(
-                                      child: SizedBox(width: kTextFieldWidth / 2, child: Text(value)), value: value);
+                                      child: SizedBox(width: kTextFieldWidth / 1.2, child: Text(value)), value: value);
                                 }).toList();
                               },
                             ),

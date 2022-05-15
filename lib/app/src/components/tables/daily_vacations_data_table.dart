@@ -23,7 +23,7 @@ class DailyVacationsDataTable extends StatelessWidget {
     this.onCellLongPress,
   }) : super(key: key);
 
-@override
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
         height: MediaQuery.of(context).size.height - 200,
@@ -116,7 +116,7 @@ class DailyVacationsDataTable extends StatelessWidget {
               columnName: 'daysCount',
               label: Container(
                   color: Colorize.primaryColor,
-                  padding: const EdgeInsets.all(8.0),
+                  
                   alignment: Alignment.center,
                   child: const Text(Strings.daysCount,
                       softWrap: true,
@@ -131,7 +131,7 @@ class DailyVacationsDataTable extends StatelessWidget {
               columnName: 'startDate',
               label: Container(
                   color: Colorize.primaryColor,
-                  padding: const EdgeInsets.all(8.0),
+                  
                   alignment: Alignment.center,
                   child: const Text(
                     Strings.startDate,
@@ -149,7 +149,7 @@ class DailyVacationsDataTable extends StatelessWidget {
               columnName: 'endDate',
               label: Container(
                   color: Colorize.primaryColor,
-                  padding: const EdgeInsets.all(8.0),
+                  
                   alignment: Alignment.center,
                   child: const Text(Strings.endDate,
                       overflow: TextOverflow.ellipsis,
@@ -165,7 +165,7 @@ class DailyVacationsDataTable extends StatelessWidget {
               columnName: 'id',
               visible: false,
               label:
-                  Container(padding: const EdgeInsets.all(8.0), alignment: Alignment.center, child: const Text("id"))),
+                  Container( alignment: Alignment.center, child: const Text("id"))),
         ],
       ),
     );
@@ -201,7 +201,7 @@ class DailyVacationDataSource extends DataGridSource {
         cells: row.getCells().map<Widget>((dataGridCell) {
           if (dataGridCell.columnName == Strings.rowCount) {
             return Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(kPadding),
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -216,7 +216,7 @@ class DailyVacationDataSource extends DataGridSource {
                 ));
           } else if (dataGridCell.columnName == Strings.vacationType) {
             return Container(
-                padding: const EdgeInsets.all(8.0),
+                
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -230,7 +230,7 @@ class DailyVacationDataSource extends DataGridSource {
                 ));
           } else if (dataGridCell.columnName == Strings.daysCount) {
             return Container(
-                padding: const EdgeInsets.all(8.0),
+                
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -245,7 +245,7 @@ class DailyVacationDataSource extends DataGridSource {
                 ));
           } else if (dataGridCell.columnName == Strings.startDate) {
             return Container(
-                padding: const EdgeInsets.all(8.0),
+                
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -260,7 +260,7 @@ class DailyVacationDataSource extends DataGridSource {
                 ));
           } else if (dataGridCell.columnName == Strings.endDate) {
             return Container(
-                padding: const EdgeInsets.all(8.0),
+                
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -275,7 +275,7 @@ class DailyVacationDataSource extends DataGridSource {
                 ));
           } else {
             return Container(
-                padding: const EdgeInsets.all(8.0),
+                
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -294,7 +294,6 @@ class DailyVacationDataSource extends DataGridSource {
 
   @override
   Future<bool> handlePageChange(int oldPageIndex, int newPageIndex) async {
-
     int startIndex = newPageIndex * _dailyVacationsDataRowsPerPage;
     int endIndex = startIndex + _dailyVacationsDataRowsPerPage;
 
@@ -303,7 +302,8 @@ class DailyVacationDataSource extends DataGridSource {
       buildPaginatedDataGridRows();
       notifyListeners();
     } else {
-      _paginatedDailyVacations = dailyVacationDataList.getRange(startIndex, dailyVacationDataList.length).toList(growable: false);
+      _paginatedDailyVacations =
+          dailyVacationDataList.getRange(startIndex, dailyVacationDataList.length).toList(growable: false);
       buildPaginatedDataGridRows();
       notifyListeners();
     }

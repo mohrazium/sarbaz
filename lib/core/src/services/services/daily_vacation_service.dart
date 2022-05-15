@@ -2,19 +2,21 @@ part of services;
 
 abstract class DailyVacationService extends Service<int, DailyVacationModel> {
   Future<List<DailyVacationModel>?> findAllByVacationsId(int vacationsId);
-  Future<DailyVacationModel?> saveByVacationsId(DailyVacationModel model, int vacationsId);
-  Future<bool> deleteById(int id);
+  Future<DailyVacationModel?> saveByVacationsIdAndPersonalInfoId(
+      DailyVacationModel model, int vacationsId, int personalInfoId);
+  Future<bool> updateByPersonalInfoId(DailyVacationModel model, int personalInfoId);
+  Future<bool> deleteById(int id, int personalInfoId);
 }
 
 class DailyVacationServiceImpl implements DailyVacationService {
   final DailyVacationDAO _dailyVacationDAO;
+  final VacationsService _vacationsService;
 
-  DailyVacationServiceImpl(this._dailyVacationDAO);
+  DailyVacationServiceImpl(this._dailyVacationDAO, this._vacationsService);
 
   @override
-  Future<bool> delete(DailyVacationModel model) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<bool> delete(DailyVacationModel model) async {
+    return Future.value(false);
   }
 
   @override
@@ -57,19 +59,81 @@ class DailyVacationServiceImpl implements DailyVacationService {
   }
 
   @override
-  Future<DailyVacationModel?> saveByVacationsId(DailyVacationModel model, int vacationsId) {
-    return _dailyVacationDAO
-        .doInsert(model.toJson(), vacationsId)
-        .then((savedVacation) => DailyVacationModel.fromJson(savedVacation.toJson()))
-        .onError((error, stackTrace) => throw FailureException(
-            "Can not save daily vacation by vacationsId, see the error :\n $error \n $stackTrace"));
+  Future<DailyVacationModel?> saveByVacationsIdAndPersonalInfoId(
+      DailyVacationModel model, int vacationsId, int personalInfoId) async {
+    VacationResult result = await _vacationsService
+        .syncVacationsAmount(
+            personalInfoId: personalInfoId, vacationType: _getType(model.vacationType), amount: model.amount)
+        .catchError((onError) => throw FailureException(onError.toString()));
+    if (result == VacationResult.saved) {
+      return _dailyVacationDAO
+          .doInsert(model.toJson(), vacationsId)
+          .then((savedVacation) => DailyVacationModel.fromJson(savedVacation.toJson()))
+          .onError((error, stackTrace) => throw FailureException(
+              "Can not save daily vacation by vacationsId, see the error :\n $error \n $stackTrace"));
+    } else if (result == VacationResult.noEnoughEligibleBalance) {
+      throw Message(Messages.noEnoughEligibleBalance);
+    } else if (result == VacationResult.noEnoughIncentiveBalance) {
+      throw Message(Messages.noEnoughIncentiveBalance);
+    } else if (result == VacationResult.noEnoughSickBalance) {
+      throw Message(Messages.noEnoughSickBalance);
+    } else {
+      return null;
+    }
   }
 
   @override
-  Future<bool> deleteById(int id) async {
+  Future<bool> deleteById(int id, int personalInfoId) async {
     final foundedDaily = await findById(id).catchError((onError) => throw FailureException(onError.toString()));
-    return _dailyVacationDAO.doDelete(foundedDaily!.toJson()).then((value) => value > 0 ? true : false).onError(
-        (error, stackTrace) =>
-            throw FailureException("Cant remove vacation by id , see the error :\n $error \n $stackTrace"));
+    if (foundedDaily != null) {
+      VacationResult result = await _vacationsService
+          .syncVacationsAmount(
+              personalInfoId: personalInfoId,
+              vacationType: _getType(foundedDaily.vacationType),
+              amount: 0,
+              lastAmount: foundedDaily.amount)
+          .catchError((onError) => throw FailureException(onError.toString()));
+      if (result == VacationResult.saved) {
+        return _dailyVacationDAO.doDelete(foundedDaily.toJson()).then((value) => value > 0 ? true : false).onError(
+            (error, stackTrace) =>
+                throw FailureException("Cant remove vacation by id , see the error :\n $error \n $stackTrace"));
+      }
+    }
+    return Future.value(false);
+  }
+
+  VacationType _getType(String type) {
+    if (type == Strings.eligibleVacation) {
+      return VacationType.eligible;
+    } else if (type == Strings.sickVacation) {
+      return VacationType.sick;
+    } else {
+      return VacationType.incentive;
+    }
+  }
+
+  @override
+  Future<bool> updateByPersonalInfoId(DailyVacationModel model, int personalInfoId) async {
+    final foundedDaily =
+        await findById(model.id ?? 0).catchError((onError) => throw FailureException(onError.toString()));
+
+    VacationResult result = await _vacationsService
+        .syncVacationsAmount(
+            personalInfoId: personalInfoId,
+            vacationType: _getType(model.vacationType),
+            amount: model.amount,
+            lastAmount: foundedDaily!.amount)
+        .catchError((onError) => throw FailureException(onError.toString()));
+
+    if (result == VacationResult.saved) {
+      return await update(model);
+    } else if (result == VacationResult.noEnoughEligibleBalance) {
+      throw Message(Messages.noEnoughEligibleBalance);
+    } else if (result == VacationResult.noEnoughIncentiveBalance) {
+      throw Message(Messages.noEnoughIncentiveBalance);
+    } else if (result == VacationResult.noEnoughSickBalance) {
+      throw Message(Messages.noEnoughSickBalance);
+    }
+    return Future.value(false);
   }
 }

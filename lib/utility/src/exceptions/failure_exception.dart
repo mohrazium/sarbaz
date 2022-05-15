@@ -2,11 +2,6 @@
 
 part of exceptions;
 
-enum ExceptionType {
-  NOT_FOUND,
-  IGNORE,
-}
-
 class FailureException {
   late final String? message;
   final Object? exception;

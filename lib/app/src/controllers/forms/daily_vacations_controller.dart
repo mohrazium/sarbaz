@@ -166,15 +166,16 @@ class DailyVacationsController extends GetxController with DateConverterMixin {
   Future<void> _removeVacation() async {
     int id = int.parse(
         dailyVacationDataSource.value.effectiveRows[cellTapDetails!.rowColumnIndex.rowIndex - 1].getCells().last.value);
-    final res = await _dailyVacationService.deleteById(id).catchError((onError) {
+    final res =
+        await _dailyVacationService.deleteById(id, _bridgeController.personalInfoId.value).catchError((onError) {
       DialogHelper.showCrashReport(onError.toString());
     }).catchError((onError) {
       DialogHelper.showCrashReport(onError.toString());
     });
+
     if (res) {
       _bridgeController.dailyVacationId(0);
-      Get.find<DailyVacationController>().initForm();
-      initForm();
+      _bridgeController.initSoldierEditorForms(_bridgeController.personalInfoId.value);
     }
   }
 }

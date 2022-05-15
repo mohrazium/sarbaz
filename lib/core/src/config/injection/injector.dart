@@ -39,58 +39,26 @@ Future<void> _setupServices(String environment) async {
 
     Get.lazyPut<LoggerService>(() => LoggerService());
 
-    // _setupDb();
-    Get.lazyPut<AnnualOvertimeService>(
-        () => AnnualOvertimeServiceImpl(_soldierDatabase.annualOvertimeDAO));
-
-    Get.lazyPut<ContactInfoService>(
-        () => ContactInfoServiceImpl(_soldierDatabase.contactInfoDAO));
-
-    Get.lazyPut<DailyAbsenceOvertimeService>(() =>
-        DailyAbsenceOvertimeServiceImpl(
-            _soldierDatabase.dailyAbsenceOvertimeDAO));
-
-    Get.lazyPut<DailyVacationService>(
-        () => DailyVacationServiceImpl(_soldierDatabase.dailyVacationDAO));
-
-    Get.lazyPut<DisciplinaryOvertimeService>(() =>
-        DisciplinaryOvertimeServiceImpl(
-            _soldierDatabase.disciplinaryOvertimeDAO));
-
-    Get.lazyPut<EducationalInfoService>(
-        () => EducationalInfoServiceImpl(_soldierDatabase.educationalInfoDAO));
+    Get.lazyPut<ContactInfoService>(() => ContactInfoServiceImpl(
+          _soldierDatabase.contactInfoDAO,
+        ));
 
     Get.lazyPut<FurtherInfoService>(() => FurtherInfoServiceImpl(
-        _soldierDatabase.furtherInfoDAO,
-        PersonalInfoServiceImpl(_soldierDatabase.personalInfoDAO)));
+          _soldierDatabase.furtherInfoDAO,
+          PersonalInfoServiceImpl(_soldierDatabase.personalInfoDAO),
+        ));
 
     Get.lazyPut<HealthStatusService>(
-        () => HealthStatusServiceImpl(_soldierDatabase.healthStatusDAO));
-
-    Get.lazyPut<HourlyVacationService>(
-        () => HourlyVacationServiceImpl(_soldierDatabase.hourlyVacationDAO));
-
-    Get.lazyPut<OperationalServiceDeficitRecordService>(() =>
-        OperationalServiceDeficitRecordServiceImpl(
-            _soldierDatabase.operationalServiceDeficitRecordDAO));
-
-    Get.lazyPut<OvertimeService>(
-        () => OvertimeServiceImpl(_soldierDatabase.overtimeDAO));
+      () => HealthStatusServiceImpl(_soldierDatabase.healthStatusDAO),
+    );
 
     Get.lazyPut<PersonalInfoService>(
-        () => PersonalInfoServiceImpl(_soldierDatabase.personalInfoDAO));
+      () => PersonalInfoServiceImpl(_soldierDatabase.personalInfoDAO),
+    );
 
-    Get.lazyPut<RankService>(() => RankServiceImpl(_soldierDatabase.rankDAO));
-
-    Get.lazyPut<SectionService>(
-        () => SectionServiceImpl(_soldierDatabase.sectionDAO));
-
-    Get.lazyPut<ServiceDeficitRecordService>(() =>
-        ServiceDeficitRecordServiceImpl(
-            _soldierDatabase.serviceDeficitRecordDAO));
-
-    Get.lazyPut<ServiceDeficitService>(
-        () => ServiceDeficitServiceImpl(_soldierDatabase.serviceDeficitDAO));
+    Get.lazyPut<RankService>(
+      () => RankServiceImpl(_soldierDatabase.rankDAO),
+    );
 
     Get.lazyPut<SoldierCaseService>(() => SoldierCaseServiceImpl(
           _soldierDatabase.soldierCaseDAO,
@@ -113,10 +81,6 @@ Future<void> _setupServices(String environment) async {
           _soldierDatabase.soldierDAO,
         ));
 
-    Get.lazyPut<UnitPropertiesService>(() => UnitPropertiesServiceImpl(
-          _soldierDatabase.unitPropertiesDAO,
-        ));
-
     Get.lazyPut<VacationsService>(() => VacationsServiceImpl(
           _soldierDatabase.vacationsDAO,
           _soldierDatabase.personalInfoDAO,
@@ -124,21 +88,15 @@ Future<void> _setupServices(String environment) async {
           _soldierDatabase.soldierCaseDAO,
           Get.find(),
         ));
+
     Get.lazyPut<DailyVacationService>(() => DailyVacationServiceImpl(
           _soldierDatabase.dailyVacationDAO,
-        ));
-    Get.lazyPut<ViolationsOvertimeService>(() => ViolationsOvertimeServiceImpl(
-          _soldierDatabase.violationsOvertimeDAO,
+          Get.find(),
         ));
 
-    Get.lazyPut<CaseNoService>(() => CaseNoServiceImpl(
-          _soldierDatabase.caseNoDAO,
+    Get.lazyPut<RelativeContactsInfoService>(() => RelativeContactsInfoServiceImpl(
+          _soldierDatabase.relativeContactsInfoDAO,
         ));
-
-    Get.lazyPut<RelativeContactsInfoService>(
-        () => RelativeContactsInfoServiceImpl(
-              _soldierDatabase.relativeContactsInfoDAO,
-            ));
 
     Get.lazyPut<EducationalInfoService>(() => EducationalInfoServiceImpl(
           _soldierDatabase.educationalInfoDAO,

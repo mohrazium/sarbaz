@@ -23,9 +23,13 @@ mixin DateConverterMixin {
   }
 
   int differenceInDays(String startShamsiDate, String endShamsiDate) {
-    final start = _Date.toDateTime(shamsiDate: startShamsiDate);
-    final end = _Date.toDateTime(shamsiDate: endShamsiDate);
-    return _Date.differenceInDays(start, end);
+    try {
+      final start = _Date.toDateTime(shamsiDate: startShamsiDate);
+      final end = _Date.toDateTime(shamsiDate: endShamsiDate);
+      return _Date.differenceInDays(start, end);
+    } catch (e) {
+      return 0;
+    }
   }
 
   int differenceInHours(String startTime, String endTime) {
@@ -43,7 +47,6 @@ mixin DateConverterMixin {
     final calculated = _Date.calculateEndDate(start, months, pastDays);
     return _Date.toShamsi(calculated);
   }
-  
 }
 
 class _Date {

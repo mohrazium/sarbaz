@@ -44,39 +44,47 @@ mixin ValidatorMixin {
 
   String? dateValidator({bool isRequired = false, required String? value, String? errorMessage}) {
     final requiredFieldError = isRequired ? requiredFieldValidator(value: value) : null;
-    if (requiredFieldError == null) {
-      RegExp dateRegExp = RegExp(
-        r"[0-9]{4}/[0-9]{2}/[0-9]{2}",
-        caseSensitive: false,
-        multiLine: false,
-      );
-      if (dateRegExp.hasMatch(value!)) {
-        var splitDate = (value.split("/"));
-        if (int.parse(splitDate[0]) > 1450) {
-          return Strings.yearNotValid;
-        } else if (int.parse(splitDate[1]) > 12) {
-          return Strings.monthNotValid;
-        } else if (int.parse(splitDate[2]) > 31) {
-          return Strings.dayNotValid;
+    try {
+      if (requiredFieldError == null) {
+        RegExp dateRegExp = RegExp(
+          r"[0-9]{4}/[0-9]{2}/[0-9]{2}",
+          caseSensitive: false,
+          multiLine: false,
+        );
+        if (dateRegExp.hasMatch(value!)) {
+          var splitDate = (value.split("/"));
+          if (int.parse(splitDate[0]) > 1450) {
+            return Strings.yearNotValid;
+          } else if (int.parse(splitDate[1]) > 12) {
+            return Strings.monthNotValid;
+          } else if (int.parse(splitDate[2]) > 31) {
+            return Strings.dayNotValid;
+          }
         }
+        return requiredFieldError;
       }
+    } catch (e) {
+      //ignore
     }
-    return requiredFieldError;
   }
 
   String? endDateAfterStartDateValidator(
       {bool isRequired = false, required String? startDate, required String? endDate}) {
     final validDateError = dateValidator(isRequired: isRequired, value: endDate);
-    if (validDateError == null) {
-      DateTime start = _Date.toDateTime(shamsiDate: startDate);
-      DateTime end = _Date.toDateTime(shamsiDate: endDate);
-      if (end.isAfter(start) || end.isAtSameMomentAs(start)) {
-        return null;
+    try {
+      if (validDateError == null) {
+        DateTime start = _Date.toDateTime(shamsiDate: startDate);
+        DateTime end = _Date.toDateTime(shamsiDate: endDate);
+        if (end.isAfter(start) || end.isAtSameMomentAs(start)) {
+          return null;
+        } else {
+          return "تاریخ نامعتبر است";
+        }
       } else {
-        return "تاریخ نامعتبر است";
+        return validDateError;
       }
-    } else {
-      return validDateError;
+    } catch (e) {
+      //ignore
     }
   }
 }

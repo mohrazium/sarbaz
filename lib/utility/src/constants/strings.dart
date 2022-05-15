@@ -3,7 +3,7 @@ part of constants;
 class Strings {
   static const List<String> maritalStatusList = [maritalStateSingle, maritalStateMarried];
 
-  static const List<String> levelOfEducationList = ["زیردیپلم", "دیپلم", "فوق دیپلم", "لیسانس", "فوق لیسانس", "دکتری"];
+  static const List<String> levelOfEducationList = ["زیر دیپلم", "دیپلم", "فوق دیپلم", "لیسانس", "فوق لیسانس", "دکتری"];
 
   static const List<String> gForcesOfRGuards = [
     "سرباز",
@@ -100,27 +100,27 @@ class Strings {
 
   static const String distance = "فاصله تا یگان,به کیلومتر";
 
-  static const String save = "ذخیر";
+  static const String save = "ذخیره";
 
   static const String edit = "ویرایش";
 
   static const String delete = "حذف";
 
-  static const String update = "بروزرسانی";
+  static const String update = "بروز رسانی";
 
   static const String done = "انجام شد";
 
   static const String successfullySaved = "با موفقیت ذخیره شد";
 
-  static const String successfullyUpdated = "با موفقیت بروزرسانی شد";
+  static const String successfullyUpdated = "با موفقیت بروز رسانی شد";
 
-  static const String successfullyEdited = "با موفقیت بروزرسانی شد";
+  static const String successfullyEdited = "با موفقیت بروز رسانی شد";
 
-  static const String successfullyDeleted = "باموفقیت حذف شد";
+  static const String successfullyDeleted = "با موفقیت حذف شد";
 
   static const String unsuccessfullySave = "ذخیره اطلاعات با مشکل مواجه شد";
 
-  static const String unsuccessfullyUpdate = "بروزرسانی انجام نشد";
+  static const String unsuccessfullyUpdate = "بروز رسانی انجام نشد";
 
   static const String unsuccessfullyEdit = "ویرایش اطلاعات با مشکل مواجه شد";
 
@@ -178,7 +178,7 @@ class Strings {
 
   static const String personnelCode = "کد پرسنلی";
 
-  static const String personalCodeTooltip = "کد پرسنلی,کدپاسداری,کد حقوقی";
+  static const String personalCodeTooltip = "کد پرسنلی,کد پاسداری,کد حقوقی";
 
   static const String latestStatusOfSoldier = "آخرین وضعیت نیرو";
 
@@ -303,9 +303,9 @@ class Strings {
 
   static const String loading = "درحال بارگذاری...";
 
-  static const String sureToProduceCaseNoTitle = "ایجادخودکار شماره پرونده ها";
+  static const String sureToProduceCaseNoTitle = "ایجاد خودکار شماره پرونده ها";
 
-  static const String sureToProduceCaseNo = "آیا مایل به ایجادخودکار شماره پرونده ها هستید؟ ";
+  static const String sureToProduceCaseNo = "آیا مایل به ایجاد خودکار شماره پرونده ها هستید؟ ";
 
   static const String sureToProduceCaseNoDescription =
       "توجه:به تعداد فوق, شماره پرونده ی سرباز و پرونده ی امریه تولید خواهد شد";
@@ -322,9 +322,9 @@ class Strings {
 
   static const String soldierStatusPresent = "آماده به خدمت";
 
-  static const String soldierStatusInVacaation = "مرخصی";
+  static const String soldierStatusInVacation = "مرخصی";
 
-  static const String soldierStatusInSeekVacaation = "استعلاجی";
+  static const String soldierStatusInSeekVacation = "استعلاجی";
 
   static const String soldierStatusAbsent = "غایب";
 
@@ -336,8 +336,8 @@ class Strings {
 
   static const List<String> soldierStatusList = [
     soldierStatusPresent,
-    soldierStatusInVacaation,
-    soldierStatusInSeekVacaation,
+    soldierStatusInVacation,
+    soldierStatusInSeekVacation,
     soldierStatusAbsent,
     soldierStatusSkip,
     soldierStatusIntroductionToCommission,
@@ -387,7 +387,7 @@ class Strings {
 
   static const String eligibleVacation = "مرخصی استحقاقی";
 
-  static const String eligibleVacationPerMonth = "مرخصی استحقاقی به ازای هر ماه ";
+  static const String eligibleVacationPerMonth = "مرخصی استحقاقی به ازاءی هر ماه ";
 
   static const String day = "روز";
 
@@ -423,11 +423,13 @@ class Strings {
 
   static const List<String> membershipTypesList = [vazifeh, amriyeh, pasdarVazifeh];
 
-  static const String daysCount = "تعدا روز";
+  static const String daysCount = "تعداد روز";
 
   static const List<String> vacationsTypeList = [eligibleVacation, sickVacation, incentiveVacation];
 
   static const String saveNewVacation = "ثبت مرخصی جدید";
+
+  static const String saveVacation = "ثبت مرخصی";
 
   static const String soldierCaseIsnotSavedPleaseSave =
       "اطلاعات اعزام به خدمت ثبت نشده اند, لطفا ابتدا اقدام به ثبت اطلاعات اعزام به خدمت نمایید";
@@ -440,5 +442,5 @@ class Strings {
 
   static const String pleaseSelectAnItemFromList = "لطفا ابتدا آیتمی از لیست انتخاب نمایید";
 
-  static const String areYouSureToDelete="آیا از حذف اطلاعات اطمینان دارید؟";
+  static const String areYouSureToDelete = "آیا از حذف اطلاعات اطمینان دارید؟";
 }

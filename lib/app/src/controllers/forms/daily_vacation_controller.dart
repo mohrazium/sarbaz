@@ -67,9 +67,6 @@ class DailyVacationController extends GetxController with ValidatorMixin, DateCo
                 onYesPressed: () {
                   _save();
                   logger.info("saving daily vacation...");
-
-                  Get.find<SoldiersController>().loadAllSoldiers();
-                  readOnly(true);
                 });
           }
         } else {
@@ -105,28 +102,36 @@ class DailyVacationController extends GetxController with ValidatorMixin, DateCo
     _catchFormData();
     if (model.value.id == null) {
       await _dailyVacationService
-          .saveByVacationsId(model.value, await _bridgeController.getCurrentVacationsId())
+          .saveByVacationsIdAndPersonalInfoId(
+              model.value, await _bridgeController.getCurrentVacationsId(), _bridgeController.personalInfoId.value)
           .then((value) {
         if (value != null && value.id! != 0) {
+          readOnly(true);
           model(model.value.copyWith(id: value.id));
+          _bridgeController.dailyVacationId(value.id);
           _loadData();
           showToast(Strings.successfullySavingInfo);
+          Get.find<SoldiersController>().loadAllSoldiers();
         } else {
           showToast(Strings.unsuccessfullySavingInfo);
         }
       }).catchError((onError) {
-        DialogHelper.showCrashReport(onError.toString());
+        _handleOnError(onError);
       });
     } else {
-      _dailyVacationService.update(model.value).then((isUpdated) {
+      _dailyVacationService
+          .updateByPersonalInfoId(model.value, _bridgeController.personalInfoId.value)
+          .then((isUpdated) {
         if (isUpdated) {
+          readOnly(true);
           _loadData();
           showToast(Strings.successfullyUpdatingInfo);
+          Get.find<SoldiersController>().loadAllSoldiers();
         } else {
           showToast(Strings.unsuccessfullyUpdatingInfo);
         }
       }).catchError((onError) {
-        DialogHelper.showCrashReport(onError.toString());
+        _handleOnError(onError);
       });
     }
   }
@@ -177,7 +182,7 @@ class DailyVacationController extends GetxController with ValidatorMixin, DateCo
     var now = Jalali.now().year;
     Jalali? picked = await showPersianDatePicker(
       context: ctx,
-      initialDate: Jalali(now),
+      initialDate: Jalali.now(),
       firstDate: Jalali(now - 2, 1),
       lastDate: Jalali(now, 6),
     );
@@ -201,5 +206,17 @@ class DailyVacationController extends GetxController with ValidatorMixin, DateCo
   void onClearFormPressed() {
     _clearEditor();
     readOnly(false);
+  }
+
+  void _handleOnError(onError) {
+    if (onError is Message) {
+      DialogHelper.showMessageBox(
+          title: Strings.saveVacation,
+          message: onError.toString(),
+          dialogType: DialogType.WARNING,
+          dialogButtons: DialogButtons.OK);
+    } else {
+      DialogHelper.showCrashReport(onError.toString());
+    }
   }
 }

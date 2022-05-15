@@ -42,9 +42,11 @@ class BridgeController extends GetxController with GetSingleTickerProviderStateM
     selectedDashboardMainMenuIndex(index);
   }
 
-  void initSoldierEditorForms(int pId) {
+  void initSoldierEditorForms(int pId, {bool withLoading = false}) {
     personalInfoId(pId);
-    Get.find<SoldierEditorController>().loadingEditor();
+    
+    if (withLoading) Get.find<SoldierEditorController>().loadingEditor();
+
     Get.find<PersonalInfoController>().initForm(personalInfoId.value).then((value) async {
       await Get.find<FurtherInfoController>().initForm();
       await Get.find<ContactInfoController>().initForm();

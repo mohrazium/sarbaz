@@ -11,6 +11,7 @@ class GroupBox extends StatelessWidget {
   final void Function()? onTap;
   final bool inMaterial;
   final bool haveShadow;
+  final bool isExpandable;
 
   const GroupBox({
     Key? key,
@@ -24,19 +25,18 @@ class GroupBox extends StatelessWidget {
     this.onTap,
     this.inMaterial = false,
     this.haveShadow = false,
+    this.isExpandable = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return inMaterial || onTap!=null
+    var content = inMaterial || onTap != null
         ? Padding(
             padding: padding ?? const EdgeInsets.all(0),
             child: ClipRRect(
-                borderRadius: borderRadius ??
-                    const BorderRadius.all(Radius.circular(kBorderRadius)),
+                borderRadius: borderRadius ?? const BorderRadius.all(Radius.circular(kBorderRadius)),
                 child: InkWell(
-                    borderRadius: borderRadius ??
-                        const BorderRadius.all(Radius.circular(kBorderRadius)),
+                    borderRadius: borderRadius ?? const BorderRadius.all(Radius.circular(kBorderRadius)),
                     onTap: onTap,
                     child: Ink(
                         decoration: _getDecoration(),
@@ -47,21 +47,20 @@ class GroupBox extends StatelessWidget {
                           child: child,
                         )))))
         : Padding(
-            padding: haveShadow && padding == null
-                ? const EdgeInsets.all(kPadding)
-                : padding ?? const EdgeInsets.all(0),
+            padding:
+                haveShadow && padding == null ? const EdgeInsets.all(kPadding) : padding ?? const EdgeInsets.all(0),
             child: Container(
               width: width,
               height: height,
               decoration: _getDecoration(),
               child: ClipRRect(
-                borderRadius: borderRadius ??
-                    const BorderRadius.all(Radius.circular(kBorderRadius)),
-                child: Padding(
-                    padding: margin ?? const EdgeInsets.all(0), child: child),
+                borderRadius: borderRadius ?? const BorderRadius.all(Radius.circular(kBorderRadius)),
+                child: Padding(padding: margin ?? const EdgeInsets.all(0), child: child),
               ),
             ),
           );
+
+    return isExpandable ? Expanded(child: content) : content;
   }
 
   _getDecoration() {
@@ -75,8 +74,7 @@ class GroupBox extends StatelessWidget {
               ),
             ]
           : null,
-      borderRadius: borderRadius ??
-          const BorderRadius.all(Radius.circular(kBorderRadius)),
+      borderRadius: borderRadius ?? const BorderRadius.all(Radius.circular(kBorderRadius)),
       color: color ?? Colorize.backgroundColorShade700,
     );
   }

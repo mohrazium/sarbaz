@@ -195,7 +195,7 @@ class SoldiersController extends GetxController {
     _loadAll();
     searchSoldier(null);
     if (_bridgeController.personalInfoId.value != 0) {
-      _bridgeController.initSoldierEditorForms(_bridgeController.personalInfoId.value);
+      _bridgeController.initSoldierEditorForms(_bridgeController.personalInfoId.value,withLoading: true);
     }
   }
 }

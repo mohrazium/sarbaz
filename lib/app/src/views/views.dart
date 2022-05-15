@@ -10,6 +10,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sarbaz/app/app.dart';
+import 'package:sarbaz/core/src/domain/data/data.dart';
 import 'package:sarbaz/core/src/models/models.dart';
 import 'package:sarbaz/utility/utility.dart';
 

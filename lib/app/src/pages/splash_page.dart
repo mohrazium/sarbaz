@@ -84,14 +84,11 @@ class SplashPage extends StatefulWidget {
     required this.useLoader,
     this.routeName,
   })  : assert(
-          routeName == null ||
-              (routeName is String && routeName.startsWith('/')),
+          routeName == null || (routeName is String && routeName.startsWith('/')),
           'routeName must be a String beginning with forward slash (/)',
         ),
         assert(
-          navigateAfterFuture == null ||
-              navigateAfterFuture is Future<String> ||
-              navigateAfterFuture is Future<Widget>,
+          navigateAfterFuture == null || navigateAfterFuture is Future<String> || navigateAfterFuture is Future<Widget>,
           'navigateAfterFuture must be a Future<String> or Future<Widget>',
         ),
         assert(
@@ -99,15 +96,11 @@ class SplashPage extends StatefulWidget {
           'navigateAfterFuture and seconds cant be null at the same time',
         ),
         assert(
-          navigateAfterFuture != null ||
-              navigateAfterSeconds is String ||
-              navigateAfterSeconds is Widget,
+          navigateAfterFuture != null || navigateAfterSeconds is String || navigateAfterSeconds is Widget,
           'navigateAfterSeconds must either be a String or Widget',
         ),
         assert(
-          navigateAfterSeconds is! String ||
-              (navigateAfterSeconds is String &&
-                  navigateAfterSeconds.startsWith('/')),
+          navigateAfterSeconds is! String || (navigateAfterSeconds is String && navigateAfterSeconds.startsWith('/')),
           'navigateAfterSeconds must be a String beginning with forward slash (/)',
         ),
         super(key: key);
@@ -207,9 +200,7 @@ class _SplashPageState extends State<SplashPage> {
             widget.pageRoute != null
                 ? widget.pageRoute!
                 : MaterialPageRoute(
-                    settings: widget.routeName != null
-                        ? RouteSettings(name: widget.routeName)
-                        : null,
+                    settings: widget.routeName != null ? RouteSettings(name: widget.routeName) : null,
                     builder: (context) => widget.navigateAfterSeconds as Widget,
                   ),
           );
@@ -226,9 +217,7 @@ class _SplashPageState extends State<SplashPage> {
             widget.pageRoute != null
                 ? widget.pageRoute!
                 : MaterialPageRoute(
-                    settings: widget.routeName != null
-                        ? RouteSettings(name: widget.routeName)
-                        : null,
+                    settings: widget.routeName != null ? RouteSettings(name: widget.routeName) : null,
                     builder: (context) => navigateTo),
           );
         }
@@ -285,11 +274,12 @@ class _SplashPageState extends State<SplashPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       widget.useLoader
-                          ? CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color?>(
-                                widget.loaderColor,
-                              ),
-                            )
+                          ? Center(
+                              child: LoadingAnimationWidget.discreteCircle(
+                                  color: Colorize.primaryColor,
+                                  secondRingColor: Colorize.accentColor,
+                                  thirdRingColor: widget.loaderColor!,
+                                  size: 65))
                           : Container(),
                       const Padding(
                         padding: EdgeInsets.only(top: 20.0),

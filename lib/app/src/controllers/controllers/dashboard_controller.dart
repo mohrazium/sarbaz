@@ -1,9 +1,15 @@
 part of controllers;
 
-class DashboardController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+class DashboardController extends GetxController with GetSingleTickerProviderStateMixin {
   final dashboardScaffoldKey = GlobalKey<ScaffoldState>();
   final BridgeController bridgeController;
+
+  // Replace with better login info
+  PrefStorage prefStorage = Get.find<PrefStorage>();
+
+  Rx<bool> isLoggedIn = Rx(false);
+
+  late final TextEditingController passController;
 
   late final Rx<TabController> tabController;
 
@@ -15,9 +21,9 @@ class DashboardController extends GetxController
   void onInit() {
     tabController = bridgeController.dashboardTabController;
     var today = Jalali.now().formatter;
-    todayHeader.value =
-        'امروز  ${today.wN} ${today.d} ${today.mN} ${today.yyyy}';
-
+    todayHeader.value = 'امروز  ${today.wN} ${today.d} ${today.mN} ${today.yyyy}';
+    prefStorage.saveLoginDetails('sarbaz', '102030');
+    passController = TextEditingController();
     super.onInit();
   }
 
@@ -35,8 +41,7 @@ class DashboardController extends GetxController
 
   final member = ["Avril Kimberly", "Michael Greg"];
 
-  final unitSoldiersOverview =
-      const ProgressLineData(unitCapacity: 158, totalSoldiers: 58);
+  final unitSoldiersOverview = const ProgressLineData(unitCapacity: 158, totalSoldiers: 58);
 
   final statusCards = [
     const StatusCardData(
@@ -145,8 +150,7 @@ class DashboardController extends GetxController
 
   void onPressedProfile() {}
 
-  void onSelectedMainMenu(
-      {required int index, MainMenuSelectionButtonData? value}) {
+  void onSelectedMainMenu({required int index, MainMenuSelectionButtonData? value}) {
     bridgeController.setDashboardTab(index);
     update();
   }
@@ -175,5 +179,9 @@ class DashboardController extends GetxController
     if (dashboardScaffoldKey.currentState != null) {
       dashboardScaffoldKey.currentState!.openDrawer();
     }
+  }
+
+  void onLoginPressed() {
+    isLoggedIn(prefStorage.login('sarbaz', passController.text.trim()));
   }
 }

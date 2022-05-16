@@ -158,13 +158,11 @@ class DailyVacationServiceImpl implements DailyVacationService {
         for (var dailyByMonth in dailyByMonthList) {
           var pointerDay = dailyByMonth.value.startDate;
           final days = DateConverter.differenceInDays(dailyByMonth.value.startDate, dailyByMonth.value.endDate);
-          print(days);
-          for (int day = 0; day <= days; day++) {
+          for (int day = 1; day <= days; day++) {
             if (!pointerDay.isAfter(dailyByMonth.value.endDate)) {
-              print("pointer day $pointerDay");
               final modelDays = DateConverter.differenceInDays(model.startDate, model.endDate);
               var modelPointerDay = model.startDate;
-              for (int modelDay = 0; modelDay <= modelDays; modelDay++) {
+              for (int modelDay = 1; modelDay <= modelDays; modelDay++) {
                 if (pointerDay.isAtSameMomentAs(modelPointerDay)) {
                   return dailyByMonth.value;
                 }

@@ -1,12 +1,14 @@
 part of controllers;
 
-class DailyVacationController extends GetxController with ValidatorMixin, DateConverterMixin {
+class DailyVacationController extends GetxController
+    with ValidatorMixin, DateConverterMixin {
   final BridgeController _bridgeController;
   final DailyVacationService _dailyVacationService;
 
   DailyVacationController(this._bridgeController, this._dailyVacationService);
 
-  final GlobalKey<FormState> dailyVacationFormGlobalKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> dailyVacationFormGlobalKey =
+      GlobalKey<FormState>();
   late RxBool readOnly = false.obs;
 
   late final Rx<DailyVacationModel> model = Rx(DailyVacationModel.init());
@@ -24,7 +26,8 @@ class DailyVacationController extends GetxController with ValidatorMixin, DateCo
     endDateController = TextEditingController();
     amountController = TextEditingController();
     descriptionController = TextEditingController();
-    vacationTypeController = TextEditingController(text: Strings.vacationsTypeList[0]);
+    vacationTypeController =
+        TextEditingController(text: Strings.vacationsTypeList[0]);
     initForm();
     logger.info("$runtimeType has been initialized.");
   }
@@ -102,10 +105,12 @@ class DailyVacationController extends GetxController with ValidatorMixin, DateCo
   void _save() async {
     _catchFormData();
     if (model.value.id == null) {
-      model(model.value
-          .copyWith(vacations: VacationsModel.init().copyWith(id: await _bridgeController.getCurrentVacationsId())));
+      model(model.value.copyWith(
+          vacations: VacationsModel.init()
+              .copyWith(id: await _bridgeController.getCurrentVacationsId())));
       await _dailyVacationService
-          .saveByPersonalInfoId(model.value, _bridgeController.personalInfoId.value)
+          .saveByPersonalInfoId(
+              model.value, _bridgeController.personalInfoId.value)
           .then((value) {
         if (value != null && value.id! != 0) {
           readOnly(true);
@@ -113,7 +118,8 @@ class DailyVacationController extends GetxController with ValidatorMixin, DateCo
           _bridgeController.dailyVacationId(value.id);
           _loadData();
           showToast(Strings.successfullySavingInfo);
-          Get.find<SoldiersController>().loadAllSoldiers();
+          _bridgeController
+              .initSoldierEditorForms(_bridgeController.personalInfoId.value);
         } else {
           showToast(Strings.unsuccessfullySavingInfo);
         }
@@ -122,13 +128,15 @@ class DailyVacationController extends GetxController with ValidatorMixin, DateCo
       });
     } else {
       _dailyVacationService
-          .updateByPersonalInfoId(model.value, _bridgeController.personalInfoId.value)
+          .updateByPersonalInfoId(
+              model.value, _bridgeController.personalInfoId.value)
           .then((isUpdated) {
         if (isUpdated) {
           readOnly(true);
           _loadData();
           showToast(Strings.successfullyUpdatingInfo);
-          Get.find<SoldiersController>().loadAllSoldiers();
+          _bridgeController
+              .initSoldierEditorForms(_bridgeController.personalInfoId.value);
         } else {
           showToast(Strings.unsuccessfullyUpdatingInfo);
         }
@@ -167,7 +175,9 @@ class DailyVacationController extends GetxController with ValidatorMixin, DateCo
       endDate: toDateTime(shamsiDate: endDateController.text.trim()),
       amount: int.parse(amountController.text.trim()),
       vacationType: vacationTypeController.text.trim(),
-      description: descriptionController.text.isNotEmpty ? descriptionController.text.trim() : null,
+      description: descriptionController.text.isNotEmpty
+          ? descriptionController.text.trim()
+          : null,
     ));
   }
 
@@ -195,9 +205,11 @@ class DailyVacationController extends GetxController with ValidatorMixin, DateCo
   }
 
   void _calculateAmountOfVacation() {
-    if (startDateController.text.isNotEmpty && endDateController.text.isNotEmpty) {
-      amountController.text =
-          differenceInDays(startDateController.text.trim(), endDateController.text.trim()).toString();
+    if (startDateController.text.isNotEmpty &&
+        endDateController.text.isNotEmpty) {
+      amountController.text = differenceInDays(
+              startDateController.text.trim(), endDateController.text.trim())
+          .toString();
     }
   }
 

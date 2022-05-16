@@ -27,7 +27,8 @@ class DailyVacationsView extends GetView<DailyVacationsController> {
                       width: constraints.maxWidth - 280,
                       child: SearchField(
                         controller: controller.searchFieldController,
-                        onSearch: (val) => controller.onSearchVacationChanged(val),
+                        onSearch: (val) =>
+                            controller.onSearchVacationChanged(val),
                       ),
                     ),
                     const SizedBox(width: kSpacing / 2),
@@ -69,11 +70,12 @@ class DailyVacationsView extends GetView<DailyVacationsController> {
                   ],
                 ),
                 SizedBox(
-                  height: 352,
+                  height: kSpacing * 17.9,
                   child: DailyVacationsDataTable(
                     dataSource: controller.dailyVacationDataSource.value,
                     onCellTap: (details) => controller.onCellTap(details),
-                    onCellDoubleTap: (details) => controller.onCellDoubleTap(details),
+                    onCellDoubleTap: (details) =>
+                        controller.onCellDoubleTap(details),
                   ),
                 ),
               ],

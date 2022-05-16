@@ -91,6 +91,7 @@ class DailyVacationController extends GetxController with ValidatorMixin, DateCo
 
   void onStartDateCalenderPressed(context) async {
     startDateController.text = (await _getDateFromPicker(context)) ?? "";
+    _calculateAmountOfVacation();
   }
 
   void onEndDateCalenderPressed(context) async {
@@ -101,9 +102,10 @@ class DailyVacationController extends GetxController with ValidatorMixin, DateCo
   void _save() async {
     _catchFormData();
     if (model.value.id == null) {
+      model(model.value
+          .copyWith(vacations: VacationsModel.init().copyWith(id: await _bridgeController.getCurrentVacationsId())));
       await _dailyVacationService
-          .saveByVacationsIdAndPersonalInfoId(
-              model.value, await _bridgeController.getCurrentVacationsId(), _bridgeController.personalInfoId.value)
+          .saveByPersonalInfoId(model.value, _bridgeController.personalInfoId.value)
           .then((value) {
         if (value != null && value.id! != 0) {
           readOnly(true);

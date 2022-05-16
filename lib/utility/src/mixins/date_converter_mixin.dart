@@ -1,9 +1,9 @@
 part of mixins;
 
 mixin DateConverterMixin {
-  String shamsiNow() => _Date.toShamsi(DateTime.now());
+  String shamsiNow() => DateConverter.toShamsi(DateTime.now());
 
-  String toShamsi(DateTime? dateTime) => _Date.toShamsi(dateTime);
+  String toShamsi(DateTime? dateTime) => DateConverter.toShamsi(dateTime);
 
   DateTime toDateTime({
     int? year,
@@ -16,26 +16,26 @@ mixin DateConverterMixin {
     int? yearsBefore,
   }) {
     if (shamsiDate == null) {
-      return _Date.toDateTime(year: year!, month: month!, day: day!);
+      return DateConverter.toDateTime(year: year!, month: month!, day: day!);
     } else {
-      return _Date.toDateTime(shamsiDate: shamsiDate);
+      return DateConverter.toDateTime(shamsiDate: shamsiDate);
     }
   }
 
   int differenceInDays(String startShamsiDate, String endShamsiDate) {
     try {
-      final start = _Date.toDateTime(shamsiDate: startShamsiDate);
-      final end = _Date.toDateTime(shamsiDate: endShamsiDate);
-      return _Date.differenceInDays(start, end);
+      final start = DateConverter.toDateTime(shamsiDate: startShamsiDate);
+      final end = DateConverter.toDateTime(shamsiDate: endShamsiDate);
+      return DateConverter.differenceInDays(start, end);
     } catch (e) {
       return 0;
     }
   }
 
   int differenceInHours(String startTime, String endTime) {
-    final start = _Date.toDateTime(shamsiDate: startTime);
-    final end = _Date.toDateTime(shamsiDate: endTime);
-    return _Date.differenceInHours(start, end);
+    final start = DateConverter.toDateTime(shamsiDate: startTime);
+    final end = DateConverter.toDateTime(shamsiDate: endTime);
+    return DateConverter.differenceInHours(start, end);
   }
 
   String calculateEndDate({
@@ -43,13 +43,13 @@ mixin DateConverterMixin {
     required int months,
     required int pastDays,
   }) {
-    final start = _Date.toDateTime(shamsiDate: startDate);
-    final calculated = _Date.calculateEndDate(start, months, pastDays);
-    return _Date.toShamsi(calculated);
+    final start = DateConverter.toDateTime(shamsiDate: startDate);
+    final calculated = DateConverter.calculateEndDate(start, months, pastDays);
+    return DateConverter.toShamsi(calculated);
   }
 }
 
-class _Date {
+class DateConverter {
   static String toShamsi(DateTime? dateTime) {
     if (dateTime != null) {
       Jalali jalali = dateTime.toJalali();

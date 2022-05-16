@@ -55,6 +55,7 @@ class DailyVacationView extends GetView<DailyVacationController> {
                                 allowedCharMatcher: RegExp('[0-9]'),
                               ),
                             ],
+                            onChanged: (val)=> controller.onChangeAmountOfVacation(val),
                             validator: (val) => controller.dateValidator(isRequired: true, value: val),
                             prefixIcon: IconButton(
                                 onPressed: () => controller.onStartDateCalenderPressed(context),

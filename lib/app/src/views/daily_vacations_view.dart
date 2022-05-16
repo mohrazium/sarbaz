@@ -69,7 +69,7 @@ class DailyVacationsView extends GetView<DailyVacationsController> {
                   ],
                 ),
                 SizedBox(
-                  height: 350,
+                  height: 352,
                   child: DailyVacationsDataTable(
                     dataSource: controller.dailyVacationDataSource.value,
                     onCellTap: (details) => controller.onCellTap(details),

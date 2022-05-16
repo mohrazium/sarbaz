@@ -2,10 +2,10 @@ part of services;
 
 abstract class DailyVacationService extends Service<int, DailyVacationModel> {
   Future<List<DailyVacationModel>?> findAllByVacationsId(int vacationsId);
-  Future<DailyVacationModel?> saveByVacationsIdAndPersonalInfoId(
-      DailyVacationModel model, int vacationsId, int personalInfoId);
+  Future<DailyVacationModel?> saveByPersonalInfoId(DailyVacationModel model, int personalInfoId);
   Future<bool> updateByPersonalInfoId(DailyVacationModel model, int personalInfoId);
   Future<bool> deleteById(int id, int personalInfoId);
+  Future<DailyVacationModel?> checkDuplication(DailyVacationModel model);
 }
 
 class DailyVacationServiceImpl implements DailyVacationService {
@@ -59,26 +59,31 @@ class DailyVacationServiceImpl implements DailyVacationService {
   }
 
   @override
-  Future<DailyVacationModel?> saveByVacationsIdAndPersonalInfoId(
-      DailyVacationModel model, int vacationsId, int personalInfoId) async {
-    VacationResult result = await _vacationsService
-        .syncVacationsAmount(
-            personalInfoId: personalInfoId, vacationType: _getType(model.vacationType), amount: model.amount)
-        .catchError((onError) => throw FailureException(onError.toString()));
-    if (result == VacationResult.saved) {
-      return _dailyVacationDAO
-          .doInsert(model.toJson(), vacationsId)
-          .then((savedVacation) => DailyVacationModel.fromJson(savedVacation.toJson()))
-          .onError((error, stackTrace) => throw FailureException(
-              "Can not save daily vacation by vacationsId, see the error :\n $error \n $stackTrace"));
-    } else if (result == VacationResult.noEnoughEligibleBalance) {
-      throw Message(Messages.noEnoughEligibleBalance);
-    } else if (result == VacationResult.noEnoughIncentiveBalance) {
-      throw Message(Messages.noEnoughIncentiveBalance);
-    } else if (result == VacationResult.noEnoughSickBalance) {
-      throw Message(Messages.noEnoughSickBalance);
+  Future<DailyVacationModel?> saveByPersonalInfoId(DailyVacationModel model, int personalInfoId) async {
+    final duplicatedDaily = await checkDuplication(model);
+    if (duplicatedDaily == null) {
+      VacationResult result = await _vacationsService
+          .syncVacationsAmount(
+              personalInfoId: personalInfoId, vacationType: _getType(model.vacationType), amount: model.amount)
+          .catchError((onError) => throw FailureException(onError.toString()));
+      if (result == VacationResult.saved) {
+        return _dailyVacationDAO
+            .doInsert(model.toJson(), model.vacations?.id ?? 0)
+            .then((savedVacation) => DailyVacationModel.fromJson(savedVacation.toJson()))
+            .onError((error, stackTrace) => throw FailureException(
+                "Can not save daily vacation by vacationsId, see the error :\n $error \n $stackTrace"));
+      } else if (result == VacationResult.noEnoughEligibleBalance) {
+        throw Message(Messages.noEnoughEligibleBalance);
+      } else if (result == VacationResult.noEnoughIncentiveBalance) {
+        throw Message(Messages.noEnoughIncentiveBalance);
+      } else if (result == VacationResult.noEnoughSickBalance) {
+        throw Message(Messages.noEnoughSickBalance);
+      } else {
+        return null;
+      }
     } else {
-      return null;
+      throw Message(Messages.vacationDuplicated +
+          "\n لطفا بررسی کنید, تداخل ${duplicatedDaily.vacationType} در تاریخ ${DateConverter.toShamsi(duplicatedDaily.startDate)} تا تاریخ ${DateConverter.toShamsi(duplicatedDaily.endDate)} بمدت ${duplicatedDaily.amount}روز با مرخصی درخواستی در تاریخ ${DateConverter.toShamsi(model.startDate)} تا تاریخ ${DateConverter.toShamsi(model.endDate)} بمدت ${model.amount} روز رخ داده است و قابل ثبت نیست");
     }
   }
 
@@ -114,6 +119,7 @@ class DailyVacationServiceImpl implements DailyVacationService {
 
   @override
   Future<bool> updateByPersonalInfoId(DailyVacationModel model, int personalInfoId) async {
+    // TODO check duplication in update, there should be difference way
     final foundedDaily =
         await findById(model.id ?? 0).catchError((onError) => throw FailureException(onError.toString()));
 
@@ -126,7 +132,7 @@ class DailyVacationServiceImpl implements DailyVacationService {
         .catchError((onError) => throw FailureException(onError.toString()));
 
     if (result == VacationResult.saved) {
-      return await update(model);
+      return await update(model).catchError((onError) => throw FailureException(onError.toString()));
     } else if (result == VacationResult.noEnoughEligibleBalance) {
       throw Message(Messages.noEnoughEligibleBalance);
     } else if (result == VacationResult.noEnoughIncentiveBalance) {
@@ -135,5 +141,42 @@ class DailyVacationServiceImpl implements DailyVacationService {
       throw Message(Messages.noEnoughSickBalance);
     }
     return Future.value(false);
+  }
+
+  @override
+  Future<DailyVacationModel?> checkDuplication(DailyVacationModel model) async {
+    final List<DailyVacationModel>? dailyList = await findAllByVacationsId(model.vacations?.id ?? 0)
+        .catchError((onError) => throw FailureException(onError.toString()));
+    if (dailyList != null) {
+      // final dailyByTypeList =
+      //     dailyList.asMap().entries.where((dailyModel) => dailyModel.value.vacationType == model.vacationType);
+
+      final dailyByMonthList =
+          dailyList.asMap().entries.where((dailyModel) => dailyModel.value.startDate.month == model.startDate.month);
+
+      if (dailyByMonthList.isNotEmpty) {
+        for (var dailyByMonth in dailyByMonthList) {
+          var pointerDay = dailyByMonth.value.startDate;
+          final days = DateConverter.differenceInDays(dailyByMonth.value.startDate, dailyByMonth.value.endDate);
+          print(days);
+          for (int day = 0; day <= days; day++) {
+            if (!pointerDay.isAfter(dailyByMonth.value.endDate)) {
+              print("pointer day $pointerDay");
+              final modelDays = DateConverter.differenceInDays(model.startDate, model.endDate);
+              var modelPointerDay = model.startDate;
+              for (int modelDay = 0; modelDay <= modelDays; modelDay++) {
+                if (pointerDay.isAtSameMomentAs(modelPointerDay)) {
+                  return dailyByMonth.value;
+                }
+
+                modelPointerDay = modelPointerDay.add(const Duration(days: 1));
+              }
+              pointerDay = pointerDay.add(const Duration(days: 1));
+            }
+          }
+        }
+      }
+    }
+    return null;
   }
 }

@@ -20,4 +20,6 @@ class Messages {
   static const String noEnoughEligibleBalance = "مانده مرخصی  استحقاقی صفر و یا کمتر از مرخصی درخواستی است";
   static const String noEnoughIncentiveBalance = "مانده مرخصی تشویقی صفر و یا کمتر از مرخصی درخواستی است";
   static const String noEnoughSickBalance = "مانده مرخصی  استعلاجی صفر و یا کمتر از مرخصی درخواستی است";
+
+  static const String vacationDuplicated="در این تاریخ قبلا مرخصی ثبت شده است";
 }

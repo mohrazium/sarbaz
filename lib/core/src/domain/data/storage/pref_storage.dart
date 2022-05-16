@@ -9,7 +9,6 @@ class PrefStorage {
   final String _keySickVacation = 'sick';
   final String _keyIncentiveLimit = 'incentive';
   final String _keyDBPath = 'DBPATH';
-  final String _keyPass = 'pass';
 
   double getEligibleVacationPerMonth() {
     var _storage = GetStorage('sarbaz');

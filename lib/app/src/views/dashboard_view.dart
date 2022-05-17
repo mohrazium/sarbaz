@@ -8,81 +8,77 @@ class DashboardDesktopView extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: GetX(
-            init: controller,
-            builder: (builder) {
-              return controller.isLoggedIn.isTrue
-                  ? ResponsiveBuilder(
-                      mobileBuilder: (context, constraints) {
-                        globalContext = context;
-                        return const NotFoundPage();
-                      },
-                      tabletBuilder: (context, constraints) {
-                        globalContext = context;
+        child: ResponsiveBuilder(mobileBuilder: (context, constraints) {
+      globalContext = context;
+      return const NotFoundPage();
+    }, tabletBuilder: (context, constraints) {
+      globalContext = context;
 
-                        return const NotFoundPage();
-                      },
-                      desktopBuilder: (context, constraints) {
-                        globalContext = context;
-                        return Flex(
-                          direction: Axis.horizontal,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Flexible(
-                              flex: 2,
-                              child: SingleChildScrollView(
-                                controller: ScrollController(),
-                                child: _buildSidebar(context),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 10,
-                              child: SizedBox(height: constraints.maxHeight, child: _buildBodyContent()),
-                            ),
-
-                            //! left sidebar
-                            // SizedBox(
-                            //   height: MediaQuery.of(context).size.height,
-                            //   child: const VerticalDivider(),
-                            // ),
-                            // Flexible(
-                            //   flex: 4,
-                            //   child: SingleChildScrollView(
-                            //     controller: ScrollController(),
-                            //     child: _buildLeftPanelContent(),
-                            //   ),
-                            // ),
-                          ],
-                        );
-                      },
-                    )
-                  : Center(
-                      child: GroupBox(
-                        width: kTextFieldWidth + 20,
-                        height: 250,
-                        color: Colorize.backgroundColorShade700,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "رمز ورود را وارد کنید",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(
-                                height: kSpacing,
-                              ),
-                              TextBox(
-                                controller: controller.passController,
-                              ),
-                              const SizedBox(
-                                height: kSpacing,
-                              ),
-                              ElevatedButton(onPressed: () => controller.onLoginPressed(), child: const Text("ورود"))
-                            ]),
+      return const NotFoundPage();
+    }, desktopBuilder: (context, constraints) {
+      globalContext = context;
+      return GetX(
+          init: controller,
+          builder: (builder) {
+            return controller.isLoggedIn.isTrue
+                ? Flex(
+                    direction: Axis.horizontal,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        flex: 2,
+                        child: SingleChildScrollView(
+                          controller: ScrollController(),
+                          child: _buildSidebar(context),
+                        ),
                       ),
-                    );
-            }));
+                      Flexible(
+                        flex: 10,
+                        child: SizedBox(height: constraints.maxHeight, child: _buildBodyContent()),
+                      ),
+
+                      //! left sidebar
+                      // SizedBox(
+                      //   height: MediaQuery.of(context).size.height,
+                      //   child: const VerticalDivider(),
+                      // ),
+                      // Flexible(
+                      //   flex: 4,
+                      //   child: SingleChildScrollView(
+                      //     controller: ScrollController(),
+                      //     child: _buildLeftPanelContent(),
+                      //   ),
+                      // ),
+                    ],
+                  )
+                : Center(
+                    child: GroupBox(
+                      width: kTextFieldWidth + 20,
+                      height: 250,
+                      color: Colorize.backgroundColorShade700,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "رمز ورود را وارد کنید",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              height: kSpacing,
+                            ),
+                            TextBox(
+                              controller: controller.passController,
+                            ),
+                            const SizedBox(
+                              height: kSpacing,
+                            ),
+                            ElevatedButton(onPressed: () => controller.onLoginPressed(), child: const Text("ورود"))
+                          ]),
+                    ),
+                  );
+          });
+    }));
   }
 
   Widget _buildSidebar(BuildContext context) {

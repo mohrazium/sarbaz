@@ -8,12 +8,12 @@ class PersonalInfoDAO extends DatabaseAccessor<SoldierDatabase> with _$PersonalI
 
   Future<PersonalInfoTableData> doInsert(Map<String, dynamic> entry) async {
     final data = PersonalInfoTableData.fromJson(entry);
-    List<PersonalInfoTableData> persons = await (select(personalInfoTable)).get();
-    if (persons.length <= 20) { // TODO : remove this for production
-      return into(personalInfoTable).insertReturning(data.copyWith(createdAt: DateTime.now()).toCompanion(true));
-    } else {
-      throw UnimplementedError();
-    }
+    // List<PersonalInfoTableData> persons = await (select(personalInfoTable)).get();
+    // if (persons.length <= 20) { // TODO : remove this for production
+    return into(personalInfoTable).insertReturning(data.copyWith(createdAt: DateTime.now()).toCompanion(true));
+    //} else {
+    //   throw UnimplementedError();
+    // }
   }
 
   Future<List<PersonalInfoTableData>> findAll() async {

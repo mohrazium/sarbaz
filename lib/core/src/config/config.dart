@@ -1,6 +1,7 @@
 library config;
 
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';

@@ -68,6 +68,7 @@ class SoldiersDataTable extends StatelessWidget {
         onQueryRowHeight: (details) {
           return details.getIntrinsicRowHeight(details.rowIndex);
         },
+        shrinkWrapRows: true,
         selectionManager: CustomSelectionManager(),
         columns: <GridColumn>[
           GridColumn(
@@ -76,7 +77,7 @@ class SoldiersDataTable extends StatelessWidget {
                   decoration: const BoxDecoration(
                       color: Colorize.primaryColor,
                       borderRadius: BorderRadius.only(topRight: Radius.circular(kBorderRadius))),
-                  padding: const EdgeInsets.all(kPadding),
+                  padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                   alignment: Alignment.center,
                   child: const Text(Strings.caseNo,
                       softWrap: true,
@@ -93,7 +94,7 @@ class SoldiersDataTable extends StatelessWidget {
                   decoration: const BoxDecoration(
                       color: Colorize.primaryColor,
                       borderRadius: BorderRadius.only(topRight: Radius.circular(kBorderRadius))),
-                  padding: const EdgeInsets.all(kPadding),
+                  padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                   alignment: Alignment.center,
                   child: const Text(Strings.personnelCode,
                       softWrap: true,
@@ -108,7 +109,7 @@ class SoldiersDataTable extends StatelessWidget {
               columnName: 'nationalCode',
               label: Container(
                   color: Colorize.primaryColor,
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                   alignment: Alignment.center,
                   child: const Text(Strings.nationalCode,
                       softWrap: true,
@@ -123,7 +124,7 @@ class SoldiersDataTable extends StatelessWidget {
               columnName: 'firstName',
               label: Container(
                   color: Colorize.primaryColor,
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                   alignment: Alignment.center,
                   child: const Text(
                     Strings.firstName,
@@ -142,7 +143,7 @@ class SoldiersDataTable extends StatelessWidget {
               columnName: 'lastName',
               label: Container(
                   color: Colorize.primaryColor,
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                   alignment: Alignment.center,
                   child: const Text(Strings.lastName,
                       softWrap: true,
@@ -158,7 +159,7 @@ class SoldiersDataTable extends StatelessWidget {
               columnName: 'fatherName',
               label: Container(
                   color: Colorize.primaryColor,
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                   alignment: Alignment.center,
                   child: const Text(Strings.fatherName,
                       softWrap: true,
@@ -173,7 +174,7 @@ class SoldiersDataTable extends StatelessWidget {
               columnName: 'mobileNumber',
               label: Container(
                   color: Colorize.primaryColor,
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                   alignment: Alignment.center,
                   child: const Text(Strings.mobileNumber,
                       style: TextStyle(
@@ -189,7 +190,7 @@ class SoldiersDataTable extends StatelessWidget {
                   decoration: const BoxDecoration(
                       color: Colorize.primaryColor,
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(kBorderRadius))),
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                   alignment: Alignment.center,
                   child: const Text(Strings.latestStatusOfSoldier,
                       softWrap: true,
@@ -204,7 +205,7 @@ class SoldiersDataTable extends StatelessWidget {
               columnName: 'id',
               visible: false,
               label:
-                  Container(padding: const EdgeInsets.all(8.0), alignment: Alignment.center, child: const Text("id"))),
+                  Container(padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0), alignment: Alignment.center, child: const Text("id"))),
         ],
       ),
     );
@@ -240,7 +241,7 @@ class SoldiersDataSource extends DataGridSource {
         cells: row.getCells().map<Widget>((dataGridCell) {
           if (dataGridCell.columnName == Strings.caseNo) {
             return Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -255,7 +256,7 @@ class SoldiersDataSource extends DataGridSource {
                 ));
           } else if (dataGridCell.columnName == Strings.personnelCode) {
             return Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -270,7 +271,7 @@ class SoldiersDataSource extends DataGridSource {
                 ));
           } else if (dataGridCell.columnName == Strings.nationalCode) {
             return Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -285,7 +286,7 @@ class SoldiersDataSource extends DataGridSource {
                 ));
           } else if (dataGridCell.columnName == Strings.firstName) {
             return Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -300,7 +301,7 @@ class SoldiersDataSource extends DataGridSource {
                 ));
           } else if (dataGridCell.columnName == Strings.lastName) {
             return Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -315,7 +316,7 @@ class SoldiersDataSource extends DataGridSource {
                 ));
           } else if (dataGridCell.columnName == Strings.fatherName) {
             return Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -330,7 +331,7 @@ class SoldiersDataSource extends DataGridSource {
                 ));
           } else if (dataGridCell.columnName == Strings.latestStatusOfSoldier) {
             return Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -345,7 +346,7 @@ class SoldiersDataSource extends DataGridSource {
                 ));
           } else if (dataGridCell.columnName == Strings.mobileNumber) {
             return Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -360,7 +361,7 @@ class SoldiersDataSource extends DataGridSource {
                 ));
           } else {
             return Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, 0),
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),

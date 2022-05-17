@@ -116,7 +116,7 @@ class DailyVacationsDataTable extends StatelessWidget {
               columnName: 'daysCount',
               label: Container(
                   color: Colorize.primaryColor,
-                  
+                  padding: const EdgeInsets.all(kPadding),
                   alignment: Alignment.center,
                   child: const Text(Strings.daysCount,
                       softWrap: true,
@@ -131,7 +131,6 @@ class DailyVacationsDataTable extends StatelessWidget {
               columnName: 'startDate',
               label: Container(
                   color: Colorize.primaryColor,
-                  
                   alignment: Alignment.center,
                   child: const Text(
                     Strings.startDate,
@@ -149,7 +148,6 @@ class DailyVacationsDataTable extends StatelessWidget {
               columnName: 'endDate',
               label: Container(
                   color: Colorize.primaryColor,
-                  
                   alignment: Alignment.center,
                   child: const Text(Strings.endDate,
                       overflow: TextOverflow.ellipsis,
@@ -162,10 +160,7 @@ class DailyVacationsDataTable extends StatelessWidget {
                         fontSize: 15,
                       )))),
           GridColumn(
-              columnName: 'id',
-              visible: false,
-              label:
-                  Container( alignment: Alignment.center, child: const Text("id"))),
+              columnName: 'id', visible: false, label: Container(alignment: Alignment.center, child: const Text("id"))),
         ],
       ),
     );
@@ -216,7 +211,6 @@ class DailyVacationDataSource extends DataGridSource {
                 ));
           } else if (dataGridCell.columnName == Strings.vacationType) {
             return Container(
-                
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -230,7 +224,6 @@ class DailyVacationDataSource extends DataGridSource {
                 ));
           } else if (dataGridCell.columnName == Strings.daysCount) {
             return Container(
-                
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -245,7 +238,6 @@ class DailyVacationDataSource extends DataGridSource {
                 ));
           } else if (dataGridCell.columnName == Strings.startDate) {
             return Container(
-                
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -260,7 +252,6 @@ class DailyVacationDataSource extends DataGridSource {
                 ));
           } else if (dataGridCell.columnName == Strings.endDate) {
             return Container(
-                
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),
@@ -275,7 +266,6 @@ class DailyVacationDataSource extends DataGridSource {
                 ));
           } else {
             return Container(
-                
                 alignment: Alignment.center,
                 child: Center(
                   child: Text(convertEnToFa(dataGridCell.value),

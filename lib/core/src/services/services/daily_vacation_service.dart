@@ -148,9 +148,7 @@ class DailyVacationServiceImpl implements DailyVacationService {
     final List<DailyVacationModel>? dailyList = await findAllByVacationsId(model.vacations?.id ?? 0)
         .catchError((onError) => throw FailureException(onError.toString()));
     if (dailyList != null) {
-      // final dailyByTypeList =
-      //     dailyList.asMap().entries.where((dailyModel) => dailyModel.value.vacationType == model.vacationType);
-
+      
       final dailyByMonthList =
           dailyList.asMap().entries.where((dailyModel) => dailyModel.value.startDate.month == model.startDate.month);
 

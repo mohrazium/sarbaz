@@ -44,8 +44,10 @@ class LoggerService {
       var log =
           // '${_getPlatformNameAndVersion()}: ${rec.level.name}: ${rec.time.year}-${rec.time.month}-${rec.time.day} ${rec.time.hour}:${rec.time.minute}:${rec.time.second} : ${rec.loggerName} => ${rec.message}'),
           '${rec.level.name}: ${rec.time.year}-${rec.time.month}-${rec.time.day} ${rec.time.hour}:${rec.time.minute}:${rec.time.second} : ${rec.loggerName} => ${rec.message}';
-      print(log);
-      _logs.add(log);
+      if (kDebugMode) {
+        print(log);
+        _logs.add(log);
+      }
     });
     // .onDone(() {
     //   try {
@@ -54,8 +56,7 @@ class LoggerService {
     //     }
     //   } catch (e) {}
     // });
-    _setLogger()
-        .log(level: Level.INFO, message: "Logger service is started...");
+    _setLogger().log(level: Level.INFO, message: "Logger service is started...");
   }
 }
 

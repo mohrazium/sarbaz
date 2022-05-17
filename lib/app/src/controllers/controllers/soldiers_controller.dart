@@ -131,7 +131,7 @@ class SoldiersController extends GetxController {
         showToast(Strings.successfullyDeleted);
         _loadAll();
         searchSoldier(null);
-        _bridgeController.initSoldierEditorForms(0);
+        _bridgeController.initSoldierEditorForms(0,withLoading:true);
       }
     }).catchError((onError) {
       DialogHelper.showCrashReport(onError.toString());
@@ -142,12 +142,12 @@ class SoldiersController extends GetxController {
     int id =
         int.parse(soldiersDataSource.value.effectiveRows[details.rowColumnIndex.rowIndex - 1].getCells().last.value);
     _bridgeController.setDashboardTab(_bridgeController.dashboardTabSoldiersEditor);
-    _bridgeController.initSoldierEditorForms(id);
+    _bridgeController.initSoldierEditorForms(id,withLoading:true);
   }
 
   void onNewSoldierPressed() async {
     _bridgeController.setDashboardTab(_bridgeController.dashboardTabSoldiersEditor);
-    _bridgeController.initSoldierEditorForms(0);
+    _bridgeController.initSoldierEditorForms(0, withLoading: true);
     _bridgeController.dailyVacationId(0);
   }
 
@@ -155,7 +155,7 @@ class SoldiersController extends GetxController {
     _bridgeController.setDashboardTab(_bridgeController.dashboardTabSoldiersEditor);
     int id = int.parse(
         soldiersDataSource.value.effectiveRows[cellTapDetails.rowColumnIndex.rowIndex - 1].getCells().last.value);
-    _bridgeController.initSoldierEditorForms(id);
+    _bridgeController.initSoldierEditorForms(id, withLoading: true);
   }
 
   void onDeleteSoldierPressed() {
@@ -191,11 +191,11 @@ class SoldiersController extends GetxController {
     searchSoldier(val);
   }
 
-  void loadAllSoldiers() {
+  void loadAllSoldiers([bool withLoading = false]) {
     _loadAll();
     searchSoldier(null);
     if (_bridgeController.personalInfoId.value != 0) {
-      _bridgeController.initSoldierEditorForms(_bridgeController.personalInfoId.value,withLoading: true);
+      _bridgeController.initSoldierEditorForms(_bridgeController.personalInfoId.value, withLoading: withLoading);
     }
   }
 }

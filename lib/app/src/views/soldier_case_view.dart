@@ -222,7 +222,6 @@ class SoldierCaseView extends GetView<SoldierCaseController> {
                       TextBox(
                         titleText: Strings.description,
                         controller: controller.descriptionController,
-                        multiLine: true,
                         readOnly: controller.readOnly.value,
                       ),
                     ],

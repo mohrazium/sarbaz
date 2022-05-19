@@ -108,6 +108,7 @@ class DashboardDesktopView extends GetView<DashboardController> {
                                       ),
                                       TextBox(
                                         controller: controller.passController,
+                                        isSecure: true,
                                       ),
                                       const SizedBox(
                                         height: kSpacing,

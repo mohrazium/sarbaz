@@ -4,7 +4,6 @@ class TextBox extends StatefulWidget {
   final String? titleText;
   final String? hintText;
   final Icon? icon;
-  final bool? multiLine;
   final int? maxLines;
   final TextEditingController? controller;
   final double? width;
@@ -29,7 +28,6 @@ class TextBox extends StatefulWidget {
     this.titleText,
     this.hintText,
     this.icon,
-    this.multiLine,
     this.maxLines,
     this.controller,
     this.width = 210,
@@ -128,7 +126,7 @@ class _TextBoxState extends State<TextBox> {
               validator: widget.validator,
               onChanged: widget.onChanged,
               decoration: _getInputDecoration(),
-              maxLines: widget.maxLines,
+              maxLines: widget.isSecure ? 1 : widget.maxLines,
               textAlignVertical: TextAlignVertical.center,
               textAlign: TextAlign.start,
             ),

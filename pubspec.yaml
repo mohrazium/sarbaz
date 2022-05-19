@@ -39,6 +39,7 @@ dependencies:
   logging: ^1.0.1
   get_storage: ^2.0.3
   loading_animation_widget: ^1.1.0+5
+  blurrycontainer: ^1.0.2
 
 
 #!#########################

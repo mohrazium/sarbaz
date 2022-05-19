@@ -51,31 +51,90 @@ class DashboardDesktopView extends GetView<DashboardController> {
                       // ),
                     ],
                   )
-                : Center(
-                    child: GroupBox(
-                      width: kTextFieldWidth + 20,
-                      height: 250,
-                      color: Colorize.backgroundColorShade700,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "رمز ورود را وارد کنید",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              height: kSpacing,
-                            ),
-                            TextBox(
-                              controller: controller.passController,
-                            ),
-                            const SizedBox(
-                              height: kSpacing,
-                            ),
-                            ElevatedButton(onPressed: () => controller.onLoginPressed(), child: const Text("ورود"))
-                          ]),
-                    ),
+                : Stack(
+                  alignment: Alignment.centerLeft,
+                    children: [
+                      Container(
+                        width: constraints.maxWidth,
+                        height: constraints.maxHeight,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: ExactAssetImage('assets/images/sepah_soldiers.jpg'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      BlurryContainer(
+                        padding: const EdgeInsets.all(kPadding),
+                        blur: 10,
+                        child: GroupBox(
+                          margin: const EdgeInsets.all(kPadding),
+                          color: Colors.transparent,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: kSpacing / 2),
+                              Image.asset(
+                                "assets/images/sepah_logo.png",
+                                width: 100,
+                                height: 150,
+                                fit: BoxFit.cover,
+                              ),
+                              const Text(
+                                "ناحیه مقاومت بسیج شهرستان رفسنجان",
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+                              ),
+                              const SizedBox(height: kSpacing),
+                              const Text(
+                                "مدیریت منابع نیروی انسانی سرباز",
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              const SizedBox(height: kSpacing),
+                              GroupBox(
+                                width: kTextFieldWidth + 20,
+                                height: 250,
+                                color: Colorize.backgroundColorShade700,
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        "رمز ورود را وارد کنید",
+                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(
+                                        height: kSpacing,
+                                      ),
+                                      TextBox(
+                                        controller: controller.passController,
+                                      ),
+                                      const SizedBox(
+                                        height: kSpacing,
+                                      ),
+                                      ElevatedButton(
+                                          onPressed: () => controller.onLoginPressed(), child: const Text("ورود"))
+                                    ]),
+                              ),
+                              const SizedBox(height: kSpacing),
+                              const Text(
+                                "طراح و توسعه دهنده: محمدهادی رفیعی زاده",
+                                style: TextStyle(fontWeight: FontWeight.w100),
+                              ),
+                              const Text(
+                                "09174168682",
+                                style: TextStyle(fontWeight: FontWeight.w100),
+                              ),
+                              const Text(
+                                "mhrz.dev@gmail.com",
+                                style: TextStyle(fontWeight: FontWeight.w100),
+                              ),
+                              const SizedBox(height: kSpacing / 4),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   );
           });
     }));

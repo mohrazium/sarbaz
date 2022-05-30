@@ -1,0 +1,160 @@
+part of sarbaz.utils;
+
+// ignore: must_be_immutable
+class MdiWindow extends StatefulWidget {
+  // x,y properties
+  final String windowIdentifier;
+  late double currentHeight, defaultHeight = 576.0;
+  late double currentWidth, defaultWidth = 720.0;
+  final double? width;
+  final double? height;
+  late double x;
+  late double y;
+
+  late Function(double, double) onWindowDragged;
+  late VoidCallback onCloseButtonClicked;
+  late VoidCallback onMaximizeButtonClicked;
+  late VoidCallback onMinimizeButtonClicked;
+
+  final String title;
+  final Widget body;
+  final BuildContext context;
+
+  MdiWindow({
+    required this.windowIdentifier,
+    required this.title,
+    required this.body,
+    required this.context,
+    this.width,
+    this.height,
+  }) : super(key: UniqueKey()) {
+    currentHeight = (height ?? defaultHeight);
+    currentWidth = (width ?? defaultWidth);
+  }
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _MdiWindowState createState() => _MdiWindowState();
+}
+
+class _MdiWindowState extends State<MdiWindow> {
+  final double _headerSize = 35.0;
+  final double _borderRadius = 5.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        //Here goes the same radius, u can put into a var or function
+        borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x54000000),
+            spreadRadius: 4,
+            blurRadius: 5,
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+        child: Container(
+          color: Theme.of(context).primaryColor,
+          child: Column(
+            children: [_getHeader(), _getBody()],
+          ),
+        ),
+      ),
+    );
+  }
+
+  _getHeader() {
+    return GestureDetector(
+      onPanUpdate: (tapInfo) {
+        widget.onWindowDragged(tapInfo.delta.dx, tapInfo.delta.dy);
+      },
+      child: Container(
+        width: widget.currentWidth,
+        height: _headerSize,
+        color: Theme.of(context).primaryColor,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _getControlButtons(),
+            _getHeaderTitle(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _getBody() {
+    return SizedBox(
+      width: widget.currentWidth,
+      height: widget.currentHeight - _headerSize,
+      child: widget.body,
+    );
+  }
+
+  _getCloseButton() {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+      const SizedBox(
+        width: 1.5,
+      ),
+      MaterialButton(
+        minWidth: _headerSize - 20,
+        onPressed: () {
+          widget.onCloseButtonClicked();
+        },
+        child: SizedBox(width: _headerSize - 5, height: _headerSize - 5, child: const Icon(Icons.close)),
+      ),
+    ]);
+  }
+
+  // ignore: unused_element
+  _getMaximizeButton() {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+      const SizedBox(
+        width: 1.5,
+      ),
+      MaterialButton(
+        minWidth: _headerSize - 20,
+        onPressed: () {
+          widget.onMaximizeButtonClicked();
+        },
+        child: SizedBox(width: _headerSize - 5, height: _headerSize - 5, child: const Icon(Icons.fullscreen)),
+      ),
+    ]);
+  }
+
+  // ignore: unused_element
+  _getMinimizeButton() {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+      const SizedBox(
+        width: 1.5,
+      ),
+      MaterialButton(
+        minWidth: _headerSize - 20,
+        onPressed: () {
+          widget.onMinimizeButtonClicked();
+        },
+        child: SizedBox(width: _headerSize - 5, height: _headerSize - 5, child: const Icon(Icons.minimize)),
+      ),
+    ]);
+  }
+
+  _getControlButtons() {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+      _getCloseButton(),
+      //_getMaximizeButton(),//TODO: fix this
+      // _getMinimizeButton()//TODO: fix this
+    ]);
+  }
+
+  _getHeaderTitle() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [Text(widget.title)],
+    );
+  }
+}

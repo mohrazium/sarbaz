@@ -1,0 +1,69 @@
+import 'package:get/get.dart';
+import 'package:sarbaz/src/common/common.dart';
+
+
+import '../../../../features.dart';
+
+class ApplicationControllerBinding implements Bindings {
+  @override
+  Future<void> dependencies() async {
+    Get.put(BaseController());
+    Get.put(DashboardController(
+      Get.find(),
+    ));
+    Get.put(SoldierEditorController(
+      Get.find(),
+    ));
+    Get.put(SoldiersController(
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(PersonalInfoController(
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(FurtherInfoController(
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(ContactInfoController(
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(RelativeContactsInfoController(
+      Get.find(),
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(EducationalInfoController(
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(SoldierController(
+      Get.find(),
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(TrainingStatusController(
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(SoldierCaseController(
+      Get.find(),
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(VacationsController(
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(DailyVacationController(
+      Get.find(),
+      Get.find(),
+    ));
+    Get.put(DailyVacationsController(
+      Get.find(),
+      Get.find(),
+    ));
+  }
+}

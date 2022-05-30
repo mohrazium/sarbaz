@@ -1,0 +1,1 @@
+export 'domain/models/personal_info_model.dart';

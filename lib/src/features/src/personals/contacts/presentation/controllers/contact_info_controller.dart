@@ -1,0 +1,206 @@
+
+import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:get/get.dart';
+import 'package:sarbaz/src/common/common.dart';
+import 'package:sarbaz/src/config/config.dart';
+import 'package:sarbaz/src/localization/localization.dart';
+import 'package:sarbaz/src/utils/utils.dart';
+
+import '../../../../soldiers.dart';
+import '../../application.dart';
+import '../../domain.dart';
+import 'relative_contacts_info_controller.dart';
+
+class ContactInfoController extends GetxController with ValidatorMixin {
+  final GlobalKey<FormState> contactInfoFormGlobalKey = GlobalKey<FormState>();
+  final BaseController _baseController;
+  final ContactInfoService _contactInfoService;
+
+  late final Rx<ContactInfoModel> model = Rx(ContactInfoModel.init());
+  late final Rx<List<RelativeContactsInfoModel>> relativeContactsList = Rx([]);
+  late RxBool readOnly = false.obs;
+
+  late TextEditingController phoneNumberController;
+  late TextEditingController mobileNumberController;
+  late TextEditingController provinceController;
+  late TextEditingController cityController;
+  late TextEditingController addressController;
+  late TextEditingController postalCodeController;
+  late TextEditingController distanceController;
+
+  ContactInfoController(this._baseController, this._contactInfoService);
+
+  @override
+  void onInit() {
+    super.onInit();
+    phoneNumberController = TextEditingController();
+    mobileNumberController = TextEditingController();
+    provinceController = TextEditingController();
+    cityController = TextEditingController();
+    addressController = TextEditingController();
+    postalCodeController = TextEditingController();
+    distanceController = TextEditingController();
+    initForm();
+    logger.info("$runtimeType has been initialized.");
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+
+    logger.info("$runtimeType has been ready.");
+  }
+
+  @override
+  void onClose() {
+    phoneNumberController.dispose();
+    mobileNumberController.dispose();
+    provinceController.dispose();
+    cityController.dispose();
+    addressController.dispose();
+    postalCodeController.dispose();
+    distanceController.dispose();
+    logger.info("$runtimeType has been closed.");
+    super.onClose();
+  }
+
+  Future<void> initForm() async {
+    _clearEditor();
+    await _loadData();
+  }
+
+  Future<void> onConfirmButtonPressed() async {
+    if (!readOnly.value) {
+      await _baseController.isPersonalInfoSaved().then((value) {
+        if (value) {
+          if (contactInfoFormGlobalKey.currentState!.validate()) {
+            contactInfoFormGlobalKey.currentState!.save();
+            logger.info("Contact info form is valid to save.");
+            DialogHelper.showMessageBox(
+                title: Strings.saveInfoTitle,
+                dialogButtons: DialogButtons.YES_NO,
+                dialogType: DialogType.INFO,
+                message: Strings.saveInfoMessage,
+                onYesPressed: () {
+                  _save();
+                  logger.info("saving contact info...");
+
+                  Get.find<SoldiersController>().loadAllSoldiers();//TODO : move to base controller
+                  readOnly(true);
+                });
+          }
+        } else {
+          showToast(Strings.personalInfoIsnotSavedPleaseSave);
+        }
+      }).catchError((onError) {
+        DialogHelper.showCrashReport(onError.toString());
+      });
+    } else {
+      readOnly(false);
+    }
+  }
+
+  void onCancelButtonPressed() {
+    if (model.value.id == null) {
+      _clearEditor();
+    } else {
+      _loadData();
+      readOnly(true);
+    }
+  }
+
+  void _save() async {
+    _catchFormData();
+    if (model.value.id == null) {
+      await _contactInfoService
+          .saveWithParentId(model.value,
+              personalInfoId: _baseController.personalInfoId.value)
+          .then((value) {
+        if (value != 0) {
+          _loadData();
+          model(model.value.copyWith(id: value));
+          Get.find<RelativeContactsInfoController>().saveRelativeContacts();
+          Get.find<RelativeContactsInfoController>().initForm();
+          showToast(Strings.successfullySavingInfo);
+        } else {
+          showToast(Strings.unsuccessfullySavingInfo);
+        }
+      }).catchError((onError) {
+        DialogHelper.showCrashReport(onError.toString());
+      });
+    } else {
+      _contactInfoService.update(model.value).then((value) {
+        if (value) {
+          _loadData();
+          Get.find<RelativeContactsInfoController>().saveRelativeContacts();
+          showToast(Strings.successfullyUpdatingInfo);
+        } else {
+          showToast(Strings.unsuccessfullyUpdatingInfo);
+        }
+      }).catchError((onError) {
+        DialogHelper.showCrashReport(onError.toString());
+      });
+    }
+    Get.find<SoldiersController>().loadAllSoldiers();
+  }
+
+  Future<void> _loadData() async {
+    await _contactInfoService
+        .findByPersonalInfoId(_baseController.personalInfoId.value)
+        .then((value) {
+      if (value?.id != null) {
+        _clearEditor();
+        readOnly(true);
+        model(value);
+        phoneNumberController.text = model.value.phoneNumber ?? "";
+        mobileNumberController.text = model.value.mobileNumber;
+        provinceController.text = model.value.province ?? "";
+        cityController.text = model.value.city ?? "";
+        addressController.text = model.value.address;
+        postalCodeController.text = model.value.postalCode ?? "";
+        distanceController.text = model.value.distance.toString();
+      } else {
+        _clearEditor();
+        readOnly(false);
+      }
+    }).catchError((onError) {
+      DialogHelper.showCrashReport(onError.toString());
+    });
+
+    if (model.value.id != null) {
+      Get.find<RelativeContactsInfoController>().initForm();
+    }
+  }
+
+  void _catchFormData() {
+    model(ContactInfoModel(
+        id: model.value.id,
+        phoneNumber: phoneNumberController.text.isNotEmpty
+            ? phoneNumberController.text.trim()
+            : null,
+        mobileNumber: mobileNumberController.text.trim(),
+        province: provinceController.text.isNotEmpty
+            ? provinceController.text.trim()
+            : null,
+        city:
+            cityController.text.isNotEmpty ? cityController.text.trim() : null,
+        address: addressController.text.trim(),
+        postalCode: postalCodeController.text.isNotEmpty
+            ? postalCodeController.text.trim()
+            : null,
+        distance: int.parse(distanceController.text.trim())));
+  }
+
+  void _clearEditor() {
+    model(ContactInfoModel.init());
+    relativeContactsList.value.clear();
+    phoneNumberController.clear();
+    mobileNumberController.clear();
+    provinceController.clear();
+    cityController.clear();
+    addressController.clear();
+    postalCodeController.clear();
+    distanceController.clear();
+  }
+}

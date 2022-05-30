@@ -1,0 +1,17 @@
+
+import 'package:drift/drift.dart';
+
+import 'unit_properties_table.dart';
+
+class SectionTable extends Table {
+  IntColumn get id => integer().autoIncrement().nullable()();
+  TextColumn get locationName => text()();
+  TextColumn get sectionCode => text().nullable()();
+  TextColumn get sectionName => text().nullable()();
+  TextColumn get sectionNameAbbr => text().nullable()();
+  IntColumn get unit =>
+      integer().references(UnitPropertiesTable, #id).nullable()();
+  TextColumn get description => text().nullable()();
+  DateTimeColumn get createdAt => dateTime().nullable()();
+  DateTimeColumn get updatedAt => dateTime().nullable()();
+}

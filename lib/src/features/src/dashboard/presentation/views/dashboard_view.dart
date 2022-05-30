@@ -1,0 +1,310 @@
+
+import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:sarbaz/src/common/common.dart';
+import 'package:sarbaz/src/constants/constants.dart';
+
+import '../../../soldiers.dart';
+import '../controllers/dashboard_controller.dart';
+import '../widgets/main_menu.dart';
+
+late BuildContext globalContext;
+
+class DashboardDesktopView extends GetView<DashboardController> {
+  final BaseController baseController;
+
+  const DashboardDesktopView(this.baseController, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: ResponsiveBuilder(mobileBuilder: (context, constraints) {
+      globalContext = context;
+      return const NotFoundPage();
+    }, tabletBuilder: (context, constraints) {
+      globalContext = context;
+
+      return const NotFoundPage();
+    }, desktopBuilder: (context, constraints) {
+      globalContext = context;
+      return GetX(
+          init: controller,
+          builder: (builder) {
+            return controller.isLoggedIn.isTrue
+                ? Flex(
+                    direction: Axis.horizontal,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        flex: 2,
+                        child: SingleChildScrollView(
+                          controller: ScrollController(),
+                          child: _buildSidebar(context),
+                        ),
+                      ),
+                      Flexible(
+                        flex: 10,
+                        child: SizedBox(height: constraints.maxHeight, child: _buildBodyContent()),
+                      ),
+
+                      //! left sidebar
+                      // SizedBox(
+                      //   height: MediaQuery.of(context).size.height,
+                      //   child: const VerticalDivider(),
+                      // ),
+                      // Flexible(
+                      //   flex: 4,
+                      //   child: SingleChildScrollView(
+                      //     controller: ScrollController(),
+                      //     child: _buildLeftPanelContent(),
+                      //   ),
+                      // ),
+                    ],
+                  )
+                : Stack(
+                    alignment: Alignment.centerLeft,
+                    children: [
+                      Container(
+                        width: constraints.maxWidth,
+                        height: constraints.maxHeight,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: ExactAssetImage('assets/images/sepah_soldiers.jpg'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      BlurryContainer(
+                        padding: const EdgeInsets.all(kPadding),
+                        blur: 10,
+                        child: GroupBox(
+                          margin: const EdgeInsets.all(kPadding),
+                          color: Colors.transparent,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: kSpacing / 2),
+                              Image.asset(
+                                "assets/images/sepah_logo.png",
+                                width: 100,
+                                height: 150,
+                                fit: BoxFit.cover,
+                              ),
+                              const Text(
+                                "ناحیه مقاومت بسیج شهرستان رفسنجان",
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+                              ),
+                              const SizedBox(height: kSpacing),
+                              const Text(
+                                "مدیریت منابع نیروی انسانی سرباز",
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              const SizedBox(height: kSpacing),
+                              GroupBox(
+                                width: kTextFieldWidth + 20,
+                                height: 250,
+                                color: Colorize.backgroundColorShade700,
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        "رمز ورود را وارد کنید",
+                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(
+                                        height: kSpacing,
+                                      ),
+                                      TextBox(
+                                        controller: controller.passController,
+                                        isSecure: true,
+                                      ),
+                                      const SizedBox(
+                                        height: kSpacing,
+                                      ),
+                                      ElevatedButton(
+                                          onPressed: () => controller.onLoginPressed(), child: const Text("ورود"))
+                                    ]),
+                              ),
+                              const SizedBox(height: kSpacing),
+                              const Text(
+                                "طراح و توسعه دهنده: محمدهادی رفیعی زاده",
+                                style: TextStyle(fontWeight: FontWeight.w100,decoration: TextDecoration.overline),
+                              ),
+                              const Text(
+                                "09174168682",
+                                style: TextStyle(fontWeight: FontWeight.w100),
+                              ),
+                              const Text(
+                                "mhrz.dev@gmail.com",
+                                style: TextStyle(fontWeight: FontWeight.w100),
+                              ),
+                              const SizedBox(height: kSpacing / 4),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+          });
+    }));
+  }
+
+  Widget _buildSidebar(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: kPadding),
+        //   child: UserProfile(
+        //     data: controller.dataProfile,
+        //     // onPressed: controller.onPressedProfile,
+        //     onPressed: null,
+        //   ),
+        // ),
+        const SizedBox(
+          height: kSpacing,
+          width: kSpacing * 10,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kPadding),
+          child: MainMenu(baseController,onSelected: controller.onSelectedMainMenu),
+        ),
+        const Divider(
+          indent: 20,
+          thickness: 1,
+          endIndent: 20,
+          height: 60,
+        ),
+        // Member(member: controller.member),
+        // const SizedBox(height: kSpacing),
+        // TaskMenu(
+        //   onSelected: controller.onSelectedTaskMenu,
+        // ),
+        // const SizedBox(height: kSpacing),
+        // Padding(
+        //   padding: const EdgeInsets.all(kSpacing),
+        //   child: Text(
+        //     "2021 Teamwork license",
+        //     style: Theme.of(context).textTheme.caption,
+        //   ),
+        // ),
+      ],
+    );
+  }
+
+  Widget _buildBodyContent({Function()? onPressedMenu}) {
+    return GetX(
+        init: baseController,
+        builder: (_) {
+          return TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: baseController.dashboardTabController.value,
+              children: [
+                _buildMainSection(onPressedMenu),
+                const SoldiersView(),
+                const SoldierEditorView(),
+                Container(),
+                Container(),
+              ]);
+        });
+  }
+
+  Widget _buildMainSection(onPressedMenu) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: kSpacing),
+      child: Container(),
+      // child: SingleChildScrollView(
+      //   controller: ScrollController(),
+      //   child: Column(
+      //     children: [
+      //       const SizedBox(height: kSpacing),
+      //       const HeaderText(Strings.dashboard),
+      //       const SizedBox(height: kSpacing / 2),
+      //       Row(
+      //         children: [
+      //           if (onPressedMenu != null)
+      //             Padding(
+      //               padding: const EdgeInsets.only(right: kSpacing / 2),
+      //               child: IconButton(
+      //                 onPressed: onPressedMenu,
+      //                 icon: const Icon(Icons.menu),
+      //               ),
+      //             ),
+      //           Expanded(
+      //             child: SearchField(
+      //               controller: TextEditingController(),
+      //               onSearch: controller.search,
+      //             ),
+      //           ),
+      //         ],
+      //       ),
+      //       const SizedBox(height: kSpacing),
+      //       Row(
+      //         children: [
+      //           Expanded(
+      //             child:
+      //                 HeaderText(convertEnToFa(controller.todayHeader.value)),
+      //           ),
+      //           const SizedBox(width: kSpacing / 2),
+      //           SizedBox(
+      //             width: kSpacing * 10,
+      //             child: ProgressLine(data: controller.unitSoldiersOverview),
+      //           ),
+      //         ],
+      //       ),
+      //       const SizedBox(height: kSpacing),
+      //       StatusCardsOverview(data: controller.statusCards),
+      //       const SizedBox(height: kSpacing * 2),
+      //       const RecentActivitiesHeader(),
+      //       const SizedBox(height: kSpacing),
+      //       RecentActivities(
+      //         data: controller.weeklyTask,
+      //         onPressed: controller.onPressedActivity,
+      //         onPressedAssign: controller.onPressedAssignTask,
+      //         onPressedMember: controller.onPressedMemberTask,
+      //       )
+      //     ],
+      //   ),
+      // ),
+    );
+  }
+
+  // ignore: unused_element
+  Widget _buildLeftPanelContent() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: kSpacing),
+      child: Column(
+        children: [
+          const SizedBox(height: kSpacing),
+          Row(
+            children: [
+              const Expanded(child: HeaderText("Calendar")),
+              IconButton(
+                onPressed: controller.onPressedCalendar,
+                icon: const Icon(EvaIcons.calendarOutline),
+                tooltip: "calendar",
+              )
+            ],
+          ),
+          const SizedBox(height: kSpacing),
+          ...controller.taskGroup
+              .map(
+                (e) => TaskGroup(
+                  title: DateFormat('d MMMM').format(e[0].date),
+                  data: e,
+                  onPressed: controller.onPressedTaskGroup,
+                ),
+              )
+              .toList()
+        ],
+      ),
+    );
+  }
+}

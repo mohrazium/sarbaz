@@ -1,0 +1,11 @@
+export 'presentation/controllers/rank_controller.dart';
+export 'presentation/controllers/soldier_case_controller.dart';
+export 'presentation/controllers/soldier_controller.dart';
+export 'presentation/controllers/soldier_editor_controller.dart';
+export 'presentation/controllers/soldiers_controller.dart';
+export 'presentation/views/soldier_case_view.dart';
+export 'presentation/views/soldier_editor_view.dart';
+export 'presentation/views/soldier_view.dart';
+export 'presentation/views/soldiers_data_table.dart';
+export 'presentation/views/soldiers_view.dart';
+export 'presentation/pages/soldiers_page.dart';

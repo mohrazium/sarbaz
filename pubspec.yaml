@@ -1,19 +1,18 @@
 name: sarbaz
 description: A new Flutter project.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.3
+version: 1.1.3
 
 environment:
-  sdk: ">=2.16.2 <3.0.0"
+  sdk: ">=2.17.1 <3.0.0"
 
 #!#########################
 dependencies:
-  
   flutter:
     sdk: flutter
-##########################
+  ##########################
   flutter_multi_formatter: ^2.5.1
   flutter_staggered_grid_view: ^0.6.1
   flutter_styled_toast: ^2.0.0
@@ -34,22 +33,21 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.0
   path: ^1.8.0
   shamsi_date: ^1.0.1
-  json_annotation: ^4.4.0
+  json_annotation: ^4.5.0
   json_serializable: ^6.1.4
   logging: ^1.0.1
   get_storage: ^2.0.3
   loading_animation_widget: ^1.1.0+5
   blurrycontainer: ^1.0.2
 
-
 #!#########################
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: 
-  drift_dev: 
-  build_runner: 
+  flutter_lints:
+  drift_dev:
+  build_runner:
 
 #!#########################
 flutter:

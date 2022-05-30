@@ -1,0 +1,236 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:get/get.dart';
+import 'package:sarbaz/src/common/common.dart';
+import 'package:sarbaz/src/config/config.dart';
+import 'package:sarbaz/src/localization/localization.dart';
+import 'package:sarbaz/src/utils/utils.dart';
+
+import '../../../../casenos.dart';
+import '../../../../soldiers.dart';
+
+class SoldierController extends GetxController with ValidatorMixin {
+  final GlobalKey<FormState> soldierFormGlobalKey = GlobalKey<FormState>();
+  final SoldierService _soldierService;
+  final CaseNoService _caseNoService;
+  final BaseController _baseController;
+
+  late RxBool readOnly = false.obs;
+
+  late final Rx<SoldierModel> model = Rx(SoldierModel.init());
+
+  late List<CaseNoModel> _allCaseNumbers = List.empty(growable: true);
+  late final Rx<List<CaseNoModel>> foundedCaseNoList = Rx(List.empty(growable: true));
+  late final Rx<CaseNoModel> selectedCaseNoModel = Rx(CaseNoModel.init());
+  late final Rx<String> selectedCaseNoTitleText = Rx("");
+
+  final Rx<String> imagePath = "".obs;
+  late TextEditingController personnelCodeController;
+  late TextEditingController latestStatusController;
+  late TextEditingController divisionStatusController;
+  late TextEditingController caseStatusController;
+  late TextEditingController archiveCaseNoController;
+  late TextEditingController caseNoController;
+  late TextEditingController searchController;
+
+  late Rx<int> dividedCaseCount = 100.obs;
+
+  SoldierController(this._soldierService, this._caseNoService, this._baseController);
+
+  @override
+  void onInit() {
+    super.onInit();
+    personnelCodeController = TextEditingController();
+    latestStatusController = TextEditingController();
+    divisionStatusController = TextEditingController();
+    caseStatusController = TextEditingController();
+    archiveCaseNoController = TextEditingController();
+    caseNoController = TextEditingController();
+    searchController = TextEditingController();
+    logger.info("$runtimeType has been initialized.");
+    initForm();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+
+    logger.info("$runtimeType has been ready.");
+  }
+
+  Future<void> initForm() async {
+    _clearEditor();
+    await _loadData();
+  }
+
+  Future<void> onConfirmButtonPressed() async {
+    if (!readOnly.value) {
+      await _baseController.isPersonalInfoSaved().then((value) {
+        if (value) {
+          if (soldierFormGlobalKey.currentState!.validate()) {
+            soldierFormGlobalKey.currentState!.save();
+            logger.info("Soldier form is valid to save.");
+            DialogHelper.showMessageBox(
+                title: Strings.saveInfoTitle,
+                dialogButtons: DialogButtons.YES_NO,
+                dialogType: DialogType.INFO,
+                message: Strings.saveInfoMessage,
+                onYesPressed: () {
+                  _save();
+                  logger.info("saving soldier...");
+
+                  Get.find<SoldiersController>().loadAllSoldiers();
+                  readOnly(true);
+                });
+          }
+        } else {
+          showToast(Strings.personalInfoIsnotSavedPleaseSave);
+        }
+      }).catchError((onError) {
+        DialogHelper.showCrashReport(onError.toString());
+      });
+    } else {
+      readOnly(false);
+    }
+  }
+
+  void onCancelButtonPressed() {
+    if (model.value.id == null) {
+      _clearEditor();
+    } else {
+      _loadData();
+      readOnly(true);
+    }
+  }
+
+  void _save() async {
+    _catchFormData();
+    if (model.value.id == null) {
+      await _soldierService
+          .saveByPersonalInfoId(model.value, personalInfoId: _baseController.personalInfoId.value)
+          .then((value) {
+        if (value != 0) {
+          model(model.value.copyWith(id: value));
+          _loadData();
+          showToast(Strings.successfullySavingInfo);
+        } else {
+          showToast(Strings.unsuccessfullySavingInfo);
+        }
+      }).catchError((onError) {
+        DialogHelper.showCrashReport(onError.toString());
+      });
+    } else {
+      _soldierService.update(model.value).then((value) {
+        if (value) {
+          _loadData();
+          showToast(Strings.successfullyUpdatingInfo);
+        } else {
+          showToast(Strings.unsuccessfullyUpdatingInfo);
+        }
+      }).catchError((onError) {
+        DialogHelper.showCrashReport(onError.toString());
+      });
+    }
+  }
+
+  Future<void> _loadData() async {
+    await _soldierService.findByPersonalInfoId(_baseController.personalInfoId.value).then((value) {
+      if (value?.id != null) {
+        _clearEditor();
+        readOnly(true);
+        model(value);
+        personnelCodeController.text = model.value.personnelCode ?? "";
+        latestStatusController.text = model.value.latestStatus ?? "";
+        caseStatusController.text = model.value.caseStatus.isNotEmpty ? model.value.caseStatus.trim() : "";
+        divisionStatusController.text = model.value.divisionStatus ? Strings.yes : Strings.no;
+        archiveCaseNoController.text = model.value.archiveCaseNo ?? "";
+        selectedCaseNoModel(model.value.caseNo);
+        sendSelectedCaseNoModelToTextEditing();
+      } else {
+        _clearEditor();
+        readOnly(false);
+      }
+    }).catchError((onError) {
+      DialogHelper.showCrashReport(onError.toString());
+    });
+  }
+
+  void _catchFormData() {
+    model(SoldierModel(
+      id: model.value.id,
+      caseStatus: caseStatusController.text.isNotEmpty ? caseStatusController.text.trim() : Strings.caseStatusAvailable,
+      latestStatus:
+          latestStatusController.text.isNotEmpty ? latestStatusController.text.trim() : Strings.soldierStatusPresent,
+      personnelCode: personnelCodeController.text.isNotEmpty ? personnelCodeController.text.trim() : null,
+      divisionStatus: false,
+      isArchived: false,
+      caseNo: selectedCaseNoModel.value,
+    ));
+  }
+
+  void _clearEditor() {
+    model(SoldierModel.init());
+    personnelCodeController.clear();
+    latestStatusController.clear();
+    caseStatusController.clear();
+    divisionStatusController.clear();
+    archiveCaseNoController.clear();
+    caseNoController.clear();
+  }
+
+  void onNewImagePressed() async {
+    final res = IO.openFilePicker(['png', 'jpg', 'jepg']);
+
+    imagePath(res!);
+  }
+
+  onRemoveImagePressed() {}
+
+  Future<void> loadAllCaseNo() async {
+    foundedCaseNoList.value.clear();
+    _allCaseNumbers.clear();
+    _allCaseNumbers = await _caseNoService.findAll().then((models) {
+          if (models != null && models.isNotEmpty) {
+            return models;
+          } else {
+            showToast(Strings.caseNosNotAvailablePleaseAddIt);
+          }
+        }).catchError((onError) {
+          DialogHelper.showCrashReport(onError.toString());
+        }) ??
+        List.empty(growable: true);
+    foundedCaseNoList(_allCaseNumbers);
+  }
+
+  void sendSelectedCaseNoModelToTextEditing() {
+    caseNoController.text = "${selectedCaseNoModel.value.caseName} - ${selectedCaseNoModel.value.caseCode}";
+  }
+
+  void onSearchCaseNo(String value) {
+    foundedCaseNoList(List.empty(growable: true));
+    if (value.isEmpty || searchController.text.isEmpty) {
+      foundedCaseNoList(_allCaseNumbers);
+    } else {
+      foundedCaseNoList.value = _allCaseNumbers
+          .where((model) =>
+              model.caseName!.contains(value) || model.caseCode.contains(value) || model.description!.contains(value)
+                  ? true
+                  : false)
+          .toList();
+    }
+  }
+
+  Future<void> calculatedCaseCount() async {
+    final int caseCount = searchController.text.isNotEmpty ? int.tryParse(searchController.text.trim()) ?? 200 : 200;
+    dividedCaseCount.value = caseCount ~/ 2;
+  }
+
+  Future<void> onGenerateCaseNoListPressed() async {
+   await _caseNoService
+        .saveAll(dividedCaseCount.value * 2)
+        .catchError((err) => showToast(Strings.error))
+        .whenComplete(() async => await loadAllCaseNo().whenComplete(() {
+              DialogHelper.hideLoading();
+            }));
+  }
+}
